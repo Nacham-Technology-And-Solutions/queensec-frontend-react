@@ -31,6 +31,7 @@ return [
 
     'connections' => [
 
+
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DB_URL'),
@@ -38,6 +39,7 @@ return [
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
+
 
         'mysql' => [
             'driver' => 'mysql',

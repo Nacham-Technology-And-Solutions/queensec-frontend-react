@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <title>OneUI - Bootstrap 5 Admin Template &amp; UI Framework</title>
+
+    <meta name="description" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
+    <meta name="author" content="pixelcave">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Open Graph Meta -->
+    <meta property="og:title" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework">
+    <meta property="og:site_name" content="OneUI">
+    <meta property="og:description" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <!-- Icons -->
+    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
+    <link rel="shortcut icon" href="assets/media/favicons/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/media/favicons/favicon-192x192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/media/favicons/apple-touch-icon-180x180.png">
+    <!-- END Icons -->
+
+    <!-- Stylesheets -->
+    <!-- OneUI framework -->
+    <link rel="stylesheet" id="css-main" href="assets/css/oneui.min.css">
+
+    <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
+    <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/amethyst.min.css"> -->
+    <!-- END Stylesheets -->
+  </head>
+
+  <body>
+    <!-- Page Container -->
+    <!--
+        Available classes for #page-container:
+
+    GENERIC
+
+      'remember-theme'                            Remembers active color theme and dark mode between pages using localStorage when set through
+                                                  - Theme helper buttons [data-toggle="theme"],
+                                                  - Layout helper buttons [data-toggle="layout" data-action="dark_mode_[on/off/toggle]"]
+                                                  - ..and/or One.layout('dark_mode_[on/off/toggle]')
+
+    SIDEBAR & SIDE OVERLAY
+
+      'sidebar-r'                                 Right Sidebar and left Side Overlay (default is left Sidebar and right Side Overlay)
+      'sidebar-mini'                              Mini hoverable Sidebar (screen width > 991px)
+      'sidebar-o'                                 Visible Sidebar by default (screen width > 991px)
+      'sidebar-o-xs'                              Visible Sidebar by default (screen width < 992px)
+      'sidebar-dark'                              Dark themed sidebar
+
+      'side-overlay-hover'                        Hoverable Side Overlay (screen width > 991px)
+      'side-overlay-o'                            Visible Side Overlay by default
+
+      'enable-page-overlay'                       Enables a visible clickable Page Overlay (closes Side Overlay on click) when Side Overlay opens
+
+      'side-scroll'                               Enables custom scrolling on Sidebar and Side Overlay instead of native scrolling (screen width > 991px)
+
+    HEADER
+
+      ''                                          Static Header if no class is added
+      'page-header-fixed'                         Fixed Header
+
+    HEADER STYLE
+
+      ''                                          Light themed Header
+      'page-header-dark'                          Dark themed Header
+
+    MAIN CONTENT LAYOUT
+
+      ''                                          Full width Main Content if no class is added
+      'main-content-boxed'                        Full width Main Content with a specific maximum width (screen width > 1200px)
+      'main-content-narrow'                       Full width Main Content with a percentage width (screen width > 1200px)
+
+    DARK MODE
+
+      'sidebar-dark page-header-dark dark-mode'   Enable dark mode (light sidebar/header is not supported with dark mode)
+    -->
+    <div id="page-container">
+
+      <!-- Main Container -->
+      <main id="main-container">
+        <!-- Page Content -->
+        <div class="hero-static d-flex align-items-center">
+          <div class="w-100">
+            <!-- Status Section -->
+            <div class="bg-body-extra-light">
+              <div class="content content-full">
+                <div class="row justify-content-center">
+                  <div class="col-md-8 col-lg-6 col-xl-4 py-4">
+                    <!-- Header -->
+                    <div class="text-center mb-5">
+                      <p class="mb-2">
+                        <i class="fa fa-2x fa-circle-notch text-primary"></i>
+                      </p>
+                      <h1 class="h4 mb-1">
+                        Status Page
+                      </h1>
+                      <h2 class="h6 fw-normal text-muted mb-3">
+                        Check out how we are doing
+                      </h2>
+                    </div>
+                    <!-- END Header -->
+
+                    <!-- Services -->
+                    <div class="d-flex justify-content-between">
+                      <a class="btn btn-lg btn-alt-primary" href="be_pages_generic_blank.html">
+                        <i class="fa fa-arrow-left me-1 opacity-50"></i> Dashboard
+                      </a>
+                      <a class="btn btn-lg btn-secondary" href="javascript:void(0)">
+                        <i class="fa fa-rss me-1 opacity-50"></i>
+                        <span class="d-none d-sm-inline-block">Subscribe</span>
+                      </a>
+                    </div>
+                    <hr>
+                    <div class="alert alert-warning" role="alert">
+                      <p class="fw-medium fs-sm text-center mb-0">
+                        Payments are currently under maintenance, please stay tuned.
+                      </p>
+                    </div>
+                    <div class="alert alert-danger" role="alert">
+                      <p class="fw-medium fs-sm text-center mb-0">
+                        Our frontend is experiencing some issues but we are on it!
+                      </p>
+                    </div>
+                    <ul class="list-group push">
+                      <li class="list-group-item d-flex justify-content-between align-items-center fw-medium">
+                        Backend
+                        <span class="fs-sm fw-semibold d-inline-block py-1 px-3 rounded-pill bg-success-light text-success">Operational</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center fw-medium">
+                        Frontend
+                        <span class="fs-sm fw-semibold d-inline-block py-1 px-3 rounded-pill bg-danger-light text-danger">Down</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center fw-medium">
+                        API
+                        <span class="fs-sm fw-semibold d-inline-block py-1 px-3 rounded-pill bg-success-light text-success">Operational</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center fw-medium">
+                        Payments
+                        <span class="fs-sm fw-semibold d-inline-block py-1 px-3 rounded-pill bg-warning-light text-warning">Maintenance</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center fw-medium">
+                        Helpdesk
+                        <span class="fs-sm fw-semibold d-inline-block py-1 px-3 rounded-pill bg-success-light text-success">Operational</span>
+                      </li>
+                    </ul>
+                    <!-- END Services -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- END Status Section -->
+
+            <!-- Footer -->
+            <div class="fs-sm text-center text-muted py-3">
+              <strong>OneUI 5.5</strong> &copy; <span data-toggle="year-copy"></span>
+            </div>
+            <!-- END Footer -->
+          </div>
+        </div>
+        <!-- END Page Content -->
+      </main>
+      <!-- END Main Container -->
+    </div>
+    <!-- END Page Container -->
+
+    <!--
+        OneUI JS
+
+        Core libraries and functionality
+        webpack is putting everything together at assets/_js/main/app.js
+    -->
+    <script src="assets/js/oneui.app.min.js"></script>
+  </body>
+</html>

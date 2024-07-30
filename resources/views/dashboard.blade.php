@@ -17,7 +17,11 @@
           <ol class="breadcrumb breadcrumb-alt">
             <li class="breadcrumb-item">
               <a class="link-fx" href="javascript:void(0)">App</a>
+<<<<<<< HEAD
             </li>
+=======
+            </li> 
+>>>>>>> Ejiros-branch
             <li class="breadcrumb-item" aria-current="page">
               Dashboard
             </li>

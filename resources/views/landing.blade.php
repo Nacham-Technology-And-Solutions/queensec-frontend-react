@@ -11,8 +11,13 @@
         <p class="fs-lg fw-medium text-muted mb-4">
           Welcome to the starter kit! Build something amazing!
         </p>
+<<<<<<< HEAD
         <a class="btn btn-alt-primary px-3 py-2" href="/dashboard">
           Enter Dashboard
+=======
+        <a class="btn btn-alt-primary px-3 py-2" href="{{ route('login') }}">
+          Login Now
+>>>>>>> Ejiros-branch
           <i class="fa fa-fw fa-arrow-right opacity-50 ms-1"></i>
         </a>
       </div>
