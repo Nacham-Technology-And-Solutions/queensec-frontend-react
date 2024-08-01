@@ -2,11 +2,7 @@
 
 namespace App\Models;
 
-
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,13 +14,13 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-
      * @var array<int, string>
      */
     protected $fillable = [
         'name',
         'email',
         'password',
+        'is_admin', // Added is_admin to the fillable array
     ];
 
     /**
@@ -38,42 +34,12 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
-}
-
-     @var array
- 
-    protected $fillable = [
-        'name', 'email', 'password', 'is_admin',
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
-    /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
 }
-
-
