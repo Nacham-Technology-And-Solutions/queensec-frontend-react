@@ -22,13 +22,6 @@ export default defineConfig({
             ],
             refresh: true,
         }),
-    ],
-
-                'resources/sass/app.scss',
-                'resources/js/app.js',
-            ],
-            refresh: true,
-        }),
         vue({
             template: {
                 transformAssetUrls: {
@@ -36,7 +29,12 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
-        }),
+        }),   
+        //         'resources/sass/app.scss',
+        //         'resources/js/app.js',
+        //     ],
+        //     refresh: true,
+        // }),
     ],
     resolve: {
         alias: {
