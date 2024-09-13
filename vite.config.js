@@ -19,13 +19,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/pages/datatables.js',
                 'resources/js/pages/slick.js',
-            ],
-            refresh: true,
-        }),
-    ],
-
-                'resources/sass/app.scss',
-                'resources/js/app.js',
+              'resources/sass/app.scss', 'resources/js/app.js',
             ],
             refresh: true,
         }),
@@ -36,7 +30,12 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
-        }),
+        }),   
+        //         'resources/sass/app.scss',
+        //         'resources/js/app.js',
+        //     ],
+        //     refresh: true,
+        // }),
     ],
     resolve: {
         alias: {

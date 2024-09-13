@@ -128,7 +128,7 @@
           <span class="smini-visible">
             <i class="fa fa-circle-notch text-primary"></i>
           </span>
-          <span class="smini-hide fs-5 tracking-wider">One<span class="fw-normal">UI</span></span>
+          <span class="smini-hide fs-5 tracking-wider">Tax-<span class="fw-normal">Payer</span></span>
         </a>
         <!-- END Logo -->
 
@@ -187,53 +187,76 @@
       <div class="js-sidebar-scroll">
         <!-- Side Navigation -->
         <div class="content-side">
-          <ul class="nav-main">
-            <li class="nav-main-item">
-              <a class="nav-main-link{{ request()->is('dashboard') ? ' active' : '' }}" href="/dashboard">
-                <i class="nav-main-link-icon si si-cursor"></i>
-                <span class="nav-main-link-name">Dashboard</span>
-              </a>
-            </li>
-            <li class="nav-main-heading">Various</li>
-            <li class="nav-main-item{{ request()->is('pages/*') ? ' open' : '' }}">
-              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                <i class="nav-main-link-icon si si-layers"></i>
-                <span class="nav-main-link-name">Pages</span>
-              </a>
-              <ul class="nav-main-submenu">
-                <li class="nav-main-item">
-                  <a class="nav-main-link" href="be_pages_generic_blank.html">
-                    <span class="nav-main-link-name">Blank</span>
-                  </a>
-                </li>
-                <li class="nav-main-item">
-                  <a class="nav-main-link" href="be_pages_generic_blank_block.html">
-                    <span class="nav-main-link-name">Blank (Block)</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-main-heading">User Management</li>
-            <li class="nav-main-item{{ request()->is('admins/users*') ? ' open' : '' }}">
-              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
-                <i class="nav-main-link-icon si si-users"></i>
-                <span class="nav-main-link-name">Admin Users</span>
-              </a>
-              <ul class="nav-main-submenu">
-                <li class="nav-main-item">
-                  <a class="nav-main-link{{ request()->is('admins/users/create') ? ' active' : '' }}" href="{{ route('admins.users.create') }}">
-                    <span class="nav-main-link-name">Create New Admin User</span>
-                  </a>
-                </li>
-                <li class="nav-main-item">
-                  <a class="nav-main-link{{ request()->is('admins/users') ? ' active' : '' }}" href="{{ route('admins.users.index') }}">
-                    <span class="nav-main-link-name">View Admin Users</span>
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+  <ul class="nav-main">
+    <li class="nav-main-item">
+      <a class="nav-main-link{{ request()->is('dashboard') ? ' active' : '' }}" href="/dashboard">
+        <i class="nav-main-link-icon si si-cursor"></i>
+        <span class="nav-main-link-name">Dashboard</span>
+      </a>
+    </li>
+
+    <li class="nav-main-heading">Various</li>
+    <li class="nav-main-item{{ request()->is('pages/*') ? ' open' : '' }}">
+      <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+        <i class="nav-main-link-icon si si-layers"></i>
+        <span class="nav-main-link-name">Pages</span>
+      </a>
+      <ul class="nav-main-submenu">
+        <li class="nav-main-item">
+          <a class="nav-main-link" href="be_pages_generic_blank.html">
+            <span class="nav-main-link-name">Blank</span>
+          </a>
+        </li>
+        <li class="nav-main-item">
+          <a class="nav-main-link" href="be_pages_generic_blank_block.html">
+            <span class="nav-main-link-name">Blank (Block)</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <li class="nav-main-heading">User Management</li>
+    <li class="nav-main-item{{ request()->is('admins/users*') ? ' open' : '' }}">
+      <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+        <i class="nav-main-link-icon si si-users"></i>
+        <span class="nav-main-link-name">Admin Users</span>
+      </a>
+      <ul class="nav-main-submenu">
+        <li class="nav-main-item">
+          <a class="nav-main-link{{ request()->is('admins/users/create') ? ' active' : '' }}" href="{{ route('admins.users.create') }}">
+            <span class="nav-main-link-name">Create New Admin User</span>
+          </a>
+        </li>
+        <li class="nav-main-item">
+          <a class="nav-main-link{{ request()->is('admins/users') ? ' active' : '' }}" href="{{ route('admins.users.index') }}">
+            <span class="nav-main-link-name">View Admin Users</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    
+    <!-- Add Tax Payers Section -->
+    <li class="nav-main-item{{ request()->is('tax_payers*') ? ' open' : '' }}">
+      <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+        <i class="nav-main-link-icon si si-wallet"></i>
+        <span class="nav-main-link-name">Tax Payers</span>
+      </a>
+      <ul class="nav-main-submenu">
+        <li class="nav-main-item">
+          <a class="nav-main-link{{ request()->is('tax_payers/create') ? ' active' : '' }}" href="{{ route('tax_payers.create') }}">
+            <span class="nav-main-link-name">Create Tax Payer</span>
+          </a>
+        </li>
+        <li class="nav-main-item">
+          <a class="nav-main-link{{ request()->is('tax_payers') ? ' active' : '' }}" href="{{ route('tax_payers.index') }}">
+            <span class="nav-main-link-name">View Tax Payers</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
         <!-- END Side Navigation -->
       </div>
       <!-- END Sidebar Scrolling -->
@@ -314,11 +337,98 @@
             </div>
           </div>
           <!-- END User Dropdown -->
+                     <!-- Notifications Dropdown -->
+          <div class="dropdown d-inline-block ms-2">
+            <button type="button" class="btn btn-sm btn-alt-secondary" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-fw fa-bell"></i>
+              <span class="text-primary">•</span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0 border-0 fs-sm" aria-labelledby="page-header-notifications-dropdown">
+              <div class="p-2 bg-body-light border-bottom text-center rounded-top">
+                <h5 class="dropdown-header text-uppercase">Notifications</h5>
+              </div>
+              <ul class="nav-items mb-0">
+                <li>
+                  <a class="text-dark d-flex py-2" href="javascript:void(0)">
+                    <div class="flex-shrink-0 me-2 ms-3">
+                      <i class="fa fa-fw fa-check-circle text-success"></i>
+                    </div>
+                    <div class="flex-grow-1 pe-2">
+                      <div class="fw-semibold">You have a n ew follower</div>
+                      <span class="fw-medium text-muted">15 min ago</span>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a class="text-dark d-flex py-2" href="javascript:void(0)">
+                    <div class="flex-shrink-0 me-2 ms-3">
+                      <i class="fa fa-fw fa-plus-circle text-primary"></i>
+                    </div>
+                    <div class="flex-grow-1 pe-2">
+                      <div class="fw-semibold">1 new sale, keep it up</div>
+                      <span class="fw-medium text-muted">22 min ago</span>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a class="text-dark d-flex py-2" href="javascript:void(0)">
+                    <div class="flex-shrink-0 me-2 ms-3">
+                      <i class="fa fa-fw fa-times-circle text-danger"></i>
+                    </div>
+                    <div class="flex-grow-1 pe-2">
+                      <div class="fw-semibold">Update failed, restart server</div>
+                      <span class="fw-medium text-muted">26 min ago</span>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a class="text-dark d-flex py-2" href="javascript:void(0)">
+                    <div class="flex-shrink-0 me-2 ms-3">
+                      <i class="fa fa-fw fa-plus-circle text-primary"></i>
+                    </div>
+                    <div class="flex-grow-1 pe-2">
+                      <div class="fw-semibold">2 new sales, keep it up</div>
+                      <span class="fw-medium text-muted">33 min ago</span>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a class="text-dark d-flex py-2" href="javascript:void(0)">
+                    <div class="flex-shrink-0 me-2 ms-3">
+                      <i class="fa fa-fw fa-user-plus text-success"></i>
+                    </div>
+                    <div class="flex-grow-1 pe-2">
+                      <div class="fw-semibold">You have a new subscriber</div>
+                      <span class="fw-medium text-muted">41 min ago</span>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a class="text-dark d-flex py-2" href="javascript:void(0)">
+                    <div class="flex-shrink-0 me-2 ms-3">
+                      <i class="fa fa-fw fa-check-circle text-success"></i>
+                    </div>
+                    <div class="flex-grow-1 pe-2">
+                      <div class="fw-semibold">You have a new follower</div>
+                      <span class="fw-medium text-muted">42 min ago</span>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+              <div class="p-2 border-top text-center">
+                <a class="d-inline-block fw-medium" href="javascript:void(0)">
+                  <i class="fa fa-fw fa-arrow-down me-1 opacity-50"></i> Load More..
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- END Notifications Dropdown -->
+
         </div>
         <!-- END Right Section -->
       </div>
       <!-- END Header Content -->
-
+      
       <!-- Header Search -->
       <div id="page-header-search" class="overlay-header">
         <div class="content-header">
@@ -360,10 +470,10 @@
       <div class="content py-3">
         <div class="row fs-sm">
           <div class="col-sm-6 order-sm-2 py-1 text-center text-sm-end">
-            Crafted with <i class="fa fa-heart text-danger"></i> by <a class="fw-semibold" href="https://pixelcave.com/" target="_blank">pixelcave</a>
+            Crafted with <i class="fa fa-heart text-danger"></i> by <a class="fw-semibold" href="https://pixelcave.com/" target="_blank">Nåcham T&S</a>
           </div>
           <div class="col-sm-6 order-sm-1 py-1 text-center text-sm-start">
-            <a class="fw-semibold" href="https://pixelcave.com/" target="_blank">OneUI 5.3</a> &copy; <span data-toggle="year-copy"></span>
+            <a class="fw-semibold" href="https://pixelcave.com/" target="_blank">ß</a> &copy; <span data-toggle="year-copy"></span>
           </div>
         </div>
       </div>

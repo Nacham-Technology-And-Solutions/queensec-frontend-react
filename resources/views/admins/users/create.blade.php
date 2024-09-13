@@ -1,3 +1,4 @@
+@extends('layouts.app')
 <!doctype html>
 <html lang="en">
 
@@ -28,7 +29,7 @@
     <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/oneui.min.css') }}">
     <!-- END Stylesheets -->
 </head>
-
+@section('content')
 <body>
     <!-- Page Container -->
     <div id="page-container">
@@ -145,5 +146,5 @@
     <!-- Page JS Code -->
     <script src="{{ asset('assets/js/pages/op_auth_signup.min.js') }}"></script>
 </body>
-
+@endsection
 </html>
