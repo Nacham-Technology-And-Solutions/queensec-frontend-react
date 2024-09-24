@@ -27,21 +27,23 @@ class TaxPayerController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:tax_payers',
             'address' => 'nullable|string',
-            'phone_number' => 'nullable|string|max:20',
-            'tax_identification_number' => 'required|string|unique:tax_payers|max:50',
-            
+            'phone_number' => 'required|string|max:20',
         ]);
  $taxId = 'TAX-' . strtoupper(Str::random(8));
  while (TaxPayer::where('tax_identification_number', $taxId)->exists()) {
     $taxId = 'TAX-' . strtoupper(Str::random(8));
 }
-
 $taxPayer = TaxPayer::create([
     'name' => $request->input('name'),
     'email' => $request->input('email'),
-    'phone' => $request->input('phone'),
+    'phone_number' => $request->input('phone_number'), // Correct field
     'address' => $request->input('address'),
+    'tax_identification_number' => $taxId, // Assuming this is generated earlier
 ]);
+
+
+return redirect()->route('tax_payers.index')->with('success', 'Tax Payer created successfully!');
+ 
 $request->validate([
     'email' => 'required|email|unique:tax_payers,email',
 ], [
@@ -123,6 +125,9 @@ public function enable($id)
 public function show($id)
 {
     $taxPayer = TaxPayer::findOrFail($id);
+    return view('tax_payers.show', compact('taxPayer'));
+    $taxPayer = TaxPayer::findOrFail($id); // Retrieve the tax payer by their ID
+
     return view('tax_payers.show', compact('taxPayer'));
 }
 

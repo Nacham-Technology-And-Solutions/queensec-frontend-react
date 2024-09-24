@@ -9,6 +9,7 @@
                 <a href="{{ route('tax_payers.create') }}" class="btn btn-primary">
                     <i class="fa fa-plus"></i> Add Tax Payer
                 </a>
+                
             </div>
         </div>
         <div class="block-content">

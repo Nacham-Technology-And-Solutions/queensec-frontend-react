@@ -1,38 +1,18 @@
-<!-- resources/views/tax_payers/show.blade.php -->
-
 @extends('layouts.backend')
 
 @section('content')
-    <div class="content">
-        <h2 class="content-heading">Tax Payer Details</h2>
-
-        <div class="block">
-            <div class="block-content block-content-full">
-                <div class="form-group">
-                    <label>Name:</label>
-                    <p>{{ $taxPayer->name }}</p>
-                </div>
-                <div class="form-group">
-                    <label>Email:</label>
-                    <p>{{ $taxPayer->email }}</p>
-                </div>
-                <div class="form-group">
-                    <label>Address:</label>
-                    <p>{{ $taxPayer->address }}</p>
-                </div>
-                <div class="form-group">
-                    <label>Phone Number:</label>
-                    <p>{{ $taxPayer->phone_number }}</p>
-                </div>
-                <div class="form-group">
-                    <label>TIN:</label>
-                    <p>{{ $taxPayer->tax_identification_number }}</p>
-                </div>
-                <div class="form-group">
-                    <label>Status:</label>
-                    <p>{{ ucfirst($taxPayer->status) }}</p>
-                </div>
-            </div>
+<div class="content">
+    <div class="block block-rounded">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">Tax Payer Details</h3>
+        </div>
+        <div class="block-content">
+            <p><strong>Name:</strong> {{ $taxPayer->name }}</p>
+            <p><strong>Email:</strong> {{ $taxPayer->email }}</p>
+            <p><strong>Phone Number:</strong> {{ $taxPayer->phone_number }}</p>
+            <p><strong>Address:</strong> {{ $taxPayer->address }}</p>
+            <p><strong>Tax Identification Number:</strong> {{ $taxPayer->tax_identification_number }}</p> <!-- Show TIN -->
         </div>
     </div>
+</div>
 @endsection

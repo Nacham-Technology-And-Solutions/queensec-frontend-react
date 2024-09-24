@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AdminUser;
-
+use Illuminate\Support\Facades\Hash;
 class AdminUserController extends Controller
 {
     // Show the form to create a new admin user
@@ -16,20 +16,23 @@ class AdminUserController extends Controller
     // Store the new admin user
     public function store(Request $request)
     {
-        $request->validate([
+        // Validate the input data
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'email' => 'required|email|unique:admin_users,email', // Checks if email is unique in admin_users table
+            'password' => 'required|string|min:8',
         ]);
 
-        $user = new AdminUser();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
+        // If validation passes, proceed with user creation
+        AdminUser::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+        ]);
 
-        return redirect()->route('admins.users.create')->with('success', 'Admin user created successfully.');
+        return redirect()->back()->with('success', 'Admin user created successfully!');
     }
+
 
     // List all admin users
     public function index()

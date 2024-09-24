@@ -23,6 +23,17 @@ class CreateTaxPayersTable extends Migration
         });
     }
 
+    
+    // Schema::create('tax_payers', function (Blueprint $table) {
+    //     $table->id();
+    //     $table->string('name');
+    //     $table->string('email')->unique();
+    //     $table->string('phone_number')->nullable(); // Ensure this matches your form and controller
+    //     $table->string('address')->nullable();
+    //     $table->string('tax_identification_number')->unique();
+    //     $table->timestamps();
+    // });
+    
     /**
      * Reverse the migrations.
      *

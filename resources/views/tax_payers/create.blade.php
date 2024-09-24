@@ -22,19 +22,19 @@
                 @csrf
                 <div class="form-group text-center">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control mx-auto" id="name" name="name" placeholder="Enter name" style="width: 80%;">
+                    <input type="text" class="form-control mx-auto" id="name" name="name" placeholder="Enter name" value="{{ old('name') }}" style="width: 80%;">
                 </div>
                 <div class="form-group text-center">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control mx-auto" id="email" name="email" placeholder="Enter email" style="width: 80%;">
+                    <input type="email" class="form-control mx-auto" id="email" name="email" placeholder="Enter email" value="{{ old('email') }}" style="width: 80%;">
                 </div>
                 <div class="form-group text-center">
                     <label for="address">Address</label>
-                    <textarea class="form-control mx-auto" id="address" name="address" rows="3" placeholder="Enter address" style="width: 80%;"></textarea>
+                    <textarea class="form-control mx-auto" id="address" name="address" rows="3" placeholder="Enter address" style="width: 80%;">{{ old('address') }}</textarea>
                 </div>
                 <div class="form-group text-center">
                     <label for="phone_number">Phone Number</label>
-                    <input type="text" class="form-control mx-auto" id="phone_number" name="phone_number" placeholder="Enter phone number" style="width: 80%;">
+                    <input type="text" class="form-control mx-auto" id="phone_number" name="phone_number" placeholder="Enter phone number" value="{{ old('phone_number') }}" style="width: 80%;">
                 </div>
                 
                 <div class="text-center">
@@ -44,6 +44,4 @@
         </div>
     </div>
 </div>
-
-
 @endsection
