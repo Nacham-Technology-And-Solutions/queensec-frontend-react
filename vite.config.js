@@ -8,7 +8,6 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-
                 'resources/sass/main.scss',
                 'resources/sass/oneui/themes/amethyst.scss',
                 'resources/sass/oneui/themes/city.scss',
@@ -19,7 +18,8 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/pages/datatables.js',
                 'resources/js/pages/slick.js',
-              'resources/sass/app.scss', 'resources/js/app.js',
+                'resources/sass/app.scss', // From Ejiros-New-Branch
+                'resources/js/app.js',    // From Ejiros-New-Branch
             ],
             refresh: true,
         }),

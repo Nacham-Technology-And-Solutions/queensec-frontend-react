@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
@@ -25,6 +25,7 @@ class AuthController extends Controller
             'email' => 'The provided credentials do not match our records.',
         ]);
     }
+
     public function showForgotPasswordForm()
     {
         return view('oneui.forgot_password');
@@ -44,13 +45,14 @@ class AuthController extends Controller
             : back()->withErrors(['email' => __($status)]);
     }
 
-    public function signup(){
+    public function signup()
+    {
         return view('oneui.signup');
     }
+    
     public function logout()
-{
-    Auth::logout();
-    return redirect('/login');
-}
-
+    {
+        Auth::logout();
+        return redirect('/login');
+    }
 }
