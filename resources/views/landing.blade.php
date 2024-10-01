@@ -9,10 +9,10 @@
           OneUI <span class="fw-normal">+ Laravel <span class="text-city">9</span></span>
         </h1>
         <p class="fs-lg fw-medium text-muted mb-4">
-          Welcome to the starter kit! Build something amazing!
+         PAY TAX NOW
         </p>
 
-        <a class="btn btn-alt-primary px-3 py-2" href="/dashboard">
+       
 
         <a class="btn btn-alt-primary px-3 py-2" href="{{ route('login') }}">
           Login Now

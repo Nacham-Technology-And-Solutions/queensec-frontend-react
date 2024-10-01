@@ -102,7 +102,7 @@
                   </div>
                   <div class="block-content">
                     <div class="p-sm-3 px-lg-4 px-xxl-5 py-lg-5">
-                      <h1 class="h2 mb-1">Tax Payer Login</h1>
+                      <h1 class="h2 mb-1">Truck Driver Login</h1>
                       <p class="fw-medium text-muted">
                         Welcome, please login.
                       </p>
@@ -143,7 +143,7 @@
               </div>
             </div>
             <div class="fs-sm text-muted text-center">
-              <strong>VGIS</strong> &copy; <span data-toggle="year-copy"></span>
+              <strong>Nacham T&S</strong> &copy; <span data-toggle="year-copy"></span>
             </div>
           </div>
         </div>
