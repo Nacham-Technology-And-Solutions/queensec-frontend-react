@@ -32,7 +32,7 @@
   </div>
   <!-- END Hero -->
 
-  <!-- Page Content -->
+  <!-- Page Content
   <div class="content">
     <div class="row items-push">
       <div class="col-md-6 col-xl-4">
@@ -150,6 +150,6 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <!-- END Page Content -->
 @endsection
