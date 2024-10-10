@@ -30,12 +30,7 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
-        }),   
-        //         'resources/sass/app.scss',
-        //         'resources/js/app.js',
-        //     ],
-        //     refresh: true,
-        // }),
+        }),    
     ],
     resolve: {
         alias: {
@@ -43,4 +38,12 @@ export default defineConfig({
         },
     },
 
+    // server: {
+    //     host: '127.0.0.2'
+    //   },
+
 });
+
+
+// php artisan serve --host 127.0.0.2
+// php artisan serve --host 192.168.43.181 --port 80

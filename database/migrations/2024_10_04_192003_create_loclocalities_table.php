@@ -9,22 +9,23 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('truck_drivers', function (Blueprint $table) {
+        Schema::create('loc_localities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->string('phone_number')->nullable();
-            $table->string('license_number')->nullable();
+            $table->string('code');
+            $table->unsignedBigInteger('locstate_id');
+            $table->foreign('locstate_id')->references('id')->on('loc_states');
             $table->timestamps();
         });
     }
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('truck_drivers');
+        Schema::dropIfExists('loclocalities');
     }
 };

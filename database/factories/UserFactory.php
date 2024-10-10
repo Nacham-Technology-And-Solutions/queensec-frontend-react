@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\LocLocality;
+use App\Models\LocState;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -24,14 +26,20 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'first_name' => $this->faker->firstName(),
+            'middle_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'username' => $this->faker->userName(),
+            'business_name' => $this->faker->company(),
+            'state' => LocState::inRandomOrder()->first()->name,
+            'locality' =>  LocLocality::inRandomOrder()->first()->name,
+            'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
+            'phone' => $this->faker->unique()->phoneNumber(),
+            'password' => Hash::make('password'), // you can change this to a random password
             'remember_token' => Str::random(10),
-
-           
-
+            'image_url' => $this->faker->imageUrl(), 
+            'account_type' => rand(0, 3), 
         ];
     }
 

@@ -13,10 +13,25 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('first_name');
+            $table->string('middle_name');
+            $table->string('last_name');
+            $table->string('username')->nullable();
+            $table->string('business_name')->nullable();
+            $table->string('state');
+            $table->string('locality');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('phone');
+
+            $table->integer('account_type')->default(0);
+            // 0 - Individual || 1 - Corperate || 2 - Federal Agency 
+            // 3 - State Agency || 4 - Vendor 
+            $table->string('image_url')->nullable();
+            $table->string('tax_id')->unique()->nullable();
             $table->string('password');
+            $table->string('google_id')->nullable();
+            $table->tinyInteger('active')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
