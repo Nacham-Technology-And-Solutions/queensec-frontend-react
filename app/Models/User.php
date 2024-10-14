@@ -76,6 +76,17 @@ class User extends Authenticatable
         return $this->hasMany(Order::class, 'payee_id');
     }
 
+    public function address()
+    {
+        return $this->hasMany(Address::class, 'user_id')->first();
+    }
+
+    public function addressToLineString()
+    {
+        $str =  $this->hasMany(Address::class, 'user_id')->first();
+        return $str->line_address . ", " . $str->city . ", " . $str->state;
+    }
+
     public function userType()
     {
         $user_type = "User";

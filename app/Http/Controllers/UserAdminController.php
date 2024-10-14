@@ -59,12 +59,16 @@ class UserAdminController extends Controller
      */
     public function edit(int $id)
     {
+        $locState = LocState::all();
+        $locLocality = LocLocality::all();
         $user = User::find($id);
 
         return view(
             'pages.users.edit',
             [
                 'taxUser' => $user,
+                'locStates' => $locState,
+                'locLocalities' => $locLocality,
             ]
         );
     }
@@ -80,16 +84,17 @@ class UserAdminController extends Controller
             'last_name' => ['required', 'string'],
             'email' => ['required', 'string', 'unique:users,email'],
             'phone' => ['string'],
-            'password' => ['required', 'string', 'confirmed'],
+            'password' => ['required', 'string'],
             'business_name' => ['required', 'string'],
             'state' => ['required', 'string'],
-            'locality' => ['required', 'string'],
+            // 'locality' => ['required', 'string'],
             'username' => ['required', 'string'],
             'account_type' => ['required', 'int'],
         ]);
 
+        $form_field['locality'] =  LocLocality::inRandomOrder()->first()->code;
         $form_field['password'] = bcrypt($form_field['password']);
-
+        
         $form_field['username'] = $form_field['last_name'] . mt_rand(0, 10000);
 
         $user = User::create($form_field);
@@ -108,9 +113,8 @@ class UserAdminController extends Controller
             'first_name' => ['string'],
             'middle_name' => ['string'],
             'last_name' => ['string'],
-            'email' => ['string', 'unique:users,email'],
+            'email' => ['string', 'email'],
             'phone' => ['string'],
-            'password' => ['string', 'confirmed'],
             'business_name' => ['string'],
             'state' => ['string'],
             'locality' => ['string'],

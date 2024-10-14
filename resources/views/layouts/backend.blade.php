@@ -207,7 +207,7 @@
               </a>
               <ul class="nav-main-submenu">
                 <li class="nav-main-item">
-                  <a class="nav-main-link{{ request()->is('users/create') ? ' active' : '' }}" href="#">
+                  <a class="nav-main-link{{ request()->is('users/create') ? ' active' : '' }}" href="{{ route('users.create') }}">
                     <span class="nav-main-link-name">Add User</span>
                   </a>
                 </li>
