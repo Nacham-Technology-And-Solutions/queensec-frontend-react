@@ -20,14 +20,15 @@ return new class extends Migration
             $table->unsignedBigInteger('payee_id');
             $table->foreign('payee_id')->references('id')->on('users');
             
-            $table->unsignedBigInteger('payer_vehicle_id');
-            $table->foreign('payer_vehicle_id')->references('id')->on('haulers');
+            $table->unsignedBigInteger('payee_hauler_id');
+            $table->foreign('payee_hauler_id')->references('id')->on('haulers');
 
             $table->unsignedBigInteger('mineral_id');
             $table->foreign('mineral_id')->references('id')->on('minerals');
+             
             $table->decimal('total_amount', 10, 2);
-            $table->enum('payment_type', ['full', 'installment']);
-            $table->enum('status', ['pending', 'completed', 'cancelled']);
+            $table->enum('payment_type', ['full', 'installment'])->default('full');
+            $table->enum('status', ['pending', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();
         });
     }

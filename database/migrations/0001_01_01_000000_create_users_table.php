@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('username')->nullable();
             $table->string('business_name')->nullable();
             $table->string('state');
-            $table->string('locality');
+            $table->string('locality')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone');
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('tax_id')->unique()->nullable();
             $table->string('password');
             $table->string('google_id')->nullable();
-            $table->tinyInteger('active')->default(0);
+            $table->tinyInteger('active')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

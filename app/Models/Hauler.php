@@ -16,14 +16,25 @@ class Hauler extends Model
      */
     protected $fillable = [
         'number_plate',
-        'vehicle_type',
+        'hauler_type_id',
         'user_id',
     ];
 
+
+    
+    public function haulerType()
+    {
+        return $this->belongsTo(HaulerType::class, 'hauler_type_id')->get()->first();
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'payee_hauler_id')->get();
+    }
     
     public function owner()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id')->get()->first();
     }
 
 }

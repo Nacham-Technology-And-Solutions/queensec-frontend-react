@@ -10,12 +10,12 @@
                         <h3 class="block-title">Edit Admin User</h3>
                     </div>
                     <div class="block-content">
-                        <form action="{{ route('admins.users.update', $adminUser->id) }}" method="POST">
+                        <form action="{{ route('admins.update', $adminUser->id) }}" method="POST">
                             @csrf
                             @method('PUT')
                             <div class="mb-4">
                                 <label class="form-label" for="admin-name">Name</label>
-                                <input type="text" class="form-control" id="admin-name" name="name" value="{{ $adminUser->name }}" required>
+                                <input type="text" class="form-control" id="admin-name" name="name" value="{{ $adminUser->name() }}" required>
                                 @error('name')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -45,7 +45,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-save me-1"></i> Save Changes
                                 </button>
-                                <a href="{{ route('admins.users.index') }}" class="btn btn-secondary">
+                                <a href="{{ route('admins.index') }}" class="btn btn-secondary">
                                     <i class="fa fa-arrow-left me-1"></i> Back to List
                                 </a>
                             </div>

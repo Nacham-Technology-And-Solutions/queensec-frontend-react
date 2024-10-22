@@ -17,7 +17,11 @@ class MineralFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->userName(),
+            'advalorem' => rand(0, 100), 
+            'market_value' => rand(10000, 100000),
+            'royalty_rate' => rand(1000, 10000),
+            'measurement_unit' => "Tons",
         ];
     }
 }

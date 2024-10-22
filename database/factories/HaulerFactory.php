@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\HaulerType;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,9 @@ class HaulerFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'number_plate' => mt_rand(0, 10000),
+            'hauler_type_id' => HaulerType::inRandomOrder()->first()->id,
+            'user_id' => User::inRandomOrder()->first()->id,
         ];
     }
 }

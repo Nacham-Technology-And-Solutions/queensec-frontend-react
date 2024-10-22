@@ -21,14 +21,22 @@ class CreateAdminUsersTable extends Migration
             $table->string('username')->nullable();
             $table->string('email')->unique();
             $table->string('phone');
-            $table->integer('account_type'); 
+            $table->integer('account_type')->default(0); 
             // 0 - Moderator || 1 - Customer Care || 2 - Admin || 3 - Investor 
             $table->string('image_url')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->tinyInteger('active')->default(0);
+            $table->tinyInteger('active')->default(1);
+            $table->string('google_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
+        });
+
+        
+        Schema::create('password_reset_tokens_admins', function (Blueprint $table) {
+            $table->string('email')->primary();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -40,5 +48,6 @@ class CreateAdminUsersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('admin_users');
+        Schema::dropIfExists('password_reset_tokens_admins');
     }
 }

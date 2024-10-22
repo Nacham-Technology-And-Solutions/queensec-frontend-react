@@ -20,7 +20,7 @@
                         <!-- END Header -->
 
                         <!-- Admin User Creation Form -->
-                        <form class="js-validation-create-admin" action="{{ route('admins.users.store') }}" method="POST">
+                        <form class="js-validation-create-admin" action="{{ route('admins.store') }}" method="POST">
                             @csrf
                             <!-- Administrator section -->
                             @method('POST')
@@ -85,7 +85,7 @@
                                                 <i class="fa fa-user-plus opacity-50 me-1"></i> Create Admin User
                                             </button>
                                             <!-- Link to the index of admin users -->
-                                            <a href="{{ route('admins.users.index') }}" class="btn btn-secondary mb-2">
+                                            <a href="{{ route('admins.index') }}" class="btn btn-secondary mb-2">
                                                 <i class="fa fa-list opacity-50 me-1"></i> View Admin Users
                                             </a>
                                         </div>

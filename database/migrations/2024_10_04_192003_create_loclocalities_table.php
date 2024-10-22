@@ -15,8 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('code');
+
             $table->unsignedBigInteger('locstate_id');
             $table->foreign('locstate_id')->references('id')->on('loc_states');
+            
+            $table->tinyInteger('active')->default(1);
             $table->timestamps();
         });
     }

@@ -21,12 +21,17 @@ class LocLocality extends Model
         'name',
         'code',
         'locstate_id',
+        'active',
     ];
 
     public function locState()
     {
-        return $this->belongsTo(LocState::class, 'locstate_id');
+        return $this->belongsTo(LocState::class, 'locstate_id')->get()->first();
     }
 
+    public function users()
+    {
+        return User::where("locality", "=", $this->code)->get();
+    }
 
 }

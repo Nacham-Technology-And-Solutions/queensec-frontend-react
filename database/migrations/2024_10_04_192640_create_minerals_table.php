@@ -14,10 +14,13 @@ return new class extends Migration
         Schema::create('minerals', function (Blueprint $table) {
             $table->id();
             $table->string('name'); 
-            $table->decimal('advalorem', 2, 2);
+            $table->integer('advalorem');
             $table->decimal('market_value', 10, 2);
             $table->decimal('royalty_rate', 10, 2);
             $table->string('measurement_unit');
+            $table->string('description')->nullable();
+            $table->string('img')->nullable();            
+            $table->tinyInteger('active')->default(1);
             $table->timestamps();
         });
     }

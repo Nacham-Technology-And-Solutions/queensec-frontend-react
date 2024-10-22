@@ -68,12 +68,32 @@ class User extends Authenticatable
 
     public function orders()
     {
-        return $this->hasMany(Order::class, 'payer_id');
+        return $this->hasMany(Order::class, 'payer_id')->get();
     }
 
     public function tickets()
     {
-        return $this->hasMany(Order::class, 'payee_id');
+        return $this->hasMany(Order::class, 'payee_id')->get();
+    }
+
+    public function haulers()
+    {
+        return $this->hasMany(Hauler::class, 'user_id')->get();
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'payee_id')->get();
+    }
+
+    public function paymentsAsVender()
+    {
+        return $this->hasMany(Payment::class, 'payer_id')->get();
+    }
+
+    public function ticketsAsVender()
+    {
+        return $this->hasMany(Order::class, 'payer_id')->get();
     }
 
     public function address()

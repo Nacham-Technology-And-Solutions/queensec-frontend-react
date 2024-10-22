@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('haulers', function (Blueprint $table) {
+        Schema::create('hauler_types', function (Blueprint $table) {
             $table->id();
-            $table->string('number_plate');
-            $table->string('vehicle_type');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('name');
+            $table->string('volume');
+            $table->string('description')->nullable();
+            $table->string('img')->nullable();            
+            $table->tinyInteger('active')->default(1);
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('haulers');
+        Schema::dropIfExists('hauler_types');
     }
 };

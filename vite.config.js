@@ -38,12 +38,13 @@ export default defineConfig({
         },
     },
 
-    // server: {
-    //     host: '127.0.0.2'
-    //   },
+    server: {
+        host: '192.168.132.3'
+      },
 
 });
 
 
-// php artisan serve --host 127.0.0.2
-// php artisan serve --host 192.168.43.181 --port 80
+// php artisan route:clear
+// php artisan route:cache
+// php artisan serve --host 192.168.132.3 --port 80

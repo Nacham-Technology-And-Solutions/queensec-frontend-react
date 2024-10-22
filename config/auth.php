@@ -41,6 +41,11 @@ return [
             'provider' => 'users',
         ],
 
+        'enforcer' => [
+            'driver' => 'session',
+            'provider' => 'enforcer_users',
+        ],
+
         'admin' => [
             'driver' => 'session',
             'provider' => 'admin_users',
@@ -68,6 +73,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+
+        'enforcer_users' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\EnforcerUser::class),
         ],
 
         'admin_users' => [
@@ -108,9 +118,16 @@ return [
             'throttle' => 60,
         ],
 
+        'enforcer_users' => [
+            'provider' => 'enforcer_users',
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens_enforcers'),
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
         'admin_users' => [
             'provider' => 'admin_users',
-            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens_admins'),
             'expire' => 60,
             'throttle' => 60,
         ],

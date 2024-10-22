@@ -8,7 +8,7 @@
                 <div class="block">
                     <div class="block-header block-header-default">
                         <h3 class="block-title">List of Admin Users</h3>
-                        <a href="{{ route('admins.users.create') }}" class="btn btn-primary float-right">Create New Admin User</a>
+                        <a href="{{ route('admins.create') }}" class="btn btn-primary float-right">Create New Admin User</a>
                     </div>
                     <div class="block-content">
                         @if (session('success'))
@@ -27,11 +27,11 @@
                                 @foreach ($adminUsers as $adminUser)
                                     <tr>
                                         <td>{{ $adminUser->id }}</td>
-                                        <td>{{ $adminUser->name }}</td>
+                                        <td>{{ $adminUser->name() }}</td>
                                         <td>{{ $adminUser->email }}</td>
                                         <td>
-                                            <a href="{{ route('admins.users.edit', $adminUser->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                            <form action="{{ route('admins.users.destroy', $adminUser->id) }}" method="POST" style="display:inline;">
+                                            <a href="{{ route('admins.edit', $adminUser->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                            <form action="{{ route('admins.destroy', $adminUser->id) }}" method="POST" style="display:inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>

@@ -20,10 +20,13 @@ class Mineral extends Model
         'market_value',
         'royalty_rate',
         'measurement_unit',
+        'description',
+        'img',
+        'active',
     ];
 
     public function orders()
     {
-        return $this->hasMany(Order::class, 'mineral_id');
+        return $this->hasMany(Order::class, 'mineral_id')->get();
     }
 }

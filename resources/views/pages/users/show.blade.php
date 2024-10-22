@@ -5,7 +5,7 @@
         <!-- Quick Actions -->
         <div class="row">
             <div class="col-6">
-                <a class="block block-rounded block-link-shadow text-center" href="javascript:void(0)">
+                <a class="block block-rounded block-link-shadow text-center" href="{{ route('users.edit', $taxUser->id) }}">
                     <div class="block-content block-content-full">
                         <div class="fs-2 fw-semibold text-dark">
                             <i class="fa fa-pencil-alt"></i>
@@ -13,24 +13,30 @@
                     </div>
                     <div class="block-content py-2 bg-body-light">
                         <p class="fw-medium fs-sm text-muted mb-0">
-                            Edit Customer
+                            Edit Tax User
                         </p>
                     </div>
                 </a>
             </div>
             <div class="col-6">
-                <a class="block block-rounded block-link-shadow text-center" href="javascript:void(0)">
-                    <div class="block-content block-content-full">
-                        <div class="fs-2 fw-semibold text-danger">
-                            <i class="fa fa-times"></i>
+                <form name="xdfx" action="{{ route('users.destroy', $taxUser->id) }}" method="POST"
+                    style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <a onclick="document.xdfx.submit();" href="javascript:void(0)"
+                        class="block block-rounded block-link-shadow text-center">
+                        <div class="block-content block-content-full">
+                            <div class="fs-2 fw-semibold text-danger">
+                                <i class="fa fa-times"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="block-content py-2 bg-body-light">
-                        <p class="fw-medium fs-sm text-danger mb-0">
-                            Remove Customer
-                        </p>
-                    </div>
-                </a>
+                        <div class="block-content py-2 bg-body-light">
+                            <p class="fw-medium fs-sm text-danger mb-0">
+                                Remove Tax User
+                            </p>
+                        </div>
+                    </a>
+                </form>
             </div>
         </div>
         <!-- END Quick Actions -->
@@ -40,31 +46,31 @@
             <div class="block-content text-center">
                 <div class="py-4">
                     <div class="mb-3">
-                        <img class="img-avatar" src="assets/media/avatars/avatar13.jpg" alt="">
+                        <img class="img-avatar" src="{{ asset($taxUser->image_url) }}" alt="">
                     </div>
                     <h1 class="fs-lg mb-0">
-                        <span>John Parker</span>
+                        <span>{{ $taxUser->name() }}</span>
                     </h1>
-                    <p class="fs-sm fw-medium text-muted">UI Designer</p>
+                    <p class="fs-sm fw-medium text-muted">{{ $taxUser->userType() }} Account</p>
                 </div>
             </div>
             <div class="block-content bg-body-light text-center">
                 <div class="row items-push text-uppercase">
                     <div class="col-6 col-md-3">
                         <div class="fw-semibold text-dark mb-1">Orders</div>
-                        <a class="link-fx fs-3 text-primary" href="javascript:void(0)">5</a>
+                        <a class="link-fx fs-3 text-primary" href="javascript:void(0)">{{ count($taxUser->tickets()) }}</a>
                     </div>
                     <div class="col-6 col-md-3">
                         <div class="fw-semibold text-dark mb-1">Orders Value</div>
-                        <a class="link-fx fs-3 text-primary" href="javascript:void(0)">$3.580,00</a>
+                        <a class="link-fx fs-3 text-primary" href="javascript:void(0)">₦{{ count($taxUser->tickets()) }}</a>
                     </div>
                     <div class="col-6 col-md-3">
-                        <div class="fw-semibold text-dark mb-1">Cart</div>
-                        <a class="link-fx fs-3 text-primary" href="javascript:void(0)">4</a>
+                        <div class="fw-semibold text-dark mb-1">Haulers</div>
+                        <a class="link-fx fs-3 text-primary" href="javascript:void(0)">{{ count($taxUser->haulers()) }}</a>
                     </div>
                     <div class="col-6 col-md-3">
-                        <div class="fw-semibold text-dark mb-1">Referred</div>
-                        <a class="link-fx fs-3 text-primary" href="javascript:void(0)">3</a>
+                        <div class="fw-semibold text-dark mb-1">Payments</div>
+                        <a class="link-fx fs-3 text-primary" href="javascript:void(0)">{{ count($taxUser->payments()) }}</a>
                     </div>
                 </div>
             </div>
@@ -74,410 +80,193 @@
         <!-- Addresses -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Addresses (2)</h3>
+                <h3 class="block-title">Basic Data</h3>
             </div>
             <div class="block-content">
                 <div class="row">
                     <div class="col-lg-6">
-                        <!-- Billing Address -->
+                        <!-- Data -->
                         <div class="block block-rounded block-bordered">
                             <div class="block-header border-bottom">
-                                <h3 class="block-title">Billing Address</h3>
+                                <h3 class="block-title">Data</h3>
                             </div>
                             <div class="block-content">
-                                <div class="fs-4 mb-1">John Parker</div>
-                                <address class="fs-sm">
-                                    Sunrise Str 620<br>
-                                    Melbourne<br>
-                                    Australia, 11-587<br><br>
-                                    <i class="fa fa-phone"></i> (999) 888-55555<br>
-                                    <i class="fa fa-envelope-o"></i> <a href="javascript:void(0)">company@example.com</a>
-                                </address>
+                                <div class="fs-4 mb-1">{{ $taxUser->business_name }}</div>
+                                <p class="fs-sm">
+                                    First Name : {{ $taxUser->first_name }}<br>
+                                    Middle Name : {{ $taxUser->middle_name }}<br>
+                                    Last Name : {{ $taxUser->last_name }}<br>
+                                    Username : {{ $taxUser->username }}<br>
+                                    Business Name : {{ $taxUser->business_name }}<br>
+
+                                    Email : {{ $taxUser->email }}<br>
+                                    Phone Number : {{ $taxUser->phone }}<br>
+                                    State : {{ $taxUser->state }}<br>
+                                    Locality : {{ $taxUser->locality }}<br>
+                                    Tax ID : {{ $taxUser->tax_id }}<br>
+                                </p>
                             </div>
                         </div>
-                        <!-- END Billing Address -->
+                        <!-- END Data -->
                     </div>
                     <div class="col-lg-6">
-                        <!-- Shipping Address -->
+                        <!-- Address -->
                         <div class="block block-rounded block-bordered">
                             <div class="block-header border-bottom">
-                                <h3 class="block-title">Shipping Address</h3>
+                                <h3 class="block-title">Address</h3>
                             </div>
                             <div class="block-content">
-                                <div class="fs-4 mb-1">John Parker</div>
+                                <div class="fs-4 mb-1">{{ $taxUser->business_name }}</div>
                                 <address class="fs-sm">
-                                    Sunrise Str 620<br>
-                                    Melbourne<br>
-                                    Australia, 11-587<br><br>
-                                    <i class="fa fa-phone"></i> (999) 888-55555<br>
-                                    <i class="fa fa-envelope-o"></i> <a href="javascript:void(0)">company@example.com</a>
+                                    @if ($taxUser->address())
+                                        {{ $taxUser->address()->line_address }}<br>
+                                        {{ $taxUser->address()->city }}<br>
+                                        {{ $taxUser->address()->state }}<br>
+                                        Nigeria.<br><br>
+                                    @else
+                                        No Address Yet.<br><br>
+                                    @endif
+                                    <i class="fa fa-phone"></i> (+234) {{ $taxUser->phone }}<br>
+                                    {{-- <i class="fa fa-envelope-o"></i> <a href="javascript:void(0)">company@example.com</a> --}}
                                 </address>
                             </div>
                         </div>
-                        <!-- END Shipping Address -->
+                        <!-- END Address -->
                     </div>
                 </div>
             </div>
         </div>
         <!-- END Addresses -->
 
-        <!-- Shopping Cart -->
+        <!-- Dynamic Table Full - Orders -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Shopping Cart (4)</h3>
-            </div>
-            <div class="block-content">
-                <div class="table-responsive">
-                    <table class="table table-borderless table-striped table-vcenter">
-                        <thead>
-                            <tr>
-                                <th class="text-center" style="width: 100px;">ID</th>
-                                <th class="d-none d-md-table-cell">Product</th>
-                                <th class="d-none d-sm-table-cell text-center">Added</th>
-                                <th>Status</th>
-                                <th class="d-none d-sm-table-cell text-end">Value</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="text-center fs-sm">
-                                    <a class="fw-semibold" href="be_pages_ecom_product_edit.html">
-                                        <strong>PID.0154</strong>
-                                    </a>
-                                </td>
-                                <td class="d-none d-md-table-cell fs-sm">
-                                    <a href="be_pages_ecom_product_edit.html">Product #4</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell text-center fs-sm">28/08/2019</td>
-                                <td>
-                                    <span class="badge bg-danger">Out of Stock</span>
-                                </td>
-                                <td class="text-end d-none d-sm-table-cell fs-sm">
-                                    <strong>$34,00</strong>
-                                </td>
-                                <td class="text-center fs-sm">
-                                    <a class="btn btn-sm btn-alt-secondary" href="be_pages_ecom_product_edit.html"
-                                        data-bs-toggle="tooltip" title="View">
-                                        <i class="fa fa-fw fa-eye"></i>
-                                    </a>
-                                    <a class="btn btn-sm btn-alt-danger" href="javascript:void(0)" data-bs-toggle="tooltip"
-                                        title="Delete">
-                                        <i class="fa fa-fw fa-times text-danger"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center fs-sm">
-                                    <a class="fw-semibold" href="be_pages_ecom_product_edit.html">
-                                        <strong>PID.0153</strong>
-                                    </a>
-                                </td>
-                                <td class="d-none d-md-table-cell fs-sm">
-                                    <a href="be_pages_ecom_product_edit.html">Product #3</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell text-center fs-sm">01/10/2019</td>
-                                <td>
-                                    <span class="badge bg-danger">Out of Stock</span>
-                                </td>
-                                <td class="text-end d-none d-sm-table-cell fs-sm">
-                                    <strong>$82,00</strong>
-                                </td>
-                                <td class="text-center fs-sm">
-                                    <a class="btn btn-sm btn-alt-secondary" href="be_pages_ecom_product_edit.html"
-                                        data-bs-toggle="tooltip" title="View">
-                                        <i class="fa fa-fw fa-eye"></i>
-                                    </a>
-                                    <a class="btn btn-sm btn-alt-danger" href="javascript:void(0)"
-                                        data-bs-toggle="tooltip" title="Delete">
-                                        <i class="fa fa-fw fa-times text-danger"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center fs-sm">
-                                    <a class="fw-semibold" href="be_pages_ecom_product_edit.html">
-                                        <strong>PID.0152</strong>
-                                    </a>
-                                </td>
-                                <td class="d-none d-md-table-cell fs-sm">
-                                    <a href="be_pages_ecom_product_edit.html">Product #2</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell text-center fs-sm">26/11/2019</td>
-                                <td>
-                                    <span class="badge bg-success">Available</span>
-                                </td>
-                                <td class="text-end d-none d-sm-table-cell fs-sm">
-                                    <strong>$65,00</strong>
-                                </td>
-                                <td class="text-center fs-sm">
-                                    <a class="btn btn-sm btn-alt-secondary" href="be_pages_ecom_product_edit.html"
-                                        data-bs-toggle="tooltip" title="View">
-                                        <i class="fa fa-fw fa-eye"></i>
-                                    </a>
-                                    <a class="btn btn-sm btn-alt-danger" href="javascript:void(0)"
-                                        data-bs-toggle="tooltip" title="Delete">
-                                        <i class="fa fa-fw fa-times text-danger"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center fs-sm">
-                                    <a class="fw-semibold" href="be_pages_ecom_product_edit.html">
-                                        <strong>PID.0151</strong>
-                                    </a>
-                                </td>
-                                <td class="d-none d-md-table-cell fs-sm">
-                                    <a href="be_pages_ecom_product_edit.html">Product #1</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell text-center fs-sm">16/10/2019</td>
-                                <td>
-                                    <span class="badge bg-success">Available</span>
-                                </td>
-                                <td class="text-end d-none d-sm-table-cell fs-sm">
-                                    <strong>$57,00</strong>
-                                </td>
-                                <td class="text-center fs-sm">
-                                    <a class="btn btn-sm btn-alt-secondary" href="be_pages_ecom_product_edit.html"
-                                        data-bs-toggle="tooltip" title="View">
-                                        <i class="fa fa-fw fa-eye"></i>
-                                    </a>
-                                    <a class="btn btn-sm btn-alt-danger" href="javascript:void(0)"
-                                        data-bs-toggle="tooltip" title="Delete">
-                                        <i class="fa fa-fw fa-times text-danger"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <!-- END Shopping Cart -->
+                <h3 class="block-title">
+                    Orders, <small>All Tickets</small>
+                </h3>
 
-        <!-- Past Orders -->
-        <div class="block block-rounded">
-            <div class="block-header block-header-default">
-                <h3 class="block-title">Past Orders (5)</h3>
             </div>
-            <div class="block-content">
-                <div class="table-responsive">
-                    <table class="table table-borderless table-striped table-vcenter">
-                        <thead>
+            <div class="block-content block-content-full">
+                <!-- DataTables init on table by adding .js-dataTable-full class, functionality is initialized in js/pages/tables_datatables.js -->
+                <table class="table table-bordered table-striped table-vcenter js-dataTable-full fs-sm">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 80px;">#</th>
+                            <th>Mineral</th>
+                            <th>Payer</th>
+                            <th class="d-none d-sm-table-cell" >Hauler</th>
+                            <th class="d-none d-sm-table-cell" >Amount</th>
+                            <th class="d-none d-sm-table-cell" >Type</th>
+                            <th class="d-none d-sm-table-cell" >Status</th>
+                            <th>Actions</th>
+                            {{-- <th style="width: 15%;">Actions</th> --}}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($taxUser->orders() as $order)
                             <tr>
-                                <th class="text-center" style="width: 100px;">ID</th>
-                                <th class="d-none d-md-table-cell text-center">Products</th>
-                                <th class="d-none d-sm-table-cell text-center">Submitted</th>
-                                <th>Status</th>
-                                <th class="d-none d-sm-table-cell text-end">Value</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="text-center fs-sm">
-                                    <a class="fw-semibold" href="be_pages_ecom_order.html">
-                                        <strong>ORD.0625</strong>
-                                    </a>
-                                </td>
-                                <td class="d-none d-md-table-cell text-center fs-sm">
-                                    <a href="javascript:void(0)">5</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell text-center fs-sm">19/07/2019</td>
+                                <td class="text-center"> {{ $order->id }} </td>
+                                <td class="fw-semibold"> {{ $order->mineral()->name }} </td>
+                                <td class="d-none d-sm-table-cell"> {{ $order->payer()->name() }} </td>
+                                <td class="d-none d-sm-table-cell"> {{ $order->hauler()->haulerType()->name }} [#{{ $order->hauler()->id }}]</td>
+                                <td class="d-none d-sm-table-cell"> ₦{{ $order->total_amount }} </td>
+                                <td class="d-none d-sm-table-cell"> {{ $order->payment_type }} </td>
+                                <td class="d-none d-sm-table-cell"> {{ $order->status }} </td>
                                 <td>
-                                    <span class="badge bg-success">Delivered</span>
-                                </td>
-                                <td class="text-end d-none d-sm-table-cell fs-sm">
-                                    <strong>$168,00</strong>
-                                </td>
-                                <td class="text-center fs-sm">
-                                    <a class="btn btn-sm btn-alt-secondary" href="be_pages_ecom_product_edit.html"
-                                        data-bs-toggle="tooltip" title="View">
-                                        <i class="fa fa-fw fa-eye"></i>
-                                    </a>
-                                    <a class="btn btn-sm btn-alt-danger" href="javascript:void(0)"
-                                        data-bs-toggle="tooltip" title="Delete">
-                                        <i class="fa fa-fw fa-times text-danger"></i>
-                                    </a>
+                                    <a href="{{ route('orders.show', $order->id) }}"
+                                        class="btn btn-info btn-sm">Inspect</a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td class="text-center fs-sm">
-                                    <a class="fw-semibold" href="be_pages_ecom_order.html">
-                                        <strong>ORD.0624</strong>
-                                    </a>
-                                </td>
-                                <td class="d-none d-md-table-cell text-center fs-sm">
-                                    <a href="javascript:void(0)">2</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell text-center fs-sm">07/12/2019</td>
-                                <td>
-                                    <span class="badge bg-success">Delivered</span>
-                                </td>
-                                <td class="text-end d-none d-sm-table-cell fs-sm">
-                                    <strong>$38,00</strong>
-                                </td>
-                                <td class="text-center fs-sm">
-                                    <a class="btn btn-sm btn-alt-secondary" href="be_pages_ecom_product_edit.html"
-                                        data-bs-toggle="tooltip" title="View">
-                                        <i class="fa fa-fw fa-eye"></i>
-                                    </a>
-                                    <a class="btn btn-sm btn-alt-danger" href="javascript:void(0)"
-                                        data-bs-toggle="tooltip" title="Delete">
-                                        <i class="fa fa-fw fa-times text-danger"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center fs-sm">
-                                    <a class="fw-semibold" href="be_pages_ecom_order.html">
-                                        <strong>ORD.0623</strong>
-                                    </a>
-                                </td>
-                                <td class="d-none d-md-table-cell text-center fs-sm">
-                                    <a href="javascript:void(0)">2</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell text-center fs-sm">11/08/2019</td>
-                                <td>
-                                    <span class="badge bg-success">Delivered</span>
-                                </td>
-                                <td class="text-end d-none d-sm-table-cell fs-sm">
-                                    <strong>$257,00</strong>
-                                </td>
-                                <td class="text-center fs-sm">
-                                    <a class="btn btn-sm btn-alt-secondary" href="be_pages_ecom_product_edit.html"
-                                        data-bs-toggle="tooltip" title="View">
-                                        <i class="fa fa-fw fa-eye"></i>
-                                    </a>
-                                    <a class="btn btn-sm btn-alt-danger" href="javascript:void(0)"
-                                        data-bs-toggle="tooltip" title="Delete">
-                                        <i class="fa fa-fw fa-times text-danger"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center fs-sm">
-                                    <a class="fw-semibold" href="be_pages_ecom_order.html">
-                                        <strong>ORD.0622</strong>
-                                    </a>
-                                </td>
-                                <td class="d-none d-md-table-cell text-center fs-sm">
-                                    <a href="javascript:void(0)">8</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell text-center fs-sm">26/03/2019</td>
-                                <td>
-                                    <span class="badge bg-success">Delivered</span>
-                                </td>
-                                <td class="text-end d-none d-sm-table-cell fs-sm">
-                                    <strong>$95,00</strong>
-                                </td>
-                                <td class="text-center fs-sm">
-                                    <a class="btn btn-sm btn-alt-secondary" href="be_pages_ecom_product_edit.html"
-                                        data-bs-toggle="tooltip" title="View">
-                                        <i class="fa fa-fw fa-eye"></i>
-                                    </a>
-                                    <a class="btn btn-sm btn-alt-danger" href="javascript:void(0)"
-                                        data-bs-toggle="tooltip" title="Delete">
-                                        <i class="fa fa-fw fa-times text-danger"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-center fs-sm">
-                                    <a class="fw-semibold" href="be_pages_ecom_order.html">
-                                        <strong>ORD.0621</strong>
-                                    </a>
-                                </td>
-                                <td class="d-none d-md-table-cell text-center fs-sm">
-                                    <a href="javascript:void(0)">1</a>
-                                </td>
-                                <td class="d-none d-sm-table-cell text-center fs-sm">23/12/2019</td>
-                                <td>
-                                    <span class="badge bg-success">Delivered</span>
-                                </td>
-                                <td class="text-end d-none d-sm-table-cell fs-sm">
-                                    <strong>$163,00</strong>
-                                </td>
-                                <td class="text-center fs-sm">
-                                    <a class="btn btn-sm btn-alt-secondary" href="be_pages_ecom_product_edit.html"
-                                        data-bs-toggle="tooltip" title="View">
-                                        <i class="fa fa-fw fa-eye"></i>
-                                    </a>
-                                    <a class="btn btn-sm btn-alt-danger" href="javascript:void(0)"
-                                        data-bs-toggle="tooltip" title="Delete">
-                                        <i class="fa fa-fw fa-times text-danger"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
-        <!-- END Past Orders -->
+        <!-- END Dynamic Table Full - Orders -->
 
-        <!-- Referred Members -->
+        <!-- Dynamic Table Full - Payments -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">Referred Members (3)</h3>
+                <h3 class="block-title">
+                    Payments, <small>All Payments, both full and partials.</small>
+                </h3>
+
             </div>
-            <div class="block-content">
-                <div class="row items-push">
-                    <div class="col-md-4">
-                        <!-- Referred User -->
-                        <a class="block block-rounded block-bordered block-link-shadow h-100 mb-0"
-                            href="javascript:void(0)">
-                            <div
-                                class="block-content block-content-full d-flex align-items-center justify-content-between">
-                                <div>
-                                    <div class="fw-semibold mb-1">Megan Fuller</div>
-                                    <div class="fs-sm text-muted">4 Orders</div>
-                                </div>
-                                <div class="ms-3">
-                                    <img class="img-avatar" src="assets/media/avatars/avatar2.jpg" alt="">
-                                </div>
-                            </div>
-                        </a>
-                        <!-- END Referred User -->
-                    </div>
-                    <div class="col-md-4">
-                        <!-- Referred User -->
-                        <a class="block block-rounded block-bordered block-link-shadow h-100 mb-0"
-                            href="javascript:void(0)">
-                            <div
-                                class="block-content block-content-full d-flex align-items-center justify-content-between">
-                                <div>
-                                    <div class="fw-semibold mb-1">Henry Harrison</div>
-                                    <div class="fs-sm text-muted">5 Orders</div>
-                                </div>
-                                <div class="ms-3">
-                                    <img class="img-avatar" src="assets/media/avatars/avatar11.jpg" alt="">
-                                </div>
-                            </div>
-                        </a>
-                        <!-- END Referred User -->
-                    </div>
-                    <div class="col-md-4">
-                        <!-- Referred User -->
-                        <a class="block block-rounded block-bordered block-link-shadow h-100 mb-0"
-                            href="javascript:void(0)">
-                            <div
-                                class="block-content block-content-full d-flex align-items-center justify-content-between">
-                                <div>
-                                    <div class="fw-semibold mb-1">Danielle Jones</div>
-                                    <div class="fs-sm text-muted">3 Orders</div>
-                                </div>
-                                <div class="ms-3">
-                                    <img class="img-avatar" src="assets/media/avatars/avatar1.jpg" alt="">
-                                </div>
-                            </div>
-                        </a>
-                        <!-- END Referred User -->
-                    </div>
-                </div>
+            <div class="block-content block-content-full">
+                <!-- DataTables init on table by adding .js-dataTable-full class, functionality is initialized in js/pages/tables_datatables.js -->
+                <table class="table table-bordered table-striped table-vcenter js-dataTable-full fs-sm">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 80px;">#</th>
+                            <th class="text-center" style="width: 80px;">Order #</th>
+                            <th >Mineral</th>
+                            <th >Payer</th>
+                            <th class="d-none d-sm-table-cell" >Amount</th>
+                            <th class="d-none d-sm-table-cell">Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($taxUser->payments() as $payment)
+                            <tr>
+                                <td class="text-center"> {{ $payment->id }} </td>
+                                <td class="text-center"> {{ $payment->order()->id }} </td>
+                                <td class="fw-semibold"> {{ $payment->order()->mineral()->name }} </td>
+                                <td class="d-none d-sm-table-cell"> {{ $payment->payer()->name() }} </td>
+                                <td class="d-none d-sm-table-cell"> ₦{{ $payment->amount }} </td>
+                                <td class="d-none d-sm-table-cell"> {{ $payment->status }} </td>
+                                <td class="d-none d-sm-table-cell"> ₦{{ $payment->payment_date }} </td>
+                                <td>
+                                    <a href="{{ route('payments.show', $payment->id) }}"
+                                        class="btn btn-info btn-sm">Inspect</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
-        <!-- END Referred Members -->
+        <!-- END Dynamic Table Full - Payments -->
+
+        <!-- Dynamic Table Full - Haulers -->
+        <div class="block block-rounded">
+            <div class="block-header block-header-default">
+                <h3 class="block-title">
+                    Haulers, <small>All Haulers owned by account.</small>
+                </h3>
+
+            </div>
+            <div class="block-content block-content-full">
+                <!-- DataTables init on table by adding .js-dataTable-full class, functionality is initialized in js/pages/tables_datatables.js -->
+                <table class="table table-bordered table-striped table-vcenter js-dataTable-full fs-sm">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 80px;">#</th>
+                            <th class="text-center">Number Plate</th>
+                            <th>Type</th>
+                            <th>Tickets</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($taxUser->haulers() as $hauler)
+                            <tr>
+                                <td class="text-center"> {{ $hauler->id }} </td>
+                                <td class="text-center"> {{ $hauler->number_plate }} </td>
+                                <td class="fw-semibold"> {{ $hauler->haulerType()->name }} </td>
+                                <td class="d-none d-sm-table-cell"> {{ count($hauler->orders()) }} </td>
+                                <td>
+                                    <a href="{{ route('haulers.show', $hauler->id) }}"
+                                        class="btn btn-info btn-sm">Inspect</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- END Dynamic Table Full - Haulers -->
 
         <!-- Private Notes -->
         <div class="block block-rounded">
@@ -486,12 +275,12 @@
             </div>
             <div class="block-content">
                 <p class="alert alert-dark fs-sm">
-                    <i class="fa fa-fw fa-info me-1"></i> This note will not be displayed to the customer.
+                    <i class="fa fa-fw fa-info me-1"></i> This note will not be displayed to the Tax User.
                 </p>
-                <form action="be_pages_ecom_customer.html" onsubmit="return false;">
+                <form action="be_pages_ecom_Tax User.html" onsubmit="return false;">
                     <div class="mb-4">
-                        <label class="form-label" for="one-ecom-customer-note">Note</label>
-                        <textarea class="form-control" id="one-ecom-customer-note" name="one-ecom-customer-note" rows="4"
+                        <label class="form-label" for="one-ecom-Tax User-note">Note</label>
+                        <textarea class="form-control" id="one-ecom-Tax User-note" name="one-ecom-Tax User-note" rows="4"
                             placeholder="Maybe a special request?"></textarea>
                     </div>
                     <div class="mb-4">

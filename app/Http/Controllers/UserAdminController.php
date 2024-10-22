@@ -159,6 +159,6 @@ class UserAdminController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        return back()->with('message', 'User Deleted');
+        return redirect()->route('users.index')->with('message', 'User #' . $user->id . ','. $user->name() . ', Successfully Deleted from the Database.');
     }
 }

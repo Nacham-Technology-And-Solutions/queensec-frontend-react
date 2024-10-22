@@ -21,10 +21,18 @@ class LocState extends Model
     protected $fillable = [
         'name',
         'code',
+        'active',
     ];
 
     public function locLocalities()
     {
-        return $this->hasMany(LocState::class, 'locstate_id');
+        return $this->hasMany(LocLocality::class, 'locstate_id')->get();
     }
+    
+    public function users()
+    {
+        return User::where("state", "=", $this->code)->get();
+    }
+
+
 }

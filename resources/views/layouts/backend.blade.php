@@ -220,7 +220,7 @@
             </li>
 
             <!-- Vendors Section -->
-            <li class="nav-main-item{{ request()->is('vendors*') ? ' open' : '' }}">
+            {{-- <li class="nav-main-item{{ request()->is('vendors*') ? ' open' : '' }}">
               <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                 <i class="nav-main-link-icon si si-briefcase"></i>
                 <span class="nav-main-link-name">Vendors</span>
@@ -237,7 +237,7 @@
                   </a>
                 </li>
               </ul>
-            </li>
+            </li> --}}
 
             <!-- Enforcers Section -->
             <li class="nav-main-item{{ request()->is('enforcers*') ? ' open' : '' }}">
@@ -247,19 +247,19 @@
               </a>
               <ul class="nav-main-submenu">
                 <li class="nav-main-item">
-                  <a class="nav-main-link{{ request()->is('enforcers/create') ? ' active' : '' }}" href="#">
+                  <a class="nav-main-link{{ request()->is('enforcers/create') ? ' active' : '' }}" href="{{ route('enforcers.create') }}">
                     <span class="nav-main-link-name">Add Enforcer</span>
                   </a>
                 </li>
                 <li class="nav-main-item">
-                  <a class="nav-main-link{{ request()->is('enforcers') ? ' active' : '' }}" href="#">
+                  <a class="nav-main-link{{ request()->is('enforcers') ? ' active' : '' }}" href="{{ route('enforcers.index') }}">
                     <span class="nav-main-link-name">View Enforcers</span>
                   </a>
                 </li>
               </ul>
             </li>
 
-            <!-- Investors Section -->
+            {{-- <!-- Investors Section -->
             <li class="nav-main-item{{ request()->is('investors*') ? ' open' : '' }}">
               <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
                 <i class="nav-main-link-icon si si-diamond"></i>
@@ -277,7 +277,7 @@
                   </a>
                 </li>
               </ul>
-            </li>
+            </li> --}}
 
             <!-- Admin Section -->
             <li class="nav-main-item{{ request()->is('admins*') ? ' open' : '' }}">
@@ -287,12 +287,12 @@
               </a>
               <ul class="nav-main-submenu">
                 <li class="nav-main-item">
-                  <a class="nav-main-link{{ request()->is('admins/create') ? ' active' : '' }}" href="#">
+                  <a class="nav-main-link{{ request()->is('admins/create') ? ' active' : '' }}" href="{{ route('admins.create') }}">
                     <span class="nav-main-link-name">Add Admin</span>
                   </a>
                 </li>
                 <li class="nav-main-item">
-                  <a class="nav-main-link{{ request()->is('admins/') ? ' active' : '' }}" href="#">
+                  <a class="nav-main-link{{ request()->is('admins/') ? ' active' : '' }}" href="{{ route('admins.index') }}">
                     <span class="nav-main-link-name">View Admins</span>
                   </a>
                 </li>
@@ -310,12 +310,12 @@
               </a>
               <ul class="nav-main-submenu">
                 <li class="nav-main-item">
-                  <a class="nav-main-link{{ request()->is('minerals/create') ? ' active' : '' }}" href="#">
+                  <a class="nav-main-link{{ request()->is('minerals/create') ? ' active' : '' }}" href="{{ route('minerals.create') }}">
                     <span class="nav-main-link-name">Add Mineral</span>
                   </a>
                 </li>
                 <li class="nav-main-item">
-                  <a class="nav-main-link{{ request()->is('minerals/') ? ' active' : '' }}" href="#">
+                  <a class="nav-main-link{{ request()->is('minerals/') ? ' active' : '' }}" href="{{ route('minerals.index') }}">
                     <span class="nav-main-link-name">View Minerals</span>
                   </a>
                 </li>
@@ -330,13 +330,33 @@
               </a>
               <ul class="nav-main-submenu">
                 <li class="nav-main-item">
-                  <a class="nav-main-link{{ request()->is('haulers/create') ? ' active' : '' }}" href="#">
+                  <a class="nav-main-link{{ request()->is('haulers/create') ? ' active' : '' }}" href="{{ route('haulers.create') }}">
                     <span class="nav-main-link-name">Add Hauler</span>
                   </a>
                 </li>
                 <li class="nav-main-item">
-                  <a class="nav-main-link{{ request()->is('haulers/') ? ' active' : '' }}" href="#">
+                  <a class="nav-main-link{{ request()->is('haulers/') ? ' active' : '' }}" href="{{ route('haulers.index') }}">
                     <span class="nav-main-link-name">View Haulers</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <!-- Locations Section -->
+            <li class="nav-main-item{{ request()->is('locations*') ? ' open' : '' }}">
+              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+                <i class="nav-main-link-icon si si-map"></i>
+                <span class="nav-main-link-name">Locations</span>
+              </a>
+              <ul class="nav-main-submenu">
+                <li class="nav-main-item">
+                  <a class="nav-main-link{{ request()->is('locations/create') ? ' active' : '' }}" href="{{ route('locations.create') }}">
+                    <span class="nav-main-link-name">Add Locations</span>
+                  </a>
+                </li>
+                <li class="nav-main-item">
+                  <a class="nav-main-link{{ request()->is('locations/') ? ' active' : '' }}" href="{{ route('locations.index') }}">
+                    <span class="nav-main-link-name">View Locations</span>
                   </a>
                 </li>
               </ul>
@@ -359,7 +379,7 @@
                   </a>
                 </li>
                 <li class="nav-main-item">
-                  <a class="nav-main-link{{ request()->is('orders/') ? ' active' : '' }}" href="#">
+                  <a class="nav-main-link{{ request()->is('orders/') ? ' active' : '' }}" href="{{ route('orders.index') }}">
                     <span class="nav-main-link-name">View Orders</span>
                   </a>
                 </li>
@@ -379,7 +399,7 @@
                   </a>
                 </li>
                 <li class="nav-main-item">
-                  <a class="nav-main-link{{ request()->is('payments/') ? ' active' : '' }}" href="#">
+                  <a class="nav-main-link{{ request()->is('payments/') ? ' active' : '' }}" href="{{ route('payments.index') }}">
                     <span class="nav-main-link-name">View Payments</span>
                   </a>
                 </li>
