@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,7 +21,6 @@ class Order extends Model
         'payee_hauler_id',
         'mineral_id',
         'total_amount',
-        'payment_type',
         'status',
     ];
 
@@ -30,11 +30,6 @@ class Order extends Model
         // Filter the items by the tag clicked/selected
         if ($filters['status'] ?? false) {
             $query->where('status', 'like', '%' . request('status') . '%');
-        }
-
-        // Filter the items by the tag clicked/selected
-        if ($filters['payment_type'] ?? false) {
-            $query->where('payment_type', 'like', '%' . request('payment_type') . '%');
         }
 
         // Filter The Items by the search content
@@ -67,6 +62,21 @@ class Order extends Model
     public function payments()
     {
         return $this->hasMany(Payment::class, 'order_id')->get();
+    }
+
+    public function paymentsFailed()
+    {
+
+        // $table->enum('status', ['successful', 'failed', 'pending', 'abandoned', 'cancelled', 'reversed', 'timeout', 'processing', 'initiated', 'partially_successful', 'on_hold'])->default('initiated');
+
+        return Payment::where('order_id', '=', $this->id)
+            ->where(function ($query) {
+                $query->orWhere('status', 'cancelled')
+                    ->orWhere('status',  'reversed')
+                    ->orWhere('status',  'abandoned')
+                    ->orWhere('status',  'timeout');
+            })
+            ->get()->count();
     }
 
     public function histories()
@@ -107,6 +117,30 @@ class Order extends Model
             }
         }
         return $issued;
+    }
+
+    public function IssueTicket()
+    {
+        $ticket = null;
+        if (!$this->ticketIssued()) {
+            $ticketData = [
+                'price' => $this->total_amount,
+                'vehicle_id' => $this->payee_hauler_id,
+                'vehicle_owner_id' => $this->payee_id,
+                'order_id' => $this->id,
+                'driver_name' => 'No Name Provided',
+                'status' => 'active',
+                'valid_from' => Carbon::now(),
+                'valid_until' => Carbon::now()->addWeek(),
+                'enforcer_check_status' => "not_checked",
+            ];
+
+            $ticket = TaxTicket::create($ticketData);
+        } else {
+
+            $ticket = $this->ticket();
+        }
+        return $ticket;
     }
 
     public function ticket()

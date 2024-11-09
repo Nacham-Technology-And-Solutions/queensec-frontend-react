@@ -11,17 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('haulers', function (Blueprint $table) {
+        Schema::create('mineral_subs', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-            $table->string('number_plate');
+
+            $table->unsignedBigInteger('mineral_id');
+            $table->foreign('mineral_id')->references('id')->on('minerals');
+
+            $table->unsignedBigInteger('state_id');
+            $table->foreign('state_id')->references('id')->on('loc_states');
 
             $table->unsignedBigInteger('hauler_type_id');
-            $table->foreign('hauler_type_id')->references('id')->on('hauler_types')->constrained()->onDelete('cascade');
+            $table->foreign('hauler_type_id')->references('id')->on('hauler_types');
 
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');  
+            $table->decimal('price', 10, 2);
+
             $table->tinyInteger('active')->default(1);
+
             $table->timestamps();
         });
     }
@@ -31,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('haulers');
+        Schema::dropIfExists('mineral_subs');
     }
 };

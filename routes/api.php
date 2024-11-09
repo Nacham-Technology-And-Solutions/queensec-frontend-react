@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EnforcerAuthController;
+use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -28,9 +29,20 @@ Route::prefix('auth/user')->group(function () {
 });
 
 // Basic Operations
-Route::get('/fee_category', [UserController::class, 'feeCategories']);  
+Route::get('/locations', [UserController::class, 'getLocations']);  
+Route::get('/haulers/type', [UserController::class, 'getHaulerTypes']);  
+Route::middleware('auth:sanctum')->get('/fee_category', [UserController::class, 'feeCategories']);  
+Route::middleware('auth:sanctum')->get('/haulers', [UserController::class, 'getHaulers']);  
+Route::middleware('auth:sanctum')->post('/haulers', [UserController::class, 'addHauler']);  
+Route::middleware('auth:sanctum')->put('/haulers', [UserController::class, 'editHauler']);  
+Route::middleware('auth:sanctum')->delete('/haulers/{hauler}', [UserController::class, 'deleteHauler']);  
 Route::middleware('auth:sanctum')->get('/transactions', [UserController::class, 'transactions']);  
+Route::middleware('auth:sanctum')->get('/transactions/chart', [UserController::class, 'transactionsChart']);  
 
+// Payments Endpoints
+Route::middleware('auth:sanctum')->post('/orders', [PaymentsController::class, 'placeOrder']);
+Route::middleware('auth:sanctum')->post('/payments', [PaymentsController::class, 'updatePaymentStatus']);
+Route::post('/payments/webhook', [PaymentsController::class, 'webhook']);
 
 /*
 |--------------------------------------------------------------------------
@@ -48,3 +60,4 @@ Route::prefix('auth/enforcer')->group(function () {
     Route::post('/login', [EnforcerAuthController::class, 'login']);
     Route::middleware('auth:sanctum')->post('/logout', [EnforcerAuthController::class, 'logout']);
 });
+

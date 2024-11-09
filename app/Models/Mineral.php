@@ -29,4 +29,9 @@ class Mineral extends Model
     {
         return $this->hasMany(Order::class, 'mineral_id')->get();
     }
+    
+    public function mineralSubs()
+    {
+        return $this->hasMany(MineralSub::class, 'mineral_id');
+    }
 }

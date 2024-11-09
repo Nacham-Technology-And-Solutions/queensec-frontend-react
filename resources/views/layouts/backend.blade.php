@@ -5,10 +5,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-  <title>OneUI - Bootstrap 5 Admin Template &amp; UI Framework</title>
+  <title>Queensec Global</title>
 
-  <meta name="description" content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
-  <meta name="author" content="pixelcave">
+  <meta name="description" content="Queensec Global Resources Limited - Specialized in Mining, Organising Tours, Agriculture, Real Estate Import and Export.">
+  <meta name="author" content="nacham T&S">
   <meta name="robots" content="noindex, nofollow">
 
   <!-- Icons -->
@@ -79,13 +79,14 @@
       <div class="content-header border-bottom">
         <!-- User Avatar -->
         <a class="img-link me-1" href="javascript:void(0)">
-          <img class="img-avatar img-avatar32" src="{{ asset('media/avatars/avatar10.jpg') }}" alt="">
+          <img class="img-avatar img-avatar32" src="{{ asset(Auth::user()->image_url) }}" alt="">
+          {{-- <img class="img-avatar img-avatar32" src="{{ asset('media/avatars/avatar10.jpg') }}" alt=""> --}}
         </a>
         <!-- END User Avatar -->
 
         <!-- User Info -->
         <div class="ms-2">
-          <a class="text-dark fw-semibold fs-sm" href="javascript:void(0)">John Smiths</a>
+          <a class="text-dark fw-semibold fs-sm" href="javascript:void(0)">{{ Auth::user()->name() }}</a>
         </div>
         <!-- END User Info -->
 
@@ -128,7 +129,8 @@
           <span class="smini-visible">
             <i class="fa fa-circle-notch text-primary"></i>
           </span>
-          <span class="smini-hide fs-5 tracking-wider">One<span class="fw-normal">UI</span></span>
+          <span class="smini-hide fs-5 tracking-wider"><img class="img-avatar img-avatar64" src="{{ asset('media/favicons/logo-qs.png') }}" alt=""></span>
+          {{-- <span class="smini-hide fs-5 tracking-wider">One<span class="fw-normal">UI</span></span> --}}
         </a>
         <!-- END Logo -->
 
@@ -509,15 +511,17 @@
           <!-- User Dropdown -->
           <div class="dropdown d-inline-block ms-2">
             <button type="button" class="btn btn-sm btn-alt-secondary d-flex align-items-center" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img class="rounded-circle" src="{{ asset('media/avatars/avatar10.jpg') }}" alt="Header Avatar" style="width: 21px;">
-              <span class="d-none d-sm-inline-block ms-2">John</span>
+              <img class="rounded-circle" src="{{ asset(Auth::user()->image_url)  }}" alt="Header Avatar" style="width: 21px; height: 21px;">
+              {{-- <img class="rounded-circle" src="{{ asset('media/avatars/avatar10.jpg') }}" alt="Header Avatar" style="width: 21px;"> --}}
+              <span class="d-none d-sm-inline-block ms-2">{{ Auth::user()->first_name }}</span>
               <i class="fa fa-fw fa-angle-down d-none d-sm-inline-block ms-1 mt-1"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-md dropdown-menu-end p-0 border-0" aria-labelledby="page-header-user-dropdown">
               <div class="p-3 text-center bg-body-light border-bottom rounded-top">
-                <img class="img-avatar img-avatar48 img-avatar-thumb" src="{{ asset('media/avatars/avatar10.jpg') }}" alt="">
-                <p class="mt-2 mb-0 fw-medium">John Smiths</p>
-                <p class="mb-0 text-muted fs-sm fw-medium">Web Developer</p>
+                <img class="img-avatar img-avatar48 img-avatar-thumb" src="{{ asset(Auth::user()->image_url)  }}" alt="">
+                {{-- <img class="img-avatar img-avatar48 img-avatar-thumb" src="{{ asset('media/avatars/avatar10.jpg') }}" alt=""> --}}
+                <p class="mt-2 mb-0 fw-medium">{{ Auth::user()->name() }}</p>
+                <p class="mb-0 text-muted fs-sm fw-medium">{{ Auth::user()->userType() }}</p>
               </div>
               <div class="p-2">
                 <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
@@ -534,9 +538,6 @@
               </div>
               <div role="separator" class="dropdown-divider m-0"></div>
               <div class="p-2">
-                <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                  <span class="fs-sm fw-medium">Lock Account</span>
-                </a>
                 <a class="dropdown-item d-flex align-items-center justify-content-between" href="{{ route('logout') }}">
                   <span class="fs-sm fw-medium">Log Out</span>
                 </a>
@@ -684,10 +685,10 @@
       <div class="content py-3">
         <div class="row fs-sm">
           <div class="col-sm-6 order-sm-2 py-1 text-center text-sm-end">
-            Crafted with <i class="fa fa-heart text-danger"></i> by <a class="fw-semibold" href="https://1.envato.market/ydb" target="_blank">pixelcave</a>
+            Crafted with <i class="fa fa-briefcase text-success"></i> by <a class="fw-semibold" href="#" target="_blank">Nacham T&S</a>
           </div>
           <div class="col-sm-6 order-sm-1 py-1 text-center text-sm-start">
-            <a class="fw-semibold" href="https://1.envato.market/AVD6j" target="_blank">OneUI</a> &copy; <span data-toggle="year-copy"></span>
+            <a class="fw-semibold" href="https://1.envato.market/AVD6j" target="_blank">Queensec Global</a> &copy; <span data-toggle="year-copy"></span>
           </div>
         </div>
       </div>

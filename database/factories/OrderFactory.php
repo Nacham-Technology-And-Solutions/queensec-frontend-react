@@ -19,7 +19,6 @@ class OrderFactory extends Factory
      */
     public function definition(): array
     {
-        $pt =  ['full', 'installment'];
         $s =  ['pending', 'completed', 'cancelled'];
         return [
             'payer_id' => User::inRandomOrder()->first()->id,
@@ -27,8 +26,7 @@ class OrderFactory extends Factory
             'payee_hauler_id' =>  Hauler::inRandomOrder()->first()->id,
             'mineral_id' =>  Mineral::inRandomOrder()->first()->id,
             'total_amount' => rand(1000, 50000),
-            'payment_type' => $pt[rand(0, 1)],
-            'status' => $s[rand(0, 2)], 
+            'status' => $s[rand(0, 2)],
         ];
     }
 }

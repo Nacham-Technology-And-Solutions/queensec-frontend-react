@@ -27,7 +27,6 @@ return new class extends Migration
             $table->foreign('mineral_id')->references('id')->on('minerals');
              
             $table->decimal('total_amount', 10, 2);
-            $table->enum('payment_type', ['full', 'installment'])->default('full');
             $table->enum('status', ['pending', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();
         });

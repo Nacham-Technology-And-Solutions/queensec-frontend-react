@@ -42,32 +42,10 @@ Route::post('/admins/authenticate', [AdminAuthController::class, 'authenticate']
 Route::middleware('auth:admin')->group(function () {
 
     // Home Page
-    Route::view('/', '/dashboard');
-    Route::match(['get', 'post'], '/dashboard', function () {
-        $users = User::whereMonth('created_at', Carbon::now()->month)
-             ->whereYear('created_at', Carbon::now()->year)
-             ->get();
-        $orders = Order::whereMonth('created_at', Carbon::now()->month)
-             ->whereYear('created_at', Carbon::now()->year)
-             ->get();
-        $pending_orders = Order::whereMonth('created_at', Carbon::now()->month)
-        ->whereYear('created_at', Carbon::now()->year)
-        ->where('status', '=', 'pending')
-        ->get();
+    // Route::view('/', '/dashboard');
+    Route::get('/', [AdminAuthController::class, 'dashboard']);
+    Route::match(['get', 'post'], '/dashboard', [AdminAuthController::class, 'dashboard'])->name('admins.dashboard');
 
-        $stats = [
-            'pending_orders' => $pending_orders->count(),
-            'orders' => $orders->count(),
-            'users' => $users->count(),
-        ];
-
-
-        return view('dashboard', [
-            'stats'=> $stats
-        ]);
-    })->name('admin.dashboard');
-
-    // Route::resource('admins', AdminAuthController::class);
     Route::get('/register', [AdminAuthController::class, 'create']);
     Route::resource('admins', AdminUserController::class);
     Route::patch('admins/{admin}/enable', [AdminUserController::class, 'enable'])->name('admins.enable');

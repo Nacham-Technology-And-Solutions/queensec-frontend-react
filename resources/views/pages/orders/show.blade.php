@@ -108,7 +108,7 @@
                     </div>
                 </a>
             </div>
-            <div class="col-6 col-lg-3">
+            {{-- <div class="col-6 col-lg-3">
                 <a class="block block-rounded block-link-shadow text-center" href="javascript:void(0)">
                     <div class="block-content block-content-full">
                         <div class="item item-circle bg-warning-light mx-auto">
@@ -121,7 +121,7 @@
                         </p>
                     </div>
                 </a>
-            </div>
+            </div> --}}
             <div class="col-6 col-lg-3">
                 <a class="block block-rounded block-link-shadow text-center" href=" javascript:void(0) ">
                     {{-- href="{{ $order->ticketIssued() ? route('tickets.show') : 'javascript:void(0)' }}"> --}}

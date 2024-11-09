@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('royalty_rate', 10, 2);
             $table->string('measurement_unit');
             $table->string('description')->nullable();
-            $table->string('img')->nullable();            
+            $table->string('img')->nullable();                   
             $table->tinyInteger('active')->default(1);
             $table->timestamps();
         });

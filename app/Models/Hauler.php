@@ -15,9 +15,11 @@ class Hauler extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'name',
         'number_plate',
         'hauler_type_id',
         'user_id',
+        'active',
     ];
 
 

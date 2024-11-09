@@ -20,9 +20,6 @@ return new class extends Migration
             $table->unsignedBigInteger('ticket_id')->nullable();
             $table->foreign('ticket_id')->references('id')->on('tax_tickets')->onDelete('cascade');
             
-            $table->enum('payment_type', ['full', 'installment'])->default('full');
-            $table->string('installment_status')->nullable(); // installment_1_paid, installment_2_paid, etc.
-            
             $table->decimal('amount_paid', 10, 2);
             $table->decimal('total_amount', 10, 2);
             

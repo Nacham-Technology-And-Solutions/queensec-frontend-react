@@ -19,6 +19,7 @@ class FeeCategory extends Model
         'image',
         'name',
         'price',
+        'unit_price',
         'unit'
     ];
 

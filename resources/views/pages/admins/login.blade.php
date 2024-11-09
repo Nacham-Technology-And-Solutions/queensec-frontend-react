@@ -5,11 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-    <title>Tax Payer Login Page</title>
+
+    <title>Queensec - Login Page</title>
 
     <meta name="description"
-        content="OneUI - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
-    <meta name="author" content="pixelcave">
+        content="Queensec Global Resources Limited - Specialized in Mining, Organising Tours, Agriculture, Real Estate Import and Export.">
+    <meta name="author" content="nacham T&S">
     <meta name="robots" content="noindex, nofollow">
 
     <!-- Open Graph Meta -->
@@ -21,14 +22,11 @@
     <meta property="og:image" content="">
 
     <!-- Icons -->
-    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
-    <link rel="shortcut icon" href="{{ asset('assets/media/favicons/favicon.png') }}">
-    <link rel="icon" type="image/png" sizes="192x192"
-        href="{{ asset('assets/media/favicons/favicon-192x192.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180"
-        href="{{ asset('assets/media/favicons/apple-touch-icon-180x180.png') }}">
-    <!-- END Icons -->
+    <link rel="shortcut icon" href="{{ asset('media/favicons/favicon.png') }}">
+    <link rel="icon" sizes="192x192" type="image/png" href="{{ asset('media/favicons/favicon-192x192.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('media/favicons/apple-touch-icon-180x180.png') }}">
 
+    
     <!-- Stylesheets -->
     <!-- OneUI framework -->
     <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/oneui.min.css') }}">
@@ -121,17 +119,18 @@
                                                 <div class="mb-4">
                                                     <input type="text"
                                                         class="form-control form-control-alt form-control-lg"
-                                                        id="login-email" name="email"
-                                                        placeholder="Enter your email." value="em@g.com">
+                                                        id="login-email" name="email" placeholder="Enter your email."
+                                                        value="em@g.com">
 
-                                                        @error('email')
-                                                            {{$message}}
-                                                        @enderror
+                                                    @error('email')
+                                                        {{ $message }}
+                                                    @enderror
                                                 </div>
                                                 <div class="mb-4">
                                                     <input type="password"
                                                         class="form-control form-control-alt form-control-lg"
-                                                        id="login-password" name="password" placeholder="Password" value="password">
+                                                        id="login-password" name="password" placeholder="Password"
+                                                        value="password">
                                                 </div>
                                                 <div class="mb-4">
                                                     <div class="form-check">
@@ -159,7 +158,7 @@
                         </div>
                     </div>
                     <div class="fs-sm text-muted text-center">
-                        <strong>Nacham T&S</strong> &copy; <span data-toggle="year-copy"></span>
+                        <strong>Queensec Global</strong> &copy; <span data-toggle="year-copy"></span>
                     </div>
                 </div>
             </div>

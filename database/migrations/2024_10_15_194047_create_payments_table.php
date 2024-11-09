@@ -12,26 +12,38 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payments', function (Blueprint $table) {
+            
             $table->id();
-            $table->unsignedBigInteger('order_id');
-            $table->foreign('order_id')->references('id')->on('orders');
-            
-            $table->string('tx_ref');
-            $table->string('flw_ref');
-            $table->enum('status', ['successful', 'failed', 'pending', 'abandoned', 'cancelled', 'reversed', 'timeout', 'processing', 'initiated', 'partially_successful', 'on_hold'])->default('initiated');
-            // $table->enum('payment_method', ['card', 'successful', 'cancelled', 'failed']);
-            // $table->string('status');
-            $table->string('payment_method');
-            $table->decimal('amount', 10, 2);
-            $table->dateTime('payment_date', $precision = 0);
-            $table->json('flw_payload')->nullable();
-            $table->timestamps();
-            
+
             $table->unsignedBigInteger('payer_id');
             $table->foreign('payer_id')->references('id')->on('users');
             
             $table->unsignedBigInteger('payee_id');
             $table->foreign('payee_id')->references('id')->on('users');
+
+            $table->unsignedBigInteger('order_id');
+            $table->foreign('order_id')->references('id')->on('orders');
+            
+            $table->string('transaction_id');
+            $table->string('tx_ref');
+            $table->string('flw_ref');
+            $table->decimal('amount', 10, 2);
+            $table->string('currency')->default('NGN');
+            $table->decimal('charged_amount', 10, 2);
+            $table->decimal('app_fee', 10, 2);
+            $table->decimal('merchant_fee', 10, 2);
+            $table->string('processor_response');
+            $table->enum('status', ['successful', 'failed', 'pending', 'abandoned', 'cancelled', 'reversed', 'timeout', 'processing', 'initiated', 'partially_successful', 'on_hold'])->default('initiated');
+            $table->string('account_id');
+            $table->json('card')->nullable();
+            $table->json('customer')->nullable();
+
+            $table->decimal('amount_settled', 10, 2); 
+            $table->string('payment_type');
+            $table->dateTime('payment_date', $precision = 0);
+            $table->json('flw_payload')->nullable();
+            $table->timestamps();
+            
         });
     }
 

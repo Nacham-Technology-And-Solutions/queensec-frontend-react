@@ -15,9 +15,7 @@ class OrderHistoryController extends Controller
     {
         OrderHistory::create([
             'order_id' => $order->id,
-            'ticket_id' => $order->ticket_id,
-            'payment_type' => $order->payment_type,
-            'installment_status' => $newValue['installment_status'] ?? null, // Only if applicable
+            'ticket_id' => $order->ticket_id, 
             'amount_paid' => $newValue['amount_paid'],
             'total_amount' => $order->total_amount,
             'payment_status' => $newValue['payment_status'],

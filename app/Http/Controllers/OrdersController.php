@@ -16,7 +16,7 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        $orders = Order::latest()->filter(request(['search', 'status', 'payment_type']))->paginate(20);
+        $orders = Order::latest()->filter(request(['search', 'status']))->paginate(20);
 
 
         // Today
@@ -31,9 +31,7 @@ class OrdersController extends Controller
         $states = [
             'pending' => Order::where('status', 'pending')->count(),
             'completed' => Order::where('status', 'completed')->count(),
-            'cancelled' => Order::where('status', 'cancelled')->count(),
-            'full' => Order::where('payment_type', 'full')->count(),
-            'installment' => Order::where('payment_type', 'installment')->count(),
+            'cancelled' => Order::where('status', 'cancelled')->count(), 
             'all' => Order::all()->count(),
             'today' => $todayRecords,
             'yesterday' => $yesterdayRecords,

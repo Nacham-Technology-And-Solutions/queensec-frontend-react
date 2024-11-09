@@ -39,7 +39,7 @@ export default defineConfig({
     },
 
     server: {
-        host: '192.168.132.3'
+        host: '192.168.93.3'
       },
 
 });
@@ -47,4 +47,4 @@ export default defineConfig({
 
 // php artisan route:clear
 // php artisan route:cache
-// php artisan serve --host 192.168.132.3 --port 80
+// php artisan serve --host 192.168.93.3 --port 80

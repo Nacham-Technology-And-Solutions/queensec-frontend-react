@@ -122,29 +122,19 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-ecom-filters">
                             <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                href="{{ route('orders.index', ['status' => 'pending'])}}">
+                                href="{{ route('orders.index', ['status' => 'pending']) }}">
                                 pending.
                                 <span class="badge bg-black-50 rounded-pill">{{ $states['pending'] }}</span>
                             </a>
                             <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                href="{{ route('orders.index', ['status' => 'completed'])}}">
+                                href="{{ route('orders.index', ['status' => 'completed']) }}">
                                 completed
                                 <span class="badge bg-warning rounded-pill">{{ $states['completed'] }}</span>
                             </a>
                             <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                href="{{ route('orders.index', ['status' => 'cancelled'])}}">
+                                href="{{ route('orders.index', ['status' => 'cancelled']) }}">
                                 cancelled
                                 <span class="badge bg-info rounded-pill">{{ $states['cancelled'] }}</span>
-                            </a>
-                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                href="{{ route('orders.index', ['payment_type' => 'full'])}}">
-                                full
-                                <span class="badge bg-danger rounded-pill">{{ $states['full'] }}</span>
-                            </a>
-                            <a class="dropdown-item d-flex align-items-center justify-content-between"
-                                href="{{ route('orders.index', ['payment_type' => 'full'])}}">
-                                installment
-                                <span class="badge bg-success rounded-pill">{{ $states['installment'] }}</span>
                             </a>
                             <a class="dropdown-item d-flex align-items-center justify-content-between"
                                 href="{{ route('orders.index') }}">
@@ -157,11 +147,11 @@
             </div>
             <div class="block-content">
                 <!-- Search Form -->
-                <form action="{{ route('orders.index') }}" >
+                <form action="{{ route('orders.index') }}">
                     <div class="mb-4">
                         <div class="input-group">
-                            <input type="number" class="form-control form-control-alt" id="search"
-                                name="search" placeholder="Search all orders..">
+                            <input type="number" class="form-control form-control-alt" id="search" name="search"
+                                placeholder="Search all orders..">
                             <button type="submit" class="input-group-text bg-body border-0">
                                 <i class="fa fa-search"></i>
                             </button>
@@ -178,8 +168,7 @@
                                 <th class="text-center" style="width: 100px;">ID</th>
                                 <th class="d-none d-sm-table-cell text-center">Submitted</th>
                                 <th>Status</th>
-                                <th class="d-none d-xl-table-cell">Customer</th>
-                                <th>Type</th>
+                                <th class="d-none d-xl-table-cell">Customer</th> 
                                 <th class="d-none d-xl-table-cell text-center">Product</th>
                                 <th class="d-none d-sm-table-cell text-end">Value</th>
                                 <th class="text-center">Action</th>
@@ -211,24 +200,13 @@
                                     <td class="d-none d-xl-table-cell fs-sm">
                                         <a
                                             href="{{ route('users.show', $order->payee()->id) }}">{{ $order->payee()->name() }}</a>
-                                    </td>
-                                    <td>
-                                        @php
-                                            if ($order->payment_type == 'installment') {
-                                                $typee = 'warning';
-                                            } else {
-                                                $typee = 'info';
-                                            }
-                                        @endphp
-
-                                        <span class="badge bg-{{ $typee }}">{{ $order->payment_type }}</span>
-                                    </td>
+                                    </td>                                  
 
                                     <td class="d-none d-xl-table-cell text-center fs-sm">
                                         <a class="fw-semibold" href="#">{{ $order->mineral()->name }}</a>
                                     </td>
                                     <td class="d-none d-sm-table-cell text-end fs-sm">
-                                        <strong>₦{{ number_format($order->total_amount, 2, '.', ','); }}</strong>
+                                        <strong>₦{{ number_format($order->total_amount, 2, '.', ',') }}</strong>
                                     </td>
                                     <td class="text-center">
                                         <a href="{{ route('orders.show', $order->id) }}"
@@ -240,13 +218,13 @@
                                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                         </form>
                                     </td>
-                                </tr> 
+                                </tr>
                             @endforeach
- 
+
                         </tbody>
                     </table>
                 </div>
-                <!-- END All Orders Table --> 
+                <!-- END All Orders Table -->
 
                 <!-- Pagination -->
                 {{ $orders->links() }}

@@ -99,7 +99,8 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'phone' => "08112853404",
             'state' => LocState::inRandomOrder()->first()->code,
-            'password' => Hash::make('password'), // you can change this to a random password
+            'password' => bcrypt('password'), // you can change this to a random password
+            // 'password' => Hash::make('password'), // you can change this to a random password
             'remember_token' => "s1XXXHlplj",
             
         ]);

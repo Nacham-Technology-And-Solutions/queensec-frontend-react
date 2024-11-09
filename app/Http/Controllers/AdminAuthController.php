@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\AdminUser;
+use App\Models\Order;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,7 +17,7 @@ class AdminAuthController extends Controller
     // Show Login Form
     public function showLoginForm()
     {
-        return view('pages.admin.login');
+        return view('pages.admins.login');
     }
 
     // Authenticate Admin User
@@ -35,7 +38,7 @@ class AdminAuthController extends Controller
 
         //     return back()->withErrors(['email' => 'Invalid Credentials!'])->onlyInput();
         // }
- 
+
 
         if (Auth::guard('admin')->attempt($form_field)) {
             return redirect('/')->with('message', 'Login Successful!');
@@ -105,6 +108,32 @@ class AdminAuthController extends Controller
         return redirect('/')->with('message', $user_type . ' Created Successfully');
     }
 
+    public function dashboard()
+    {
+        $users = User::whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->get();
+        $orders = Order::whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->get();
+        $pending_orders = Order::whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', Carbon::now()->year)
+            ->where('status', '=', 'pending')
+            ->get();
+
+        $stats = [
+            'pending_orders' => $pending_orders->count(),
+            'orders' => $orders->count(),
+            'users' => $users->count(),
+        ]; 
+
+        return view(
+            'dashboard',
+            [
+                'stats' => $stats
+            ]
+        );
+    }
 
     // public function showForgotPasswordForm()
     // {
