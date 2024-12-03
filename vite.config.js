@@ -1,50 +1,44 @@
+
+
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-
-import vue from '@vitejs/plugin-vue';
-
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-    plugins: [
+    plugins: [react(),
         laravel({
             input: [
-                'resources/sass/main.scss',
-                'resources/sass/oneui/themes/amethyst.scss',
-                'resources/sass/oneui/themes/city.scss',
-                'resources/sass/oneui/themes/flat.scss',
-                'resources/sass/oneui/themes/modern.scss',
-                'resources/sass/oneui/themes/smooth.scss',
-                'resources/js/oneui/app.js',
-                'resources/js/app.js',
-                'resources/js/pages/datatables.js',
-                'resources/js/pages/slick.js',
-                'resources/sass/app.scss', // From Ejiros-New-Branch
-                'resources/js/app.js',    // From Ejiros-New-Branch
+                'resources/sass/app.scss',
+                'resources/js/react/index.jsx',
+                'resources/js/react/app.jsx' // Ensure you're pointing to correct React files
             ],
             refresh: true,
         }),
-        vue({
-            template: {
-                transformAssetUrls: {
-                    base: null,
-                    includeAbsolute: false,
-                },
-            },
-        }),    
     ],
-    resolve: {
-        alias: {
-            vue: 'vue/dist/vue.esm-bundler.js',
-        },
+    esbuild: {
+        loader: 'jsx', 
     },
-
     server: {
-        host: '0.0.0.0',
-        port: 5173,
-      },
+        watch: {
+            usePolling: true,
+            interval: 1000,
+            host: '127.0.0.1',
+            port: 5173, // You can choose any open port here          
+        }, proxy: {
+        
 
+            '/api': {
+              target: 'http://127.0.0.1:8000/api/', // Backend server
+              changeOrigin: true,
+                secure: false,
+                rewrite: (path) => path.replace(/^\/api/, ''),
+            },
+
+        },
+       
+
+    },
 });
-
 
 // php artisan route:clear
 // php artisan route:cache
