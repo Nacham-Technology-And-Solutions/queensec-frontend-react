@@ -37,7 +37,7 @@ const EnterpriseDashboard = () => {
           return;
         }
 
-       const url = `${API_BASE_URL}/users`
+       const url = `${API_BASE_URL}/user`
         const response = await axios.get(url, {
           headers: {
             'Authorization': `Bearer ${token}`,
