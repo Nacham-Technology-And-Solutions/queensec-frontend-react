@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import QueensecLogo from './Assets/Queensec_1.png'; // Import the logo
 import { useUser } from './UserContext';
-const API_BASE_URL =process.env.REACT_APP_API_BASE_URL
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 
 const LoginPage = () => {
@@ -37,7 +37,7 @@ const LoginPage = () => {
       return;
        
     }
-      const url = `${API_BASE_URL}/auth/user/login;`
+      const url = `${API_BASE_URL}/auth/user/login`
     try {
       const response = await axios.post(url, payload);
     
