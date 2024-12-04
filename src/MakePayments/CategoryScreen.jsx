@@ -5,7 +5,7 @@ import LeftIcon from '../Assets/left.png';
 import MiniDashboardIcon from '../Assets/MINI_DB.png';
 // import ubuntu from '../Assets/Ubuntu/Ubuntu-Regular.ttf'
 import axios from 'axios';
-const API_BASE_URL = process.env.VITE_API_BASE_URL;
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 const MakePaymentCategoryScreen = () => {
   const navigate = useNavigate();

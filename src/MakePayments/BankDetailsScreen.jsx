@@ -8,7 +8,7 @@ import MasterCardIcon from '../Assets/mastercard.png';
 import PayUIcon from '../Assets/payu.png';
 // import ubuntu from '../Assets/Ubuntu/Ubuntu-Regular.ttf';
 import axios from 'axios';
-const API_BASE_URL = process.env.VITE_API_BASE_URL;
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 const MP_BankDetailsScreen = () => {
   const navigate = useNavigate();
@@ -240,7 +240,7 @@ if (isNaN(parsedAmount) || parsedAmount <= 0) {
       <PayNowButton onClick={initiatePayment}>Pay Now</PayNowButton>
     </Container>
   );
-  PayNowButton
+  
 };
 // const handlePayNow = () => {
 //   navigate('/MP_PaymentSuccessScreen');

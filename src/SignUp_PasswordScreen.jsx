@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Import Axios for HTTP requests
 import LeftIcon from './Assets/left.png'; // Back icon
 import QueensecLogo from './Assets/Queensec_1.png'; // Import the logo
-const API_BASE_URL = process.env.VITE_API_BASE_URL;
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 const SecurityInfoScreen = () => {
   const navigate = useNavigate();
   const [securityInfo, setSecurityInfo] = useState({
