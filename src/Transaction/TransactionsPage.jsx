@@ -15,7 +15,6 @@ import profile_N from '../Assets/profile_N.png';
 import { useUser } from '../UserContext';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
 const TransactionPage = () => {
   const navigate = useNavigate();
   const { user } = useUser();
@@ -31,10 +30,12 @@ const TransactionPage = () => {
             Authorization: `Bearer ${user.token}`,
           },
         });
-        setTransactions(response.data.data); // Assuming `data` contains the transactions array
-        setLoading(false);
+        if (response.data?.data) {
+          setTransactions(response.data.data); // Assuming `data` contains the transactions array
+        }
       } catch (error) {
         console.error('Error fetching transactions:', error);
+      } finally {
         setLoading(false);
       }
     };
@@ -42,17 +43,20 @@ const TransactionPage = () => {
     fetchTransactions();
   }, [user.token]);
 
-  // const handleMineralClick = (mineralName) => {
-  //   navigate(-1, { state: { mineralName } });
-  // };
+  const handleMineralClick = (mineralName) => {
+    // Navigate to a specific screen with mineralName as state
+    navigate('/TransactionHistory_MineralScreen', { state: { mineralName } });
+  };
 
   const goToDashboard = () => {
     if (user?.accountType === 'federal_agency') {
       navigate('/Enterprise-Dashboard');
     } else if (user?.accountType === 'vendor') {
       navigate('/Vendors-Dashboard');
-    }  else if (user?.accountType === 'individual') {
+    } else if (user?.accountType === 'individual') {
       navigate('/dashboard-page');
+    } else {
+      console.warn('Unknown account type');
     }
   };
 

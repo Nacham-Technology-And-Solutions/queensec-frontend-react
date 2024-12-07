@@ -11,13 +11,14 @@ import { useUser } from '../UserContext';
 const NotificationPage = () => {
 
     const navigate = useNavigate();
-    const { user } = useUser(); 
+  const { user } = useUser(); 
+  // const accountType = localStorage.getItem()
     const goToDashboard = () => {
       if (user?.accountType === 'federal_agency') {
         navigate('/Enterprise-Dashboard');
       } else if (user?.accountType === 'vendor') {
         navigate('/Vendors-Dashboard');
-      }  else if (accountType === 'individual') {
+      }  else if (user?.accountType === 'individual') {
         navigate('/dashboard-page');
       }
     };
