@@ -1,36 +1,112 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import LeftIcon from '../Assets/left.png';
 import MiniDashboardIcon from '../Assets/MINI_DB.png';
-import GreenTick from '../Assets/greentick.png'; // Import green tick icon
+import GreenTick from '../Assets/greentick.png'; 
+import { useUser } from '../UserContext';
+import axios from 'axios';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
+
 
 const MakePaymentVendorUserScreen = () => {
   const navigate = useNavigate();
-  const [taxId, setTaxId] = useState('Nas/Nas/0013'); // Example tax ID
-  const [haulers, setHaulers] = useState(2); // Example haulers count
+  const [taxId, setTaxId] = useState('');
+  const [username, setUsername] = useState('');
+  const [haulers, setHaulers] = useState(0);
   const [haulerOptions, setHaulerOptions] = useState([]);
   const [selectedHauler, setSelectedHauler] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isVerified, setIsVerified] = useState(false);
+  const token = localStorage.getItem('token');
 
-  useEffect(() => {
-    fetch('/api/haulers')
-      .then(response => response.json())
-      .then(data => setHaulerOptions(data))
-      .catch(error => console.error('Error fetching hauler data:', error));
-  }, []);
+  const handleTaxIdChange = async (e) => {
+    const inputTaxId = e.target.value;
+    setTaxId(inputTaxId);
+
+    if (inputTaxId.trim() === '') {
+      setErrorMessage('');
+      setIsVerified(false);
+      return;
+    }
+
+    try {
+      // Verify Tax ID
+      const response = await axios.get(`${API_BASE_URL}/user/verify-tax-id`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+        },
+        params: { tax_id: inputTaxId },
+      });
+
+      if (response.data.success && response.data.data.found) {
+        const user = response.data.data.user;
+        const resolvedUsername = user.id === 0 ? user.business_name : user.username;
+        setUsername(resolvedUsername); // Set username for dashboard card
+        localStorage.setItem('resolvedUsername', resolvedUsername); // Save username for subsequent use
+        setIsVerified(true);
+        setErrorMessage('');
+
+        // Fetch Haulers
+        const haulerResponse = await axios.get(`${API_BASE_URL}/user/get-user-hauler`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json',
+          },
+          params: { tax_id: inputTaxId },
+        });
+
+        if (haulerResponse.data.success) {
+          const haulersList = haulerResponse.data.data.haulers || [];
+          setHaulerOptions(haulersList); // Populate dropdown options
+          setHaulers(haulersList.length); // Set haulers count for dashboard
+        }
+      } else {
+        // Handle invalid Tax ID
+        setIsVerified(false);
+        setUsername('');
+        setHaulers(0);
+        setHaulerOptions([]);
+        setErrorMessage('User not found, please try again.');
+      }
+    } catch (error) {
+      console.error('Error verifying Tax ID:', error);
+      setIsVerified(false);
+      setUsername('');
+      setHaulers(0);
+      setHaulerOptions([]);
+      setErrorMessage('An error occurred while verifying the Tax ID.');
+    }
+  };
+
+  const handleProceed = () => {
+    if (selectedHauler) {
+      const selectedHaulerData = haulerOptions.find((hauler) => hauler.id === parseInt(selectedHauler, 10));
+      if (selectedHaulerData) {
+        const savedData = {
+          taxId,
+          username,
+          haulers,
+          selectedHauler: selectedHaulerData.name,
+          numberPlate: selectedHaulerData.number_plate,
+          userId: selectedHaulerData.user_id,
+        };
+        localStorage.setItem('savedUser', JSON.stringify(savedData)); // Save data to storage
+        navigate('/Vendor-Category-MakePayment-Screen');
+      }
+    } else {
+      alert('Please select a hauler before proceeding.');
+    }
+  };
 
   const handleBack = () => {
     navigate('/Vendors-Dashboard');
   };
 
-  const handleProceed = () => {
-    if (selectedHauler) {
-      console.log('Proceeding with selected hauler:', selectedHauler);
-      navigate('/Vendor-Category-MakePayment-Screen'); // Navigate to the MP_CategoryScreen
-    } else {
-      alert('Please select a hauler before proceeding.'); // Alert if no hauler is selected
-    }
+  const handleback = () => {
+    navigate('/Beneficiaries-Screen');
   };
 
   return (
@@ -46,14 +122,14 @@ const MakePaymentVendorUserScreen = () => {
         <Tab>Bank details</Tab>
       </TabContainer>
 
-      <BeneficiaryText>Select Previous Beneficiary</BeneficiaryText>
+      <BeneficiaryText onClick={handleback}>Select Previous Beneficiary</BeneficiaryText>
 
       <MiniDashboard>
         <MiniDashboardIconStyled src={MiniDashboardIcon} />
         <DashboardText>
           <InfoColumn>
             <Label1>User:</Label1>
-            <Value1>Username</Value1>
+            <Value1>{username || 'Username'}</Value1>
           </InfoColumn>
           <InfoColumn>
             <Label2>Haulers:</Label2>
@@ -63,14 +139,21 @@ const MakePaymentVendorUserScreen = () => {
       </MiniDashboard>
 
       <TaxIdContainer>
-        <Label3>Tax ID Number</Label3>
-        <InputField>{taxId}</InputField>
-      
-      </TaxIdContainer>
-  <Green>
-        <GreenTickIcon src={GreenTick} alt="Green Tick" />
-          <VerifiedText>Username</VerifiedText>
+        <Label3>Tax ID Number:</Label3>
+        <InputField
+          value={taxId}
+          onChange={handleTaxIdChange}
+          placeholder="Enter Tax ID Number"
+        />
+        {isVerified && (
+          <Green>
+            <GreenTickIcon src={GreenTick} alt="Green Tick" />
+            <VerifiedText>{username}</VerifiedText>
           </Green>
+        )}
+        {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+      </TaxIdContainer>
+
       <SelectHaulerText>Select Hauler:</SelectHaulerText>
       <SelectDropdown
         value={selectedHauler}
@@ -79,7 +162,7 @@ const MakePaymentVendorUserScreen = () => {
         <option value="">Please Select the Hauler</option>
         {haulerOptions.map((hauler) => (
           <option key={hauler.id} value={hauler.id}>
-            {hauler.name} ({hauler.id})
+            {hauler.name} ({hauler.number_plate})
           </option>
         ))}
       </SelectDropdown>
@@ -92,7 +175,6 @@ const MakePaymentVendorUserScreen = () => {
     </Container>
   );
 };
-
 // Styled Components
 
 const Container = styled.div`
@@ -150,7 +232,7 @@ const Tab = styled.div`
   border-radius: 0px; /* Adds rounded corners */
 `;
 
-const BeneficiaryText = styled.p`
+const BeneficiaryText = styled.div`
   font-size: 16px;
   color: #666;
   margin-top: 10px;
@@ -158,7 +240,9 @@ const BeneficiaryText = styled.p`
   width: 100%;
    margin-bottom: -15px;
    margin-top: 38px;
+   cursor: pointer;
 `;
+
 
 const MiniDashboard = styled.div`
   background-color: #ffffff;
@@ -227,6 +311,7 @@ text-align: left;
 text-underline-position: from-font;
 text-decoration-skip-ink: none;
 margin-left: -280px;
+margin-bottom: -1px;
 `;
 
 const Value2 = styled.p`
@@ -245,14 +330,20 @@ const TaxIdContainer = styled.div`
   width: 100%;
 `;
 
-const InputField = styled.div`
-  font-size: 16px;
+const InputField = styled.input`
+ width: 95%;
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  flex: 1;
-  width: 95%;
-  height: 190px;
+  font-size: 14px;
+  border: 1px solid ${({ isError, isVerified }) =>
+    isError ? 'red' : isVerified ? 'black' : 'black'};
+  border-radius: 5px;
+  margin-top: 10px;
+  outline: none;
+
+  &:focus {
+    border-color: ${({ isError }) => (isError ? 'red' : 'black')};
+    box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
+  }
 `;
 
 const Green = styled.div`
@@ -260,9 +351,9 @@ const Green = styled.div`
     flexd-direction: column;
       align-items: center;
       width:  100%;
-        margin-left: 550px;
-        margin-top: -18px;
-`
+        margin-left: 500px;
+        margin-top: -8px;
+`;
 const GreenTickIcon = styled.img`
   width: 20px;
   height: 20px;
@@ -281,8 +372,15 @@ const SelectHaulerText = styled.p`
   margin-top: 10px;
   text-align: left;
   width: 100%;
+  margin-bottom: -1px;
 `;
-
+const ErrorText = styled.span`
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+    text-align: right;
+`;
 const SelectDropdown = styled.select`
   width: 100%;
   padding: 10px;

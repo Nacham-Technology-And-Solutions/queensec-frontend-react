@@ -39,7 +39,7 @@ function App() {
     return (
 
         <Routes>
-             <Route path="/" element={<Navigate to="/Login-Page" />} />
+             <Route path="/" element={<Navigate to="/splash" />} />
             <Route path="/splash" element={<SplashScreen />} />
             <Route path="/sign-up-user-type" element={<SignUp_UserTypeScreen />} />
             <Route path='/basic-info' element={<BasicInfoScreen />} />

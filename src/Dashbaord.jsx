@@ -51,7 +51,7 @@ const Dashboard = () => {
           setUserData({
             name: `${user.first_name} ${user.last_name}`,
             taxID: user.tax_id || 'null',
-            accountType: user.account_type === 1 
+            accountType: user.account_type ===  'individual' 
             ? 'Individual' 
             : 'me' // Default case if account_type doesn't match 1, 2, or 3
           
@@ -195,7 +195,7 @@ const Dashboard = () => {
   const goToNotifications = () => navigate('/Notifications-page');
   const goToProfile = () => navigate('/User-Profile');
 
-
+  const haulerScreen = () =>  navigate('/Hauler-Lists')
   return (
     <DashboardContainer>
       {/* Header */}
@@ -218,6 +218,7 @@ const Dashboard = () => {
           <UserInfoDataB>{userData.accountType}</UserInfoDataB>
         </UserDetails>
         <MakePaymentButton onClick={handleMakePayment}>Make Payment</MakePaymentButton>
+      <HaulersBtn onClick={haulerScreen}>Haulers</HaulersBtn>
       </DashboardCard>
       
       {/* Transaction Chart */}
@@ -289,7 +290,9 @@ const DashboardContainer = styled.div`
   max-width: 400px;
   margin: 0 auto;
   background-color: #f9f9f9;
-  height: 100vh;
+    border-radius: 25px;
+  height: 100%;
+      position: relative;
 `;
 
 const Header = styled.div`
@@ -395,9 +398,31 @@ const MakePaymentButton = styled.button`
   font-size: 14px;
   cursor: pointer;
   align-self: flex-end;
-  margin-bottom: 27px;
+  margin-bottom: 6px;
   margin-right: 18px;
 `;
+const HaulersBtn = styled.button`
+color: #F07F23;
+padding: none;
+font-family: Ubuntu;
+font-size: 14px;
+font-weight: 500;
+line-height: 20px;
+letter-spacing: -0.15399999916553497px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+width: 49px;
+height: 20px;
+gap: 0px;
+opacity: 0px;
+
+margin-bottom: -30px;
+background: none; 
+  background-color: transparent; 
+  border: none; 
+  cursor: pointer
+`
 
 const ChartSection = styled.div`
   margin: 20px 0;
@@ -433,8 +458,10 @@ const Transactions = styled.div`
   margin-top: 20px;
   background-color: white;
   padding: 10px 15px;
+  padding-bottom: 20px;
   border-radius: 10px;
   width: 100%;
+    margin-left: -15px;
 `;
 
 const TransactionsHeader = styled.div`
@@ -466,6 +493,7 @@ const TransactionItem = styled.li`
   justify-content: space-between;
   padding: 10px 0;
   border-bottom: 0px solid #eee;
+
 `;
 const TransactionLeft = styled.div`
   display: flex;
@@ -519,13 +547,15 @@ const TransactionRight = styled.div`
 // Bottom navigation bar
 const BottomNav = styled.div`
 display: flex;
-justify-content: space-around;
-align-items: center;
-margin-top: 20px;
-padding: 10px 0;
-background-color: white;
-border-radius: 10px;
-position: relative;
+  justify-content: space-around;
+  align-items: center;
+  padding: 15px 0;
+  background-color: white;
+  border-radius: 10px;
+  width: 100%;
+  position: absolute; /* Position it at the bottom of the container */
+  bottom: 0px; /* Add spacing from the bottom edge of the container */
+  left: 0; /* Align to the left edge of the container */
 `;
 
 const NavIcon = styled.img`

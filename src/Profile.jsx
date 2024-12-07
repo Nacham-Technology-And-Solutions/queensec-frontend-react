@@ -10,17 +10,20 @@ import profile_N from './Assets/profile_N.png';
 import profile_C from './Assets/profile_C.png';
 import folder_N from './Assets/folder_N.png';
 import { useUser } from './UserContext';
-// const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+import axios from 'axios';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
+
+
  const ProfileScreen = () => {
   const { user } = useUser(); // Access user from context
   const navigate = useNavigate();
 
   const goToDashboard = () => {
-    if (user?.accountType === 0) {
+    if (user?.accountType === 'federal_agency') {
       navigate('/Enterprise-Dashboard');
-    } else if (user?.accountType === 2) {
+    } else if (user?.accountType === 'vendor') {
       navigate('/Vendors-Dashboard');
-    } else {
+    }  else if (user?.accountType === 'individual'){
       navigate('/dashboard-page');
     }
   };
@@ -31,12 +34,51 @@ import { useUser } from './UserContext';
 
   // Helper function to convert accountType to readable text
   const getAccountTypeText = (accountType) => {
-    if (accountType === 0) return 'Enterprise';
-    if (accountType === 1) return 'Individual';
-    if (accountType === 2) return 'Vendor';
+    if (accountType === 'federal_agency') return 'Enterprise';
+    if (accountType === 'individual') return 'Individual';
+    if (accountType === 'vendor') return 'Vendor';
     return 'Unknown';
   };
+   const token = localStorage.getItem('token');
+   console.log('Token:', token);
+   
+  const handleSignOut = async () => {
+    const url = `${API_BASE_URL}/auth/user/logout`
+    try {
+      const response = await axios.post(url, {}, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`, // Replace with your token mechanism
+        },
+      });
 
+      if (response.data.success) {
+        // Clear local storage or cookies related to authentication
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+         localStorage.clear();
+        // Redirect to login page
+        navigate('/Login-Page');
+      } else {
+        console.error('Failed to log out:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+  const userName = (accountType) => {
+    if (accountType === 'federal_agency') {
+      return user?.business_name;
+    } else if (accountType === 'individual') {
+      return user?.userName;
+    } else if (accountType === 'vendor') {
+      return user?.userName;
+    } else {
+      return 'Unknown Account Type'; // Optional: Handle unexpected account types
+    }
+  };
+  
+const img = localStorage.getItem("image_url") || "https://via.placeholder.com/150";
   return (
     <Container>
       <Header>
@@ -47,25 +89,25 @@ import { useUser } from './UserContext';
             <SignOutButton
               src={signOutIcon}
               alt="Sign Out"
-              onClick={() => console.log('Sign out')} // Replace with proper signOut handling
+              onClick={handleSignOut} // Replace with proper signOut handling
             />
           </SignOutContainer>
         </ProfileHeader>
 
-        <ProfileImage src={img_png} alt="Profile" />
-        <UserName>{user?.userName || 'Haulage Solutions'}</UserName>
+        <ProfileImage src={img} alt="Profile" />
+        <UserName>{userName || ''}</UserName>
       </Header>
 
       <Details>
         <Label>Tax Identification</Label>
-        <Input value={user?.tax_id || 'null'} readOnly />
+        <Input value={user?.taxId || 'null'} readOnly />
 
         <Label>Account Type</Label>
         <Input value={getAccountTypeText(user?.accountType)} readOnly />
 
         <HaulerSection>
           <HaulerLabel>Haulers</HaulerLabel>
-          <HaulerValue>{user?.haulers || '2 Vehicles'}</HaulerValue>
+          <HaulerValue>{user?.haulers || ''}</HaulerValue>
         </HaulerSection>
         <SeeMore>See more</SeeMore>
 

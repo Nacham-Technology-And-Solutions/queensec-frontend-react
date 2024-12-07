@@ -1,33 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import LeftIcon from '../Assets/left.png';
 import clayIcon from '../Assets/clay.png';
 import gypsumIcon from '../Assets/gypsum.png';
 import ironOreIcon from '../Assets/ironore.png';
 import marbleIcon from '../Assets/marble.png';
 import aquariumIcon from '../Assets/aquarium.png';
-// import UbuntuFont from '../Assets/Ubuntu/Ubuntu-Regular.ttf';
-import folder_C from '../Assets/folder_C.png';
+import folder_N from '../Assets/folder_N.png';
 import transactions_C from '../Assets/transactions_C.png';
 import notification_N from '../Assets/notification_N.png';
 import profile_N from '../Assets/profile_N.png';
-import profile_C from '../Assets/profile_C.png';
-import folder_N from '../Assets/folder_N.png';
 import { useUser } from '../UserContext';
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const TransactionPage = () => {
   const navigate = useNavigate();
-  const { user } = useUser(); 
-  const handleMineralClick = (mineralName) => {
-    navigate(-1, { state: { mineralName } });
-  };
+  const { user } = useUser();
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch transactions when the component loads
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/transactions`, {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+        setTransactions(response.data.data); // Assuming `data` contains the transactions array
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchTransactions();
+  }, [user.token]);
+
+  // const handleMineralClick = (mineralName) => {
+  //   navigate(-1, { state: { mineralName } });
+  // };
+
   const goToDashboard = () => {
-    if (user?.accountType === 0) {
+    if (user?.accountType === 'federal_agency') {
       navigate('/Enterprise-Dashboard');
-    } else if (user?.accountType === 2) {
+    } else if (user?.accountType === 'vendor') {
       navigate('/Vendors-Dashboard');
-    } else {
+    }  else if (user?.accountType === 'individual') {
       navigate('/dashboard-page');
     }
   };
@@ -35,93 +59,75 @@ const TransactionPage = () => {
   const goToTransactions = () => navigate('/Transactions-page');
   const goToNotifications = () => navigate('/Notifications-page');
   const goToProfile = () => navigate('/User-Profile');
+
   return (
     <Container>
       <Header>
-        <BackButton src={LeftIcon} alt="Back" onClick={() => navigate(-1)} />
-        <Title>Transaction </Title>
+        <BackButton src={LeftIcon} alt="Back" onClick={goToDashboard} />
+        <Title>Transactions</Title>
       </Header>
 
-      <Transactions>
-        <TransactionDate>Today</TransactionDate>
-        
-        <TransactionItem onClick={() => handleMineralClick('Clay')}>
-          <IconContainer><img src={clayIcon} alt="Clay" /></IconContainer>
-          <TransactionDetails>
-            <ItemTitle>Clay</ItemTitle>
-            <ItemCode>Nas/0003</ItemCode>
-          </TransactionDetails>
-          <AmountContainer>
-            <AmountToday>₦21,000</AmountToday>
-            <DateText>Today</DateText>
-          </AmountContainer>
-        </TransactionItem>
+      {loading ? (
+        <LoadingMessage>Loading transactions...</LoadingMessage>
+      ) : transactions.length === 0 ? (
+        <NoTransactionsMessage>No transactions available</NoTransactionsMessage>
+      ) : (
+        <Transactions>
+          {transactions.map((transaction, index) => (
+            <TransactionItem
+              key={index}
+              onClick={() => handleMineralClick(transaction.mineralName)}
+            >
+              <IconContainer>
+                <img
+                  src={
+                    transaction.mineralName === 'Clay'
+                      ? clayIcon
+                      : transaction.mineralName === 'Gypsum'
+                      ? gypsumIcon
+                      : transaction.mineralName === 'Iron Ore'
+                      ? ironOreIcon
+                      : transaction.mineralName === 'Marble'
+                      ? marbleIcon
+                      : aquariumIcon
+                  }
+                  alt={transaction.mineralName}
+                />
+              </IconContainer>
+              <TransactionDetails>
+                <ItemTitle>{transaction.mineralName}</ItemTitle>
+                <ItemCode>{transaction.reference}</ItemCode>
+              </TransactionDetails>
+              <AmountContainer>
+                <AmountToday>{`₦${transaction.amount}`}</AmountToday>
+                <DateText>{transaction.date}</DateText>
+              </AmountContainer>
+            </TransactionItem>
+          ))}
+        </Transactions>
+      )}
 
-        <TransactionItem onClick={() => handleMineralClick('Gypsum')}>
-          <IconContainer><img src={gypsumIcon} alt="Gypsum" /></IconContainer>
-          <TransactionDetails>
-            <ItemTitle>Gypsum</ItemTitle>
-            <ItemCode>Nas/0004</ItemCode>
-          </TransactionDetails>
-          <AmountContainer>
-            <AmountToday>₦26,000</AmountToday>
-            <DateText>Today</DateText>
-          </AmountContainer>
-        </TransactionItem>
-
-        <TransactionDate>16 Sep 2024</TransactionDate>
-
-        <TransactionItem onClick={() => handleMineralClick('Iron Ore')}>
-          <IconContainer><img src={ironOreIcon} alt="Iron Ore" /></IconContainer>
-          <TransactionDetails>
-            <ItemTitle>Iron Ore</ItemTitle>
-            <ItemCode>Nas/0005</ItemCode>
-          </TransactionDetails>
-          <AmountContainer>
-            <AmountToday>₦40,000</AmountToday>
-            <DateText>Today</DateText>
-          </AmountContainer>
-        </TransactionItem>
-
-        <TransactionItem onClick={() => handleMineralClick('Marble')}>
-          <IconContainer><img src={marbleIcon} alt="Marble" /></IconContainer>
-          <TransactionDetails>
-            <ItemTitle>Marble</ItemTitle>
-            <ItemCode>Nas/0006</ItemCode>
-          </TransactionDetails>
-          <AmountContainer>
-            <AmountToday>₦15,000</AmountToday>
-            <DateText>Today</DateText>
-          </AmountContainer>
-        </TransactionItem>
-
-        <TransactionItem onClick={() => handleMineralClick('Aquarium')}>
-          <IconContainer><img src={aquariumIcon} alt="Aquarium" /></IconContainer>
-          <TransactionDetails>
-            <ItemTitle>Aquarium</ItemTitle>
-            <ItemCode>Nas/0007</ItemCode>
-          </TransactionDetails>
-          <AmountContainer>
-            <AmountToday>₦26,000</AmountToday>
-            <DateText>Today</DateText>
-          </AmountContainer>
-        </TransactionItem>
-          </Transactions>
-          
-          <BottomNav>
-       
-       
+      <BottomNav>
         <NavIcon src={folder_N} onClick={goToDashboard} alt="Dashboard" />
         <NavIconContainer>
-        <NavIcon src={transactions_C} onClick={goToTransactions} alt="Transactions" />
+          <NavIcon
+            src={transactions_C}
+            onClick={goToTransactions}
+            alt="Transactions"
+          />
           <DashboardLabel>Transactions</DashboardLabel>
-              </NavIconContainer>
-              <NavIcon src={notification_N} onClick={goToNotifications}alt="Notifications" />
-              <NavIcon src={profile_N} onClick={goToProfile}alt="Profile" />
+        </NavIconContainer>
+        <NavIcon
+          src={notification_N}
+          onClick={goToNotifications}
+          alt="Notifications"
+        />
+        <NavIcon src={profile_N} onClick={goToProfile} alt="Profile" />
       </BottomNav>
     </Container>
   );
 };
+
 
 // Styled Components
 const Container = styled.div`
@@ -133,7 +139,9 @@ const Container = styled.div`
   max-width: 400px;
   margin: 0 auto;
   border-radius: 30px;
+
   font-family: 'Ubuntu', sans-serif;
+  position: relative;
 `;
 
 const Header = styled.div`
@@ -233,19 +241,41 @@ const DateText = styled.p`
 
   
 `;
-    
-const BottomNav = styled.div`
-display: flex;
-justify-content: space-around;
-align-items: center;
-margin-top: 150px;
-margin-left: -20px;
-padding: 15px 0;
-background-color: white;
-border-radius: 10px;
-width: 110%;
-position: relative;
+const LoadingMessage = styled.div`
+font-size: 16px;
+color: #555;
+text-align: center;
+margin-top: 20px;
+`;
 
+const NoTransactionsMessage = styled.div`
+font-size: 16px;
+color: #999;
+text-align: center;
+margin-top: 20px;
+`;
+
+const BottomNav = styled.div`
+// display: flex;
+// justify-content: space-around;
+// align-items: center;
+// margin-bottom: -150px;
+// margin-left: -20px;
+// padding: 15px 0;
+// background-color: white;
+// border-radius: 10px;
+// width: 110%;
+// position: relative;
+display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 15px 0;
+  background-color: white;
+  border-radius: 10px;
+  width: 100%;
+  position: absolute; /* Position it at the bottom of the container */
+  bottom: 0px; /* Add spacing from the bottom edge of the container */
+  left: 0; /* Align to the left edge of the container */
 `;
 
 const NavIconContainer = styled.div`

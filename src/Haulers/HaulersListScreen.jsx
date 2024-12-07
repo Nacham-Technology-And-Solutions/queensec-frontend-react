@@ -1,46 +1,116 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react' 
+import axios from 'axios';
 import LeftIcon from '../Assets/left.png';
 import AddIcon from '../Assets/add.png';
 import MiniDashboardIcon from '../Assets/MINI_DB.png';
 import HaulerIcon from '../Assets/haulericon.png';
+import { useUser } from '../UserContext';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const HaulersListScreen = () => {
   const navigate = useNavigate();
-  const haulers = [
-    { vehicle: 'Truck', name: 'High lander 101', plateNumber: '4321TID' },
-    { vehicle: 'Keke', name: 'Yamaha 201', plateNumber: '1234TID' },
-  ];
-  const taxId = 'Nas/Nas/0013';
+  // const { user } = useUser();
+  const [haulers, setHaulers] = useState([]);
+  const [tooltipVisible, setTooltipVisible] = useState(null);
+const user  = useUser();
+  useEffect(() => {
+    fetchHaulers();
+  }, []);
+
+  const token = localStorage.getItem('token');
+
+  console.log(token);
+  
+  const fetchHaulers = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/haulers`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setHaulers(response.data.data);
+    } catch (error) {
+      console.error('Error fetching haulers:', error);
+    }
+  };
 
   const handleAddHauler = () => {
     navigate('/Add-Hauler');
   };
-  const [tooltipVisible, setTooltipVisible] = useState(null);
 
-  const toggleTooltip = (index) => {
-    if (tooltipVisible === index) {
-      setTooltipVisible(null); // Hide tooltip if already visible
-    } else {
-      setTooltipVisible(index); // Show tooltip for the clicked hauler
+  const handleEditHauler = async (haulerId) => {
+    const updatedName = prompt('Enter new name for the hauler:');
+    const updatedPlateNumber = prompt('Enter new plate number:');
+    if (updatedName && updatedPlateNumber) {
+      try {
+        await axios.put(
+          `${API_BASE_URL}/haulers`,
+          {
+            hauler_id: haulerId,
+            name: {updatedName},
+            number_plate: {updatedPlateNumber},
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        fetchHaulers(); // Refresh the haulers list after editing
+        alert('Hauler updated successfully!');
+      } catch (error) {
+        console.error('Error editing hauler:', error);
+        alert('Failed to update hauler.');
+      }
     }
   };
 
+  const handleDeleteHauler = async (haulerId) => {
+    const confirmDelete = window.confirm('Are you sure you want to delete this hauler?');
+    if (confirmDelete) {
+      try {
+        await axios.delete(`${API_BASE_URL}/haulers/${haulerId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        fetchHaulers(); // Refresh the haulers list after deletion
+        alert('Hauler deleted successfully!');
+      } catch (error) {
+        console.error('Error deleting hauler:', error);
+        alert('Failed to delete hauler.');
+      }
+    }
+  };
+
+  const toggleTooltip = (index) => {
+    if (tooltipVisible === index) {
+      setTooltipVisible(null);
+    } else {
+      setTooltipVisible(index);
+    }
+  };
+
+  const haulerTypeReverseMapping = {
+    '1': 'Truck',
+    '2': 'Keke',
+  };
+const taxId = localStorage.getItem('tax_id')
   return (
     <Container>
       <TopBar>
         <BackIcon src={LeftIcon} onClick={() => navigate(-1)} />
-        <Title>Add Hauler</Title>
+        <Title>Haulers</Title>
       </TopBar>
-      <Subtitle>You can add as many Haulers as you want</Subtitle>
+      <Subtitle>You can add as many haulers as you want</Subtitle>
 
       {/* Mini Dashboard */}
       <MiniDashboard>
         <MiniDashboardIconStyled src={MiniDashboardIcon} alt="Dashboard Icon" />
         <DashboardText>
-        <InfoColumn>
+          <InfoColumn>
             <Label1>Tax ID Number:</Label1>
             <Value1>{taxId}</Value1>
           </InfoColumn>
@@ -54,26 +124,25 @@ const HaulersListScreen = () => {
       <HaulersContainer>
         <HaulersLabel>Haulers:</HaulersLabel>
         {haulers.map((hauler, index) => (
-          <HaulerItem key={index}>
+          <HaulerItem key={hauler.id}>
             <HaulerIconStyled src={HaulerIcon} alt="Hauler Icon" />
             <HaulerDetails>
-              <VehicleType>{hauler.vehicle}</VehicleType>
-              <HaulerInfo>{`${hauler.name}, ${hauler.plateNumber}`}</HaulerInfo>
+              <VehicleType>{haulerTypeReverseMapping[hauler.hauler_type_id]}</VehicleType>
+              <HaulerInfo>{`${hauler.name}, ${hauler.number_plate}`}</HaulerInfo>
             </HaulerDetails>
             <MoreText onClick={() => toggleTooltip(index)}>More</MoreText>
             {tooltipVisible === index && (
               <Tooltip>
-                <TooltipOption>Edit</TooltipOption>
-                <TooltipOption>Delete Vehicle</TooltipOption>
+                <TooltipOption onClick={() => handleEditHauler(hauler.id)}>Edit</TooltipOption>
+                <TooltipOption onClick={() => handleDeleteHauler(hauler.id)}>Delete Vehicle</TooltipOption>
               </Tooltip>
-              
-                  )}
+            )}
           </HaulerItem>
         ))}
       </HaulersContainer>
 
       <AddHaulerButton onClick={handleAddHauler}>
-      
+        {/* <AddIconStyled src={AddIcon} alt="Add Icon" />  */}
         Add Hauler
       </AddHaulerButton>
     </Container>

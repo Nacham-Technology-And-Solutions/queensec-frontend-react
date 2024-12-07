@@ -13,11 +13,11 @@ const NotificationPage = () => {
     const navigate = useNavigate();
     const { user } = useUser(); 
     const goToDashboard = () => {
-      if (user?.accountType === 0) {
+      if (user?.accountType === 'federal_agency') {
         navigate('/Enterprise-Dashboard');
-      } else if (user?.accountType === 2) {
+      } else if (user?.accountType === 'vendor') {
         navigate('/Vendors-Dashboard');
-      } else {
+      }  else if (accountType === 'individual') {
         navigate('/dashboard-page');
       }
     };
@@ -71,6 +71,7 @@ const Container = styled.div`
   margin: 0 auto;
   border-radius: 30px;
   font-family: 'Ubuntu', sans-serif;
+    position: relative;
 `;
 
 const Header = styled.div`
@@ -146,16 +147,16 @@ const PreviewMessage = styled.p`
 `;
 
 const BottomNav = styled.div`
-  display: flex;
+ display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 435px;
-  margin-left: -20px;
   padding: 15px 0;
   background-color: white;
   border-radius: 10px;
-  width: 110%;
-  position: relative;
+  width: 100%;
+  position: absolute; /* Position it at the bottom of the container */
+  bottom: 0px; /* Add spacing from the bottom edge of the container */
+  left: 0; /* Align to the left edge of the container */
 `
 ;
 

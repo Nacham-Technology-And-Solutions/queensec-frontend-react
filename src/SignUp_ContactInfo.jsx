@@ -7,8 +7,8 @@ import DownIcon from './Assets/down.png';  // Import the down icon
 import axios from 'axios';
 
 
-const API_BASE_URL =  process.env.REACT_APP_API_BASE_URL
-console.log(API_BASE_URL); 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
+
 const ContactInfoScreen = () => {
   const navigate = useNavigate();
 
@@ -29,9 +29,9 @@ const ContactInfoScreen = () => {
     const fetchLocations = async () => {
       setLoading(true);
       setError(null);
-
+      // https://admin.queensecglobal.com/api/locations
+      const url = `${API_BASE_URL}/locations`;
       try {
-        const url = `${API_BASE_URL}/locations`;
         const response = await axios.get(url); // Replace with your backend API URL
         if (response.data.success) {
           console.log('Fetched locations:', response.data.data); // Debugging fetched locations

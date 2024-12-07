@@ -24,25 +24,38 @@ const SecurityInfoScreen = () => {
     });
   };
 
+  const allowedAccountTypes = [
+    'individual',
+    'corperate',
+    'federal_agency',
+    'vendor',
+  ];
+  
   const handleSubmit = async () => {
     if (!securityInfo.password || !securityInfo.confirmPassword) {
       alert('Please fill in all fields.');
       return;
     }
-
+  
     if (securityInfo.password !== securityInfo.confirmPassword) {
       alert('Passwords do not match.');
       return;
     }
-
+  
     // Save password and confirmPassword to localStorage
     localStorage.setItem('password', securityInfo.password);
     localStorage.setItem('password_confirmation', securityInfo.confirmPassword);
-
+  
     const basicInfo = JSON.parse(localStorage.getItem('basicInfo') || '{}'); // Defaults to an empty object if not found
     const contactInfo = JSON.parse(localStorage.getItem('contactInfo') || '{}'); // Same for contactInfo
-    const accountType = parseInt(localStorage.getItem('account_type'), 10) + 1;
-
+    const accountType = localStorage.getItem('account_type'); // Retrieve account_type directly
+  
+    // Validate account_type against allowed values
+    if (!allowedAccountTypes.includes(accountType)) {
+      alert(`Invalid account type. Allowed values are: ${allowedAccountTypes.join(', ')}`);
+      return;
+    }
+  
     // Map parsed data to the finalData object
     const finalData = {
       first_name: basicInfo.first_name,
@@ -51,32 +64,29 @@ const SecurityInfoScreen = () => {
       phone: contactInfo.phone,
       password: localStorage.getItem('password'),
       password_confirmation: localStorage.getItem('password_confirmation'),
-      account_type: accountType,
+      account_type: accountType, // Pass the string value directly
       username: basicInfo.username,
       middle_name: basicInfo.middle_name,
       state: contactInfo.state,
       locality: contactInfo.locality,
       business_name: basicInfo.business_name,
     };
-
+  
     console.log('Final data being sent:', finalData);
-
+  
     // Validate all fields
-    const isValidData = Object.values(finalData).every((value) => value && value !== '');
+    const isValidData = Object.values(finalData).every((value) => value !== null && value !== '');
     if (!isValidData) {
       alert('Please ensure all fields are filled correctly.');
       return;
     }
-
+  
     setIsLoading(true); // Show loading screen
-
+  
     try {
-      const url =`${API_BASE_URL}/auth/user/register`
-      const response = await axios.post(
-        url,
-        finalData
-      );
-
+      const url = `${API_BASE_URL}/auth/user/register`;
+      const response = await axios.post(url, finalData);
+  
       if (response.status >= 200 && response.status < 300) {
         console.log('Registration successful:', response.data);
         alert('Registration completed successfully!');
@@ -86,12 +96,16 @@ const SecurityInfoScreen = () => {
       }
     } catch (error) {
       console.error('Error during registration:', error);
-      alert('An error occurred during registration. Please try again.');
+      if (error.response && error.response.data && error.response.data.errors) {
+        // Display the backend error messages
+        alert(`Error: ${error.response.data.errors.account_type || 'Unknown error occurred.'}`);
+      } else {
+        alert('An error occurred during registration. Please try again.');
+      }
     } finally {
       setIsLoading(false); // Hide loading screen
     }
   };
-
   return (
     <Container>
       {isLoading && (

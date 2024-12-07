@@ -28,13 +28,15 @@ const SignUp_UserTypeScreen = () => {
       return;
     }
 
-    // Map account type to integers and store in localStorage
-    const accountTypeMapping = { agency: 0, individual: 1, vendor: 2 };
-    const accountTypeValue = accountTypeMapping[selectedAccount];
-    localStorage.setItem('account_type', accountTypeValue);
+    localStorage.setItem('account_type', selectedAccount);
+
 
     // Navigate to Basic Info page
     navigate('/basic-info');
+  };
+
+  const handleLogin = () => {
+    navigate('/Login-Page');
   };
 
   return (
@@ -44,6 +46,7 @@ const SignUp_UserTypeScreen = () => {
         <LogoContainer>
           <Logo src={QueensecLogo} />
         </LogoContainer>
+        <LoginLink onClick={handleLogin}>Log-in?</LoginLink>
       </TopBar>
 
       <Heading>Sign up</Heading>
@@ -60,12 +63,12 @@ const SignUp_UserTypeScreen = () => {
         </AccountType>
 
         <AccountType
-          selected={selectedAccount === 'agency'}
-          onClick={() => handleSelectAccount('agency')}
+          selected={selectedAccount === 'federal_agency'}
+          onClick={() => handleSelectAccount('federal_agency')}
         >
           <Avatar src={BuildingIcon} />
-          <AccountText selected={selectedAccount === 'agency'}>Agency</AccountText>
-          <Tick src={TickIcon} selected={selectedAccount === 'agency'} />
+          <AccountText selected={selectedAccount === 'federal_agency'}>Agency</AccountText>
+          <Tick src={TickIcon} selected={selectedAccount === 'federal_agency'} />
         </AccountType>
 
         <AccountType
@@ -131,6 +134,21 @@ const Logo = styled.img`
   height: auto;
 margin-left: -50px
 `;
+
+const LoginLink = styled.span`
+  font-size: 14px;
+  color: ;
+   font-size: 20px;
+  font-weight: bold;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: 155px;
+  margin-top: -144px;
+  text-decoration: underline;
+    padding-left: 30px;
+
+`;
+
 
 const Heading = styled.h1`
   font-size: 24px;

@@ -35,7 +35,7 @@ const VendorsDashboard = () => {
           console.error('No token found in localStorage.');
           return;
         }
-        const url = `${API_BASE_URL}/users`;
+        const url = `${API_BASE_URL}/user`;
         const response = await axios.get(url, {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -131,9 +131,9 @@ const VendorsDashboard = () => {
   
   useEffect(() => {
     const fetchTransactions = async () => {
+      const url =`${API_BASE_URL}/transactions`
       try {
         const token = localStorage.getItem('token');
-        const url =`${API_BASE_URL}/api/transactions`
         const response = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${token}`,

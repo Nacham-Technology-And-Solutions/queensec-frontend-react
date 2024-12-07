@@ -49,8 +49,9 @@ const EnterpriseDashboard = () => {
 
           // Update state with user data
           setUserData({
-            name: `${user.first_name} ${user.last_name}`,
-            accountType: 'Enterprise', // You can customize this logic as needed
+            name: `${user.business_name}`,
+            taxID: `${user.tax_id}`,
+            accountType: `${user.account_type}`, // You can customize this logic as needed
           });
           localStorage.setItem('phone', user.phone);
           localStorage.setItem('name', user.first_name);
@@ -286,7 +287,8 @@ const DashboardContainer = styled.div`
   max-width: 400px;
   margin: 0 auto;
   background-color: #f9f9f9;
-  height: 100vh;
+  height: 100%;
+  border-radius: 25px;
 `;
 
 const Header = styled.div`
@@ -460,6 +462,7 @@ const Transactions = styled.div`
   padding: 10px 15px;
   border-radius: 10px;
   width: 100%;
+   margin-left: -15px;
 `;
 
 const TransactionsHeader = styled.div`
@@ -546,11 +549,13 @@ const BottomNav = styled.div`
 display: flex;
 justify-content: space-around;
 align-items: center;
-margin-top: 20px;
+margin-top: 40px;
+margin-left: -20px;
 padding: 10px 0;
 background-color: white;
 border-radius: 10px;
 position: relative;
+width: 110%;
 `;
 
 const NavIcon = styled.img`

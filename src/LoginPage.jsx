@@ -37,7 +37,9 @@ const LoginPage = () => {
       return;
        
     }
-      const url = `${API_BASE_URL}/auth/user/login`
+    const url = `${API_BASE_URL}/auth/user/login`;
+    console.log("Request URL:", url);
+    
     try {
       const response = await axios.post(url, payload);
     
@@ -46,6 +48,8 @@ const LoginPage = () => {
     
         // Store tokens and credentials in localStorage
         localStorage.setItem("token", response.data.data.access_token);
+        localStorage.setItem("image_url", response.data.data.image_url);
+        localStorage.setItem("business_name", response.data.data.business_name);
         localStorage.setItem("email", payload.email);
         localStorage.setItem("password", payload.password);
     
@@ -57,21 +61,22 @@ const LoginPage = () => {
           taxId: response.data.data.user?.tax_id || 'Nas/Nas/00013',
           haulers: response.data.data.user?.haulers || '2 Vehicles',
           state: response.data.data.user?.state || 'Nasarawa',
+          business_name: response.data.data.business_name || '',
+          image_url: response.data.data.image_url || 'https://example.com/default-image.jpg',
         };
         
         saveUser(userData);
         const accountType = response.data.data.user?.account_type;
         console.log('Account Type:', accountType);
     
-        if (accountType === 0) {
+        if (accountType === 'federal_agency') {
           navigate('/Enterprise-Dashboard');
-        } else if (accountType === 2) {
+        } else if (accountType === 'vendor') {
           navigate('/Vendors-Dashboard');
-        } else {
+        } else if (accountType === 'individual') {
           navigate('/dashboard-page');
-          console.log('payload:', payload);  // Logging the payload for debugging
-        }
-    
+          console.log('payload:', payload); // Logging the payload for debugging
+        }        
       } else {
         alert(`Login failed: ${response.data.message || 'Please try again.'}`);
       }
@@ -80,10 +85,15 @@ const LoginPage = () => {
       alert('An error occurred during login. Please try again.');
     }
   }
+
+  const handleSigUp= () => {
+    navigate('/sign-up-user-type');
+  };
     
   return (
     <Container>
       <Logo src={QueensecLogo} />
+      <LoginLink onClick={handleSigUp}>Sign-Up?</LoginLink>
 
           <Heading>Login</Heading>
           <FormTitle> Please enter your email and password to login.</FormTitle>
@@ -150,6 +160,20 @@ const Logo = styled.img`
   width: 100px;
   margin-bottom: 20px;
   margin-left : -280px;
+  // padding-left: 100px;
+`;
+const LoginLink = styled.span`
+  // font-size: 14px;
+  color: ;
+   font-size: 20px;
+  // font-weight: bold;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: 190px;
+  margin-top: -144px;
+    padding-left: 100px;
+
+  text-decoration: underline;
 `;
 
 const Heading = styled.h1`
@@ -215,7 +239,7 @@ const Select = styled.select`
 `;
 
 const LoginButton = styled.button`
-  background-color: #fdc57a;
+  background-color: #FDE5C0;
   padding: 6px 20px;
   border-radius: 50px;
   border: none;

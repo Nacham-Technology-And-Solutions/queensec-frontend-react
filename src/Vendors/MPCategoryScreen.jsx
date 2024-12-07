@@ -3,22 +3,54 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import LeftIcon from '../Assets/left.png';
 import MiniDashboardIcon from '../Assets/MINI_DB.png';
-// import ubuntu from '../Assets/Ubuntu/Ubuntu-Regular.ttf';
+import axios from 'axios';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
+// import ubuntu from '../Assets/Ubuntu/Ubuntu-Regular.ttf';
 const MakePaymentVendorCategoryScreen = () => {
-    const navigate = useNavigate();
-    const [username, setUsername] = useState('Username'); // Example username
-  const [truckInfo, setTruckInfo] = useState('Truck, Yamaha 201'); // Example truck info
-  const [plateNumber, setPlateNumber] = useState('1234TID'); // Example plate number
+  const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [truckInfo, setTruckInfo] = useState('');
+  const [plateNumber, setPlateNumber] = useState('');
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
 
   useEffect(() => {
-    // Fetch categories from the backend API
-    fetch('/api/categories')
-      .then(response => response.json())
-      .then(data => setCategories(data))
-      .catch(error => console.error('Error fetching category data:', error));
+    // Fetch user, hauler, and plate number from localStorage
+    const savedUser = JSON.parse(localStorage.getItem('savedUser'));
+    if (savedUser) {
+      setUsername(savedUser.username || 'Username');
+      setTruckInfo(savedUser.selectedHauler || 'Truck Info');
+      setPlateNumber(savedUser.numberPlate || 'Plate Number');
+      
+    }
+    
+    // Fetch fee categories
+    const fetchCategories = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const haulerId = savedUser?.userId; // Fetch hauler_id from saved data
+
+        if (!token || !haulerId) {
+          console.error('Missing token or hauler_id');
+          return;
+        }
+
+        const response = await axios.get(`${API_BASE_URL}/fee-category?hauler_id=${haulerId}`, {
+          headers: {
+            Authorization: `Bearer: 30|QbKMOBNGCPseI3wapZ4Z1EZLy4vEqI62C1e1lsGu870cc91e`,
+          },
+        });
+
+        if (response.data.success) {
+          setCategories(response.data.data.categories || []);
+        }
+      } catch (error) {
+        console.error('Error fetching fee categories:', error);
+      }
+    };
+
+    fetchCategories();
   }, []);
 
   const handleBack = () => {
@@ -26,7 +58,18 @@ const MakePaymentVendorCategoryScreen = () => {
   };
 
   const handleProceed = () => {
-    console.log('Proceeding with selected category:', selectedCategory);
+    if (!selectedCategory) {
+      alert('Please select a fee category before proceeding.');
+      return;
+    }
+
+    // Save selected category for the next screen
+    const selectedCategoryData = categories.find((cat) => cat.id === parseInt(selectedCategory, 10));
+    if (selectedCategoryData) {
+      localStorage.setItem('selectedCategory', JSON.stringify(selectedCategoryData));
+    }
+
+    navigate('/Vendor-BankDetails-Screen');
   };
 
   return (
@@ -37,18 +80,18 @@ const MakePaymentVendorCategoryScreen = () => {
       </TopBar>
 
       <TabContainer>
-        <Tab active>User</Tab>
+        <Tab>User</Tab>
         <Tab active>Category</Tab>
-        <Tab> Bank details</Tab>
+        <Tab>Bank details</Tab>
       </TabContainer>
 
       <MiniDashboard>
         <MiniDashboardIconStyled src={MiniDashboardIcon} />
-              <DashboardText>
-              <InfoColumn>
-             <Label1>User:</Label1>
-             <Value1>{username}</Value1>
-        </InfoColumn>
+        <DashboardText>
+          <InfoColumn>
+            <Label1>User:</Label1>
+            <Value1>{username}</Value1>
+          </InfoColumn>
           <InfoColumnLeft>
             <Label>Hauler</Label>
             <ValueBold>{truckInfo}</ValueBold>
@@ -75,6 +118,7 @@ const MakePaymentVendorCategoryScreen = () => {
     </Container>
   );
 };
+
 
 // Styled Components
 
@@ -187,7 +231,7 @@ const Label1 = styled.p`
   color: #67728A;
   margin: 0;
   margin-top: 27px;
-  margin-left: -188px;
+  margin-left: -258px;
 `;
 
 const Value1 = styled.p`
@@ -195,7 +239,7 @@ const Value1 = styled.p`
   font-weight: bold;
   color: #CEECFF;
   margin-top: 9px;
-  margin-left: -188px;
+  margin-left: -258px;
 `;
 
 

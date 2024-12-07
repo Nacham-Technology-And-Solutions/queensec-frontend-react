@@ -3,18 +3,55 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 // import ubuntu from '../assets/Ubuntu/Ubuntu-Regular.ttf';
 import LeftIcon from '../Assets/left.png';
+import axios from 'axios';
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL; // Replace with actual base URL
 
 const AddHaulerScreen = () => {
   const navigate = useNavigate();
   const [vehicle, setVehicle] = useState('Truck'); // Default selected vehicle
   const [truckName, setTruckName] = useState('');
   const [plateNumber, setPlateNumber] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleAddHauler = () => {
-    console.log('Vehicle:', vehicle);
-    console.log('Truck Name:', truckName);
-    console.log('Plate Number:', plateNumber);
-    // Save or proceed with hauler data as needed
+  const handleAddHauler = async () => {
+    if (!truckName || !plateNumber || !vehicle) {
+      alert("All fields are required.");
+      return;
+    }
+
+    // Map vehicle to hauler_type_id (adjust mapping as needed based on your backend)
+    const haulerTypeMapping = {
+      Truck: '1', // Example ID for Truck
+      Keke: '2',  // Example ID for Keke
+    };
+    const haulerTypeId = haulerTypeMapping[vehicle];
+
+    const payload = {
+      name: truckName,
+      number_plate: plateNumber,
+      hauler_type_id: haulerTypeId,
+    };
+
+    setLoading(true); // Start loading
+    try {
+      const token = localStorage.getItem('token'); // Retrieve token from local storage
+      const response = await axios.post(`${API_BASE_URL}/haulers`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add the Authorization header
+        },
+      });
+
+      if (response.status === 201) {
+        alert('Hauler added successfully!');
+        navigate('/Hauler-Lists'); // Navigate to hauler list or dashboard page
+      }
+    } catch (error) {
+      console.error('Error adding hauler:', error);
+      alert('Failed to add hauler. Please try again.');
+    } finally {
+      setLoading(false); // Stop loading
+    }
   };
 
   return (
@@ -51,7 +88,9 @@ const AddHaulerScreen = () => {
           placeholder="Enter plate number"
         />
 
-        <AddButton onClick={handleAddHauler}>Add Hauler</AddButton>
+        <AddButton onClick={handleAddHauler} disabled={loading}>
+          {loading ? 'Adding...' : 'Add Hauler'}
+        </AddButton>
       </Form>
     </Container>
   );
