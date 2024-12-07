@@ -5,7 +5,7 @@ import LeftIcon from '../Assets/left.png';
 import MiniDashboardIcon from '../Assets/MINI_DB.png';
 import { useUser } from '../UserContext';
 import axios from 'axios';
-const API_BASE_URL =process.env.VITE_API_BASE_URL;
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 
 const MakePaymentVehicleScreen = () => {
@@ -60,9 +60,19 @@ const MakePaymentVehicleScreen = () => {
     fetchHaulerData();
   }, []);
   
-
+  const goToDashboard = () => {
+    if (user?.accountType === 'federal_agency') {
+      navigate('/Enterprise-Dashboard');
+    } else if (user?.accountType === 'vendor') {
+      navigate('/Vendors-Dashboard');
+    } else if (user?.accountType === 'individual') {
+      navigate('/dashboard-page');
+    } else {
+      console.warn('Unknown account type');
+    }
+  };
   const handleBack = () => {
-    navigate(-1);
+    goToDashboard();
   };
 
   const handleProceed = () => {
