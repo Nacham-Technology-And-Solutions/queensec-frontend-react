@@ -5,87 +5,121 @@ import QRCode from 'react-qr-code';
 import coalpileIcon from '../Assets/coalpile.png';
 import mineralIcon from '../Assets/mineral_icon.png';
 
+
 const PaymentSuccessScreen = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const { amount } = location.state || { amount: '0' };
-    const [date, setDate] = useState('');
-    const [time, setTime] = useState('');
-    const [payId, setPayId] = useState('');
-    const [showQrCode, setShowQrCode] = useState(true);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [status, setStatus] = useState('');
+  const [txRef, setTxRef] = useState('');
+  const [transactionId, setTransactionId] = useState('');
+  const [amount, setAmount] = useState('0');
+  const [payId, setPayId] = useState('');
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  const [showQrCode, setShowQrCode] = useState(true);
+  const [loading, setLoading] = useState(true); // Loading state
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-    useEffect(() => {
-        // Set current date and time
-        const currentDate = new Date();
-        setDate(currentDate.toLocaleDateString());
-        setTime(currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit',  hour12: true }));
+  useEffect(() => {
+    const fetchPaymentDetails = async () => {
+      try {
+        // Extract query parameters from URL
+        const queryParams = new URLSearchParams(location.search);
+        const statusParam = queryParams.get('status');
+        const txRefParam = queryParams.get('tx_ref');
+        const transactionIdParam = queryParams.get('transaction_id');
+        const token = localStorage.getItem('token');
+        setStatus(statusParam || '');
+        setTxRef(txRefParam || '');
+        setTransactionId(transactionIdParam || '');
 
-        // Generate Pay ID in the specified format
-        const randomNumber = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-        const formattedPayId = `Nas/00${randomNumber.slice(-2)}`;
-        setPayId(formattedPayId);
-    }, []);
+        if (statusParam && txRefParam && transactionIdParam) {
+          const response = await axios.post(`${API_BASE_URL}/payments`, {
+            status: statusParam,
+            tx_ref: txRefParam,
+            transaction_id: transactionIdParam,
+          },    {
+            headers: {
+              Authorization: `Bearer ${token}`, // Add token to the headers
+            },
+          });
 
-    const handleShare = () => {
-        if (navigator.share) {
-            navigator
-                .share({
-                    title: 'Payment Successful',
-                    text: `Payment of NGN 21,000 was successful! Pay ID: ${payId}`,
-                    url: window.location.href,
-                })
-                .then(() => console.log('Successful share'))
-                .catch((error) => console.log('Error sharing:', error));
-        } else {
-            alert('Sharing is not supported in your browser.');
+          const data = response.data;
+          setAmount(data.amount || '0');
+          setPayId(data.payId || '');
+          setDate(data.date || new Date().toLocaleDateString());
+          setTime(data.time || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }));
         }
+      } catch (error) {
+        console.error('Error fetching payment details:', error.response?.data || error.message);
+        alert('Failed to retrieve payment details. Please try again.');
+      } finally {
+        setLoading(false); // Stop loading once the request is complete
+      }
     };
 
-    return (
-        <Container>
-            <Icon src={coalpileIcon} alt="Coalpile Icon" />
-            <Amount>NGN {parseInt(amount).toLocaleString()}</Amount>
-            <Status>Payment Successful</Status>
-            <Details>
-                <InfoRow>
-                    <UserInfo>
-                        <UserIcon>CL</UserIcon>
-                        <UserDetails>
-                            <UserName>Clay</UserName>
-                            <UserPayId>{payId}</UserPayId>
-                        </UserDetails>
-                    </UserInfo>
-                    <AmountContainer>
-                        <AmountToday>NGN {parseInt(amount).toLocaleString()}</AmountToday>
-                        <DateText>Today</DateText>
-                    </AmountContainer>
-                </InfoRow>
-                <DateTimeRow>
-                    <DetailItem>
-                        <Label>Date</Label>
-                        <Value>{date}</Value>
-                    </DetailItem>
-                    <DetailItem>
-                        <Label>Time</Label>
-                        <Value>{time}</Value>
-                    </DetailItem>
-                    <DetailItem>
-                        <Label>Pay ID</Label>
-                        <Value>{payId}</Value>
-                    </DetailItem>
-                </DateTimeRow>
-                {showQrCode && (
-                    <QRCodeContainer>
-                        <QRCode value={`Payment ID: ${payId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
-                    </QRCodeContainer>
-                )}
-            </Details>
-            <ShareButton onClick={handleShare}>Share</ShareButton>
-            <BackButton onClick={() => navigate('./Dashbaord')}>Return to Dashboard</BackButton>
-        </Container>
-    );
-};
+    fetchPaymentDetails();
+  }, [location]);
 
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: 'Payment Successful',
+          text: `Payment of NGN ${amount} was successful! Pay ID: ${payId}`,
+          url: window.location.href,
+        })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing:', error));
+    } else {
+      alert('Sharing is not supported in your browser.');
+    }
+  };
+
+  if (loading) {
+    return (
+      <LoadingContainer>
+        <LoaderImage src={Loader} alt="Loading..." />
+        <LoadingText>Loading, please wait...</LoadingText>
+      </LoadingContainer>
+    );
+  }
+
+  return (
+    <Container>
+      <Icon src={coalpileIcon} alt="Coalpile Icon" />
+      <Amount>NGN {parseInt(amount).toLocaleString()}</Amount>
+      <Status>{status === 'successful' ? 'Payment Successful' : 'Payment Failed'}</Status>
+      <Details>
+        <DateTimeRow>
+          <DetailItem>
+            <Label>Date</Label>
+            <Value>{date}</Value>
+          </DetailItem>
+          <DetailItem>
+            <Label>Time</Label>
+            <Value>{time}</Value>
+          </DetailItem>
+          <DetailItem>
+            <Label>Pay ID</Label>
+            <Value>{payId}</Value>
+          </DetailItem>
+          <DetailItem>
+            <Label>Transaction ID</Label>
+            <Value>{transactionId}</Value>
+          </DetailItem>
+        </DateTimeRow>
+        {showQrCode && (
+          <QRCodeContainer>
+            <QRCode value={`Payment ID: ${payId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
+          </QRCodeContainer>
+        )}
+      </Details>
+      <ShareButton onClick={handleShare}>Share</ShareButton>
+      <BackButton onClick={() => navigate('/Dashboard')}>Return to Dashboard</BackButton>
+    </Container>
+  );
+};
 // Styled Components
 const Container = styled.div`
   display: flex;
