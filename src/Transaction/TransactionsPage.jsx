@@ -90,7 +90,9 @@ const TransactionPage = () => {
               </IconContainer>
               <TransactionDetails>
                 <ItemTitle>{transaction.mineral_name}</ItemTitle>
-                <Status>{transaction.status}</Status>
+                <Status style={{ color: transaction.status === 'completed' ? '#39e600' : '#cc3300' }}>
+        {transaction.status}
+      </Status>
               </TransactionDetails>
               <AmountContainer>
                 <AmountToday>{`₦${parseFloat(transaction.amount).toLocaleString()}`}</AmountToday>
@@ -136,7 +138,10 @@ const Container = styled.div`
   font-family: 'Ubuntu', sans-serif;
   position: relative;
 `;
-
+const Status = styled.div`
+  color: ${({ status }) => (status === 'completed' ? 'black' : 'red')};
+  font-size: 11.5px;
+`;
 const Header = styled.div`
   display: flex;
   align-items: center;
@@ -159,8 +164,11 @@ const Title = styled.h1`
   color:  #6C3ECF;
   margin-left: 28px;
 `;
-
 const Transactions = styled.div`
+  max-height: 100vh; /* Set maximum height relative to viewport */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 7px; /* Add padding for spacing */
+  box-sizing: border-box;
   margin-top: 10px;
 `;
 
@@ -172,26 +180,41 @@ const TransactionDate = styled.div`
 
 const TransactionItem = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: space-between; /* Distribute space evenly */
+  align-items: center; /* Align vertically */
   padding: 10px 0;
-  gap: 15px;
+  border-bottom: 0px solid #e0e0e0; /* Separator */
   cursor: pointer;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+
+  // &:last-child {
+  //   border-bottom: none; /* Remove border for the last item */
+  // }
 `;
 
 const IconContainer = styled.div`
-  background-color: #f0f0f0;
-  padding: 8px;
+  background-color: transparent;
+  padding: -10px; /* Add padding for proper spacing */
   border-radius: 50%;
-  width: 15px;
-  height: 10px;
+  width: 48px;
+  height: 48px; /* Consistent size for icons */
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: 10px; /* Add spacing from text */
+  margin-left: -10px; /* Add spacing from text */
+
 `;
+
+
 
 const TransactionDetails = styled.div`
   display: flex;
   flex-direction: column;
+  flex-grow: 1; /* Allow details to take up remaining space */
+  margin-right: 10px; /* Adjust for spacing */
+  overflow: hidden; /* Prevent overflow */
+  text-overflow: ellipsis; /* Ensure long text is truncated */
 `;
 
 const ItemTitle = styled.span`
@@ -205,34 +228,31 @@ const ItemCode = styled.span`
   color: #67728A;
 `;
 
+
 const AmountContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  margin-left: auto;
+  margin-left: auto; /* Push to the right */
 `;
 
+
 const AmountToday = styled.p`
-  color: #F07F23;
+  color: #f07f23;
   font-family: Ubuntu;
   font-size: 14px;
   font-weight: 700;
   line-height: 20px;
   letter-spacing: -0.15399999916553497px;
-  text-align: left;
-  margin-bottom: 4.5px;
+  margin-bottom: 4px;
 `;
 
 const DateText = styled.p`
   font-size: 14px;
   color: #67728A;
-  font-weight: 500;
   font-family: Ubuntu, sans-serif;
-  line-height: 20px;
+  font-weight: 500;
   margin: 0;
-  margin-bottom: 10px;
-
-  
 `;
 const LoadingMessage = styled.div`
 font-size: 16px;
@@ -240,14 +260,27 @@ color: #555;
 text-align: center;
 margin-top: 20px;
 `;
-
 const NoTransactionsMessage = styled.div`
-font-size: 16px;
-color: #999;
-text-align: center;
-margin-top: 20px;
+  font-size: 16px;
+  color: #999;
+  text-align: center;
+  margin-top: 20px;
 `;
 
+// Responsive Media Queries for Transactions Container
+const StyledContainer = styled.div`
+  @media (max-width: 768px) {
+    ${Transactions} {
+      max-height: 50vh; /* Reduce height for smaller screens */
+    }
+
+    ${TransactionItem} {
+      flex-direction: column; /* Stack items vertically on small screens */
+      align-items: flex-start; /* Align items to the start */
+      gap: 10px; /* Add spacing between elements */
+    }
+  }
+`;
 const BottomNav = styled.div`
 // display: flex;
 // justify-content: space-around;
