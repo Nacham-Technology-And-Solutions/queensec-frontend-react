@@ -95,7 +95,7 @@ const img = localStorage.getItem("image_url") || "https://via.placeholder.com/15
         </ProfileHeader>
 
         <ProfileImage src={img} alt="Profile" />
-        <UserName>{userName || ''}</UserName>
+        <UserName>{userName(user?.accountType) || ''}</UserName>
       </Header>
 
       <Details>
@@ -106,9 +106,12 @@ const img = localStorage.getItem("image_url") || "https://via.placeholder.com/15
         <Input value={getAccountTypeText(user?.accountType)} readOnly />
 
         <HaulerSection>
-          <HaulerLabel>Haulers</HaulerLabel>
-          <HaulerValue>{user?.haulers || ''}</HaulerValue>
-        </HaulerSection>
+  <HaulerLabel>Haulers</HaulerLabel>
+  <HaulerValue>
+    {Array.isArray(user?.haulers) ? user.haulers.length : 0}
+  </HaulerValue>
+</HaulerSection>
+
         <SeeMore>See more</SeeMore>
 
         <Label>Email</Label>

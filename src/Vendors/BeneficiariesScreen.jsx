@@ -1,48 +1,81 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import searchIcon from '../Assets/searchicon.png';
 import starCIcon from '../Assets/star_C.png';
 import starNIcon from '../Assets/star_N.png';
 import u1Icon from '../Assets/u1.png';
 import LeftIcon from '../Assets/left.png';
 import { useNavigate } from 'react-router-dom';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const BeneficiariesListScreen = () => {
-    const beneficiaries = [
-        { name: 'User one', starred: true },
-        { name: 'User two', starred: false },
-        { name: 'User three', starred: false },
-        { name: 'User four', starred: false },
-        { name: 'User five', starred: false },
-    ];
+    const [beneficiaries, setBeneficiaries] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchBeneficiaries = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await axios.get(`${API_BASE_URL}/user/get-getBeneficiaries`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                if (response.data.success) {
+                    setBeneficiaries(response.data.data);
+                }
+            } catch (error) {
+                console.error('Error fetching beneficiaries:', error);
+            }
+        };
+
+        fetchBeneficiaries();
+    }, []);
+
+    const toggleStarred = (index) => {
+        const updatedBeneficiaries = [...beneficiaries];
+        updatedBeneficiaries[index].starred = !updatedBeneficiaries[index].starred;
+        setBeneficiaries(updatedBeneficiaries);
+    };
+
     return (
         <Container>
-             <BackButton src={LeftIcon} alt="Back" onClick={() => navigate(-1)} />
+            <BackButton src={LeftIcon} alt="Back" onClick={() => navigate(-1)} />
             <Header>Beneficiaries</Header>
             <SearchContainerWrapper>
-        <SearchContainer>
-          <SearchIcon src={searchIcon} alt="Search" />
-          <SearchInput placeholder="Search" />
-        </SearchContainer>
+                <SearchContainer>
+                    <SearchIcon src={searchIcon} alt="Search" />
+                    <SearchInput
+                        placeholder="Search"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                </SearchContainer>
             </SearchContainerWrapper>
-            <Text>
-            List of beneficiaries
-                </Text>
+            <Text>List of beneficiaries</Text>
             <List>
-                {beneficiaries.map((beneficiary, index) => (
-                    <ListItem key={index}>
-                        <Icon src={u1Icon} alt="User Icon" />
-                        <Name>{beneficiary.name}</Name>
-                        <StarIcon
-                            src={beneficiary.starred ? starCIcon : starNIcon}
-                            alt={beneficiary.starred ? 'Starred' : 'Unstarred'}
-                        />
-                    </ListItem>
-                ))}
+                {beneficiaries
+                    .filter((beneficiary) =>
+                        beneficiary.name.toLowerCase().includes(searchQuery.toLowerCase())
+                    )
+                    .map((beneficiary, index) => (
+                        <ListItem key={beneficiary.id}>
+                            <Icon src={u1Icon} alt="User Icon" />
+                            <Name>{beneficiary.name || `User ID: ${beneficiary.beneficiary_id}`}</Name>
+                            <StarIcon
+                                src={beneficiary.starred ? starCIcon : starNIcon}
+                                alt={beneficiary.starred ? 'Starred' : 'Unstarred'}
+                                onClick={() => toggleStarred(index)}
+                            />
+                        </ListItem>
+                    ))}
             </List>
         </Container>
     );
 };
+
+
 
 // Styled Components
 const Container = styled.div`

@@ -15,9 +15,10 @@ import profile_N from '../Assets/profile_N.png';
 import { useUser } from '../UserContext';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const TransactionPage = () => {
   const navigate = useNavigate();
-  const { user } = useUser();
+  const { user } = useUser(); // Assuming useUser provides user details
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -30,8 +31,8 @@ const TransactionPage = () => {
             Authorization: `Bearer ${user.token}`,
           },
         });
-        if (response.data?.data) {
-          setTransactions(response.data.data); // Assuming `data` contains the transactions array
+        if (response.data?.data?.transactions) {
+          setTransactions(response.data.data.transactions); // Access the transactions array
         }
       } catch (error) {
         console.error('Error fetching transactions:', error);
@@ -44,7 +45,6 @@ const TransactionPage = () => {
   }, [user.token]);
 
   const handleMineralClick = (mineralName) => {
-    // Navigate to a specific screen with mineralName as state
     navigate('/TransactionHistory_MineralScreen', { state: { mineralName } });
   };
 
@@ -80,37 +80,26 @@ const TransactionPage = () => {
           {transactions.map((transaction, index) => (
             <TransactionItem
               key={index}
-              onClick={() => handleMineralClick(transaction.mineralName)}
+              onClick={() => handleMineralClick(transaction.mineral_name)}
             >
               <IconContainer>
                 <img
-                  src={
-                    transaction.mineralName === 'Clay'
-                      ? clayIcon
-                      : transaction.mineralName === 'Gypsum'
-                      ? gypsumIcon
-                      : transaction.mineralName === 'Iron Ore'
-                      ? ironOreIcon
-                      : transaction.mineralName === 'Marble'
-                      ? marbleIcon
-                      : aquariumIcon
-                  }
-                  alt={transaction.mineralName}
+                  src={transaction.mineral_image || aquariumIcon} // Fallback to a default icon
+                  alt={transaction.mineral_name}
                 />
               </IconContainer>
               <TransactionDetails>
-                <ItemTitle>{transaction.mineralName}</ItemTitle>
-                <ItemCode>{transaction.reference}</ItemCode>
+                <ItemTitle>{transaction.mineral_name}</ItemTitle>
+                <Status>{transaction.status}</Status>
               </TransactionDetails>
               <AmountContainer>
-                <AmountToday>{`₦${transaction.amount}`}</AmountToday>
-                <DateText>{transaction.date}</DateText>
+                <AmountToday>{`₦${parseFloat(transaction.amount).toLocaleString()}`}</AmountToday>
+                <DateText>{new Date(transaction.date).toLocaleDateString()}</DateText>
               </AmountContainer>
             </TransactionItem>
           ))}
         </Transactions>
       )}
-
       <BottomNav>
         <NavIcon src={folder_N} onClick={goToDashboard} alt="Dashboard" />
         <NavIconContainer>

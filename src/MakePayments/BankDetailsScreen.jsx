@@ -36,151 +36,53 @@ if (isNaN(parsedAmount) || parsedAmount <= 0) {
   console.log(parsedAmount);
   const initiatePayment = async () => {
     try {
-      // Step 1: Mock the Order Response
-      const mockOrderResponse = {
-        data: {
-          success: true,
-          message: 'Order Created',
-          data: {
-            orderId: 'mock_order_123', // Mock Order ID
-            totalAmount: parsedAmount,
-            payerId: payerId,
-            payeeHaulerId: haulerId,
-            mineralId: mineralId,
-          },
+      // Retrieve values from localStorage
+       // Get mineral_sub_id from localStorage
+      const payerId = localStorage.getItem('payer_id'); // Example retrieval, replace with actual logic
+      const haulerId = localStorage.getItem('hauler_id'); // Example retrieval
+      const mineralId = localStorage.getItem('mineral_id'); // Example retrieval
+      const parsedAmount = parseFloat(localStorage.getItem('selectedCategoryPrice').replace('NGN', '').replace(',', '').trim()); // Parse the amount
+      const email = localStorage.getItem('email'); // Example retrieval
+      const name = localStorage.getItem('name'); // Example retrieval
+      const phone = localStorage.getItem('phone'); // Example retrieval
+      const token = localStorage.getItem('token');
+      const mineralSubId = localStorage.getItem('mineral_sub_id'); // Retrieve mineral_sub_id
+
+      const orderResponse = await axios.post(`${API_BASE_URL}/orders`, {
+        payer_id: payerId,
+        payee_id: payerId,
+        payee_hauler_id: haulerId,
+        mineral_id: mineralId,
+        mineral_sub_id: mineralSubId, 
+        total_amount: parsedAmount.toFixed(2),
+      },    {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add token to the headers
         },
-        status: 201, // HTTP Status: Created
-      };
-  
-      console.log('Mock Order Response:', mockOrderResponse);
-  
-    const url = `${API_BASE_URL}/orders`
-      const flutterwaveResponse = await axios.post(
-        'https://api.flutterwave.com/v3/payments',
-        {
-          tx_ref: `trx_${Date.now()}`, // Unique transaction reference
-          amount: parsedAmount,
-          currency: 'NGN',
-          redirect_url: `${window.location.origin}/MP_PaymentSuccessScreen`,
-          customer: {
-            email: email,
-            name: name,
-            phonenumber: phone,
-          },
-          customizations: {
-            title: 'Hauler Payment',
-            description: 'Selected Hauler Payment',
-            logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
-          },
-        },
-        {
-          headers: {
-            Authorization: `Bearer FLWSECK_TEST-d82c623bb373e93863d29dd817f5b41e-X`,
-            'Content-Type': 'application/json',
-          },
-        }
+      }
       );
   
-      if (flutterwaveResponse.status === 200 && flutterwaveResponse.data?.data?.link) {
-        console.log('Flutterwave payment link:', flutterwaveResponse.data.data.link);
+      console.log("Order Response:", orderResponse.data);
   
-        // Redirect to payment link
-        window.location.href = flutterwaveResponse.data.data.link;
-      } else {
-        console.error('Error creating payment link:', flutterwaveResponse.data);
-        alert('Payment initiation failed.');
+      // Validate the response from the backend
+      if (!orderResponse.data?.data?.payment_link) {
+        throw new Error("Failed to retrieve payment link from the backend.");
       }
-    } catch (err) {
-      console.error('Error during payment initiation:', err);
-      alert('An error occurred. Please try again.');
+  
+      // Get the payment link from the backend response
+      const paymentLink = orderResponse.data.data.payment_link;
+  
+      // Redirect the user to the payment link
+      console.log("Redirecting to payment link...");
+      window.location.href = paymentLink;
+    } catch (error) {
+      console.error("Error initiating payment:", error);
+      alert("Failed to initiate payment. Please try again.");
     }
   };
   
-// const initiatePayment = async () => {
-//   const token = localStorage.getItem('token');
-//   if (!token) {
-//     alert('Authentication error: Please log in again.');
-//     navigate('/login');
-//     return;
-//   }
 
-//   const parsedAmount = parseFloat(amount.replace(/[^0-9.]/g, ''));
-//   if (isNaN(parsedAmount) || parsedAmount <= 0) {
-//     alert('Invalid amount. Please check and try again.');
-//     return;
-//   }
-
-//   if (!payerId || !haulerId || !mineralId) {
-//     alert('Missing critical information. Please refresh and try again.');
-//     return;
-//   }
-
-//   try {
-//     // Step 1: Create Order on Backend
-//     const orderData = {
-//       payer_id: payerId,
-//       payee_id: payerId, // Replace with actual ID
-//       payee_hauler_id: haulerId,
-//       mineral_id: mineralId,
-//       total_amount: parsedAmount,
-//     };
-
-//     const orderResponse = await axios.post(
-//       'http://127.0.0.1:5000/api/orders',
-//       orderData,
-//       {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//         },
-//       }
-//     );
-//     if ((orderResponse.status === 200 || orderResponse.status === 201) && orderResponse.data) {
-//       console.log('Order created successfully:', orderResponse.data);
-
-//       // Step 2: Initiate Flutterwave Payment
-//       const flutterwaveResponse = await axios.post(
-//         'https://api.flutterwave.com/v3/payments',
-//         {
-//           tx_ref: `trx_${Date.now()}`,
-//           amount: parsedAmount,
-//           currency: 'NGN',
-//           redirect_url: `${window.location.origin}/MP_PaymentSuccessScreen`,
-//           customer: {
-//             email,
-//             name,
-//             phonenumber: phone,
-//           },
-//           customizations: {
-//             title: 'Hauler Payment',
-//             description: 'Selected Hauler Payment',
-//             logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
-//           },
-//         },
-//         {
-//           headers: {
-//             Authorization: `Bearer ${process.env.REACT_APP_FLW_API_KEY}`,
-//             'Content-Type': 'application/json',
-//           },
-//         }
-//       );
-
-//       if (flutterwaveResponse.status === 200 && flutterwaveResponse.data?.data?.link) {
-//         console.log('Flutterwave payment link:', flutterwaveResponse.data.data.link);
-//         window.location.href = flutterwaveResponse.data.data.link;
-//       } else {
-//         console.error('Error creating payment link:', flutterwaveResponse.data);
-//         alert('Payment initiation failed.');
-//       }
-//     } else {
-//       console.error('Error creating order:', orderResponse);
-//       alert('Failed to create order. Please try again.');
-//     }
-//   } catch (err) {
-//     console.error('Error during payment initiation:', err);
-//     alert('An error occurred. Please try again.');
-//   }
-// };
-
+  
 
   return (
     <Container>
@@ -240,7 +142,6 @@ if (isNaN(parsedAmount) || parsedAmount <= 0) {
       <PayNowButton onClick={initiatePayment}>Pay Now</PayNowButton>
     </Container>
   );
-  
 };
 // const handlePayNow = () => {
 //   navigate('/MP_PaymentSuccessScreen');

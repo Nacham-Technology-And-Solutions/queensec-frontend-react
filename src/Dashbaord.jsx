@@ -142,33 +142,39 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const url = `${API_BASE_URL}/transactions`
+        const token = localStorage.getItem("token");
+        const url = `${API_BASE_URL}/transactions`;
         const response = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-
+  
         if (response.data.success) {
-          const transactionList = response.data.data.map((transaction, index) => ({
-            id: index + 1, // Assign an ID if it's not provided in the response
-            name: transaction.mineral_name, // Make sure the response includes these fields
-            mineralNumber: transaction.order ? `Nas/${transaction.order.id}` : 'N/A',
-            amount: `₦${transaction.order.total_amount}`,
-            date: new Date(transaction.date).toLocaleDateString() || 'Today', // Default to 'Today' if date is missing
+          // Access the transactions array
+          const transactions = response.data.data.transactions;
+  
+          const transactionList = transactions.map((transaction, index) => ({
+            id: transaction.id || index + 1, // Use transaction ID or fallback to index
+            name: transaction.mineral_name || "Unknown Mineral",
+            mineralNumber: transaction.ticket_id ? `Nas/${transaction.ticket_id.id}` : "N/A",
+            amount: `₦${transaction.amount || 0}`, // Ensure amount is handled properly
+            date: transaction.date
+              ? new Date(transaction.date).toLocaleDateString()
+              : "Today", // Format or fallback to 'Today'
           }));
           setTransactions(transactionList);
         } else {
-          console.error('Failed to load transactions:', response.data.message);
+          console.error("Failed to load transactions:", response.data.message);
         }
       } catch (error) {
-        console.error('Error fetching transactions:', error.response?.data || error.message);
+        console.error("Error fetching transactions:", error.response?.data || error.message);
       }
     };
-
+  
     fetchTransactions();
   }, []);
+  
 
 
 
@@ -252,7 +258,7 @@ const Dashboard = () => {
         {transactions.map((transaction) => (
           <TransactionItem key={transaction.id}>
             <TransactionLeft>
-              <img src={mineral_icon} alt="mineral icon" />
+                <img src={transaction.mineral_image || mineral_icon} alt="mineral icon" />
               <TextContainer>
                 <span>{transaction.name}</span>
                 <span>{transaction.mineralNumber}</span>

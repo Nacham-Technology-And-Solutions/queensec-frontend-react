@@ -82,11 +82,17 @@ const MakePaymentCategoryScreen = () => {
       // Format the price and save it in localStorage
       const formattedPrice = `NGN ${parseFloat(selectedCategoryData.price).toLocaleString()}`;
       localStorage.setItem('selectedCategoryPrice', formattedPrice); // Save formatted price to localStorage
+
+      localStorage.setItem('mineral_sub_id', selectedCategoryData.mineral_sub_id)
+      // Save the entire category object, including mineral_sub_id
+      const categoryWithSubId = {
+        ...selectedCategoryData,
+        mineral_sub_id: selectedCategoryData.mineral_sub_id, // Include mineral_sub_id
+      };
+      localStorage.setItem('selectedCategory', JSON.stringify(categoryWithSubId));
   
-      // Save the entire category object for additional details
-      localStorage.setItem('selectedCategory', JSON.stringify(selectedCategoryData));
-  
-      console.log('Saved Category:', selectedCategoryData);
+      console.log('Saved Mineral Sub ID:', selectedCategoryData.mineral_sub_id);
+      console.log('Saved Category with Sub ID:', categoryWithSubId);
       console.log('Formatted Price:', formattedPrice);
     } else {
       console.error('Category not found for selected ID:', selectedCategory);
