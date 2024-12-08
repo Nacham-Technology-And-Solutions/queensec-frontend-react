@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import QRCode from 'react-qr-code';
 import coalpileIcon from '../Assets/coalpile.png';
 import mineralIcon from '../Assets/mineral_icon.png';
-
+import axios from 'axios';
 
 const PaymentSuccessScreen = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const PaymentSuccessScreen = () => {
         const statusParam = queryParams.get('status');
         const txRefParam = queryParams.get('tx_ref');
         const transactionIdParam = queryParams.get('transaction_id');
-        const token = localStorage.getItem('token');
+
         setStatus(statusParam || '');
         setTxRef(txRefParam || '');
         setTransactionId(transactionIdParam || '');
@@ -38,10 +38,6 @@ const PaymentSuccessScreen = () => {
             status: statusParam,
             tx_ref: txRefParam,
             transaction_id: transactionIdParam,
-          },    {
-            headers: {
-              Authorization: `Bearer ${token}`, // Add token to the headers
-            },
           });
 
           const data = response.data;
@@ -79,7 +75,7 @@ const PaymentSuccessScreen = () => {
   if (loading) {
     return (
       <LoadingContainer>
-        <LoaderImage src={Loader} alt="Loading..." />
+        <Spinner />
         <LoadingText>Loading, please wait...</LoadingText>
       </LoadingContainer>
     );
@@ -120,7 +116,40 @@ const PaymentSuccessScreen = () => {
     </Container>
   );
 };
+
 // Styled Components
+const LoadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f6f6f6;
+`;
+
+const Spinner = styled.div`
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #6c3ecf;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
+const LoadingText = styled.p`
+  font-size: 16px;
+  color: #6c3ecf;
+  margin-top: 10px;
+`;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
