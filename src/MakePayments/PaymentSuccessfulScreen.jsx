@@ -5,33 +5,28 @@ import QRCode from 'react-qr-code';
 import coalpileIcon from '../Assets/coalpile.png';
 import mineralIcon from '../Assets/mineral_icon.png';
 import axios from 'axios';
-
+import { useUser } from '../UserContext';
 const PaymentSuccessScreen = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [status, setStatus] = useState('');
-  const [txRef, setTxRef] = useState('');
-  const [transactionId, setTransactionId] = useState('');
-  const [amount, setAmount] = useState('0');
+  const [loading, setLoading] = useState(true);
+  const [amount, setAmount] = useState('');
   const [payId, setPayId] = useState('');
+  const [userName, setUserName] = useState('');
+  const [hauler, setHauler] = useState('');
+  const [numberPlate, setNumberPlate] = useState('');
+  const [mineralName, setMineralName] = useState('');
+  const [status, setStatus] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
-  const [showQrCode, setShowQrCode] = useState(true);
-  const [loading, setLoading] = useState(true); // Loading state
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { user } = useUser();
   useEffect(() => {
     const fetchPaymentDetails = async () => {
       try {
-        // Extract query parameters from URL
         const queryParams = new URLSearchParams(location.search);
         const statusParam = queryParams.get('status');
         const txRefParam = queryParams.get('tx_ref');
         const transactionIdParam = queryParams.get('transaction_id');
-
-        setStatus(statusParam || '');
-        setTxRef(txRefParam || '');
-        setTransactionId(transactionIdParam || '');
 
         if (statusParam && txRefParam && transactionIdParam) {
           const response = await axios.post(`${API_BASE_URL}/payments`, {
@@ -40,17 +35,23 @@ const PaymentSuccessScreen = () => {
             transaction_id: transactionIdParam,
           });
 
-          const data = response.data;
+          const data = response.data.data;
+
           setAmount(data.amount || '0');
-          setPayId(data.payId || '');
-          setDate(data.date || new Date().toLocaleDateString());
-          setTime(data.time || new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }));
+          setPayId(data.payment_id || '');
+          setUserName(data.user_name || '');
+          setHauler(data.hauler || '');
+          setNumberPlate(data.number_plate || '');
+          setMineralName(data.mineral_name || '');
+          setStatus(data.status || '');
+          setDate(new Date(data.date).toLocaleDateString() || '');
+          setTime(new Date(data.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) || '');
         }
       } catch (error) {
         console.error('Error fetching payment details:', error.response?.data || error.message);
         alert('Failed to retrieve payment details. Please try again.');
       } finally {
-        setLoading(false); // Stop loading once the request is complete
+        setLoading(false);
       }
     };
 
@@ -62,7 +63,7 @@ const PaymentSuccessScreen = () => {
       navigator
         .share({
           title: 'Payment Successful',
-          text: `Payment of NGN ${amount} was successful! Pay ID: ${payId}`,
+          text: `Payment of NGN ${amount} for ${mineralName} was successful! Pay ID: ${payId}`,
           url: window.location.href,
         })
         .then(() => console.log('Successful share'))
@@ -80,14 +81,53 @@ const PaymentSuccessScreen = () => {
       </LoadingContainer>
     );
   }
+    const goToDashboard = () => {
+      if (user?.accountType === 'federal_agency') {
+        navigate('/Enterprise-Dashboard');
+      } else if (user?.accountType === 'vendor') {
+        navigate('/Vendors-Dashboard');
+      } else if (user?.accountType === 'individual') {
+        navigate('/dashboard-page');
+      } else {
+        console.warn('Unknown account type');
+      }
+    };
 
-  return (
-    <Container>
-      <Icon src={coalpileIcon} alt="Coalpile Icon" />
-      <Amount>NGN {parseInt(amount).toLocaleString()}</Amount>
-      <Status>{status === 'successful' ? 'Payment Successful' : 'Payment Failed'}</Status>
-      <Details>
-        <DateTimeRow>
+    return (
+      <Container>
+        <Icon src={coalpileIcon} alt="Coalpile Icon" />
+        <Amount>NGN {parseInt(amount).toLocaleString() || '0'}</Amount>
+        <Status>{status === 'completed' ? 'Payment Successful' : 'Payment Failed'}</Status>
+        <Details>
+        <InfoRow>
+                    <UserInfo>
+                        <UserIcon>CL</UserIcon>
+                        <UserDetails>
+                            <UserName>{mineralName}</UserName>
+                            <UserPayId>{payId}</UserPayId>
+                        </UserDetails>
+                    </UserInfo>
+                    <AmountContainer>
+                        <AmountToday>NGN {parseInt(amount).toLocaleString()}</AmountToday>
+                        <DateText>Today</DateText>
+                    </AmountContainer>
+                </InfoRow>
+          <DetailItem>
+            <Label>User</Label>
+            <Value>{userName}</Value>
+          </DetailItem>
+          <DetailItem>
+            <Label>Hauler</Label>
+            <Value>{hauler}</Value>
+          </DetailItem>
+          <DetailItem>
+            <Label1>Number Plate </Label1>
+            <Value>{numberPlate}</Value>
+          </DetailItem>
+          <DetailItem>
+            <Label>Mineral</Label>
+            <Value>{mineralName}</Value>
+          </DetailItem>
           <DetailItem>
             <Label>Date</Label>
             <Value>{date}</Value>
@@ -100,22 +140,16 @@ const PaymentSuccessScreen = () => {
             <Label>Pay ID</Label>
             <Value>{payId}</Value>
           </DetailItem>
-          <DetailItem>
-            <Label>Transaction ID</Label>
-            <Value>{transactionId}</Value>
-          </DetailItem>
-        </DateTimeRow>
-        {showQrCode && (
-          <QRCodeContainer>
-            <QRCode value={`Payment ID: ${payId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
-          </QRCodeContainer>
-        )}
-      </Details>
-      <ShareButton onClick={handleShare}>Share</ShareButton>
-      <BackButton onClick={() => navigate('/Dashboard')}>Return to Dashboard</BackButton>
-    </Container>
-  );
-};
+        </Details>
+        <QRCodeContainer>
+          <QRCode value={`Payment ID: ${payId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
+        </QRCodeContainer>
+        <ShareButton onClick={handleShare}>Share</ShareButton>
+        <BackButton onClick={goToDashboard}>Return to Dashboard</BackButton>
+      </Container>
+    );
+  };
+  
 
 // Styled Components
 const LoadingContainer = styled.div`
@@ -156,7 +190,7 @@ const Container = styled.div`
   align-items: center;
   padding: 20px;
   background-color: #F7F9FA;
-  height: 100vh;
+  height: 100%;
   max-width: 400px;
   margin: 0 auto;
   border-radius: 30px;
@@ -174,6 +208,37 @@ const Amount = styled.h1`
   color: #6C3ECF;
   font-weight: bold;
 `;
+
+
+const Label = styled.p`
+  color: #67728A;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: Ubuntu, sans-serif;
+  line-height: 20px;
+  text-align: left;
+  margin-right: 335px; 
+`;
+const Label1 = styled.p`
+  color: #67728A;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: Ubuntu, sans-serif;
+  line-height: 20px;
+  text-align: left;
+  margin-right: 310px; 
+`;
+
+const Value = styled.p`
+  color: #67728A;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: Ubuntu, sans-serif;
+  line-height: 20px;
+  text-align: right;
+  margin-left: 335; /* Align values to the right */
+`;
+
 
 const AmountContainer = styled.div`
   display: flex;
@@ -271,16 +336,17 @@ const DetailItem = styled.div`
   margin-bottom: 10px;
 `;
 
-const Label = styled.p`
-  color: #67728A;
-  font-size: 12px;
-`;
+// const Label = styled.p`
+//   color: #67728A;
+//   font-size: 12px;
+  
+// `;
 
-const Value = styled.p`
-  color: #67728A;
-  font-weight: bold;
-  font-size: 14px;
-`;
+// const Value = styled.p`
+//   color: #67728A;
+//   font-weight: bold;
+//   font-size: 14px;
+// `;
 
 const QRCodeContainer = styled.div`
   display: flex;

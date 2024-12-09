@@ -1,36 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 // import ubuntu from '../assets/Ubuntu/Ubuntu-Regular.ttf';
 import LeftIcon from '../Assets/left.png';
 import axios from 'axios';
 
+
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL; // Replace with actual base URL
 
 const AddHaulerScreen = () => {
   const navigate = useNavigate();
-  const [vehicle, setVehicle] = useState('Truck'); // Default selected vehicle
+  const [vehicleTypes, setVehicleTypes] = useState([]); // To store fetched vehicle types
+  const [selectedVehicle, setSelectedVehicle] = useState(''); // User-selected vehicle
   const [truckName, setTruckName] = useState('');
   const [plateNumber, setPlateNumber] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Fetch vehicle types when the component loads
+  useEffect(() => {
+    const fetchVehicleTypes = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/haulers/type`);
+        if (response.data.success) {
+          setVehicleTypes(response.data.data); // Set the vehicle types
+        } else {
+          alert("Failed to load vehicle types.");
+        }
+      } catch (error) {
+        console.error('Error fetching vehicle types:', error);
+        alert('Error loading vehicle types. Please try again later.');
+      }
+    };
+
+    fetchVehicleTypes();
+  }, []);
+
   const handleAddHauler = async () => {
-    if (!truckName || !plateNumber || !vehicle) {
-      alert("All fields are required.");
+    if (!truckName || !plateNumber || !selectedVehicle) {
+      alert('All fields are required.');
       return;
     }
-
-    // Map vehicle to hauler_type_id (adjust mapping as needed based on your backend)
-    const haulerTypeMapping = {
-      Truck: '1', // Example ID for Truck
-      Keke: '2',  // Example ID for Keke
-    };
-    const haulerTypeId = haulerTypeMapping[vehicle];
 
     const payload = {
       name: truckName,
       number_plate: plateNumber,
-      hauler_type_id: haulerTypeId,
+      hauler_type_id: selectedVehicle, // Use selected vehicle ID
     };
 
     setLoading(true); // Start loading
@@ -64,12 +78,15 @@ const AddHaulerScreen = () => {
       <Form>
         <Label>Select Vehicle</Label>
         <Select
-          value={vehicle}
-          onChange={(e) => setVehicle(e.target.value)}
+          value={selectedVehicle}
+          onChange={(e) => setSelectedVehicle(e.target.value)}
         >
-          <option value="Truck">Truck</option>
-          <option value="Keke">Keke</option>
-          {/* Add more vehicle options if needed */}
+          <option value="">Select a vehicle</option> {/* Default option */}
+          {vehicleTypes.map((vehicle) => (
+            <option key={vehicle.id} value={vehicle.id}>
+              {vehicle.name}
+            </option>
+          ))}
         </Select>
 
         <Label>Truck Name</Label>

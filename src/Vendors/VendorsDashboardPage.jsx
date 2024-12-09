@@ -131,35 +131,39 @@ const VendorsDashboard = () => {
   
   useEffect(() => {
     const fetchTransactions = async () => {
-      const url =`${API_BASE_URL}/transactions`
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
+        const url = `${API_BASE_URL}/transactions`;
         const response = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-
+  
         if (response.data.success) {
-          const transactionList = response.data.data.map((transaction, index) => ({
-            id: index + 1, // Assign an ID if it's not provided in the response
-            name: transaction.mineral_name, // Make sure the response includes these fields
-            mineralNumber: transaction.order ? `Nas/00${transaction.order.id}` : 'N/A',
-            amount: `₦${transaction.order.total_amount}`,
-            date: new Date(transaction.date).toLocaleDateString() || 'Today', // Default to 'Today' if date is missing
+          // Access the transactions array
+          const transactions = response.data.data.transactions;
+  
+          const transactionList = transactions.map((transaction, index) => ({
+            id: transaction.id || index + 1, // Use transaction ID or fallback to index
+            name: transaction.mineral_name || "Unknown Mineral",
+            mineralNumber: transaction.ticket_id ? `Nas/${transaction.ticket_id.id}` : "N/A",
+            amount: `₦${transaction.amount || 0}`, // Ensure amount is handled properly
+            date: transaction.date
+              ? new Date(transaction.date).toLocaleDateString()
+              : "Today", // Format or fallback to 'Today'
           }));
           setTransactions(transactionList);
         } else {
-          console.error('Failed to load transactions:', response.data.message);
+          console.error("Failed to load transactions:", response.data.message);
         }
       } catch (error) {
-        console.error('Error fetching transactions:', error.response?.data || error.message);
+        console.error("Error fetching transactions:", error.response?.data || error.message);
       }
     };
-
+  
     fetchTransactions();
   }, []);
-
 
 
   const [transactions, setTransactions] = useState([
@@ -174,13 +178,14 @@ const VendorsDashboard = () => {
     navigate('/Vendor-User-MakePayment-Screen'); // Use navigate to change routes
   };
   
+  
   const navigate = useNavigate();
 
   const goToDashboard = () => navigate('/dashboard-page');
   const goToTransactions = () => navigate('/Transactions-page');
   const goToNotifications = () => navigate('/Notifications-page');
   const goToProfile = () => navigate('/User-Profile');
-
+  const haulerScreen = () =>  navigate('/Hauler-Lists')
   return (
     <DashboardContainer>
       {/* Header */}
@@ -201,6 +206,7 @@ const VendorsDashboard = () => {
           <UserInfoDataB>{userData.accountType}</UserInfoDataB>
         </UserDetails>
         <MakePaymentButton onClick={handleMakePayment}>Make Payment</MakePaymentButton>
+        <HaulersBtn onClick={haulerScreen}>Haulers</HaulersBtn>
       </DashboardCard>
       
       {/* Transaction Chart */}
@@ -226,28 +232,28 @@ const VendorsDashboard = () => {
 
       {/* Transaction List */}
       <Transactions>
-        <TransactionsHeader>
-          <h3>Transactions</h3>
-          <ViewAllButton>View All</ViewAllButton>
-        </TransactionsHeader>
-        <ul>
-          {transactions.map((transaction) => (
-            <TransactionItem key={transaction.id}>
-              <TransactionLeft>
-                <img src={mineral_icon} alt="mineral icon" />
-                <TextContainer>
-                  <span>{transaction.name}</span>
-                  <span>{transaction.mineralNumber}</span>
-                </TextContainer>
-              </TransactionLeft>
-              <TransactionRight>
-                <span className="amount">{transaction.amount}</span>
-                <span className="date">{transaction.date}</span>
-              </TransactionRight>
-            </TransactionItem>
-          ))}
-        </ul>
-      </Transactions>
+      <TransactionsHeader>
+        <h3>Transactions</h3>
+        <ViewAllButton>View All</ViewAllButton>
+      </TransactionsHeader>
+      <ul>
+        {transactions.map((transaction) => (
+          <TransactionItem key={transaction.id}>
+            <TransactionLeft>
+                <img src={transaction.mineral_image || mineral_icon} alt="mineral icon" />
+              <TextContainer>
+                <span>{transaction.name}</span>
+                <span>{transaction.mineralNumber}</span>
+              </TextContainer>
+            </TransactionLeft>
+            <TransactionRight>
+              <span className="amount">{transaction.amount}</span>
+              <span className="date">{transaction.date}</span>
+            </TransactionRight>
+          </TransactionItem>
+        ))}
+      </ul>
+    </Transactions>
 
       {/* Bottom Navigation */}
       <BottomNav>
@@ -313,6 +319,29 @@ const DashboardCard = styled.div`
   flex-direction: column;
   justify-content: space-between;
 `;
+const HaulersBtn = styled.button`
+color: #F07F23;
+padding: none;
+font-family: Ubuntu;
+font-size: 14px;
+font-weight: 500;
+line-height: 20px;
+letter-spacing: -0.15399999916553497px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+width: 49px;
+height: 20px;
+gap: 0px;
+opacity: 0px;
+
+margin-bottom: -30px;
+background: none; 
+  background-color: transparent; 
+  border: none; 
+  cursor: pointer
+`
+
 
 const UserDetails = styled.div`
   display: flex;
