@@ -87,7 +87,7 @@ const PaymentSuccessVendorScreen = () => {
 
                 {showQrCode && (
                     <QRCodeContainer>
-                        <QRCode value={`Payment ID: ${payId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
+                        <QRCode value={`${payId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
                     </QRCodeContainer>
                 )}
             </Details>

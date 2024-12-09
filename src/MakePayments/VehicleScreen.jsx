@@ -29,7 +29,7 @@ const MakePaymentVehicleScreen = () => {
         if (response.data.success) {
           const haulerData = response.data.data.map((hauler) => ({
             id: hauler.id,
-            type: 'Truck', // Default type until backend provides hauler_type
+            type: 'Vehicle', // Default type until backend provides hauler_type
             name: hauler?.name || 'Unknown Name',
             number_plate: hauler?.number_plate || 'Unknown Plate',
           }));

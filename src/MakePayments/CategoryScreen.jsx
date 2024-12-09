@@ -67,41 +67,44 @@ const MakePaymentCategoryScreen = () => {
   const handleBack = () => {
     navigate('/MP_VehicleScreen');
   };
-  const handleProceed = () => {
-    if (!selectedCategory) {
-      alert('Please select a category before proceeding.');
-      return;
-    }
-  
-    // Find the selected category based on mineral_id
-    const selectedCategoryData = categories.find(
-      (category) => category.mineral_id === parseInt(selectedCategory) // Match mineral_id
-    );
-  
-    if (selectedCategoryData) {
-      // Format the price and save it in localStorage
-      const formattedPrice = `NGN ${parseFloat(selectedCategoryData.price).toLocaleString()}`;
-      localStorage.setItem('selectedCategoryPrice', formattedPrice); // Save formatted price to localStorage
+const handleProceed = () => {
+  if (!selectedCategory) {
+    alert("Please select a category before proceeding.");
+    return;
+  }
 
-      localStorage.setItem('mineral_sub_id', selectedCategoryData.mineral_sub_id)
-      // Save the entire category object, including mineral_sub_id
-      const categoryWithSubId = {
-        ...selectedCategoryData,
-        mineral_sub_id: selectedCategoryData.mineral_sub_id, // Include mineral_sub_id
-      };
-      localStorage.setItem('selectedCategory', JSON.stringify(categoryWithSubId));
-  
-      console.log('Saved Mineral Sub ID:', selectedCategoryData.mineral_sub_id);
-      console.log('Saved Category with Sub ID:', categoryWithSubId);
-      console.log('Formatted Price:', formattedPrice);
-    } else {
-      console.error('Category not found for selected ID:', selectedCategory);
-    }
-  
-    // Navigate to the Bank Details screen
-    navigate('/MP_BankDetailsScreen');
-  };
-  
+  // Split the selected category into mineral_id and mineral_sub_id
+  const [selectedMineralId, selectedMineralSubId] = selectedCategory.split("-").map(Number);
+
+  // Find the selected category based on both IDs
+  const selectedCategoryData = categories.find(
+    (category) =>
+      category.mineral_id === selectedMineralId &&
+      category.mineral_sub_id === selectedMineralSubId
+  );
+
+  if (selectedCategoryData) {
+    const formattedPrice = `NGN ${parseFloat(selectedCategoryData.price).toLocaleString()}`;
+    localStorage.setItem("selectedCategoryPrice", formattedPrice); // Save formatted price to localStorage
+
+    localStorage.setItem("mineral_sub_id", selectedCategoryData.mineral_sub_id);
+    const categoryWithSubId = {
+      ...selectedCategoryData,
+      mineral_sub_id: selectedCategoryData.mineral_sub_id, // Include mineral_sub_id
+    };
+    localStorage.setItem("selectedCategory", JSON.stringify(categoryWithSubId));
+
+    console.log("Saved Mineral Sub ID:", selectedCategoryData.mineral_sub_id);
+    console.log("Saved Category with Sub ID:", categoryWithSubId);
+    console.log("Formatted Price:", formattedPrice);
+  } else {
+    console.error("Category not found for selected ID:", selectedCategory);
+  }
+
+  // Navigate to the Bank Details screen
+  navigate("/MP_BankDetailsScreen");
+};
+
   return (
     <Container>
       <TopBar>
@@ -142,7 +145,10 @@ const MakePaymentCategoryScreen = () => {
 >
   <option value="">Select a category</option>
   {categories.map((category) => (
-    <option key={category.mineral_id} value={category.mineral_id}>
+    <option
+    key={`${category.mineral_id}-${category.mineral_sub_id}`} 
+    value={`${category.mineral_id}-${category.mineral_sub_id}`} 
+    >
       {category.name} - NGN {parseFloat(category.price).toLocaleString()} {/* Format price */}
     </option>
   ))}
@@ -279,7 +285,7 @@ const Value2= styled.p`
   font-weight: bold;
   color: #CEECFF;
   margin-top: 9;
-    margin-left: 40.5px;
+    margin-left: 10.5px;
 `;
 
 const SelectCategoryText = styled.p`

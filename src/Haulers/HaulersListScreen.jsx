@@ -13,77 +13,93 @@ const HaulersListScreen = () => {
   const navigate = useNavigate();
   // const { user } = useUser();
   const [haulers, setHaulers] = useState([]);
+  const [haulerTypes, setHaulerTypes] = useState([]);
   const [tooltipVisible, setTooltipVisible] = useState(null);
 const user  = useUser();
-  useEffect(() => {
-    fetchHaulers();
-  }, []);
+const token = localStorage.getItem("token");
 
-  const token = localStorage.getItem('token');
 
-  console.log(token);
-  
   const fetchHaulers = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/haulers`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
       setHaulers(response.data.data);
     } catch (error) {
-      console.error('Error fetching haulers:', error);
+      console.error("Error fetching haulers:", error);
     }
   };
+
+  const fetchHaulerTypes = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/haulers/type`);
+      if (response.data.success) {
+        setHaulerTypes(response.data.data); // Save the hauler types in state
+      } else {
+        console.error("Failed to load hauler types.");
+      }
+    } catch (error) {
+      console.error("Error fetching hauler types:", error);
+    }
+  };
+
+
+  useEffect(() => {
+    fetchHaulers();
+    fetchHaulerTypes();
+  }, [token]);
 
   const handleAddHauler = () => {
     navigate('/Add-Hauler');
   };
 
-  const handleEditHauler = async (haulerId) => {
-    const updatedName = prompt('Enter new name for the hauler:');
-    const updatedPlateNumber = prompt('Enter new plate number:');
-    if (updatedName && updatedPlateNumber) {
-      try {
-        await axios.put(
-          `${API_BASE_URL}/haulers`,
-          {
-            hauler_id: haulerId,
-            name: {updatedName},
-            number_plate: {updatedPlateNumber},
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        fetchHaulers(); // Refresh the haulers list after editing
-        alert('Hauler updated successfully!');
-      } catch (error) {
-        console.error('Error editing hauler:', error);
-        alert('Failed to update hauler.');
-      }
-    }
-  };
-
-  const handleDeleteHauler = async (haulerId) => {
-    const confirmDelete = window.confirm('Are you sure you want to delete this hauler?');
-    if (confirmDelete) {
-      try {
-        await axios.delete(`${API_BASE_URL}/haulers/${haulerId}`, {
+  
+const handleEditHauler = async (haulerId) => {
+  const updatedName = prompt("Enter new name for the hauler:");
+  const updatedPlateNumber = prompt("Enter new plate number:");
+  if (updatedName && updatedPlateNumber) {
+    try {
+      await axios.put(
+        `${API_BASE_URL}/haulers`,
+        {
+          hauler_id: haulerId,
+          name: updatedName,
+          number_plate: updatedPlateNumber,
+        },
+        {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        });
-        fetchHaulers(); // Refresh the haulers list after deletion
-        alert('Hauler deleted successfully!');
-      } catch (error) {
-        console.error('Error deleting hauler:', error);
-        alert('Failed to delete hauler.');
-      }
+        }
+      );
+      fetchHaulers(); // Refresh the haulers list after editing
+      alert("Hauler updated successfully!");
+    } catch (error) {
+      console.error("Error editing hauler:", error);
+      alert("Failed to update hauler.");
     }
-  };
+  }
+};
+
+const handleDeleteHauler = async (haulerId) => {
+  const confirmDelete = window.confirm(
+    "Are you sure you want to delete this hauler?"
+  );
+  if (confirmDelete) {
+    try {
+      await axios.delete(`${API_BASE_URL}/haulers/${haulerId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      fetchHaulers(); // Refresh the haulers list after deletion
+      alert("Hauler deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting hauler:", error);
+      alert("Failed to delete hauler.");
+    }
+  }
+};
 
   const toggleTooltip = (index) => {
     if (tooltipVisible === index) {
@@ -93,10 +109,10 @@ const user  = useUser();
     }
   };
 
-  const haulerTypeReverseMapping = {
-    '1': 'Truck',
-    '2': 'Keke',
-  };
+  // const haulerTypeReverseMapping = {
+  //   '1': 'Truck',
+  //   '2': 'Keke',
+  // };
 const taxId = localStorage.getItem('tax_id')
   return (
     <Container>
@@ -127,8 +143,11 @@ const taxId = localStorage.getItem('tax_id')
           <HaulerItem key={hauler.id}>
             <HaulerIconStyled src={HaulerIcon} alt="Hauler Icon" />
             <HaulerDetails>
-              <VehicleType>{haulerTypeReverseMapping[hauler.hauler_type_id]}</VehicleType>
-              <HaulerInfo>{`${hauler.name}, ${hauler.number_plate}`}</HaulerInfo>
+            <VehicleType>
+                {
+                  haulerTypes.find((type) => type.id === hauler.hauler_type_id)?.name || "Unknown Type"
+                }
+              </VehicleType>              <HaulerInfo>{`${hauler.name}, ${hauler.number_plate}`}</HaulerInfo>
             </HaulerDetails>
             <MoreText onClick={() => toggleTooltip(index)}>More</MoreText>
             {tooltipVisible === index && (

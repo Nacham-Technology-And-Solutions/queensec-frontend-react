@@ -133,7 +133,7 @@ if (isNaN(parsedAmount) || parsedAmount <= 0) {
         <PaymentMethod>
           <PaymentMethodText>Naira Payment with MasterCard/Visa</PaymentMethodText>
           <PaymentIcons>
-            <PaymentIcon src={PayUIcon} alt="PayU" />
+            <PaymentIcon1 src={PayUIcon} alt="PayU" />
           </PaymentIcons>
         </PaymentMethod>
       </PaymentMethods>
@@ -334,6 +334,11 @@ const PaymentIcons = styled.div`
 const PaymentIcon = styled.img`
   width: 50px;
   height: auto;
+  margin-left: 10px;
+`;
+const PaymentIcon1 = styled.img`
+  width: 100px;
+  height: 30px;
   margin-left: 10px;
 `;
 
