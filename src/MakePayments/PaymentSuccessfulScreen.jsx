@@ -6,6 +6,10 @@ import coalpileIcon from '../Assets/coalpile.png';
 import mineralIcon from '../Assets/mineral_icon.png';
 import axios from 'axios';
 import { useUser } from '../UserContext';
+
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 const PaymentSuccessScreen = () => {
   const [loading, setLoading] = useState(true);
   const [amount, setAmount] = useState('');
