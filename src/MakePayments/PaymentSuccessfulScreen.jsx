@@ -31,12 +31,16 @@ const PaymentSuccessScreen = () => {
         const statusParam = queryParams.get('status');
         const txRefParam = queryParams.get('tx_ref');
         const transactionIdParam = queryParams.get('transaction_id');
-
+        const token = localStorage.getItem('token');
         if (statusParam && txRefParam && transactionIdParam) {
           const response = await axios.post(`${API_BASE_URL}/payments`, {
             status: statusParam,
             tx_ref: txRefParam,
             transaction_id: transactionIdParam,
+          },    {
+            headers: {
+              Authorization: `Bearer ${token}`, // Add token to the headers
+            },
           });
 
           const data = response.data.data;
