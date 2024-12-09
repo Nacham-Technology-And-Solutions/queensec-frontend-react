@@ -271,7 +271,7 @@ const Value2 = styled.p`
   font-weight: bold;
   color: #CEECFF;
   margin-top: 9px;
-  margin-left: 40.5px;
+  margin-left: 10.5px;
 `;
 const AmountContainer = styled.div`
   width: 100%;

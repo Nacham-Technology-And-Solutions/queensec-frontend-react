@@ -150,7 +150,7 @@ const PaymentSuccessScreen = () => {
           </DetailItem>
         </Details>
         <QRCodeContainer>
-          <QRCode value={`Payment ID: ${payId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
+          <QRCode value={`${payId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
         </QRCodeContainer>
         <ShareButton onClick={handleShare}>Share</ShareButton>
         <BackButton onClick={goToDashboard}>Return to Dashboard</BackButton>
@@ -225,16 +225,12 @@ const Label = styled.p`
   font-family: Ubuntu, sans-serif;
   line-height: 20px;
   text-align: left;
-  margin-right: 335px; 
+  flex: 1; /* Takes up available space on the left */
+  margin: 0;
 `;
-const Label1 = styled.p`
-  color: #67728A;
-  font-size: 12px;
-  font-weight: 500;
-  font-family: Ubuntu, sans-serif;
-  line-height: 20px;
-  text-align: left;
-  margin-right: 310px; 
+
+const Label1 = styled(Label)`
+  margin-right: 0; /* Use the same style, but remove any additional margin */
 `;
 
 const Value = styled.p`
@@ -244,7 +240,9 @@ const Value = styled.p`
   font-family: Ubuntu, sans-serif;
   line-height: 20px;
   text-align: right;
-  margin-left: 335; /* Align values to the right */
+  flex: 1; /* Takes up available space on the right */
+  margin: 0;
+  word-wrap: break-word; /* Ensure long text wraps if necessary */
 `;
 
 
@@ -341,7 +339,9 @@ const DateTimeRow = styled.div`
 const DetailItem = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px; /* Add spacing between items */
 `;
 
 // const Label = styled.p`
