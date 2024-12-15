@@ -11,9 +11,9 @@ import profile_C from './Assets/profile_C.png';
 import folder_N from './Assets/folder_N.png';
 import { useUser } from './UserContext';
 import axios from 'axios';
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 import QRCode from 'react-qr-code';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 
  const ProfileScreen = () => {

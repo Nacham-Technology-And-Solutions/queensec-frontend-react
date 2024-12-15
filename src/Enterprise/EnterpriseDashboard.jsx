@@ -238,7 +238,7 @@ const EnterpriseDashboard = () => {
             {/* Y-axis with formatted labels */}
             <VictoryAxis
               dependentAxis
-              tickFormat={(t) => `N ${t / 1000}k`} // Format Y-axis values as "N 10k"
+              tickFormat={(t) => `N ${(t / 1000).toFixed(0)}k`}  // Format Y-axis values as "N 10k"
               style={{
                 tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
               }}
@@ -253,8 +253,7 @@ const EnterpriseDashboard = () => {
                 parent: { border: '1px solid #ccc' },
               }}
             />
-          </VictoryChart>: (
-            <NoDataText>No transaction data available</NoDataText>)
+          </VictoryChart>
         </TransactionChart>
       </ChartSection>
 
@@ -306,7 +305,7 @@ const DashboardContainer = styled.div`
   max-width: 400px;
   margin: 0 auto;
   background-color: #f9f9f9;
-  height: 140%;
+  height: 140vh;
   border-radius: 25px;
 `;
 

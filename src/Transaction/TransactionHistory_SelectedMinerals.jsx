@@ -69,17 +69,17 @@ const TransactionHistory_MineralScreen = () => {
       alert('Sharing is not supported in your browser.');
     }
   };
-  const goToDashboard = () => {
-    if (user?.accountType === 'federal_agency') {
-      navigate('/Enterprise-Dashboard');
-    } else if (user?.accountType === 'vendor') {
-      navigate('/Vendors-Dashboard');
-    } else if (user?.accountType === 'individual') {
-      navigate('/dashboard-page');
-    } else {
-      console.warn('Unknown account type');
-    }
-  };
+  // const goToDashboard = () => {
+  //   if (user?.accountType === 'federal_agency') {
+  //     navigate('/Enterprise-Dashboard');
+  //   } else if (user?.accountType === 'vendor') {
+  //     navigate('/Vendors-Dashboard');
+  //   } else if (user?.accountType === 'individual') {
+  //     navigate('/dashboard-page');
+  //   } else {
+  //     console.warn('Unknown account type');
+  //   }
+  // };
 
   return (
     <Container>

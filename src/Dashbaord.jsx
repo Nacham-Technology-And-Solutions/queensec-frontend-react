@@ -245,7 +245,7 @@ const Dashboard = () => {
               {/* Y-axis with formatted labels */}
               <VictoryAxis
                 dependentAxis
-                tickFormat={(t) => `N ${t / 1000}k`} // Format Y-axis values as "N 10k"
+                tickFormat={(t) => `N ${(t / 1000).toFixed(0)}k`} // Format Y-axis values as "N 10k"
                 style={{
                   tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
                 }}

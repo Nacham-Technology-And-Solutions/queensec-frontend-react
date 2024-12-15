@@ -227,7 +227,7 @@ const VendorsDashboard = () => {
             {/* Y-axis with formatted labels */}
             <VictoryAxis
               dependentAxis
-              tickFormat={(t) => `N ${t / 1000}k`} // Format Y-axis values as "N 10k"
+              tickFormat={(t) => `N ${(t / 1000).toFixed(0)}k`}  // Format Y-axis values as "N 10k"
               style={{
                 tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
               }}
@@ -242,8 +242,7 @@ const VendorsDashboard = () => {
                 parent: { border: '1px solid #ccc' },
               }}
             />
-          </VictoryChart>: (
-            <NoDataText>No transaction data available</NoDataText>)
+          </VictoryChart>
         </TransactionChart>
       </ChartSection>
 
