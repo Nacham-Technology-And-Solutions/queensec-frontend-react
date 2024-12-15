@@ -44,8 +44,8 @@ const TransactionPage = () => {
     fetchTransactions();
   }, [user.token]);
 
-  const handleMineralClick = (mineralName) => {
-    navigate('/TransactionHistory_MineralScreen', { state: { mineralName } });
+  const handleMineralClick = (transactionId, mineralName) => {
+    navigate('/TransactionHistory_MineralScreen', { state: { transactionId, mineralName } });
   };
 
   const goToDashboard = () => {
@@ -78,27 +78,28 @@ const TransactionPage = () => {
       ) : (
         <Transactions>
           {transactions.map((transaction, index) => (
-            <TransactionItem
-              key={index}
-              onClick={() => handleMineralClick(transaction.mineral_name)}
-            >
-              <IconContainer>
-                <img
-                  src={transaction.mineral_image || aquariumIcon} // Fallback to a default icon
-                  alt={transaction.mineral_name}
-                />
-              </IconContainer>
-              <TransactionDetails>
-                <ItemTitle>{transaction.mineral_name}</ItemTitle>
-                <Status style={{ color: transaction.status === 'completed' ? '#39e600' : '#cc3300' }}>
-        {transaction.status}
-      </Status>
-              </TransactionDetails>
-              <AmountContainer>
-                <AmountToday>{`₦${parseFloat(transaction.amount).toLocaleString()}`}</AmountToday>
-                <DateText>{new Date(transaction.date).toLocaleDateString()}</DateText>
-              </AmountContainer>
-            </TransactionItem>
+           <TransactionItem
+           key={index}
+           onClick={() => handleMineralClick(transaction.id, transaction.mineral_name)}
+         >
+           <IconContainer>
+             <img
+               src={transaction.mineral_image || aquariumIcon}
+               alt={transaction.mineral_name}
+             />
+           </IconContainer>
+           <TransactionDetails>
+             <ItemTitle>{transaction.mineral_name}</ItemTitle>
+             <Status style={{ color: transaction.status === 'completed' ? '#39e600' : '#cc3300' }}>
+               {transaction.status}
+             </Status>
+           </TransactionDetails>
+           <AmountContainer>
+             <AmountToday>{`₦${parseFloat(transaction.amount).toLocaleString()}`}</AmountToday>
+             <DateText>{new Date(transaction.date).toLocaleDateString()}</DateText>
+           </AmountContainer>
+         </TransactionItem>
+         
           ))}
         </Transactions>
       )}
@@ -282,28 +283,19 @@ const StyledContainer = styled.div`
   }
 `;
 const BottomNav = styled.div`
-// display: flex;
-// justify-content: space-around;
-// align-items: center;
-// margin-bottom: -150px;
-// margin-left: -20px;
-// padding: 15px 0;
-// background-color: white;
-// border-radius: 10px;
-// width: 110%;
-// position: relative;
-display: flex;
+  display: flex;
   justify-content: space-around;
   align-items: center;
   padding: 15px 0;
   background-color: white;
-  border-radius: 10px;
-  width: 100%;
-  position: absolute; /* Position it at the bottom of the container */
-  bottom: 0px; /* Add spacing from the bottom edge of the container */
-  left: 0; /* Align to the left edge of the container */
+  border-radius: 0px;
+  width: 438px;
+  position: fixed; /* Fix it to the viewport */
+  bottom: 0; /* Always stay at the bottom of the screen */
+  margin-left: -19px; /* Align to the left edge of the screen */
+  z-index: 100; /* Ensure it stays on top of other content */
+  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
 `;
-
 const NavIconContainer = styled.div`
 display: flex;
 align-items: center;

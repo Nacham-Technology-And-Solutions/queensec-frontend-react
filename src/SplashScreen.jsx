@@ -63,7 +63,7 @@ const ContentWrapper = styled.div`
   background-color: white;
   border-radius: 12px;
   margin-top: -50px; /* Move the entire content up */
-  height: 85vh; /* Full screen height */
+  height: 100vh; /* Full screen height */
   padding: 40px; /* Add more padding for space */
 `;
 

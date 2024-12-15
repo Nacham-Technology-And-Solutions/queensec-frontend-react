@@ -6,7 +6,7 @@ import MiniDashboardIcon from '../Assets/MINI_DB.png';
 import axios from 'axios';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
-// import ubuntu from '../Assets/Ubuntu/Ubuntu-Regular.ttf';
+
 const MakePaymentVendorCategoryScreen = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
@@ -29,21 +29,25 @@ const MakePaymentVendorCategoryScreen = () => {
     const fetchCategories = async () => {
       try {
         const token = localStorage.getItem('token');
-        const haulerId = savedUser?.userId; // Fetch hauler_id from saved data
-
+        const savedUser = JSON.parse(localStorage.getItem('savedUser')); // Fetch saved user data
+        const haulerId = savedUser?.haulerId;  // Fetch hauler_id from saved data
+        console.log(haulerId);
+        
         if (!token || !haulerId) {
           console.error('Missing token or hauler_id');
           return;
         }
 
-        const response = await axios.get(`${API_BASE_URL}/fee-category?hauler_id=${haulerId}`, {
+        const response = await axios.get(`${API_BASE_URL}/user/get-fee-category`, {
           headers: {
-            Authorization: `Bearer: 30|QbKMOBNGCPseI3wapZ4Z1EZLy4vEqI62C1e1lsGu870cc91e`,
-          },
+            Authorization: `Bearer ${token}`,
+          },  params: { hauler_id: haulerId },
         });
 
         if (response.data.success) {
-          setCategories(response.data.data.categories || []);
+          setCategories(response.data.data || []);
+          console.log(response.data.data);
+          
         }
       } catch (error) {
         console.error('Error fetching fee categories:', error);
@@ -64,12 +68,20 @@ const MakePaymentVendorCategoryScreen = () => {
     }
 
     // Save selected category for the next screen
-    const selectedCategoryData = categories.find((cat) => cat.id === parseInt(selectedCategory, 10));
+    const selectedCategoryData = categories.find((cat) => cat.mineral_sub_id === parseInt(selectedCategory, 10));
+    console.log(selectedCategoryData);
+    
     if (selectedCategoryData) {
       localStorage.setItem('selectedCategory', JSON.stringify(selectedCategoryData));
+      localStorage.setItem('mineral_id', selectedCategoryData.mineral_id);
+      localStorage.setItem('mineral_sub_id', selectedCategoryData.mineral_sub_id);
+      localStorage.setItem('selectedCategoryPrice', selectedCategoryData.price);
+      console.log(selectedCategoryData.price);
+      
+      localStorage.setItem('selectedCategoryName', selectedCategoryData.name);
     }
 
-    navigate('/Vendor-BankDetails-Screen');
+    navigate('/Vendor-BankDetails-MakePayment-Screen');
   };
 
   return (
@@ -108,8 +120,11 @@ const MakePaymentVendorCategoryScreen = () => {
       >
         <option value="">Select a category</option>
         {categories.map((category) => (
-          <option key={category.id} value={category.id}>
-            {category.name} - NGN {category.fee}
+           <option
+           key={category.mineral_sub_id}
+           value={category.mineral_sub_id}
+         >
+            {category.name} - NGN {category.price}
           </option>
         ))}
       </SelectDropdown>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled , { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import LeftIcon from '../Assets/left.png';
@@ -7,13 +7,15 @@ import AddIcon from '../Assets/add.png';
 import MiniDashboardIcon from '../Assets/MINI_DB.png';
 import HaulerIcon from '../Assets/haulericon.png';
 import { useUser } from '../UserContext';
+import QRCode from 'react-qr-code'; 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
 const HaulersListScreen = () => {
   const navigate = useNavigate();
   // const { user } = useUser();
   const [haulers, setHaulers] = useState([]);
   const [haulerTypes, setHaulerTypes] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedHauler, setSelectedHauler] = useState(null);
   const [tooltipVisible, setTooltipVisible] = useState(null);
 const user  = useUser();
 const token = localStorage.getItem("token");
@@ -49,6 +51,15 @@ const token = localStorage.getItem("token");
     fetchHaulerTypes();
   }, [token]);
 
+  const handleHaulerClick = (hauler) => {
+    setSelectedHauler(hauler);
+    setModalVisible(true); // Show the modal
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setSelectedHauler(null);
+  };
   const handleAddHauler = () => {
     navigate('/Add-Hauler');
   };
@@ -140,7 +151,7 @@ const taxId = localStorage.getItem('tax_id')
       <HaulersContainer>
         <HaulersLabel>Haulers:</HaulersLabel>
         {haulers.map((hauler, index) => (
-          <HaulerItem key={hauler.id}>
+          <HaulerItem key={hauler.id} onClick={() => handleHaulerClick(hauler)}>
             <HaulerIconStyled src={HaulerIcon} alt="Hauler Icon" />
             <HaulerDetails>
             <VehicleType>
@@ -160,10 +171,26 @@ const taxId = localStorage.getItem('tax_id')
         ))}
       </HaulersContainer>
 
+       {/* Modal for QR Code */}
+       {modalVisible && selectedHauler && (
+        <ModalOverlay onClick={closeModal}>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <QRCode value={selectedHauler.number_plate} size={200} bgColor="#f6f6f6" fgColor="#6C3ECF"/>
+            <HaulerModalInfo>
+              <strong>{selectedHauler.name}</strong>
+              <p>{selectedHauler.number_plate}</p>
+            </HaulerModalInfo>
+            <CloseButton onClick={closeModal}>Close</CloseButton>
+          </ModalContent>
+        </ModalOverlay>
+      )}
+
+
       <AddHaulerButton onClick={handleAddHauler}>
         {/* <AddIconStyled src={AddIcon} alt="Add Icon" />  */}
         Add Hauler
       </AddHaulerButton>
+
     </Container>
   );
 };
@@ -392,6 +419,53 @@ const AddHaulerButton = styled.button`
      white-space: nowrap;
 `;
 
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: ${fadeIn} 0.3s ease-in-out;
+   z-index: 100;
+`;
+
+const ModalContent = styled.div`
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  animation: ${fadeIn} 0.3s ease-in-out;
+`;
+
+const HaulerModalInfo = styled.div`
+  margin-top: 16px;
+`;
+
+const CloseButton = styled.button`
+  margin-top: 16px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
 
 const AddIconStyled = styled.img`
   width: 20px;

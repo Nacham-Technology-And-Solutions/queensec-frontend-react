@@ -11,15 +11,28 @@ const BasicInfoScreen = () => {
   const [basicInfo, setBasicInfo] = useState({
     first_name: '',
     last_name: '',
-    business_name: '',
     middle_name: '',
     username: '',
+    business_name: '',
   });
 
-  // Load saved data from localStorage on component mount
+  const [showBusinessName, setShowBusinessName] = useState(true); // State to control the visibility of business_name
+
   useEffect(() => {
+    // Load saved data from localStorage on component mount
     const savedBasicInfo = JSON.parse(localStorage.getItem('basicInfo')) || {};
+    const accountType = localStorage.getItem('account_type');
+
     console.log('Loaded data from localStorage on mount:', savedBasicInfo); // Debugging
+    console.log('Account Type:', accountType); // Debugging
+
+    // Determine whether to show the business_name field
+    if (accountType === 'individual' || accountType === 'vendor') {
+      setShowBusinessName(false);
+    } else {
+      setShowBusinessName(true);
+    }
+
     setBasicInfo(savedBasicInfo);
   }, []);
 
@@ -36,9 +49,15 @@ const BasicInfoScreen = () => {
   };
 
   const handleNext = () => {
-    if (!basicInfo.first_name || !basicInfo.last_name || !basicInfo.business_name || !basicInfo.username    || !basicInfo.middle_name) 
-     {
-      alert('Please fill in all fields.');
+    const requiredFields = ['first_name', 'last_name', 'middle_name', 'username'];
+    if (showBusinessName) {
+      requiredFields.push('business_name');
+    }
+
+    const isFormValid = requiredFields.every((field) => basicInfo[field]?.trim());
+
+    if (!isFormValid) {
+      alert('Please fill in all required fields.');
       return;
     }
 
@@ -52,6 +71,7 @@ const BasicInfoScreen = () => {
 
     navigate('/contact-info'); // Adjust path to the ContactInfoScreen
   };
+
   return (
     <Container>
       <TopBar>
@@ -87,7 +107,6 @@ const BasicInfoScreen = () => {
           />
         </InputField>
 
-        
         <InputField>
           <Label>Middle Name</Label>
           <Input
@@ -109,16 +128,19 @@ const BasicInfoScreen = () => {
             placeholder="Username"
           />
         </InputField>
-        <InputField>
-          <Label>Business name</Label>
-          <Input
-            type="text"
-            name="business_name"
-            value={basicInfo.business_name}
-            onChange={handleChange}
-            placeholder="Enter your business name"
-          />
-        </InputField>
+
+        {showBusinessName && (
+          <InputField>
+            <Label>Business name</Label>
+            <Input
+              type="text"
+              name="business_name"
+              value={basicInfo.business_name}
+              onChange={handleChange}
+              placeholder="Enter your business name"
+            />
+          </InputField>
+        )}
       </FormContainer>
 
       <NextButton onClick={handleNext}>
@@ -166,7 +188,7 @@ const LogoContainer = styled.div`
 const Logo = styled.img`
   width: 120px;
   height: auto;
-  margin-left: -50px;
+  margin-left: -20px;
 `;
 
 const Heading = styled.h1`

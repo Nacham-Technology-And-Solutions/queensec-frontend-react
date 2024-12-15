@@ -67,7 +67,7 @@ const SignUp_UserTypeScreen = () => {
           onClick={() => handleSelectAccount('federal_agency')}
         >
           <Avatar src={BuildingIcon} />
-          <AccountText selected={selectedAccount === 'federal_agency'}>Agency</AccountText>
+          <AccountText selected={selectedAccount === 'federal_agency'}>Corporate</AccountText>
           <Tick src={TickIcon} selected={selectedAccount === 'federal_agency'} />
         </AccountType>
 

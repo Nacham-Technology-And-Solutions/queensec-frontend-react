@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import LeftIcon from '../Assets/left.png';
@@ -6,7 +6,8 @@ import MiniDashboardIcon from '../Assets/MINI_DB.png';
 import VisaIcon from '../Assets/Visa.png';
 import MasterCardIcon from '../Assets/mastercard.png';
 import PayUIcon from '../Assets/payu.png';
-// import ubuntu from '../Assets/Ubuntu/Ubuntu-Regular.ttf';
+import axios from 'axios';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 const MP_BankDetailsVendorScreen = () => {
     const navigate = useNavigate();
@@ -14,21 +15,76 @@ const MP_BankDetailsVendorScreen = () => {
     const [truckInfo, setTruckInfo] = useState('Truck, Yamaha 201'); // Example truck info
     const [plateNumber, setPlateNumber] = useState('1234TID'); // Example plate number
     const [categories, setCategories] = useState([]);
-  const [amount, setAmount] = useState('0'); // Example amount
+    const [amount] = useState(() => {
+      const savedAmount = localStorage.getItem('selectedCategoryPrice');
+      return savedAmount || '0';
+    });
+  // const user = localStorage.getItem('savedUser')
+  const initiatePayment = async () => {
+    try {
+      const savedUser = JSON.parse(localStorage.getItem('savedUser'));
+        // Retrieve required data from localStorage
+        const token = localStorage.getItem('token');
+        const payerId = localStorage.getItem('payer_id');
+        const haulerId = savedUser?.haulerId;
+        console.log(haulerId);
+        const mineralId = localStorage.getItem('mineral_id');
+        const mineralSubId = localStorage.getItem('mineral_sub_id');
+        const payee_id = localStorage.getItem('payee_id');
+        const parsedAmount = parseFloat(localStorage.getItem('selectedCategoryPrice').replace('NGN', '').replace(',', '').trim());
+
+  
+        if (!token || !payerId || !haulerId || !mineralId || !mineralSubId || isNaN(amount)) {
+          throw new Error('Missing or invalid payment parameters.');
+        }
+    
+        // Make the payment initiation request
+        const response = await axios.post(`${API_BASE_URL}/orders`, {
+          payer_id: payerId,
+          payee_id: payee_id,
+          payee_hauler_id: haulerId,
+          mineral_id: mineralId,
+          mineral_sub_id: mineralSubId,
+          total_amount: parsedAmount.toFixed(2),
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+    
+        const paymentLink = response.data?.data?.payment_link;
+        if (!paymentLink) {
+          throw new Error('Payment link not provided by the backend.');
+        }
+    
+        // Redirect to the payment link
+        window.location.href = paymentLink;
+      } catch (error) {
+        console.error('Error initiating payment:', error);
+        alert('Failed to initiate payment. Please try again.');
+      }
+    };
+    
 
   const handleBack = () => {
-    navigate('/MP_VehicleScreen');
+    navigate('/Vendor-Category-MakePayment-Screen');
   };
 
-  const handlePayNow = () => {
-    // Pass the amount as state to PaymentSuccessScreen
-    navigate('MP_PaymentSuccessScreen', { state: { amount } });
-  };
-  const handleAmountChange = (e) => {
-    // Remove non-numeric characters except for commas
-    const formattedAmount = e.target.value.replace(/[^0-9]/g, '');
-    setAmount(formattedAmount);
-  };
+  useEffect(() => {
+    const savedUser = JSON.parse(localStorage.getItem('savedUser'));
+    if (savedUser) {
+      setUsername(savedUser.username || 'Username');
+      setTruckInfo(savedUser.selectedHauler || 'Truck Info');
+      setPlateNumber(savedUser.numberPlate || 'Plate Number');
+     
+    }
+  }, []);
+  
+  // const handlePayNow = () => {
+  //   // Pass the amount as state to PaymentSuccessScreen
+  //   navigate('MP_PaymentSuccessScreen', { state: { amount } });
+  // };
+ 
   return (
     <Container>
       <TopBar>
@@ -61,10 +117,10 @@ const MP_BankDetailsVendorScreen = () => {
       <AmountContainer>
         <AmountLabel>Amount</AmountLabel>
         <AmountInput
-          type="text"
-          value={`NGN: ${parseInt(amount).toLocaleString()}`}
-          onChange={handleAmountChange}
-          placeholder="Enter amount"
+        type="text"
+        value={amount}
+        readOnly
+        placeholder="Amount not available"
         />
       </AmountContainer>
 
@@ -85,7 +141,7 @@ const MP_BankDetailsVendorScreen = () => {
         </PaymentMethod>
       </PaymentMethods>
 
-      <PayNowButton onClick={handlePayNow}>Pay Now</PayNowButton>
+      <PayNowButton onClick={initiatePayment}>Pay Now</PayNowButton>
     </Container>
   );
 };
@@ -197,7 +253,7 @@ const Label1 = styled.p`
   color: #67728A;
   margin: 0;
   margin-top: 47px;
-  margin-left: -170px;
+  margin-right: 150px;
 `;
 
 const Value1 = styled.p`
@@ -205,7 +261,7 @@ const Value1 = styled.p`
   font-weight: bold;
   color: #CEECFF;
   margin-top: 5px;
-  margin-left: -170px;
+  margin-right: 150px;
 `;
 
 

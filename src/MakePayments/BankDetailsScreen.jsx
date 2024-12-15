@@ -6,7 +6,7 @@ import MiniDashboardIcon from '../Assets/MINI_DB.png';
 import VisaIcon from '../Assets/Visa.png';
 import MasterCardIcon from '../Assets/mastercard.png';
 import PayUIcon from '../Assets/payu.png';
-// import ubuntu from '../Assets/Ubuntu/Ubuntu-Regular.ttf';
+
 import axios from 'axios';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
@@ -37,7 +37,7 @@ if (isNaN(parsedAmount) || parsedAmount <= 0) {
   const initiatePayment = async () => {
     try {
       // Retrieve values from localStorage
-       // Get mineral_sub_id from localStorage
+       // Get mineral_sub_id from localStoragew
       const payerId = localStorage.getItem('payer_id'); // Example retrieval, replace with actual logic
       const haulerId = localStorage.getItem('hauler_id'); // Example retrieval
       const mineralId = localStorage.getItem('mineral_id'); // Example retrieval

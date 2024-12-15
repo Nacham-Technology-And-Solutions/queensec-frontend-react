@@ -12,6 +12,8 @@ import folder_N from './Assets/folder_N.png';
 import { useUser } from './UserContext';
 import axios from 'axios';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
+import QRCode from 'react-qr-code';
+
 
 
  const ProfileScreen = () => {
@@ -120,7 +122,9 @@ const img = localStorage.getItem("image_url") || "https://via.placeholder.com/15
         <Label>State</Label>
         <Input value={user?.state || 'Nasarawa'} readOnly />
       </Details>
-
+      <QRCodeContainer>
+          <QRCode value={`${user?.taxId }`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
+        </QRCodeContainer>
       <BottomNav>
         <NavIcon src={folder_N} onClick={goToDashboard} alt="Dashboard" />
         <NavIcon src={transactions_N} onClick={goToTransactions} alt="Transactions" />
@@ -142,7 +146,7 @@ const Container = styled.div`
   padding: 20px;
   padding-bottom: 0px;
   background-color: #F7F9FA;
-  height: 100vh;
+  height: 120vh;
   max-width: 400px;
   margin: 0 auto;
   border-radius: 30px;
@@ -248,25 +252,30 @@ const SeeMore = styled.span`
   text-align: right;
   cursor: pointer;
 `;
-
 const BottomNav = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin-top: 20px;
   padding: 15px 0;
   background-color: white;
-  border-radius: 10px;
-  width: 110%;
-  position: relative;
-
+  border-radius: 0px;
+  width: 438px;
+  position: fixed; /* Fix it to the viewport */
+  bottom: 0; /* Always stay at the bottom of the screen */
+  margin-left: -0px; /* Align to the left edge of the screen */
+  z-index: 100; /* Ensure it stays on top of other content */
+  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
 `;
-
 const NavIconContainer = styled.div`
   display: flex;
   align-items: center;
 `;
-
+const QRCodeContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 275px;
+  margin-top: 35px;
+`;
 const NavIcon = styled.img`
   width: 27px;
   height: 27px;

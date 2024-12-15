@@ -43,14 +43,15 @@ const MakePaymentVendorUserScreen = () => {
 
       if (response.data.success && response.data.data.found) {
         const user = response.data.data.user;
-        const resolvedUsername = user.id === 0 ? user.business_name : user.username;
+        const resolvedUsername = user.id === 'federal_agency' ? user.business_name : user.username;
         setUsername(resolvedUsername); // Set username for dashboard card
         localStorage.setItem('resolvedUsername', resolvedUsername); // Save username for subsequent use
         setIsVerified(true);
         setErrorMessage('');
-
+        console.log(user);
+        localStorage.setItem('payee_id', user.id)
         // Fetch Haulers
-        const haulerResponse = await axios.get(`${API_BASE_URL}/user/get-user-hauler`, {
+        const haulerResponse = await axios.get(`${API_BASE_URL}/user/get-user-hauler-by-tax-id`, {
           headers: {
             Authorization: `Bearer ${token}`,
             Accept: 'application/json',
@@ -62,7 +63,10 @@ const MakePaymentVendorUserScreen = () => {
           const haulersList = haulerResponse.data.data.haulers || [];
           setHaulerOptions(haulersList); // Populate dropdown options
           setHaulers(haulersList.length); // Set haulers count for dashboard
+          console.log(haulersList);
+          
         }
+
       } else {
         // Handle invalid Tax ID
         setIsVerified(false);
@@ -91,7 +95,7 @@ const MakePaymentVendorUserScreen = () => {
           haulers,
           selectedHauler: selectedHaulerData.name,
           numberPlate: selectedHaulerData.number_plate,
-          userId: selectedHaulerData.user_id,
+          haulerId: selectedHaulerData.id,
         };
         localStorage.setItem('savedUser', JSON.stringify(savedData)); // Save data to storage
         navigate('/Vendor-Category-MakePayment-Screen');

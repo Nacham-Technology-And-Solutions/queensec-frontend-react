@@ -5,7 +5,7 @@ import folder_C from './Assets/folder_C.png';
 import transactions_N from './Assets/transactions_N.png';
 import notification_N from './Assets/notification_N.png';
 import profile_N from './Assets/profile_N.png';
-import { VictoryChart, VictoryLine, VictoryTheme } from 'victory';
+import { VictoryChart, VictoryLine, VictoryTheme, VictoryTooltip, VictoryAxis } from 'victory';
 import mineral_icon from './Assets/mineral_icon.png';
 import logo from './Assets/Queensec_1.png';
 import Vector from './Assets/Vector.png'; // Icon for viewing full chart
@@ -234,13 +234,29 @@ const Dashboard = () => {
           <ViewFullChartIcon src={Vector} alt="View full chart" />
         </ChartHeader>
         <TransactionChart>
-          <VictoryChart theme={VictoryTheme.material}>
+          <VictoryChart theme={VictoryTheme.material} domainPadding={{ x: 20, y: 20 }}>
+              {/* X-axis */}
+              <VictoryAxis
+                style={{
+                  tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
+                }}
+              />
+
+              {/* Y-axis with formatted labels */}
+              <VictoryAxis
+                dependentAxis
+                tickFormat={(t) => `N ${t / 1000}k`} // Format Y-axis values as "N 10k"
+                style={{
+                  tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
+                }}
+              />
+
             <VictoryLine
               data={chartData}
               x="day"
               y="amount"
               style={{
-                data: { stroke: '#ffa726' },
+                data: { stroke: '#ffa726', strokeWidth: 2 },
                 parent: { border: '1px solid #ccc' },
               }}
             />
@@ -323,7 +339,7 @@ const DateText = styled.p`
 
 const Logo = styled.img`
   width: 60px;
-  height: 26.25px;
+  height: 60px;
 `;
 
 const DashboardCard = styled.div`
@@ -361,6 +377,12 @@ const UserName = styled.h2`
   margin-top: -2px;
   margin-bottom: 57px;
   padding-bottom: 15px;
+`;
+const NoDataText = styled.div`
+  text-align: center;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #888;
 `;
 
 const LabelTextA = styled.p`
@@ -552,18 +574,19 @@ const TransactionRight = styled.div`
 
 // Bottom navigation bar
 const BottomNav = styled.div`
-display: flex;
+  display: flex;
   justify-content: space-around;
   align-items: center;
   padding: 15px 0;
   background-color: white;
-  border-radius: 10px;
-  width: 100%;
-  position: absolute; /* Position it at the bottom of the container */
-  bottom: 0px; /* Add spacing from the bottom edge of the container */
-  left: 0; /* Align to the left edge of the container */
+  border-radius: 0px;
+  width: 438px;
+  position: fixed; /* Fix it to the viewport */
+  bottom: 0; /* Always stay at the bottom of the screen */
+  margin-left: -19px; /* Align to the left edge of the screen */
+  z-index: 100; /* Ensure it stays on top of other content */
+  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
 `;
-
 const NavIcon = styled.img`
 width: 30px;
 height: 30px;

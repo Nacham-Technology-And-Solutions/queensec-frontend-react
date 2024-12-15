@@ -56,7 +56,7 @@ function App() {
             <Route path="/Hauler-Lists" element={<HaulersListScreen />} />
             <Route path="/User-Profile" element={<ProfileScreen />} />
             <Route path="/Transaction-History" element={<TransactionHistory />} />
-            <Route path="/transaction-history-mineral" element={<TransactionHistory_MineralScreen />} />
+            <Route path="/TransactionHistory_MineralScreen" element={<TransactionHistory_MineralScreen />} />
             <Route path="/Transactions-page" element={<TransactionsPage />} />
             <Route path="/Notifications-page" element={<NotificationPage />} />
             <Route path="/Notifications-Details-page" element={<NotificationDetailsPage />} />

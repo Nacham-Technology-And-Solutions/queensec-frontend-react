@@ -7,6 +7,7 @@ import profile_N from '../Assets/profile_N.png';
 import profile_C from '../Assets/profile_C.png';
 import folder_N from '../Assets/folder_N.png';
 import planeIcon from '../Assets/planeicon.png';
+
 import { useUser } from '../UserContext';
 const NotificationPage = () => {
 
@@ -148,27 +149,27 @@ const PreviewMessage = styled.p`
 `;
 
 const BottomNav = styled.div`
- display: flex;
+  display: flex;
   justify-content: space-around;
   align-items: center;
   padding: 15px 0;
   background-color: white;
-  border-radius: 10px;
-  width: 100%;
-  position: absolute; /* Position it at the bottom of the container */
-  bottom: 0px; /* Add spacing from the bottom edge of the container */
-  left: 0; /* Align to the left edge of the container */
-`
-;
-
+  border-radius: 0px;
+  width: 438px;
+  position: fixed; /* Fix it to the viewport */
+  bottom: 0; /* Always stay at the bottom of the screen */
+  margin-left: -19px; /* Align to the left edge of the screen */
+  z-index: 100; /* Ensure it stays on top of other content */
+  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+`;
 const NavIconContainer = styled.div`
   display: flex;
   align-items: center;
 `;
 
 const NavIcon = styled.img`
-  width: 27px;
-  height: 27px;
+  width: 26x;
+  height: 26px;
 `;
 
 const DashboardLabel = styled.span`
