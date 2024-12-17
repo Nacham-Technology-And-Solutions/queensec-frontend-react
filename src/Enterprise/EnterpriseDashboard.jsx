@@ -214,7 +214,7 @@ const EnterpriseDashboard = () => {
           <LabelTextA>Tax ID Number:</LabelTextA>
           <UserInfoDataA>{userData.taxID}</UserInfoDataA>
           <LabelTextB>Account type</LabelTextB>
-          <UserInfoDataB>{userData.accountType}</UserInfoDataB>
+          <UserInfoDataB>Corporate</UserInfoDataB>
               </UserDetails>
               <HaulersBtn onClick={haulerScreen}>Haulers</HaulersBtn>
         <MakePaymentButton onClick={handleMakePayment}>Make Payment</MakePaymentButton>
