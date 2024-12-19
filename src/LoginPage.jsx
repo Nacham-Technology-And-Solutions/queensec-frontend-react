@@ -86,7 +86,7 @@ const LoginPage = () => {
     }
   }
 
-  const handleSigUp= () => {
+  const handleSigUp = () => {
     navigate('/sign-up-user-type');
   };
     

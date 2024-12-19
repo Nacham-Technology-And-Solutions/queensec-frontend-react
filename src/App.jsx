@@ -48,12 +48,12 @@ function App() {
                 <Route path="/splash" element={<SplashScreen />} />
                 <Route path="/Login-Page" element={<LoginPage />} />
 
+                <Route path="/sign-up-user-type" element={<SignUp_UserTypeScreen/>} />
+                <Route path="/basic-info" element={<BasicInfoScreen/>} />
+                <Route path="/contact-info" element={<ContactInfoScreen/> } />
+                <Route path="/security-info" element={<SecurityInfoScreen/>} />
+                <Route path="/success" element={<SuccessScreen/> } />
                 {/* Protected Routes */}
-                <Route path="/sign-up-user-type" element={<ProtectedRoute><SignUp_UserTypeScreen /></ProtectedRoute>} />
-                <Route path="/basic-info" element={<ProtectedRoute><BasicInfoScreen /></ProtectedRoute>} />
-                <Route path="/contact-info" element={<ProtectedRoute><ContactInfoScreen /></ProtectedRoute>} />
-                <Route path="/security-info" element={<ProtectedRoute><SecurityInfoScreen /></ProtectedRoute>} />
-                <Route path="/success" element={<ProtectedRoute><SuccessScreen /></ProtectedRoute>} />
                 <Route path="/dashboard-page" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/MP_VehicleScreen" element={<ProtectedRoute><MakePaymentVehicleScreen /></ProtectedRoute>} />
                 <Route path="/MP_CategoryScreen" element={<ProtectedRoute><MakePaymentCategoryScreen /></ProtectedRoute>} />
