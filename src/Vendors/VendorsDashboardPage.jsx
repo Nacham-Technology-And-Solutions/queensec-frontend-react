@@ -153,7 +153,7 @@ const VendorsDashboard = () => {
               ? new Date(transaction.date).toLocaleDateString()
               : "Today", // Format or fallback to 'Today'
           }));
-          setTransactions(transactionList);
+          setTransactions(transactionList.slice(0, 5));
         } else {
           console.error("Failed to load transactions:", response.data.message);
         }
@@ -167,11 +167,7 @@ const VendorsDashboard = () => {
 
 
   const [transactions, setTransactions] = useState([
-    { id: 1, name: 'Clay', mineralNumber: 'Nas/003', amount: '₦21,000', date: 'Today' },
-    { id: 2, name: 'Gypsum', mineralNumber: 'Nas/004', amount: '₦26,000', date: 'Today' },
-    { id: 3, name: 'Iron Ore', mineralNumber: 'Nas/003', amount: '₦40,000', date: 'Today' },
-    { id: 4, name: 'Marble', mineralNumber: 'Nas/003', amount: '₦15,000', date: 'Today' },
-    { id: 5, name: 'Aquarium', mineralNumber: 'Nas/003', amount: '₦26,000', date: 'Today' },
+
   ]);
 
   const handleMakePayment = () => {
@@ -180,6 +176,8 @@ const VendorsDashboard = () => {
   
   
   const navigate = useNavigate();
+  const truncateText = (text, maxLength) => 
+    text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 
   const goToDashboard = () => navigate('/dashboard-page');
   const goToTransactions = () => navigate('/Transactions-page');
@@ -201,7 +199,7 @@ const VendorsDashboard = () => {
       <DashboardCard background={DASHBOARD}>
         <UserDetails>
           <WelcomeMessage>Welcome,</WelcomeMessage>
-          <UserName>{userData.name}</UserName>
+          <UserName>{truncateText(userData.name, 15)}</UserName>
           <LabelTextB>Account type</LabelTextB>
           <UserInfoDataB>{userData.accountType}</UserInfoDataB>
         </UserDetails>
@@ -237,6 +235,8 @@ const VendorsDashboard = () => {
               data={chartData}
               x="day"
               y="amount"
+              labels={({ datum }) => `₦${datum.amount}`}
+              labelComponent={<VictoryTooltip />}
               style={{
                 data: { stroke: '#ffa726' },
                 parent: { border: '1px solid #ccc' },
@@ -250,7 +250,7 @@ const VendorsDashboard = () => {
       <Transactions>
       <TransactionsHeader>
         <h3>Transactions</h3>
-          <ViewAllButton>View All</ViewAllButton>
+          <ViewAllButton onClick={goToTransactions}>View All</ViewAllButton>
           {/* onClick={navigate('/Transactions-page') */}
       </TransactionsHeader>
       <ul>
@@ -270,7 +270,11 @@ const VendorsDashboard = () => {
           </TransactionItem>
         ))}
       </ul>
-    </Transactions>
+      </Transactions>
+          
+    <Footer>
+        <p>Powered ⚡ by Queensec Global</p>
+      </Footer>
 
       {/* Bottom Navigation */}
       <BottomNav>
@@ -296,7 +300,14 @@ const DashboardContainer = styled.div`
   max-width: 400px;
   margin: 0 auto;
   background-color: #f9f9f9;
-  height: 190vh;
+  height: 100%;
+    @media (max-width: 768px) {
+    padding: 15px;
+  }
+  @media (max-width: 480px) {
+    padding: 10px;
+    border-radius: 15px;
+  }
 `;
 
 const Header = styled.div`
@@ -329,6 +340,10 @@ const DateText = styled.p`
 const Logo = styled.img`
   width: 60px;
   height: 60px;
+   @media (max-width: 480px) {
+    width: 40px;
+    height: 40px;
+  }
 `;
 
 const DashboardCard = styled.div`
@@ -371,6 +386,9 @@ const UserDetails = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
+    @media (max-width: 480px) {
+    gap: 5px;
+  }
 `;
 
 const WelcomeMessage = styled.p`
@@ -434,6 +452,10 @@ const MakePaymentButton = styled.button`
   align-self: flex-end;
   margin-bottom: 7px;
   margin-right: 160px;
+    @media (max-width: 480px) {
+    font-size: 12px;
+    padding: 10px 15px;
+  }
 `;
 
 const ChartSection = styled.div`
@@ -473,6 +495,7 @@ const Transactions = styled.div`
   border-radius: 10px;
   width: 102%;
   margin-left: -19px;
+  padding-bottom: 15px;
 `;
 
 const TransactionsHeader = styled.div`
@@ -553,6 +576,30 @@ const TransactionRight = styled.div`
     color: #67728A;
   }
 `;
+
+const Footer = styled.footer`
+  display: flex;
+  justify-content: right;
+  align-items: right;
+  padding: 20px 0;
+  background-color: #f9f9f9; /* Light gray background */
+  border-top: 1px solid #e0e0e0; /* Subtle top border */
+  margin-top: -10px;
+
+  p {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 11px;
+    font-weight: 200;
+    color: #6c3ecf; /* Primary color for branding */
+    text-align: center;
+  }
+
+  p span {
+    font-weight: 400;
+    color: #ff9800; /* Highlight for the lightning symbol */
+  }
+`;
+
 const BottomNav = styled.div`
   display: flex;
   justify-content: space-around;
@@ -566,6 +613,9 @@ const BottomNav = styled.div`
   margin-left: -19px; /* Align to the left edge of the screen */
   z-index: 100; /* Ensure it stays on top of other content */
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+    @media (max-width: 480px) {
+    padding: 8px 0;
+  }
 `;
 
 const NavIcon = styled.img`

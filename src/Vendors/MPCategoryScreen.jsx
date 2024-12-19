@@ -31,7 +31,7 @@ const MakePaymentVendorCategoryScreen = () => {
         const token = localStorage.getItem('token');
         const savedUser = JSON.parse(localStorage.getItem('savedUser')); // Fetch saved user data
         const haulerId = savedUser?.haulerId;  // Fetch hauler_id from saved data
-        console.log(haulerId);
+
         
         if (!token || !haulerId) {
           console.error('Missing token or hauler_id');
@@ -46,7 +46,7 @@ const MakePaymentVendorCategoryScreen = () => {
 
         if (response.data.success) {
           setCategories(response.data.data || []);
-          console.log(response.data.data);
+
           
         }
       } catch (error) {
@@ -69,14 +69,14 @@ const MakePaymentVendorCategoryScreen = () => {
 
     // Save selected category for the next screen
     const selectedCategoryData = categories.find((cat) => cat.mineral_sub_id === parseInt(selectedCategory, 10));
-    console.log(selectedCategoryData);
+
     
     if (selectedCategoryData) {
       localStorage.setItem('selectedCategory', JSON.stringify(selectedCategoryData));
       localStorage.setItem('mineral_id', selectedCategoryData.mineral_id);
       localStorage.setItem('mineral_sub_id', selectedCategoryData.mineral_sub_id);
       localStorage.setItem('selectedCategoryPrice', selectedCategoryData.price);
-      console.log(selectedCategoryData.price);
+
       
       localStorage.setItem('selectedCategoryName', selectedCategoryData.name);
     }
@@ -413,7 +413,7 @@ export default MakePaymentVendorCategoryScreen;
 //   };
 
 //   const handleProceed = () => {
-//     console.log('Proceeding with selected category:', selectedCategory);
+
 //   };
 
 //   return (

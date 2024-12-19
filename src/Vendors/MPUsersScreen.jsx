@@ -48,7 +48,7 @@ const MakePaymentVendorUserScreen = () => {
         localStorage.setItem('resolvedUsername', resolvedUsername); // Save username for subsequent use
         setIsVerified(true);
         setErrorMessage('');
-        console.log(user);
+
         localStorage.setItem('payee_id', user.id)
         // Fetch Haulers
         const haulerResponse = await axios.get(`${API_BASE_URL}/user/get-user-hauler-by-tax-id`, {
@@ -63,7 +63,7 @@ const MakePaymentVendorUserScreen = () => {
           const haulersList = haulerResponse.data.data.haulers || [];
           setHaulerOptions(haulersList); // Populate dropdown options
           setHaulers(haulersList.length); // Set haulers count for dashboard
-          console.log(haulersList);
+
           
         }
 

@@ -42,7 +42,7 @@ const MakePaymentCategoryScreen = () => {
   
     
         if (response.data.success) {
-          console.log('API Response:', response.data); // Debug: Log the response
+
     
           const categories = response.data.data; // Assuming categories are in data
           setCategories(categories);
@@ -94,9 +94,7 @@ const handleProceed = () => {
     };
     localStorage.setItem("selectedCategory", JSON.stringify(categoryWithSubId));
 
-    console.log("Saved Mineral Sub ID:", selectedCategoryData.mineral_sub_id);
-    console.log("Saved Category with Sub ID:", categoryWithSubId);
-    console.log("Formatted Price:", formattedPrice);
+
   } else {
     console.error("Category not found for selected ID:", selectedCategory);
   }
@@ -140,7 +138,7 @@ const handleProceed = () => {
     setSelectedCategory(selectedValue); // Update the state correctly
 
     // Optionally log for debugging
-    console.log("Selected Category ID:", selectedValue);
+
   }}
 >
   <option value="">Select a category</option>

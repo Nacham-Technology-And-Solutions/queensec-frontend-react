@@ -38,13 +38,13 @@ const LoginPage = () => {
        
     }
     const url = `${API_BASE_URL}/auth/user/login`;
-    console.log("Request URL:", url);
+
     
     try {
       const response = await axios.post(url, payload);
     
       if (response.status >= 200 && response.status < 300) {
-        console.log('Login successful:', response.data);
+
     
         // Store tokens and credentials in localStorage
         localStorage.setItem("token", response.data.data.access_token);
@@ -67,7 +67,7 @@ const LoginPage = () => {
         
         saveUser(userData);
         const accountType = response.data.data.user?.account_type;
-        console.log('Account Type:', accountType);
+
     
         if (accountType === 'federal_agency') {
           navigate('/Enterprise-Dashboard');
@@ -75,7 +75,7 @@ const LoginPage = () => {
           navigate('/Vendors-Dashboard');
         } else if (accountType === 'individual') {
           navigate('/dashboard-page');
-          console.log('payload:', payload); // Logging the payload for debugging
+
         }        
       } else {
         alert(`Login failed: ${response.data.message || 'Please try again.'}`);

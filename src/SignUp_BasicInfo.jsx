@@ -23,8 +23,7 @@ const BasicInfoScreen = () => {
     const savedBasicInfo = JSON.parse(localStorage.getItem('basicInfo')) || {};
     const accountType = localStorage.getItem('account_type');
 
-    console.log('Loaded data from localStorage on mount:', savedBasicInfo); // Debugging
-    console.log('Account Type:', accountType); // Debugging
+
 
     // Determine whether to show the business_name field
     if (accountType === 'individual' || accountType === 'vendor') {
@@ -64,7 +63,7 @@ const BasicInfoScreen = () => {
     // Save data to localStorage
     try {
       localStorage.setItem('basicInfo', JSON.stringify(basicInfo));
-      console.log('Saved data to localStorage:', basicInfo); // Debugging
+
     } catch (error) {
       console.error('Error saving data to localStorage:', error);
     }

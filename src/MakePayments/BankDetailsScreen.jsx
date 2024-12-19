@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +11,7 @@ import PayUIcon from '../Assets/payu.png';
 import axios from 'axios';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
-const MP_BankDetailsScreen = () => {
+const MakePaymentBankDetailsScreen = () => {
   const navigate = useNavigate();
   const [taxId] = useState(localStorage.getItem('tax_id') || 'Nas/Nas/0013'); 
   const [plateNumber] = useState(localStorage.getItem('number_plate') || 'null');
@@ -25,61 +26,63 @@ const MP_BankDetailsScreen = () => {
   const payerId = localStorage.getItem('payer_id') || '';
   const haulerId = localStorage.getItem('hauler_id') || '';
   const mineralId = localStorage.getItem('mineral_id') || '';
-console.log(name);
-console.log(email);
-  console.log(phone);
+
   
 const parsedAmount = parseFloat(amount.replace(/[^0-9.]/g, ''));
 if (isNaN(parsedAmount) || parsedAmount <= 0) {
   console.error('Invalid amount:', amount);
 }
-  console.log(parsedAmount);
-  const initiatePayment = async () => {
-    try {
-      // Retrieve values from localStorage
-       // Get mineral_sub_id from localStoragew
-      const payerId = localStorage.getItem('payer_id'); // Example retrieval, replace with actual logic
-      const haulerId = localStorage.getItem('hauler_id'); // Example retrieval
-      const mineralId = localStorage.getItem('mineral_id'); // Example retrieval
-      const parsedAmount = parseFloat(localStorage.getItem('selectedCategoryPrice').replace('NGN', '').replace(',', '').trim()); // Parse the amount
-      const email = localStorage.getItem('email'); // Example retrieval
-      const name = localStorage.getItem('name'); // Example retrieval
-      const phone = localStorage.getItem('phone'); // Example retrieval
-      const token = localStorage.getItem('token');
-      const mineralSubId = localStorage.getItem('mineral_sub_id'); // Retrieve mineral_sub_id
 
-      const orderResponse = await axios.post(`${API_BASE_URL}/orders`, {
-        payer_id: payerId,
-        payee_id: payerId,
-        payee_hauler_id: haulerId,
-        mineral_id: mineralId,
-        mineral_sub_id: mineralSubId, 
-        total_amount: parsedAmount.toFixed(2),
-      },    {
-        headers: {
-          Authorization: `Bearer ${token}`, // Add token to the headers
-        },
+
+    const [loading, setLoading] = useState(false); // Add a loading state
+
+    const initiatePayment = async () => {
+      if (loading) return; // Prevent multiple execution if already loading
+
+      setLoading(true); // Set loading to true when the process starts
+
+      try {
+        // Retrieve values from localStorage
+        // Get mineral_sub_id from localStoragew
+        const payerId = localStorage.getItem('payer_id'); // Example retrieval, replace with actual logic
+        const haulerId = localStorage.getItem('hauler_id'); // Example retrieval
+        const mineralId = localStorage.getItem('mineral_id'); // Example retrieval
+        const parsedAmount = parseFloat(localStorage.getItem('selectedCategoryPrice').replace('NGN', '').replace(',', '').trim()); // Parse the amount
+        const email = localStorage.getItem('email'); // Example retrieval
+        const name = localStorage.getItem('name'); // Example retrieval
+        const phone = localStorage.getItem('phone'); // Example retrieval
+        const token = localStorage.getItem('token');
+        const mineralSubId = localStorage.getItem('mineral_sub_id'); // Retrieve mineral_sub_id
+
+        const orderResponse = await axios.post(`${API_BASE_URL}/orders`, {
+          payer_id: payerId,
+          payee_id: payerId,
+          payee_hauler_id: haulerId,
+          mineral_id: mineralId,
+          mineral_sub_id: mineralSubId,
+          total_amount: parsedAmount.toFixed(2),
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add token to the headers
+          },
+        }
+        );
+  
+        const paymentLink = orderResponse.data?.data?.payment_link;
+        if (!paymentLink) {
+          throw new Error('Payment link not provided by the backend.');
+        }
+    
+        // Redirect to the payment link
+        window.location.href = paymentLink
+      } catch (error) {
+        console.error('Error initiating payment:', error);
+        alert('Failed to initiate payment. Please try again.');
+      } finally {
+        setLoading(false); // Reset loading state on success or error
       }
-      );
-  
-      console.log("Order Response:", orderResponse.data);
-  
-      // Validate the response from the backend
-      if (!orderResponse.data?.data?.payment_link) {
-        throw new Error("Failed to retrieve payment link from the backend.");
-      }
-  
-      // Get the payment link from the backend response
-      const paymentLink = orderResponse.data.data.payment_link;
-  
-      // Redirect the user to the payment link
-      console.log("Redirecting to payment link...");
-      window.location.href = paymentLink;
-    } catch (error) {
-      console.error("Error initiating payment:", error);
-      alert("Failed to initiate payment. Please try again.");
     }
-  };
+  
   
 
   
@@ -139,7 +142,9 @@ if (isNaN(parsedAmount) || parsedAmount <= 0) {
       </PaymentMethods>
 
      
-      <PayNowButton onClick={initiatePayment}>Pay Now</PayNowButton>
+      <PayNowButton onClick={initiatePayment} disabled={loading}>
+        {loading ? 'Processing...' : 'Pay Now'}
+      </PayNowButton>
     </Container>
   );
 };
@@ -160,21 +165,21 @@ const Container = styled.div`
   max-width: 400px;
   margin: 0 auto;
   border-radius: 30px;
-`;
+;`
 
 const TopBar = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
   margin-bottom: 20px;
-`;
+;`
 
 const BackIcon = styled.img`
   width: 24px;
   height: 24px;
   cursor: pointer;
   margin-right: 15px;
-`;
+;`
 
 const Title = styled.h1`
   color: #6C3ECF;
@@ -183,15 +188,15 @@ const Title = styled.h1`
   font-weight: 500;
   line-height: 32px;
   text-align: left;
-`;
-
+;
+`
 const TabContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
   margin-top: 10px;
-`;
-
+;
+`
 const Tab = styled.div`
   padding: 10px;
   font-size: 16px;
@@ -204,8 +209,8 @@ const Tab = styled.div`
 
   &:not(:last-child) {
     margin-right: 10px;
-  }
-`;
+  }`
+;
 
 const MiniDashboard = styled.div`
   background-color: #ffffff;
@@ -218,7 +223,7 @@ const MiniDashboard = styled.div`
   margin: 20px 0;
   height: 116px;
   position: relative;
-`;
+;`
 
 const MiniDashboardIconStyled = styled.img`
   position: absolute;
@@ -227,7 +232,7 @@ const MiniDashboardIconStyled = styled.img`
   width: 450px;
   height: 220px;
   z-index: 0;
-`;
+;`
 
 const DashboardText = styled.div`
   display: flex;
@@ -235,12 +240,12 @@ const DashboardText = styled.div`
   width: 100%;
   position: relative;
   z-index: 1;
-`;
+;`
 
 const InfoColumn = styled.div`
   display: flex;
   flex-direction: column;
-`;
+;`
 
 const Label1 = styled.p`
   font-size: 12px;
@@ -248,7 +253,7 @@ const Label1 = styled.p`
   margin: 0;
   margin-top: 27px;
   margin-left: 28px;
-`;
+;`
 
 const Label2 = styled.p`
   font-size: 12px;
@@ -256,15 +261,15 @@ const Label2 = styled.p`
   margin: 0;
   margin-top: 25px;
   margin-right: 60px;
-`;
-
+;
+`
 const Value1 = styled.p`
   font-size: 14px;
   font-weight: bold;
   color: #CEECFF;
   margin-top: 9px;
   margin-left: 28px;
-`;
+;`
 
 const Value2 = styled.p`
   font-size: 14px;
@@ -272,19 +277,19 @@ const Value2 = styled.p`
   color: #CEECFF;
   margin-top: 9px;
   margin-left: 10.5px;
-`;
+;`
 const AmountContainer = styled.div`
   width: 100%;
   margin-top: 10px;
-`;
-
+;
+`
 const AmountLabel = styled.p`
   font-size: 16px;
   color: #666;
   text-align: left;
   width: 100%;
   font-family: ubuntu;
-`;
+;`
 
 const AmountInput = styled.input`
   font-size: 18px;
@@ -296,7 +301,7 @@ const AmountInput = styled.input`
   border-radius: 8px;
   width: 100%;
   text-align: left;
-`; 
+; `
 const PaymentMethodTitle = styled.p`
   font-size: 18px;
   color: #333;
@@ -304,14 +309,14 @@ const PaymentMethodTitle = styled.p`
   width: 100%;
   text-align: left;
   margin-top: 20px;
-`;
-
+;
+`
 const PaymentMethods = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   margin-top: 10px;
-`;
+;`
 
 const PaymentMethod = styled.div`
   display: flex;
@@ -319,29 +324,29 @@ const PaymentMethod = styled.div`
   align-items: center;
   padding: 10px;
   border-bottom: 1px solid #ddd;
-`;
-
+;
+`
 const PaymentMethodText = styled.p`
   font-size: 14px;
   color: #666;
-`;
-
+;
+`
 const PaymentIcons = styled.div`
   display: flex;
   align-items: center;
-`;
-
+;
+`
 const PaymentIcon = styled.img`
   width: 50px;
   height: auto;
   margin-left: 10px;
-`;
+;`
 const PaymentIcon1 = styled.img`
   width: 100px;
   height: 30px;
   margin-left: 10px;
-`;
-
+;
+`
 const PayNowButton = styled.button`
  background-color: #FDE5C0;
   padding: 12px 40px;
@@ -364,6 +369,6 @@ const PayNowButton = styled.button`
   height: 50px;
   opacity: 1;
   font-family: ubuntu;
-`;
-
-export default MP_BankDetailsScreen;
+;
+`
+export default MakePaymentBankDetailsScreen;

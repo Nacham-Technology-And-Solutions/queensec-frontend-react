@@ -20,14 +20,19 @@ const MP_BankDetailsVendorScreen = () => {
       return savedAmount || '0';
     });
   // const user = localStorage.getItem('savedUser')
+  const [loading, setLoading] = useState(false);
   const initiatePayment = async () => {
+    if (loading) return; // Prevent multiple execution if already loading
+
+    setLoading(true); // Set loading to true when the process starts
+
     try {
       const savedUser = JSON.parse(localStorage.getItem('savedUser'));
         // Retrieve required data from localStorage
         const token = localStorage.getItem('token');
         const payerId = localStorage.getItem('payer_id');
         const haulerId = savedUser?.haulerId;
-        console.log(haulerId);
+
         const mineralId = localStorage.getItem('mineral_id');
         const mineralSubId = localStorage.getItem('mineral_sub_id');
         const payee_id = localStorage.getItem('payee_id');
@@ -62,6 +67,8 @@ const MP_BankDetailsVendorScreen = () => {
       } catch (error) {
         console.error('Error initiating payment:', error);
         alert('Failed to initiate payment. Please try again.');
+      }finally {
+        setLoading(false); // Reset loading state on success or error
       }
     };
     
@@ -141,7 +148,9 @@ const MP_BankDetailsVendorScreen = () => {
         </PaymentMethod>
       </PaymentMethods>
 
-      <PayNowButton onClick={initiatePayment}>Pay Now</PayNowButton>
+      <PayNowButton onClick={initiatePayment} disabled={loading}>
+        {loading ? 'Processing...' : 'Pay Now'}
+      </PayNowButton>
     </Container>
   );
 };

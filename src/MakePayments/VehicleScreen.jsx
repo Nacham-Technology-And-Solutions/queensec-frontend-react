@@ -33,7 +33,7 @@ const MakePaymentVehicleScreen = () => {
             name: hauler?.name || 'Unknown Name',
             number_plate: hauler?.number_plate || 'Unknown Plate',
           }));
-          console.log('Hauler data:', response.data.data);
+
         
           addHaulerData(haulerData);
           // Save a single hauler_id (e.g., the first one) to localStorage
@@ -46,7 +46,7 @@ const MakePaymentVehicleScreen = () => {
           const haulerIds = haulerData.map((hauler) => hauler.id);
           localStorage.setItem('hauler_ids', JSON.stringify(haulerIds)); // Save as JSON string
   
-          console.log(haulerData);
+
           setHaulerOptions(haulerData);
           setHaulers(haulerData.length); // Number of haulers = total hauler count
         } else {
@@ -78,7 +78,7 @@ const MakePaymentVehicleScreen = () => {
   const handleProceed = () => {
     if (selectedHauler) {
       const parsedHauler = JSON.parse(selectedHauler); // Parse the selected hauler object
-      console.log("Selected Hauler ID:", parsedHauler.id); 
+
       localStorage.setItem('selected_hauler', selectedHauler); // Save the entire selected hauler
       localStorage.setItem('number_plate', parsedHauler.number_plate);
       localStorage.setItem('hauler_id', parsedHauler.id);

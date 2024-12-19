@@ -34,7 +34,7 @@ const ContactInfoScreen = () => {
       try {
         const response = await axios.get(url); // Replace with your backend API URL
         if (response.data.success) {
-          console.log('Fetched locations:', response.data.data); // Debugging fetched locations
+
           setLocations(response.data.data); // Assuming the `data` contains the array of states
         } else {
           setError('Failed to load locations');
@@ -65,7 +65,7 @@ const ContactInfoScreen = () => {
     // Update localities when a new state is selected
     if (name === 'state') {
       const selectedState = locations.find((state) => state.code === value);
-      console.log('Selected state:', selectedState); // Debugging selected state
+
       setLocalities(selectedState?.localities || []); // Update localities for the selected state
       setContactInfo((prev) => ({ ...prev, state: value, locality: '' })); // Reset locality
     }
@@ -80,7 +80,7 @@ const ContactInfoScreen = () => {
     // Save contact info to localStorage
     try {
       localStorage.setItem('contactInfo', JSON.stringify(contactInfo));
-      console.log('Saved contactInfo to localStorage:', contactInfo); // Debugging saved contactInfo
+
     } catch (error) {
       console.error('Error saving contactInfo to localStorage:', error);
     }

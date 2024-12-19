@@ -42,7 +42,7 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
     return 'Unknown';
   };
    const token = localStorage.getItem('token');
-   console.log('Token:', token);
+
    
   const handleSignOut = async () => {
     const url = `${API_BASE_URL}/auth/user/logout`

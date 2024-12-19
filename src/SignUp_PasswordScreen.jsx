@@ -72,7 +72,7 @@ const SecurityInfoScreen = () => {
       business_name: accountType === 'federal_agency' ? basicInfo.business_name || '' : '1', // Always include
     };
   
-    console.log('Final data being sent:', finalData);
+
   
     // Validate all fields
     const isValidData = Object.values(finalData).every((value) => value !== null && value !== '');
@@ -88,7 +88,7 @@ const SecurityInfoScreen = () => {
       const response = await axios.post(url, finalData);
   
       if (response.status >= 200 && response.status < 300) {
-        console.log('Registration successful:', response.data);
+
         alert('Registration completed successfully!');
         navigate('/success');
       } else {
