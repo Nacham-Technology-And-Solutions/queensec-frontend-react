@@ -265,6 +265,14 @@ const BottomNav = styled.div`
   margin-left: -0px; /* Align to the left edge of the screen */
   z-index: 100; /* Ensure it stays on top of other content */
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+  @media (max-width: 450px) {
+    padding: 8px 0;
+     width: 100%;
+  }
+    @media (max-width: 1150px) {
+    padding: 8px 0;
+     width: 100%;
+  }
 `;
 const NavIconContainer = styled.div`
   display: flex;
