@@ -210,11 +210,14 @@ const Tab = styled.div`
   color: ${(props) => (props.active ? '#F28500' : '#aaa')};
   border-bottom: ${(props) => (props.active ? '2px solid #F28500' : '1px solid #aaa')};
   cursor: pointer;
-  flex: 1;
+  flex: .5;
   text-align: center;
   font-family: ubuntu;
 
   &:first-child {
+    margin-right: 12px; /* Add space between Vehicle and Category tabs */
+  }
+  &:last-child {
     margin-right: 12px; /* Add space between Vehicle and Category tabs */
   }
 `;
@@ -231,6 +234,11 @@ const MiniDashboard = styled.div`
   margin: 20px 0;
   height: 116px;
   position: relative;
+   @media (max-width: 280px) {
+    max-width: 90%; /* Full width for very small devices */
+    padding: 38px;
+  }
+    
 `;
 
 const MiniDashboardIconStyled = styled.img`
@@ -240,6 +248,18 @@ const MiniDashboardIconStyled = styled.img`
   width: 450px;
   height: 220px;
   z-index: 0;
+        @media (max-width: 768px) {
+     max-width: 90%; /* Scale icon down for smaller devices */
+   
+  }
+
+  @media (max-width: 480px) {
+      max-width: 117%;
+  }
+  @media (max-width: 1180px) {
+      max-width: 117%;
+  }
+
 `;
 
 const DashboardText = styled.div`
@@ -277,6 +297,9 @@ const Value1 = styled.p`
   color: #CEECFF;
   margin-top: 9;
     margin-left: 28px;
+     @media (max-width: 1180px) {
+font-size: 12.5px;
+  }
 `;
 const Value2= styled.p`
   font-size: 14px;

@@ -167,6 +167,9 @@ const Container = styled.div`
   max-width: 400px;
   margin: 0 auto;
   border-radius: 30px;
+   @media (max-width: 1180px) {
+    height: 100%;
+  }
 `;
 
 const TopBar = styled.div`
@@ -225,6 +228,10 @@ const MiniDashboard = styled.div`
   height: 116px;
   position: relative;
   margin-bottom: 49px;
+    @media (max-width: 280px) {
+    max-width: 90%; /* Full width for very small devices */
+    padding: 38px;
+  }
 `;
 
 const MiniDashboardIconStyled = styled.img`
@@ -234,6 +241,17 @@ const MiniDashboardIconStyled = styled.img`
   width: 450px;
   height: 220px;
   z-index: 0;
+      @media (max-width: 768px) {
+     max-width: 90%; /* Scale icon down for smaller devices */
+   
+  }
+
+  @media (max-width: 480px) {
+      max-width: 117%;
+  }
+  @media (max-width: 1180px) {
+      max-width: 117%;
+  }
 `;
 
 const DashboardText = styled.div`
@@ -263,6 +281,21 @@ const Label1 = styled.p`
   margin: 0;
   margin-top: 47px;
   margin-right: 150px;
+      @media (max-width: 768px) {
+     font-size: 12px;
+
+     margin-top: 47px;
+  margin-right: 150px;
+  padding-left: 10px;
+  }
+      @media (max-width: 740px) {
+     font-size: 12px;
+
+     margin-top: 47px;
+  margin-right: 150px;
+  padding-left: 10px;
+  }
+
 `;
 
 const Value1 = styled.p`
@@ -271,6 +304,19 @@ const Value1 = styled.p`
   color: #CEECFF;
   margin-top: 5px;
   margin-right: 150px;
+      @media (max-width: 768px) {
+     font-size: 14px;
+     margin-top: 5px;
+  margin-right: 150px;
+  padding-left: 10px;
+  }
+      @media (max-width: 740px) {
+     font-size: 14px;
+     margin-top: 5px;
+  margin-right: 150px;
+  padding-left: 10px;
+  }
+
 `;
 
 
@@ -283,6 +329,17 @@ const Label = styled.p`
   text-align: left;
   color: #67728A;
   margin: 0;
+    @media (max-width: 768px) {
+     font-size: 11px;
+   margin-right: 5px;
+  }
+
+  @media (max-width: 480px) {
+     font-size: 11px;
+  }
+  @media (max-width: 1180px) {
+      font-size: 11px;
+  }
 `;
 
 const ValueBold = styled.p`
@@ -297,21 +354,20 @@ const ValueBold = styled.p`
 
   padding: 2px 4px;
   border-radius: 4px;
+   @media (max-width: 768px) {
+     font-size: 14px;
+   
+  }
+
+  @media (max-width: 480px) {
+     font-size: 14px;
+  }
+  @media (max-width: 1180px) {
+      font-size: 14px;
+  }
 `;
 
-const Value = styled.p`
-  font-family: Ubuntu;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-  letter-spacing: -0.15399999916553497px;
-  text-align: right;
-  color: #CEECFF;
-  margin: 0;
-  
-  padding: 2px 4px;
-  border-radius: 4px;
-`;
+
 const Label0 = styled.p`
   font-family: Ubuntu;
   font-size: 11px;
@@ -322,20 +378,17 @@ const Label0 = styled.p`
   color: #67728A;
   margin: 0;
   margin-top: 13px;
-`;
+   @media (max-width: 768px) {
+     font-size: 11px;
+   
+  }
 
-const ValueBold0 = styled.p`
-  font-family: Ubuntu;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 20px;
-  letter-spacing: -0.15399999916553497px;
-  text-align: right;
-  color: #CEECFF;
-  margin: 0;
-
-  padding: 2px 4px;
-  border-radius: 4px;
+  @media (max-width: 480px) {
+     font-size: 11px;
+  }
+  @media (max-width: 1180px) {
+      font-size: 11px;
+  }
 `;
 
 const Value0 = styled.p`
@@ -350,6 +403,17 @@ const Value0 = styled.p`
   
   padding: 2px 4px;
   border-radius: 4px;
+   @media (max-width: 768px) {
+     font-size: 14px;
+   
+  }
+
+  @media (max-width: 480px) {
+     font-size: 14px;
+  }
+  @media (max-width: 1180px) {
+      font-size: 14px;
+  }
 `;
 
 const AmountContainer = styled.div`

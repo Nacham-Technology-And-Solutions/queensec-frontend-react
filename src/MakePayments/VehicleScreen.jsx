@@ -214,6 +214,10 @@ const MiniDashboard = styled.div`
   margin: 20px 0;
   height: 116px;
   position: relative; /* Set relative positioning */
+    @media (max-width: 280px) {
+    max-width: 90%; /* Full width for very small devices */
+    padding: 38px;
+  }
 `;
 
 const MiniDashboardIconStyled = styled.img`
@@ -223,6 +227,17 @@ const MiniDashboardIconStyled = styled.img`
   width: 450px; /* Ensure it covers the entire MiniDashboard */
   height: 220px;
   z-index: 0; /* Set z-index to 0 */
+      @media (max-width: 768px) {
+     max-width: 90%; /* Scale icon down for smaller devices */
+   
+  }
+
+  @media (max-width: 480px) {
+      max-width: 117%;
+  }
+  @media (max-width: 1180px) {
+      max-width: 117%;
+  }
 `;
 
 const DashboardText = styled.div`

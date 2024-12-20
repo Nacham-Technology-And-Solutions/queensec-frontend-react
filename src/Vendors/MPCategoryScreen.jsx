@@ -92,7 +92,7 @@ const MakePaymentVendorCategoryScreen = () => {
       </TopBar>
 
       <TabContainer>
-        <Tab>User</Tab>
+        <Tab active>User</Tab>
         <Tab active>Category</Tab>
         <Tab>Bank details</Tab>
       </TabContainer>
@@ -211,6 +211,10 @@ const MiniDashboard = styled.div`
   height: 116px;
   position: relative;
   margin-bottom: 49px;
+  @media (max-width: 280px) {
+    max-width: 90%; /* Full width for very small devices */
+    padding: 38px;
+  }
 `;
 
 const MiniDashboardIconStyled = styled.img`
@@ -220,6 +224,17 @@ const MiniDashboardIconStyled = styled.img`
   width: 450px;
   height: 220px;
   z-index: 0;
+      @media (max-width: 768px) {
+     max-width: 90%; /* Scale icon down for smaller devices */
+   
+  }
+
+  @media (max-width: 480px) {
+      max-width: 117%;
+  }
+  @media (max-width: 1180px) {
+      max-width: 117%;
+  }
 `;
 
 const DashboardText = styled.div`
@@ -239,14 +254,28 @@ const InfoColumnLeft = styled.div`
 const InfoColumn = styled.div`
   display: flex;
   flex-direction: column;
+    align-items: left;
 `;
 
 const Label1 = styled.p`
   font-size: 12px;
   color: #67728A;
+
   margin: 0;
   margin-top: 27px;
-  margin-left: -258px;
+  margin-left: 2px;
+        @media (max-width: 768px) {
+    
+     margin-left: -3px; 
+  }
+
+  @media (max-width: 480px) {
+    margin-left: -3px;
+  }
+  @media (max-width: 280px) {
+    margin-left: -3px;
+  }
+
 `;
 
 const Value1 = styled.p`
@@ -254,7 +283,20 @@ const Value1 = styled.p`
   font-weight: bold;
   color: #CEECFF;
   margin-top: 9px;
-  margin-left: -258px;
+  margin-right: 188px;
+     @media (max-width: 768px) {
+    
+     margin-right: 115px; 
+  }
+
+  @media (max-width: 480px) {
+    margin-right: 115px;
+  }
+      @media (max-width: 280px) {
+    margin-left: -3px;
+  }
+
+
 `;
 
 

@@ -199,7 +199,7 @@ const VendorsDashboard = () => {
       <DashboardCard background={DASHBOARD}>
         <UserDetails>
           <WelcomeMessage>Welcome,</WelcomeMessage>
-          <UserName>{truncateText(userData.name, 15)}</UserName>
+          <UserName>{truncateText(userData.name, 10)}</UserName>
           <LabelTextB>Account type</LabelTextB>
           <UserInfoDataB>{userData.accountType}</UserInfoDataB>
         </UserDetails>
@@ -357,6 +357,12 @@ const DashboardCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+      @media (max-width: 768px) {
+   gap: 30px;
+  }
+  @media (max-width: 480px) {
+   gap: 30px;
+  }
 `;
 const HaulersBtn = styled.button`
 color: #F07F23;
@@ -615,6 +621,7 @@ const BottomNav = styled.div`
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
     @media (max-width: 480px) {
     padding: 8px 0;
+    width: 100%;
   }
 `;
 

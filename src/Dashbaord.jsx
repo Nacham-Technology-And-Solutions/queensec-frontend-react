@@ -368,6 +368,9 @@ const DashboardCard = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+    @media (max-width: 280px) {
+    gap: 5px;
+  }
 `;
 
 const UserDetails = styled.div`
@@ -416,6 +419,17 @@ const UserInfoDataA = styled.p`
   font-weight: 700;
   margin-left: 35px;
  margin-top: -2px;
+     @media (max-width: 768px) {
+     font-size: 10px;
+   
+  }
+
+  @media (max-width: 480px) {
+     font-size: 10px;
+  }
+  @media (max-width: 1180px) {
+font-size: 10px;
+  }
 `;
 
 const LabelTextB = styled.p`
@@ -450,7 +464,21 @@ const MakePaymentButton = styled.button`
   @media (max-width: 480px) {
     font-size: 12px;
     padding: 10px 15px;
+   margin-left: 25px;
   }
+         @media (max-width: 768px) {
+   font-size: 12px;
+    padding: 10px 15px;
+   margin-left: 25px;
+  }
+
+
+  @media (max-width: 1180px) {
+       font-size: 12px;
+    padding: 10px 15px;
+   margin-left: 25px;
+  }
+
 `;
 const HaulersBtn = styled.button`
 color: #F07F23;
@@ -635,6 +663,7 @@ const BottomNav = styled.div`
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
   @media (max-width: 450px) {
     padding: 8px 0;
+     width: 100%;
   }
 `;
 const NavIcon = styled.img`

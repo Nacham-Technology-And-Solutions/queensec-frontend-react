@@ -160,9 +160,12 @@ const taxId = localStorage.getItem('tax_id')
                 }
               </VehicleType>              <HaulerInfo>{`${hauler.name}, ${hauler.number_plate}`}</HaulerInfo>
             </HaulerDetails>
-            <MoreText onClick={() => toggleTooltip(index)}>More</MoreText>
+            <MoreText onClick={(e) => {
+    e.stopPropagation();
+    toggleTooltip(index);
+  }}>More</MoreText>
             {tooltipVisible === index && (
-              <Tooltip>
+              <Tooltip onClick={(e) => e.stopPropagation()}>
                 <TooltipOption onClick={() => handleEditHauler(hauler.id)}>Edit</TooltipOption>
                 <TooltipOption onClick={() => handleDeleteHauler(hauler.id)}>Delete Vehicle</TooltipOption>
               </Tooltip>
@@ -243,6 +246,10 @@ const MiniDashboard = styled.div`
   margin: 20px 0;
   height: 116px;
   position: relative; /* Set relative positioning */
+    @media (max-width: 280px) {
+    max-width: 90%; /* Full width for very small devices */
+    padding: 38px;
+  }
 `;
 
 const MiniDashboardIconStyled = styled.img`
@@ -252,6 +259,17 @@ const MiniDashboardIconStyled = styled.img`
   width: 450px; /* Ensure it covers the entire MiniDashboard */
   height: 220px;
   z-index: 0; /* Set z-index to 0 */
+     @media (max-width: 768px) {
+     max-width: 90%; /* Scale icon down for smaller devices */
+   
+  }
+
+  @media (max-width: 480px) {
+      max-width: 117%;
+  }
+  @media (max-width: 1180px) {
+      max-width: 117%;
+  }
 `;
 
 const DashboardText = styled.div`
@@ -417,6 +435,17 @@ const AddHaulerButton = styled.button`
   gap: 0; /* gap is not applicable for button */
     margin-left:150px;
      white-space: nowrap;
+        @media (max-width: 768px) {
+     margin-left: 80px;
+   
+  }
+
+  @media (max-width: 480px) {
+   margin-left: 80px;
+  }
+  @media (max-width: 1180px) {
+      margin-left: 80px;
+  }
 `;
 
 

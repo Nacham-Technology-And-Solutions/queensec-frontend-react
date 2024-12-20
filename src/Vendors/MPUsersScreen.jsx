@@ -260,6 +260,12 @@ const MiniDashboard = styled.div`
   height: 116px;
   position: relative;
  
+
+
+  @media (max-width: 280px) {
+    max-width: 90%; /* Full width for very small devices */
+    padding: 38px;
+  }
 `;
 
 const MiniDashboardIconStyled = styled.img`
@@ -269,7 +275,17 @@ const MiniDashboardIconStyled = styled.img`
   width: 450px;
   height: 220px;
   z-index: 0;
-  
+    @media (max-width: 768px) {
+     max-width: 90%; /* Scale icon down for smaller devices */
+   
+  }
+
+  @media (max-width: 480px) {
+      max-width: 117%;
+  }
+  @media (max-width: 1180px) {
+      max-width: 117%;
+  }
 `;
 
 const DashboardText = styled.div`
@@ -316,6 +332,9 @@ text-underline-position: from-font;
 text-decoration-skip-ink: none;
 margin-left: -280px;
 margin-bottom: -1px;
+ @media (max-width: 450px) {
+      margin-left: -200px;
+  }
 `;
 
 const Value2 = styled.p`
@@ -357,17 +376,38 @@ const Green = styled.div`
       width:  100%;
         margin-left: 500px;
         margin-top: -8px;
+          @media (max-width: 768px) {
+    gap: 3px; /* Adjust gap for smaller screens */
+    margin-left: 350px;
+  }
 `;
 const GreenTickIcon = styled.img`
   width: 20px;
   height: 20px;
   margin-left: 38px;
+
+  @media (max-width: 768px) {
+    width: 14px; /* Scale down for smaller devices */
+    height: 14px;
+  }
+
+  @media (max-width: 480px) {
+    width: 12px;
+    height: 12px;
+  }
 `;
 
 const VerifiedText = styled.p`
   color: #32cd32; /* Green color */
   font-size: 14px;
   margin-left: 8px;
+    @media (max-width: 768px) {
+    font-size: 11px; /* Reduce font size for smaller devices */
+  }
+
+  @media (max-width: 480px) {
+    font-size: 10px;
+  }
 `;
 
 const SelectHaulerText = styled.p`

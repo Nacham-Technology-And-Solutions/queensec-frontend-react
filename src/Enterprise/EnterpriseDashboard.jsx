@@ -208,7 +208,7 @@ const EnterpriseDashboard = () => {
       <DashboardCard background={DASHBOARD}>
         <UserDetails>
           <WelcomeMessage>Welcome,</WelcomeMessage>
-          <UserName>{truncateText(userData.name, 15)}</UserName>
+          <UserName>{truncateText(userData.name, 10)}</UserName>
           <LabelTextA>Tax ID Number:</LabelTextA>
           <UserInfoDataA>{userData.taxID}</UserInfoDataA>
           <LabelTextB>Account type</LabelTextB>
@@ -626,6 +626,7 @@ display: flex;
   box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
     @media (max-width: 480px) {
     padding: 8px 0;
+     width: 100%;
   }
 `;
 
