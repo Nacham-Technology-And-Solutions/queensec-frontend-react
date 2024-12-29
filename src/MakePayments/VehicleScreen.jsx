@@ -10,11 +10,15 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const MakePaymentVehicleScreen = () => {
   const navigate = useNavigate();
-  const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || 'Nas/Nas/0013'); // Tax ID from localStorage or default
-  const [haulers, setHaulers] = useState(0); // Number of active haulers
-  const [haulerOptions, setHaulerOptions] = useState([]); // List of haulers
-  const [selectedHauler, setSelectedHauler] = useState(localStorage.getItem('selected_hauler') || ''); // Selected hauler from localStorage
-  const { user, addHaulerData } = useUser(); 
+  const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || '');
+  const [haulers, setHaulers] = useState(0);
+  const [haulerOptions, setHaulerOptions] = useState([]);
+  const [haulerType, setHaulerType] = useState('saved');
+  const [selectedHauler, setSelectedHauler] = useState('');
+  const [vehicleTypes, setVehicleTypes] = useState([]); 
+  const [selectedVehicle, setSelectedVehicle] = useState('');
+  const [vehiclePlate, setVehiclePlate] = useState('');
+  const { user } = useUser();
   useEffect(() => {
     const fetchHaulerData = async () => {
       try {
@@ -25,40 +29,75 @@ const MakePaymentVehicleScreen = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-  
+
         if (response.data.success) {
           const haulerData = response.data.data.map((hauler) => ({
             id: hauler.id,
-            type: 'Vehicle', // Default type until backend provides hauler_type
+            type: 'Vehicle',
             name: hauler?.name || 'Unknown Name',
             number_plate: hauler?.number_plate || 'Unknown Plate',
           }));
-
-        
-          addHaulerData(haulerData);
-          // Save a single hauler_id (e.g., the first one) to localStorage
-          // if (haulerData.length > 0) {
-          //   localStorage.setItem('hauler_id', haulerData[0].id); // Save the first hauler's ID
-          
-          // }
-  
-          // Alternatively, save all hauler IDs as an array
-          const haulerIds = haulerData.map((hauler) => hauler.id);
-          localStorage.setItem('hauler_ids', JSON.stringify(haulerIds)); // Save as JSON string
-  
-
           setHaulerOptions(haulerData);
-          setHaulers(haulerData.length); // Number of haulers = total hauler count
-        } else {
-          console.error('Failed to load haulers:', response.data.message);
+          setHaulers(haulerData.length);
         }
       } catch (error) {
-        console.error('Error fetching hauler data:', error.response?.data || error.message);
+        console.error('Error fetching hauler data:', error);
       }
     };
-  
+
     fetchHaulerData();
   }, []);
+
+  const fetchVehicleTypes = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/haulers/type`);
+      if (response.data.success) {
+        setVehicleTypes(response.data.data);
+      
+        
+      }
+    } catch (error) {
+      console.error('Error fetching vehicle types:', error);
+    }
+  };
+  const handleRadioChange = (type) => {
+    // console.log('Radio change to:', type);
+    setHaulerType(type);
+    localStorage.setItem('haulerType', type);
+    if (type === 'oneTime') {
+      fetchVehicleTypes();
+    }
+  };
+  const handleProceed = () => {
+    // console.log('Hauler Type:', haulerType);
+    // console.log('Selected Vehicle:', selectedVehicle);
+    // console.log('Vehicle Plate:', vehiclePlate);
+  
+    if (haulerType === 'saved' && selectedHauler) {
+      const parsedHauler = JSON.parse(selectedHauler);
+      console.log('Selected Hauler:', parsedHauler);
+      localStorage.setItem("number_plate", parsedHauler.number_plate);
+      localStorage.setItem('selected_hauler', selectedHauler);
+      localStorage.setItem('hauler_id', parsedHauler.id);
+    } else if (haulerType === "oneTime" && selectedVehicle && vehiclePlate) {
+      const selectedVehicleType = vehicleTypes.find(
+        (type) => type.id === parseInt(selectedVehicle)
+      );
+      // console.log('Selected Vehicle Type:', selectedVehicleType);
+  
+      if (selectedVehicleType) {
+        localStorage.setItem("selected_vehicle", selectedVehicle);
+        localStorage.setItem("number_plate", vehiclePlate);
+        localStorage.setItem("hauler_type_id", selectedVehicleType.id);
+      }
+    } else {
+      console.error("Missing required fields for the selected hauler type.");
+      alert("Please fill all required fields.");
+      return;
+    }
+  
+    navigate('/Trip-Data');
+  };
   
   const goToDashboard = () => {
     if (user?.accountType === 'federal_agency') {
@@ -75,21 +114,6 @@ const MakePaymentVehicleScreen = () => {
     goToDashboard();
   };
 
-  const handleProceed = () => {
-    if (selectedHauler) {
-      const parsedHauler = JSON.parse(selectedHauler); // Parse the selected hauler object
-
-      localStorage.setItem('selected_hauler', selectedHauler); // Save the entire selected hauler
-      localStorage.setItem('number_plate', parsedHauler.number_plate);
-      localStorage.setItem('hauler_id', parsedHauler.id);
-
-      
-      navigate('/MP_CategoryScreen'); // Navigate to the next screen
-    } else {
-      alert('Please select a hauler before proceeding.'); // Alert if no hauler is selected
-    }
-  };
-
   return (
     <Container>
       <TopBar>
@@ -99,6 +123,7 @@ const MakePaymentVehicleScreen = () => {
 
       <TabContainer>
         <Tab active>Vehicle</Tab>
+        <Tab>Trip Data</Tab>
         <Tab>Category</Tab>
         <Tab>Bank details</Tab>
       </TabContainer>
@@ -118,25 +143,71 @@ const MakePaymentVehicleScreen = () => {
       </MiniDashboard>
 
       <SelectHaulerText>Select Hauler:</SelectHaulerText>
-      <SelectDropdown
-        value={selectedHauler}
-        onChange={(e) => setSelectedHauler(e.target.value)}
-      >
-        <option value="">-- Select Hauler --</option>
-        {haulerOptions.map((hauler) => (
-          <option key={hauler.id} value={JSON.stringify(hauler)}>
-            {`${hauler.type}: ${hauler.name} (${hauler.number_plate})`}
-          </option>
-        ))}
-      </SelectDropdown>
+      <RadioGroup>
+        <RadioLabel>
+          <RadioInput
+            type="radio"
+            name="haulerType"
+            value="saved"
+            checked={haulerType === 'saved'}
+            onChange={() => handleRadioChange('saved')}
+          />
+          Saved Hauler
+        </RadioLabel>
+        <RadioLabel>
+          <RadioInput
+            type="radio"
+            name="haulerType"
+            value="oneTime"
+            checked={haulerType === 'oneTime'}
+            onChange={() => handleRadioChange('oneTime')}
+          />
+          One Time Hauler
+        </RadioLabel>
+      </RadioGroup>
 
-      <AdditionalInfoText>
-        Please select the hauler you want to pay for
-      </AdditionalInfoText>
+      {haulerType === 'saved' && (
+        <>
+          <SelectDropdown
+            value={selectedHauler}
+            onChange={(e) => setSelectedHauler(e.target.value)}
+          >
+            <option value="">-- Select Hauler --</option>
+            {haulerOptions.map((hauler) => (
+              <option key={hauler.id} value={JSON.stringify(hauler)}>
+                {`${hauler.type}: ${hauler.name} (${hauler.number_plate})`}
+              </option>
+            ))}
+          </SelectDropdown>
+          <AdditionalInfoText>
+            Please select the hauler you want to pay for.
+          </AdditionalInfoText>
+        </>
+      )}
 
-      <ProceedButton onClick={handleProceed}>
-        Proceed
-      </ProceedButton>
+      {haulerType === 'oneTime' && (
+        <>
+          <SelectDropdown
+            value={selectedVehicle}
+            onChange={(e) => setSelectedVehicle(e.target.value)}
+          >
+            <option value="">-- Select Vehicle --</option>
+            {vehicleTypes.map((type) => (
+              <option key={type.id} value={type.id}>
+                {type.name}
+              </option>
+            ))}
+          </SelectDropdown>
+          <InputField
+            type="text"
+            placeholder="Vehicle plate number"
+            value={vehiclePlate}
+            onChange={(e) => setVehiclePlate(e.target.value)}
+          />
+        </>
+      )}
+
+      <ProceedButton onClick={handleProceed}>Proceed</ProceedButton>
     </Container>
   );
 };
@@ -192,7 +263,77 @@ const TabContainer = styled.div`
   width: 100%;
   margin-top: 10px;
 `;
+const RadioGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Spacing between radio options */
+  margin-bottom: 20px;
+`;
 
+const RadioLabel = styled.label`
+  display: flex;
+  align-items: center;
+  font-family: Ubuntu, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.15px;
+  color: #67728a;
+  cursor: pointer;
+`;
+
+const RadioInput = styled.input`
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #6c3ecf;
+  border-radius: 50%;
+  margin-right: 10px;
+  cursor: pointer;
+
+  &:checked {
+    background-color: #6c3ecf;
+    border: 5px solid #ffffff; /* Inner white circle */
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #d6b8ff;
+  }
+`;
+const InputField = styled.input`
+  width: 92%;
+  padding: 10px 15px;
+  font-family: Ubuntu, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.15px;
+  color: #333333;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  background-color: #ffffff;
+
+  /* Add focus styles */
+  &:focus {
+    outline: none;
+    border-color: #6c3ecf; /* Purple border for focus */
+    box-shadow: 0 0 5px rgba(108, 62, 207, 0.3); /* Subtle glow effect */
+  }
+
+  /* Add hover effect */
+  &:hover {
+    border-color: #a5a5a5; /* Light gray hover border */
+  }
+
+  /* Disabled state */
+  &:disabled {
+    background-color: #f5f5f5;
+    color: #a5a5a5;
+    border-color: #e0e0e0;
+    cursor: not-allowed;
+  }
+`;
 const Tab = styled.div`
   padding: 10px;
   font-size: 16px;
@@ -217,6 +358,10 @@ const MiniDashboard = styled.div`
     @media (max-width: 280px) {
     max-width: 90%; /* Full width for very small devices */
     padding: 38px;
+  }
+    @media (max-width: 667px) {
+    max-width: 90%; /* Full width for very small devices */
+    padding-bottom: 25px;
   }
 `;
 

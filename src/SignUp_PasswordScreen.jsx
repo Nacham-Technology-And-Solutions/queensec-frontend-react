@@ -65,11 +65,13 @@ const SecurityInfoScreen = () => {
       password: localStorage.getItem('password'),
       password_confirmation: localStorage.getItem('password_confirmation'),
       account_type: accountType, // Pass the string value directly
-      username: basicInfo.username,
       middle_name: basicInfo.middle_name,
       state: contactInfo.state,
       locality: contactInfo.locality,
-      business_name: accountType === 'federal_agency' ? basicInfo.business_name || '' : '1', // Always include
+      business_name: 
+      accountType === 'federal_agency' || accountType === 'vendor' 
+        ? basicInfo.business_name || '' 
+        : '1',// Always include
     };
   
 

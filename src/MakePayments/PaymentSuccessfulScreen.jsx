@@ -10,6 +10,7 @@ import { useUser } from '../UserContext';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
+
 const PaymentSuccessScreen = () => {
   const [loading, setLoading] = useState(true);
   const [amount, setAmount] = useState('');
@@ -24,6 +25,7 @@ const PaymentSuccessScreen = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useUser();
+
   useEffect(() => {
     const fetchPaymentDetails = async () => {
       try {
@@ -32,29 +34,42 @@ const PaymentSuccessScreen = () => {
         const txRefParam = queryParams.get('tx_ref');
         const transactionIdParam = queryParams.get('transaction_id');
         const token = localStorage.getItem('token');
-        if (statusParam && txRefParam && transactionIdParam) {
-          const response = await axios.post(`${API_BASE_URL}/payments`, {
-            status: statusParam,
-            tx_ref: txRefParam,
-            transaction_id: transactionIdParam,
-          },    {
-            headers: {
-              Authorization: `Bearer ${token}`, // Add token to the headers
+
+    
+        if (statusParam && txRefParam) {
+          await axios.post(
+            `${API_BASE_URL}/payments`,
+            {
+              status: statusParam,
+              tx_ref: txRefParam,
+              transaction_id: transactionIdParam || '', 
             },
-          });
-
-          const data = response.data.data;
-
-          setAmount(data.amount || '0');
-          setPayId(data.payment_id || '');
-          setUserName(data.user_name || '');
-          setHauler(data.hauler || '');
-          setNumberPlate(data.number_plate || '');
-          setMineralName(data.mineral_name || '');
-          setStatus(data.status || '');
-          setDate(new Date(data.date).toLocaleDateString() || '');
-          setTime(new Date(data.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) || '');
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
         }
+
+        
+        if (statusParam === 'cancelled') {
+          setStatus('cancelled');
+        } else if (statusParam === 'completed') {
+          setStatus('completed');
+        } else {
+          setStatus('failed');
+        }
+
+        
+        setAmount('0'); // Replace with actual data.amount from backend if available
+        setPayId(txRefParam || '');
+        setUserName(''); // Replace with actual data.user_name
+        setHauler(''); // Replace with actual data.hauler
+        setNumberPlate(''); // Replace with actual data.number_plate
+        setMineralName(''); // Replace with actual data.mineral_name
+        setDate(new Date().toLocaleDateString()); // Replace with actual data.date
+        setTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })); // Replace with actual data.date
       } catch (error) {
         console.error('Error fetching payment details:', error.response?.data || error.message);
         alert('Failed to retrieve payment details. Please try again.');
@@ -70,14 +85,28 @@ const PaymentSuccessScreen = () => {
     if (navigator.share) {
       navigator
         .share({
-          title: 'Payment Successful',
-          text: `Payment of NGN ${amount} for ${mineralName} was successful! Pay ID: ${payId}`,
+          title: status === 'completed' ? 'Payment Successful' : 'Payment Cancelled',
+          text: status === 'completed'
+            ? `Payment of NGN ${amount} for ${mineralName} was successful! Pay ID: ${payId}`
+            : `Payment was cancelled. Pay ID: ${payId}`,
           url: window.location.href,
         })
         .then(() => console.log('Successful share'))
         .catch((error) => console.log('Error sharing:', error));
     } else {
       alert('Sharing is not supported in your browser.');
+    }
+  };
+
+  const goToDashboard = () => {
+    if (user?.accountType === 'federal_agency') {
+      navigate('/Enterprise-Dashboard');
+    } else if (user?.accountType === 'vendor') {
+      navigate('/Vendors-Dashboard');
+    } else if (user?.accountType === 'individual') {
+      navigate('/dashboard-page');
+    } else {
+      console.warn('Unknown account type');
     }
   };
 
@@ -89,75 +118,70 @@ const PaymentSuccessScreen = () => {
       </LoadingContainer>
     );
   }
-    const goToDashboard = () => {
-      if (user?.accountType === 'federal_agency') {
-        navigate('/Enterprise-Dashboard');
-      } else if (user?.accountType === 'vendor') {
-        navigate('/Vendors-Dashboard');
-      } else if (user?.accountType === 'individual') {
-        navigate('/dashboard-page');
-      } else {
-        console.warn('Unknown account type');
-      }
-    };
 
-    return (
-      <Container>
-        <Icon src={coalpileIcon} alt="Coalpile Icon" />
-        <Amount>NGN {parseInt(amount).toLocaleString() || '0'}</Amount>
-        <Status>{status === 'completed' ? 'Payment Successful' : 'Payment Failed'}</Status>
-        <Details>
+  return (
+    <Container>
+      <Icon src={coalpileIcon} alt="Coalpile Icon" />
+      <Amount>NGN {parseInt(amount).toLocaleString() || '0'}</Amount>
+      <Status>
+        {status === 'completed'
+          ? 'Payment Successful'
+          : status === 'cancelled'
+          ? 'Payment Cancelled'
+          : 'Payment Failed'}
+      </Status>
+      <Details>
         <InfoRow>
-                    <UserInfo>
-                        <UserIcon>CL</UserIcon>
-                        <UserDetails>
-                            <UserName>{mineralName}</UserName>
-                            <UserPayId>{payId}</UserPayId>
-                        </UserDetails>
-                    </UserInfo>
-                    <AmountContainer>
-                        <AmountToday>NGN {parseInt(amount).toLocaleString()}</AmountToday>
-                        <DateText>Today</DateText>
-                    </AmountContainer>
-                </InfoRow>
-          <DetailItem>
-            <Label>User</Label>
-            <Value>{userName}</Value>
-          </DetailItem>
-          <DetailItem>
-            <Label>Hauler</Label>
-            <Value>{hauler}</Value>
-          </DetailItem>
-          <DetailItem>
-            <Label1>Number Plate </Label1>
-            <Value>{numberPlate}</Value>
-          </DetailItem>
-          <DetailItem>
-            <Label>Mineral</Label>
-            <Value>{mineralName}</Value>
-          </DetailItem>
-          <DetailItem>
-            <Label>Date</Label>
-            <Value>{date}</Value>
-          </DetailItem>
-          <DetailItem>
-            <Label>Time</Label>
-            <Value>{time}</Value>
-          </DetailItem>
-          <DetailItem>
-            <Label>Pay ID</Label>
-            <Value>{payId}</Value>
-          </DetailItem>
-        </Details>
-        <QRCodeContainer>
-          <QRCode value={`${payId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
-        </QRCodeContainer>
-        <ShareButton onClick={handleShare}>Share</ShareButton>
-        <BackButton onClick={goToDashboard}>Return to Dashboard</BackButton>
-      </Container>
-    );
-  };
-  
+          <UserInfo>
+            <UserIcon>CL</UserIcon>
+            <UserDetails>
+              <UserName>{mineralName}</UserName>
+              <UserPayId>{payId}</UserPayId>
+            </UserDetails>
+          </UserInfo>
+          <AmountContainer>
+            <AmountToday>NGN {parseInt(amount).toLocaleString()}</AmountToday>
+            <DateText>{date}</DateText>
+          </AmountContainer>
+        </InfoRow>
+        <DetailItem>
+          <Label>User</Label>
+          <Value>{userName}</Value>
+        </DetailItem>
+        <DetailItem>
+          <Label>Hauler</Label>
+          <Value>{hauler}</Value>
+        </DetailItem>
+        <DetailItem>
+          <Label1>Number Plate </Label1>
+          <Value>{numberPlate}</Value>
+        </DetailItem>
+        <DetailItem>
+          <Label>Mineral</Label>
+          <Value>{mineralName}</Value>
+        </DetailItem>
+        <DetailItem>
+          <Label>Date</Label>
+          <Value>{date}</Value>
+        </DetailItem>
+        <DetailItem>
+          <Label>Time</Label>
+          <Value>{time}</Value>
+        </DetailItem>
+        <DetailItem>
+          <Label>Pay ID</Label>
+          <Value>{payId}</Value>
+        </DetailItem>
+      </Details>
+      <QRCodeContainer>
+        <QRCode value={`${payId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
+      </QRCodeContainer>
+      <ShareButton onClick={handleShare}>Share</ShareButton>
+      <BackButton onClick={goToDashboard}>Return to Dashboard</BackButton>
+    </Container>
+  );
+};
+
 
 // Styled Components
 const LoadingContainer = styled.div`

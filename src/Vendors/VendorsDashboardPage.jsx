@@ -44,9 +44,10 @@ const VendorsDashboard = () => {
 
         if (response.status === 200 && response.data) {
           const user = response.data;
+// console.log(user);
 
           setUserData({
-            name: `${user.first_name} ${user.last_name}`,
+            name: `${user.business_name}`,
             accountType: 'Vendor', // You can customize this logic as needed
           });
 
@@ -204,7 +205,7 @@ const VendorsDashboard = () => {
           <UserInfoDataB>{userData.accountType}</UserInfoDataB>
         </UserDetails>
         <MakePaymentButton onClick={handleMakePayment}>Make Payment</MakePaymentButton>
-        <HaulersBtn onClick={haulerScreen}>Haulers</HaulersBtn>
+
       </DashboardCard>
       
       {/* Transaction Chart */}
@@ -406,7 +407,7 @@ const WelcomeMessage = styled.p`
 `;
 
 const UserName = styled.h2`
-  font-size: 20px;
+  font-size: 15px;
   color: #CEECFF;
   margin-left: 35px;
   font-weight: 700;
@@ -456,7 +457,7 @@ const MakePaymentButton = styled.button`
   font-size: 14px;
   cursor: pointer;
   align-self: flex-end;
-  margin-bottom: 7px;
+  margin-bottom: 27px;
   margin-right: 160px;
     @media (max-width: 480px) {
     font-size: 12px;

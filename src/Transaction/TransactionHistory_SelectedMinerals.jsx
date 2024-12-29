@@ -27,6 +27,7 @@ const TransactionHistory_MineralScreen = () => {
           },
         });
         setTransaction(response.data.data);
+
       } catch (error) {
         console.error('Error fetching transaction details:', error);
         alert('Failed to fetch transaction details.');
@@ -55,6 +56,12 @@ const TransactionHistory_MineralScreen = () => {
       </Container>
     );
   }
+  const handleContinuePayment = () => {
+    if (transaction.payment_link) {
+      window.location.href = transaction.payment_link;
+    }
+  };
+
 
   const handleShare = () => {
     if (navigator.share) {
@@ -102,7 +109,7 @@ const TransactionHistory_MineralScreen = () => {
                     </UserInfo>
                     <AmountContainer>
                         <AmountToday>NGN {parseInt(transaction.amount).toLocaleString()}</AmountToday>
-                        <DateText>Today</DateText>
+                        <DateText>{new Date(transaction.date).toLocaleDateString()}</DateText>
                     </AmountContainer>
                 </InfoRow>
           <DetailItem>
@@ -130,8 +137,17 @@ const TransactionHistory_MineralScreen = () => {
       <QRCodeContainer>
         <QRCode value={`${transaction.payment_id}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
       </QRCodeContainer>
+
+      {transaction.payment_link && (
+        <ContinueButton onClick={handleContinuePayment}>
+          Continue Payment
+        </ContinueButton>
+      )}
+
+
+
       <ShareButton onClick={handleShare}>Share</ShareButton>
-     
+
     </Container>
   );
 };
@@ -333,6 +349,17 @@ const ButtonsContainer = styled.div`
 const ShareButton = styled.button`
   background-color: #fde5c0;
   color: #f28500;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 50px;
+`;
+
+const ContinueButton = styled.button`
+  background-color: #ede5h1;
+  color: #e28591;
   padding: 12px 24px;
   border: none;
   border-radius: 20px;

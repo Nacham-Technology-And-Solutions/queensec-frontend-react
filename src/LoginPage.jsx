@@ -28,7 +28,7 @@ const LoginPage = () => {
     const payload = {
       email: loginInfo.email,
       password: loginInfo.password,
-      'login-type': 'normal', // Uncomment or modify this based on backend requirements
+      'login-type': 'normal', // Uncomment or modify this ebubes on backend requirements
     };
     
     // Validate fields
@@ -46,7 +46,6 @@ const LoginPage = () => {
       if (response.status >= 200 && response.status < 300) {
 
     
-        // Store tokens and credentials in localStorage
         localStorage.setItem("token", response.data.data.access_token);
         localStorage.setItem("image_url", response.data.data.image_url);
         localStorage.setItem("business_name", response.data.data.business_name);
@@ -61,9 +60,11 @@ const LoginPage = () => {
           taxId: response.data.data.user?.tax_id || 'Nas/Nas/00013',
           haulers: response.data.data.user?.haulers || '2 Vehicles',
           state: response.data.data.user?.state || 'Nasarawa',
-          business_name: response.data.data.business_name || '',
+          business_name: response.data.data.business_name ,
           image_url: response.data.data.image_url || 'https://example.com/default-image.jpg',
         };
+       
+        
         
         saveUser(userData);
         const accountType = response.data.data.user?.account_type;

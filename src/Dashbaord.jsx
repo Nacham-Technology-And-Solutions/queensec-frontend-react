@@ -215,7 +215,7 @@ const Dashboard = () => {
       <DashboardCard background={DASHBOARD}>
         <UserDetails>
           <WelcomeMessage>Welcome,</WelcomeMessage>
-          <UserName>{truncateText(userData.name, 10)}</UserName>
+          <UserName>{truncateText(userData.name, 17)}</UserName>
           <LabelTextA>Tax ID Number:</LabelTextA>
           <UserInfoDataA>{userData.taxID}</UserInfoDataA>
           <LabelTextB>Account type</LabelTextB>
@@ -391,7 +391,7 @@ const WelcomeMessage = styled.p`
 `;
 
 const UserName = styled.h2`
-  font-size: 20px;
+  font-size: 13px;
   color: #CEECFF;
   margin-left: 35px;
   font-weight: 700;

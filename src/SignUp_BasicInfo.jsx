@@ -26,7 +26,7 @@ const BasicInfoScreen = () => {
 
 
     // Determine whether to show the business_name field
-    if (accountType === 'individual' || accountType === 'vendor') {
+    if (accountType === 'individual' ) {
       setShowBusinessName(false);
     } else {
       setShowBusinessName(true);
@@ -48,7 +48,7 @@ const BasicInfoScreen = () => {
   };
 
   const handleNext = () => {
-    const requiredFields = ['first_name', 'last_name', 'middle_name', 'username'];
+    const requiredFields = ['first_name', 'last_name', 'middle_name'];
     if (showBusinessName) {
       requiredFields.push('business_name');
     }
@@ -117,16 +117,6 @@ const BasicInfoScreen = () => {
           />
         </InputField>
 
-        <InputField>
-          <Label>Username</Label>
-          <Input
-            type="text"
-            name="username"
-            value={basicInfo.username}
-            onChange={handleChange}
-            placeholder="Username"
-          />
-        </InputField>
 
         {showBusinessName && (
           <InputField>

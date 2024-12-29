@@ -21,8 +21,8 @@ const TransactionPage = () => {
   const { user } = useUser(); // Assuming useUser provides user details
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
+  // const statusParam = queryParams.get('status');
 
-  // Fetch transactions when the component loads
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
@@ -32,7 +32,7 @@ const TransactionPage = () => {
           },
         });
         if (response.data?.data?.transactions) {
-          setTransactions(response.data.data.transactions); // Access the transactions array
+          setTransactions(response.data.data.transactions); 
         }
       } catch (error) {
         console.error('Error fetching transactions:', error);
@@ -64,6 +64,13 @@ const TransactionPage = () => {
   const goToNotifications = () => navigate('/Notifications-page');
   const goToProfile = () => navigate('/User-Profile');
 
+  // if (statusParam === 'cancelled') {
+  //   setStatus('cancelled');
+  // } else if (statusParam === 'completed') {
+  //   setStatus('completed');
+  // } else {
+  //   setStatus('failed');
+  // }
   return (
     <Container>
       <Header>

@@ -14,36 +14,69 @@ const MakePaymentVendorCategoryScreen = () => {
   const [plateNumber, setPlateNumber] = useState('');
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [paymentOption, setPaymentOption] = useState('');
 
   useEffect(() => {
     // Fetch user, hauler, and plate number from localStorage
-    const savedUser = JSON.parse(localStorage.getItem('savedUser'));
-    if (savedUser) {
-      setUsername(savedUser.username || 'Username');
-      setTruckInfo(savedUser.selectedHauler || 'Truck Info');
-      setPlateNumber(savedUser.numberPlate || 'Plate Number');
-      
-    }
+    
+      // Fetch and parse user data from localStorage
+      const savedPaymentOption = localStorage.getItem('haulerType');
+      setPaymentOption(savedPaymentOption);
+  
+      if (savedPaymentOption === 'savedHauler') {
+        const savedDataString = localStorage.getItem('savedUser');
+        if (savedDataString) {
+          try {
+            const savedData = JSON.parse(savedDataString);
+            setUsername(savedData.username || 'Unknown User');
+            setTruckInfo(savedData.haulers?.toString() || 'Unknown');
+            setPlateNumber(savedData.numberPlate)
+          } catch (error) {
+            console.error('Error parsing savedUser data:', error);
+          }
+        }
+      } else if (savedPaymentOption === 'oneTimeTrip') {
+        const oneTimeTrip = localStorage.getItem('oneTimeTripData');
+        if (oneTimeTrip) {
+          try {
+            const oneTimeTripData = JSON.parse(oneTimeTrip);
+            setUsername('OTP');
+            setTruckInfo('N/A'); 
+            setPlateNumber(oneTimeTripData.vehiclePlateNumber);
+          } catch (error) {
+            console.error('Error parsing oneTimeTripData:', error);
+          }
+        }
+      }
+
     
     // Fetch fee categories
     const fetchCategories = async () => {
       try {
         const token = localStorage.getItem('token');
-        const savedUser = JSON.parse(localStorage.getItem('savedUser')); // Fetch saved user data
-        const haulerId = savedUser?.haulerId;  // Fetch hauler_id from saved data
-
-        
-        if (!token || !haulerId) {
-          console.error('Missing token or hauler_id');
-          return;
+        if (!token) {
+          console.error("No token found, please log in.");
+          return; 
         }
+  
+        
+        const vehicleTypeId = localStorage.getItem("VehiclTypeId"); 
+        const savedHaulerId = localStorage.getItem("haulerId"); 
 
-        const response = await axios.get(`${API_BASE_URL}/user/get-fee-category`, {
+  
+     
+        const isOneTime = vehicleTypeId && vehicleTypeId !== savedHaulerId;
+        const url = isOneTime
+          ? `${API_BASE_URL}/user/get-fee-category-by-hauler-type?hauler_type_id=${vehicleTypeId}`
+          : `${API_BASE_URL}/fee-category?hauler_id=${savedHaulerId}`;
+  
+
+        const response = await axios.get(url, {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },  params: { hauler_id: haulerId },
+            Authorization: `Bearer ${token}`, 
+          },
         });
-
+  
         if (response.data.success) {
           setCategories(response.data.data || []);
 
@@ -58,7 +91,7 @@ const MakePaymentVendorCategoryScreen = () => {
   }, []);
 
   const handleBack = () => {
-    navigate('/Vendor-User-MakePayment-Screen');
+    navigate('/Vendor-Trip-Data');
   };
 
   const handleProceed = () => {
@@ -93,6 +126,7 @@ const MakePaymentVendorCategoryScreen = () => {
 
       <TabContainer>
         <Tab active>User</Tab>
+        <Tab active>Trip Data</Tab>
         <Tab active>Category</Tab>
         <Tab>Bank details</Tab>
       </TabContainer>
@@ -102,7 +136,7 @@ const MakePaymentVendorCategoryScreen = () => {
         <DashboardText>
           <InfoColumn>
             <Label1>User:</Label1>
-            <Value1>{username}</Value1>
+            <Value1>{username || 'user'}</Value1>
           </InfoColumn>
           <InfoColumnLeft>
             <Label>Hauler</Label>
@@ -263,7 +297,7 @@ const Label1 = styled.p`
 
   margin: 0;
   margin-top: 27px;
-  margin-left: 2px;
+
         @media (max-width: 768px) {
     
      margin-left: -3px; 
@@ -283,14 +317,17 @@ const Value1 = styled.p`
   font-weight: bold;
   color: #CEECFF;
   margin-top: 9px;
-  margin-right: 188px;
+  margin-right: 186.5px;
      @media (max-width: 768px) {
     
-     margin-right: 115px; 
+     margin-right: 186.5px; 
   }
 
   @media (max-width: 480px) {
-    margin-right: 115px;
+    margin-right: 186.5px;
+  }
+  @media (max-width: 1180px) {
+    margin-right: 186.5px;
   }
       @media (max-width: 280px) {
     margin-left: -3px;

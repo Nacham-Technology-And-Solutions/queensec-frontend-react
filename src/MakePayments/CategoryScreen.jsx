@@ -13,59 +13,56 @@ const MakePaymentCategoryScreen = () => {
   const [plateNumber, setPlateNumber] = useState(localStorage.getItem('number_plate') || 'null'); // Example plate number
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
-
+  
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const token = localStorage.getItem('token');  // Get token from localStorage
+        const token = localStorage.getItem("token"); 
         if (!token) {
           console.error("No token found, please log in.");
-          return;  // Stop if token is not available
+          return; 
         }
   
-        // Get hauler_id from localStorage
-        const haulerId = localStorage.getItem('hauler_id');  // Get the hauler_id
+        
+        const haulerTypeId = localStorage.getItem("hauler_type_id"); 
+        const savedHaulerId = localStorage.getItem("hauler_id"); 
+
   
-        if (!haulerId) {
-          console.error("No hauler_id found, please select a hauler.");
-          return;
-        }
+     
+        const isOneTime = haulerTypeId && haulerTypeId !== savedHaulerId;
+        const url = isOneTime
+          ? `${API_BASE_URL}/user/get-fee-category-by-hauler-type?hauler_type_id=${haulerTypeId}`
+          : `${API_BASE_URL}/fee-category?hauler_id=${savedHaulerId}`;
   
-        // Construct the URL with the query parameter
-        const url = `${API_BASE_URL}/fee-category?hauler_id=${haulerId}`;
-  
+
         const response = await axios.get(url, {
           headers: {
-            Authorization: `Bearer ${token}`,  // Include the token in the Authorization header
+            Authorization: `Bearer ${token}`, 
           },
         });
   
-    
         if (response.data.success) {
-
-    
-          const categories = response.data.data; // Assuming categories are in data
+          const categories = response.data.data; 
           setCategories(categories);
-    
-          // Save the first category's mineral_id to localStorage (if applicable)
+  
+         
           if (categories.length > 0 && categories[0].mineral_id) {
-            localStorage.setItem('mineral_id', categories[0].mineral_id);
+            localStorage.setItem("mineral_id", categories[0].mineral_id);
           } else {
-            console.warn('No categories found or mineral_id missing.');
+            console.warn("No categories found or mineral_id missing.");
           }
         } else {
-          console.error('Error fetching categories:', response.data.message);
+          console.error("Error fetching categories:", response.data.message);
         }
       } catch (error) {
-        console.error('Error fetching category data:', error.response?.data || error.message);
+        console.error("Error fetching category data:", error.response?.data || error.message);
       }
     };
   
     fetchCategories();
   }, []);
-
   const handleBack = () => {
-    navigate('/MP_VehicleScreen');
+    navigate('/Trip-Data');
   };
 const handleProceed = () => {
   if (!selectedCategory) {
@@ -73,10 +70,10 @@ const handleProceed = () => {
     return;
   }
 
-  // Split the selected category into mineral_id and mineral_sub_id
+
   const [selectedMineralId, selectedMineralSubId] = selectedCategory.split("-").map(Number);
 
-  // Find the selected category based on both IDs
+
   const selectedCategoryData = categories.find(
     (category) =>
       category.mineral_id === selectedMineralId &&
@@ -85,12 +82,12 @@ const handleProceed = () => {
 
   if (selectedCategoryData) {
     const formattedPrice = `NGN ${parseFloat(selectedCategoryData.price).toLocaleString()}`;
-    localStorage.setItem("selectedCategoryPrice", formattedPrice); // Save formatted price to localStorage
+    localStorage.setItem("selectedCategoryPrice", formattedPrice); 
 
     localStorage.setItem("mineral_sub_id", selectedCategoryData.mineral_sub_id);
     const categoryWithSubId = {
       ...selectedCategoryData,
-      mineral_sub_id: selectedCategoryData.mineral_sub_id, // Include mineral_sub_id
+      mineral_sub_id: selectedCategoryData.mineral_sub_id, 
     };
     localStorage.setItem("selectedCategory", JSON.stringify(categoryWithSubId));
 
@@ -112,6 +109,7 @@ const handleProceed = () => {
   
       <TabContainer>
         <Tab active>Vehicle</Tab>
+        <Tab active>Trip Data</Tab>
         <Tab active>Category</Tab>
         <Tab>Bank details</Tab>
       </TabContainer>
@@ -197,9 +195,41 @@ const Title = styled.h1`
   line-height: 32px;
   text-align: left;
 `;
+// const TabContainer = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   width: 100%;
+//   margin-top: 10px;
+// `;
+// const Tab = styled.div`
+//   padding: 10px;
+//   font-size: 16px;
+//   color: ${(props) => (props.active ? '#F28500' : '#aaa')};
+//   border-bottom: ${(props) => (props.active ? '2px solid #F28500' : '1px solid #aaa')};
+//   cursor: pointer;
+//   text-align: center;
+//   width: 100px;
+// `;
+// const TabContainer = styled.div`
+//   display: flex;
+//   justify-content: space-around; /* Evenly distribute space between tabs */
+//   width: 100%;
+//   margin-top: 10px;
+// `;
+
+// const Tab = styled.div`
+//   flex: 1; /* Each tab takes up equal space */
+//   text-align: center;
+//   padding: 10px;
+//   font-size: 16px;
+//   color: ${(props) => (props.active ? '#F28500' : '#aaa')};
+//   border-bottom: ${(props) => (props.active ? '2px solid #F28500' : '1px solid #aaa')};
+//   cursor: pointer;
+// `;
 const TabContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 10px;
   width: 100%;
   margin-top: 10px;
 `;
@@ -210,19 +240,9 @@ const Tab = styled.div`
   color: ${(props) => (props.active ? '#F28500' : '#aaa')};
   border-bottom: ${(props) => (props.active ? '2px solid #F28500' : '1px solid #aaa')};
   cursor: pointer;
-  flex: .5;
   text-align: center;
-  font-family: ubuntu;
-
-  &:first-child {
-    margin-right: 12px; /* Add space between Vehicle and Category tabs */
-  }
-  &:last-child {
-    margin-right: 12px; /* Add space between Vehicle and Category tabs */
-  }
+  width: 100px;
 `;
-
-
 const MiniDashboard = styled.div`
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

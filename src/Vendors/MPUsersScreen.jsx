@@ -9,17 +9,22 @@ import { useUser } from '../UserContext';
 import axios from 'axios';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
-
 const MakePaymentVendorUserScreen = () => {
   const navigate = useNavigate();
   const [taxId, setTaxId] = useState('');
   const [username, setUsername] = useState('');
   const [haulers, setHaulers] = useState(0);
+  const [haulerType, setHaulerType] = useState('');
   const [haulerOptions, setHaulerOptions] = useState([]);
   const [selectedHauler, setSelectedHauler] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isVerified, setIsVerified] = useState(false);
+  // const [paymentOption, setPaymentOption] = useState('savedHauler'); // 'savedHauler' or 'oneTimeTrip'
+  const [oneTimeDetails, setOneTimeDetails] = useState({ vehicleName: '', numberPlate: '' });
   const token = localStorage.getItem('token');
+  const [vehicleTypes, setVehicleTypes] = useState([]);
+  const [selectedVehicle, setSelectedVehicle] = useState('');
+  const [vehiclePlate, setVehiclePlate] = useState('');
 
   const handleTaxIdChange = async (e) => {
     const inputTaxId = e.target.value;
@@ -32,7 +37,6 @@ const MakePaymentVendorUserScreen = () => {
     }
 
     try {
-      // Verify Tax ID
       const response = await axios.get(`${API_BASE_URL}/user/verify-tax-id`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -44,13 +48,13 @@ const MakePaymentVendorUserScreen = () => {
       if (response.data.success && response.data.data.found) {
         const user = response.data.data.user;
         const resolvedUsername = user.id === 'federal_agency' ? user.business_name : user.username;
-        setUsername(resolvedUsername); // Set username for dashboard card
-        localStorage.setItem('resolvedUsername', resolvedUsername); // Save username for subsequent use
+        setUsername(resolvedUsername);
+        localStorage.setItem('resolvedUsername', resolvedUsername);
         setIsVerified(true);
         setErrorMessage('');
 
-        localStorage.setItem('payee_id', user.id)
-        // Fetch Haulers
+        localStorage.setItem('payee_id', user.id);
+
         const haulerResponse = await axios.get(`${API_BASE_URL}/user/get-user-hauler-by-tax-id`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -61,14 +65,10 @@ const MakePaymentVendorUserScreen = () => {
 
         if (haulerResponse.data.success) {
           const haulersList = haulerResponse.data.data.haulers || [];
-          setHaulerOptions(haulersList); // Populate dropdown options
-          setHaulers(haulersList.length); // Set haulers count for dashboard
-
-          
+          setHaulerOptions(haulersList);
+          setHaulers(haulersList.length);
         }
-
       } else {
-        // Handle invalid Tax ID
         setIsVerified(false);
         setUsername('');
         setHaulers(0);
@@ -85,33 +85,77 @@ const MakePaymentVendorUserScreen = () => {
     }
   };
 
-  const handleProceed = () => {
-    if (selectedHauler) {
-      const selectedHaulerData = haulerOptions.find((hauler) => hauler.id === parseInt(selectedHauler, 10));
-      if (selectedHaulerData) {
-        const savedData = {
-          taxId,
-          username,
-          haulers,
-          selectedHauler: selectedHaulerData.name,
-          numberPlate: selectedHaulerData.number_plate,
-          haulerId: selectedHaulerData.id,
-        };
-        localStorage.setItem('savedUser', JSON.stringify(savedData)); // Save data to storage
-        navigate('/Vendor-Category-MakePayment-Screen');
+  const fetchVehicleTypes = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/haulers/type`);
+      if (response.data.success) {
+        setVehicleTypes(response.data.data);
       }
-    } else {
-      alert('Please select a hauler before proceeding.');
+    } catch (error) {
+      console.error('Error fetching vehicle types:', error);
     }
   };
 
-  const handleBack = () => {
-    navigate('/Vendors-Dashboard');
+  const handleRadioChange = (type) => {
+    // console.log('Radio change to:', type);
+    setHaulerType(type);
+    localStorage.setItem('haulerType', type);
+    
+    if (type === 'oneTimeTrip') {
+      fetchVehicleTypes();
+    }
   };
 
-  const handleback = () => {
-    navigate('/Beneficiaries-Screen');
-  };
+  const handleProceed = () => {
+    ('Hauler Type:', haulerType);
+    // console.log('Selected Vehicle:', selectedVehicle);
+    // console.log('Vehicle Plate:', vehiclePlate);
+
+    if (haulerType === 'savedHauler' && selectedHauler) {
+      const selectedHaulerData = haulerOptions.find(
+        (hauler) => hauler.id === parseInt(selectedHauler, 10)
+      );
+      if (selectedHaulerData) {
+        const savedData = {
+          username,
+          haulers,
+          selectedHauler: selectedHaulerData,
+          numberPlate: selectedHaulerData.number_plate,
+          haulerId: selectedHaulerData.id,
+        };
+        // console.log(savedData);
+        
+        
+        localStorage.setItem('savedUser', JSON.stringify(savedData));
+        localStorage.setItem('haulerId', selectedHaulerData.id);
+        // localStorage.setItem('haulers', haulers);
+      } else {
+        alert('Please select a hauler before proceeding.');
+      }
+    } else if (haulerType === 'oneTimeTrip' && selectedVehicle && vehiclePlate) {
+      const selectedVehicleType = vehicleTypes.find(
+        (type) => type.id === parseInt(selectedVehicle)
+      );
+      // console.log('Selected Vehicle Type:', selectedVehicleType);
+  
+      if (selectedVehicleType) {
+        const oneTimeTripData = {
+          selectedVehicle,
+          vehiclePlateNumber: vehiclePlate,
+          VehiclTypeId: selectedVehicleType.id,
+        };
+        localStorage.setItem('oneTimeTripData', JSON.stringify(oneTimeTripData))
+        localStorage.setItem('VehiclTypeId', selectedVehicleType.id)
+        localStorage.setItem('vehiclePlateNumber', vehiclePlate)
+      } else {
+        console.error("Missing required fields for the selected hauler type.");
+        alert("Please fill all required fields.");
+        return;
+      } };
+      navigate('/Vendor-Trip-Data');
+   
+  }
+  const handleBack = () => navigate('/Vendors-Dashboard');
 
   return (
     <Container>
@@ -122,11 +166,10 @@ const MakePaymentVendorUserScreen = () => {
 
       <TabContainer>
         <Tab active>User</Tab>
+        <Tab>Trip Data</Tab>
         <Tab>Category</Tab>
         <Tab>Bank details</Tab>
       </TabContainer>
-
-      <BeneficiaryText onClick={handleback}>Select Previous Beneficiary</BeneficiaryText>
 
       <MiniDashboard>
         <MiniDashboardIconStyled src={MiniDashboardIcon} />
@@ -141,44 +184,88 @@ const MakePaymentVendorUserScreen = () => {
           </InfoColumn>
         </DashboardText>
       </MiniDashboard>
-
-      <TaxIdContainer>
-        <Label3>Tax ID Number:</Label3>
-        <InputField
-          value={taxId}
-          onChange={handleTaxIdChange}
-          placeholder="Enter Tax ID Number"
-        />
-        {isVerified && (
-          <Green>
-            <GreenTickIcon src={GreenTick} alt="Green Tick" />
-            <VerifiedText>{username}</VerifiedText>
-          </Green>
-        )}
-        {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
-      </TaxIdContainer>
-
       <SelectHaulerText>Select Hauler:</SelectHaulerText>
-      <SelectDropdown
-        value={selectedHauler}
-        onChange={(e) => setSelectedHauler(e.target.value)}
-      >
-        <option value="">Please Select the Hauler</option>
-        {haulerOptions.map((hauler) => (
-          <option key={hauler.id} value={hauler.id}>
-            {hauler.name} ({hauler.number_plate})
-          </option>
-        ))}
-      </SelectDropdown>
+      <RadioContainer>
+        <RadioLabel>
+          <RadioInput
+            type="radio"
+            value="savedHauler"
+            checked={haulerType === 'savedHauler'}
+            onChange={() => handleRadioChange('savedHauler')}
+          />
+          Saved Hauler
+        </RadioLabel>
+        <RadioLabel>
+          <RadioInput
+            type="radio"
+            value="oneTimeTrip"
+            checked={haulerType === 'oneTimeTrip'}
+            onChange={() => handleRadioChange('oneTimeTrip')}
+          />
+          One-Time Trip
+        </RadioLabel>
+      </RadioContainer>
 
-      <AdditionalInfoContainer>
-        <AdditionalInfoText>Please Select the Hauler you want to pay for</AdditionalInfoText>
-      </AdditionalInfoContainer>
+      {haulerType === 'savedHauler' && (
+        <>
+          <TaxIdContainer>
+            <Label3>Tax ID Number:</Label3>
+            <InputField
+              value={taxId}
+              onChange={handleTaxIdChange}
+              placeholder="Enter Tax ID Number"
+            />
+            {isVerified && (
+              <Green>
+                <GreenTickIcon src={GreenTick} alt="Green Tick" />
+                <VerifiedText>{username}</VerifiedText>
+              </Green>
+            )}
+            {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+          </TaxIdContainer>
+
+          <SelectHaulerText>Select Hauler:</SelectHaulerText>
+          <SelectDropdown
+            value={selectedHauler}
+            onChange={(e) => setSelectedHauler(e.target.value)}
+          >
+            <option value="">Please Select the Hauler</option>
+            {haulerOptions.map((hauler) => (
+              <option key={hauler.id} value={hauler.id}>
+                {hauler.name} ({hauler.number_plate})
+              </option>
+            ))}
+          </SelectDropdown>
+        </>
+      )}
+
+      {haulerType === 'oneTimeTrip' && (
+        <>
+          <SelectDropdown
+            value={selectedVehicle}
+            onChange={(e) => setSelectedVehicle(e.target.value)}
+          >
+            <option value="">-- Select Vehicle --</option>
+            {vehicleTypes.map((type) => (
+              <option key={type.id} value={type.id}>
+                {type.name}
+              </option>
+            ))}
+          </SelectDropdown>
+          <InputField1
+            type="text"
+            placeholder="Vehicle plate number"
+            value={vehiclePlate}
+            onChange={(e) => setVehiclePlate(e.target.value)}
+          />
+        </>
+      )}
 
       <ProceedButton onClick={handleProceed}>Proceed</ProceedButton>
     </Container>
   );
 };
+
 // Styled Components
 
 const Container = styled.div`
@@ -224,6 +311,78 @@ const TabContainer = styled.div`
   width: 100%;
   margin-top: 10px;
 `;
+
+const RadioContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Spacing between radio options */
+  margin-bottom: 20px;
+`;
+
+const RadioLabel = styled.label`
+  display: flex;
+  align-items: center;
+  font-family: Ubuntu, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.15px;
+  color: #67728a;
+  cursor: pointer;
+`;
+
+const RadioInput = styled.input`
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #6c3ecf;
+  border-radius: 50%;
+  margin-right: 10px;
+  cursor: pointer;
+
+  &:checked {
+    background-color: #6c3ecf;
+    border: 5px solid #ffffff; /* Inner white circle */
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #d6b8ff;
+  }
+ `;
+// const InputField = styled.input`
+//   width: 92%;
+//   padding: 10px 15px;
+//   font-family: Ubuntu, sans-serif;
+//   font-size: 14px;
+//   font-weight: 400;
+//   line-height: 20px;
+//   letter-spacing: -0.15px;
+//   color: #333333;
+//   border: 1px solid #d9d9d9;
+//   border-radius: 8px;
+//   background-color: #ffffff;
+
+//   /* Add focus styles */
+//   &:focus {
+//     outline: none;
+//     border-color: #6c3ecf; /* Purple border for focus */
+//     box-shadow: 0 0 5px rgba(108, 62, 207, 0.3); /* Subtle glow effect */
+//   }
+
+//   /* Add hover effect */
+//   &:hover {
+//     border-color: #a5a5a5; /* Light gray hover border */
+//   }
+
+//   /* Disabled state */
+//   &:disabled {
+//     background-color: #f5f5f5;
+//     color: #a5a5a5;
+//     border-color: #e0e0e0;
+//     cursor: not-allowed;
+//   }
+// `;
 
 const Tab = styled.div`
   padding: 10px;
@@ -296,6 +455,9 @@ const DashboardText = styled.div`
   z-index: 1;
 `;
 
+
+
+
 const InfoColumn = styled.div`
   display: flex;
   flex-direction: column;
@@ -367,6 +529,23 @@ const InputField = styled.input`
     border-color: ${({ isError }) => (isError ? 'red' : 'black')};
     box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
   }
+    
+`;
+const InputField1 = styled.input`
+ width: 95%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid ${({ isError, isVerified }) =>
+    isError ? 'red' : isVerified ? 'black' : 'black'};
+  border-radius: 5px;
+  margin-top: 10px;
+  outline: none;
+
+  &:focus {
+    border-color: ${({ isError }) => (isError ? 'red' : 'black')};
+    box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
+  }
+    margin-bottom: 80px;
 `;
 
 const Green = styled.div`
@@ -416,7 +595,8 @@ const SelectHaulerText = styled.p`
   margin-top: 10px;
   text-align: left;
   width: 100%;
-  margin-bottom: -1px;
+  margin-bottom: 17px;
+  // paddin-bottom: 30px;
 `;
 const ErrorText = styled.span`
   color: red;

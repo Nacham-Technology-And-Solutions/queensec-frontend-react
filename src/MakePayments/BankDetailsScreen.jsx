@@ -19,7 +19,7 @@ const MakePaymentBankDetailsScreen = () => {
     const savedAmount = localStorage.getItem('selectedCategoryPrice');
     return savedAmount || '0';
   });
-  // Retrieve customer details from localStorage
+
   const email = localStorage.getItem('email') || 'leolindgren@example.net';
   const phone = localStorage.getItem('phone') || '';
   const name = localStorage.getItem('name') || '';
@@ -34,58 +34,85 @@ if (isNaN(parsedAmount) || parsedAmount <= 0) {
 }
 
 
-    const [loading, setLoading] = useState(false); // Add a loading state
+    const [loading, setLoading] = useState(false); 
 
     const initiatePayment = async () => {
-      if (loading) return; // Prevent multiple execution if already loading
-
-      setLoading(true); // Set loading to true when the process starts
-
+      if (loading) return;
+    
+      setLoading(true);
+    
       try {
-        // Retrieve values from localStorage
-        // Get mineral_sub_id from localStoragew
-        const payerId = localStorage.getItem('payer_id'); // Example retrieval, replace with actual logic
-        const haulerId = localStorage.getItem('hauler_id'); // Example retrieval
-        const mineralId = localStorage.getItem('mineral_id'); // Example retrieval
-        const parsedAmount = parseFloat(localStorage.getItem('selectedCategoryPrice').replace('NGN', '').replace(',', '').trim()); // Parse the amount
-        const email = localStorage.getItem('email'); // Example retrieval
-        const name = localStorage.getItem('name'); // Example retrieval
-        const phone = localStorage.getItem('phone'); // Example retrieval
+        const payerId = localStorage.getItem('payer_id');
+        const mineralId = localStorage.getItem('mineral_id');
+        const mineralSubId = localStorage.getItem('mineral_sub_id');
+        const parsedAmount = parseFloat(localStorage.getItem('selectedCategoryPrice').replace('NGN', '').replace(',', '').trim());
+        const email = localStorage.getItem('email');
+        const name = localStorage.getItem('name');
+        const phone = localStorage.getItem('phone');
         const token = localStorage.getItem('token');
-        const mineralSubId = localStorage.getItem('mineral_sub_id'); // Retrieve mineral_sub_id
-
-        const orderResponse = await axios.post(`${API_BASE_URL}/orders`, {
+        const haulerType = localStorage.getItem('haulerType'); 
+    
+        const driverName = localStorage.getItem('driverName');
+        const phoneNumber = localStorage.getItem('phoneNumber');
+        const loadingPoint = localStorage.getItem('loadingPoint');
+        const offloadingPoint = localStorage.getItem('offloadingPoint');
+    
+        if (!driverName || !phoneNumber || !loadingPoint || !offloadingPoint) {
+          throw new Error('Incomplete trip data. Please ensure all fields are filled.');
+        }
+    
+    
+        const payload = {
           payer_id: payerId,
           payee_id: payerId,
-          payee_hauler_id: haulerId,
           mineral_id: mineralId,
           mineral_sub_id: mineralSubId,
           total_amount: parsedAmount.toFixed(2),
-        }, {
-          headers: {
-            Authorization: `Bearer ${token}`, // Add token to the headers
-          },
+            driver_name: driverName,
+            phone_number: phoneNumber,
+            loading_point: loadingPoint,
+          offloading_point: offloadingPoint,
+        };
+    
+        if (haulerType === 'saved') {
+          const haulerId = localStorage.getItem('hauler_id');
+          if (!haulerId) {
+            throw new Error('Hauler ID is missing.');
+          }
+          payload.payee_hauler_id = haulerId; 
+        } else if (haulerType === 'oneTime') {
+          const haulerTypeId = localStorage.getItem('hauler_type_id');
+          const plateNumber = localStorage.getItem('number_plate');
+          if (!haulerTypeId || !plateNumber) {
+            throw new Error('Hauler type or plate number is missing for one-time hauler.');
+          }
+          payload.hauler_type_id = haulerTypeId;
+          payload.number_plate = plateNumber; 
+        } else {
+          throw new Error('Invalid hauler type selected.');
         }
-        );
-  
+
+   
+        const orderResponse = await axios.post(`${API_BASE_URL}/orders`, payload, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+    
         const paymentLink = orderResponse.data?.data?.payment_link;
         if (!paymentLink) {
           throw new Error('Payment link not provided by the backend.');
         }
     
-        // Redirect to the payment link
-        window.location.href = paymentLink
+        
+        window.location.href = paymentLink;
       } catch (error) {
         console.error('Error initiating payment:', error);
         alert('Failed to initiate payment. Please try again.');
       } finally {
-        setLoading(false); // Reset loading state on success or error
+        setLoading(false);
       }
-    }
-  
-  
-
-  
+    };
 
   return (
     <Container>
@@ -96,6 +123,7 @@ if (isNaN(parsedAmount) || parsedAmount <= 0) {
 
       <TabContainer>
         <Tab active>Vehicle</Tab>
+        <Tab active>Trip Data</Tab>
         <Tab active>Category</Tab>
         <Tab active>Bank details</Tab>
       </TabContainer>
@@ -165,6 +193,9 @@ const Container = styled.div`
   max-width: 400px;
   margin: 0 auto;
   border-radius: 30px;
+  @media (max-width: 667px) {
+      height: 100%;
+  }
 ;`
 
 const TopBar = styled.div`
@@ -314,7 +345,7 @@ const AmountInput = styled.input`
   border: 1px solid #ddd;
   padding: 10px;
   border-radius: 8px;
-  width: 100%;
+  width: 95%;
   text-align: left;
 ; `
 const PaymentMethodTitle = styled.p`
@@ -384,6 +415,8 @@ const PayNowButton = styled.button`
   height: 50px;
   opacity: 1;
   font-family: ubuntu;
+ 
 ;
+
 `
 export default MakePaymentBankDetailsScreen;

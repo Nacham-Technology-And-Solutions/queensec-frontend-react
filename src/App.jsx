@@ -31,6 +31,8 @@ import PaymentSuccessVendorScreen from "./Vendors/MPPaymentSucccessfulScreen.jsx
 import BeneficiariesListScreen from './Vendors/BeneficiariesScreen.jsx';
 import SelectedBeneficiaryScreen from './Vendors/SelectedBeneficiaryListScreen.jsx';
 import LoginPage from './LoginPage.jsx';
+import TripDataScreen from "./MakePayments/TripDataScreen.jsx";
+import VendorTripDataScreen from './Vendors/VendorTripData.jsx';
 import EnterpriseDashboard from './Enterprise/EnterpriseDashboard.jsx';
 
 // Inline ProtectedRoute Component
@@ -56,6 +58,9 @@ function App() {
                 {/* Protected Routes */}
                 <Route path="/dashboard-page" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/MP_VehicleScreen" element={<ProtectedRoute><MakePaymentVehicleScreen /></ProtectedRoute>} />
+                <Route path="/Trip-Data" element={<ProtectedRoute><TripDataScreen /></ProtectedRoute>} />
+                <Route path="/Trip-Data" element={<ProtectedRoute><TripDataScreen /></ProtectedRoute>} />
+                <Route path="/Vendor-Trip-Data" element={<ProtectedRoute><VendorTripDataScreen /></ProtectedRoute>} />
                 <Route path="/MP_CategoryScreen" element={<ProtectedRoute><MakePaymentCategoryScreen /></ProtectedRoute>} />
                 <Route path="/MP_BankDetailsScreen" element={<ProtectedRoute><MakePaymentBankDetailsScreen /></ProtectedRoute>} />
                 <Route path="/MP_PaymentSuccessScreen" element={<ProtectedRoute><PaymentSuccessScreen /></ProtectedRoute>} />

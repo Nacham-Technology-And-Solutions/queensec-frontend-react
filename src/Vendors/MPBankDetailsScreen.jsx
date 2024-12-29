@@ -19,7 +19,48 @@ const MP_BankDetailsVendorScreen = () => {
       const savedAmount = localStorage.getItem('selectedCategoryPrice');
       return savedAmount || '0';
     });
-  // const user = localStorage.getItem('savedUser')
+  const [paymentOption, setPaymentOption] = useState('');
+
+  // useEffect(() => {
+  //   console.log('Fetched haulers:', savedData.haulers);
+  // }, []);
+  
+  
+  useEffect(() => {
+
+    const savedPaymentOption = localStorage.getItem('haulerType');
+    setPaymentOption(savedPaymentOption);
+    // console.log('savedUser:', JSON.parse(localStorage.getItem('savedUser')));
+    if (savedPaymentOption === 'savedHauler') {
+      const savedDataString = localStorage.getItem('savedUser');
+      if (savedDataString) {
+        try {
+         
+          const savedData = JSON.parse(savedDataString);
+          setUsername(savedData.username || 'Unknown User');
+          setTruckInfo(savedData.haulers || 0);
+          setPlateNumber(savedData.numberPlate)
+     
+
+        } catch (error) {
+          console.error('Error parsing savedUser data:', error);
+        }
+      }
+    } else if (savedPaymentOption === 'oneTimeTrip') {
+      const oneTimeTrip = localStorage.getItem('oneTimeTripData');
+      if (oneTimeTrip) {
+        try {
+          const oneTimeTripData = JSON.parse(oneTimeTrip);
+          setUsername('OTP');
+          setTruckInfo('N/A');
+          setPlateNumber(oneTimeTripData.vehiclePlateNumber);
+        } catch (error) {
+          console.error('Error parsing oneTimeTripData:', error);
+        }
+      }
+    }
+
+  }, []);
   const [loading, setLoading] = useState(false);
   const initiatePayment = async () => {
     if (loading) return; // Prevent multiple execution if already loading
@@ -32,7 +73,7 @@ const MP_BankDetailsVendorScreen = () => {
         const token = localStorage.getItem('token');
         const payerId = localStorage.getItem('payer_id');
         const haulerId = savedUser?.haulerId;
-
+        const haulerType = localStorage.getItem('haulerType'); 
         const mineralId = localStorage.getItem('mineral_id');
         const mineralSubId = localStorage.getItem('mineral_sub_id');
         const payee_id = localStorage.getItem('payee_id');
@@ -42,22 +83,55 @@ const MP_BankDetailsVendorScreen = () => {
         if (!token || !payerId || !haulerId || !mineralId || !mineralSubId || isNaN(amount)) {
           throw new Error('Missing or invalid payment parameters.');
         }
+      
+        const driverName = localStorage.getItem('driverName');
+        const phoneNumber = localStorage.getItem('phoneNumber');
+        const loadingPoint = localStorage.getItem('loadingPoint');
+        const offloadingPoint = localStorage.getItem('offloadingPoint');
     
-        // Make the payment initiation request
-        const response = await axios.post(`${API_BASE_URL}/orders`, {
+        if (!driverName || !phoneNumber || !loadingPoint || !offloadingPoint) {
+          throw new Error('Incomplete trip data. Please ensure all fields are filled.');
+        }
+    
+  
+        const payload = {
           payer_id: payerId,
-          payee_id: payee_id,
-          payee_hauler_id: haulerId,
+          payee_id: payerId,
           mineral_id: mineralId,
           mineral_sub_id: mineralSubId,
           total_amount: parsedAmount.toFixed(2),
-        }, {
+            driver_name: driverName,
+            phone_number: phoneNumber,
+            loading_point: loadingPoint,
+          offloading_point: offloadingPoint,
+        };
+    
+        if (haulerType === 'savedHauler') {
+          const haulerId = localStorage.getItem('haulerId');
+          if (!haulerId) {
+            throw new Error('Hauler ID is missing.');
+          }
+          payload.payee_hauler_id = haulerId; 
+        } else if (haulerType === 'oneTimeTrip') {
+          const haulerTypeId = localStorage.getItem('VehiclTypeId');
+          const plateNumber = localStorage.getItem('vehiclePlateNumber');
+          if (!haulerTypeId || !plateNumber) {
+            throw new Error('Hauler type or plate number is missing for one-time hauler.');
+          }
+          payload.hauler_type_id = haulerTypeId;
+          payload.number_plate = plateNumber; 
+        } else {
+          throw new Error('Invalid hauler type selected.');
+        }
+        // console.log('Payload to be sent:', payload);
+   
+        const orderResponse = await axios.post(`${API_BASE_URL}/orders`, payload, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
     
-        const paymentLink = response.data?.data?.payment_link;
+        const paymentLink = orderResponse.data?.data?.payment_link;
         if (!paymentLink) {
           throw new Error('Payment link not provided by the backend.');
         }
@@ -77,15 +151,15 @@ const MP_BankDetailsVendorScreen = () => {
     navigate('/Vendor-Category-MakePayment-Screen');
   };
 
-  useEffect(() => {
-    const savedUser = JSON.parse(localStorage.getItem('savedUser'));
-    if (savedUser) {
-      setUsername(savedUser.username || 'Username');
-      setTruckInfo(savedUser.selectedHauler || 'Truck Info');
-      setPlateNumber(savedUser.numberPlate || 'Plate Number');
+  // useEffect(() => {
+  //   const savedUser = JSON.parse(localStorage.getItem('savedUser'));
+  //   if (savedUser) {
+  //     setUsername(savedUser.username || 'Username');
+  //     setTruckInfo(savedUser.selectedHauler || 'Truck Info');
+  //     setPlateNumber(savedUser.numberPlate || 'Plate Number');
      
-    }
-  }, []);
+  //   }
+  // }, []);
   
   // const handlePayNow = () => {
   //   // Pass the amount as state to PaymentSuccessScreen
@@ -101,6 +175,7 @@ const MP_BankDetailsVendorScreen = () => {
 
       <TabContainer>
         <Tab active>User</Tab>
+        <Tab active>Trip Data</Tab>
         <Tab active>Category</Tab>
         <Tab active>Bank details</Tab>
       </TabContainer>
@@ -115,6 +190,7 @@ const MP_BankDetailsVendorScreen = () => {
           <InfoColumnLeft>
             <Label>Hauler</Label>
             <ValueBold>{truckInfo}</ValueBold>
+
             <Label0>Plate Number:</Label0>
             <Value0>{plateNumber}</Value0>
           </InfoColumnLeft>
@@ -437,7 +513,7 @@ const AmountInput = styled.input`
   border: 1px solid #ddd;
   padding: 10px;
   border-radius: 8px;
-  width: 100%;
+  width: 90%;
   text-align: left;
 `; 
 const PaymentMethodTitle = styled.p`
@@ -498,7 +574,7 @@ const PayNowButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 90px;
+  margin-top: 70px;
   &:hover {
     background-color: #e5b46a;
     color: #fff;
