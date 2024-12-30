@@ -107,7 +107,7 @@ const MakePaymentVendorUserScreen = () => {
   };
 
   const handleProceed = () => {
-    ('Hauler Type:', haulerType);
+    // ('Hauler Type:', haulerType);
     // console.log('Selected Vehicle:', selectedVehicle);
     // console.log('Vehicle Plate:', vehiclePlate);
 

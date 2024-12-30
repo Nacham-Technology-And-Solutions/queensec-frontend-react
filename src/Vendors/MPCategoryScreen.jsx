@@ -18,7 +18,10 @@ const MakePaymentVendorCategoryScreen = () => {
 
   useEffect(() => {
     // Fetch user, hauler, and plate number from localStorage
-    
+//     console.log('VehicleTypeId:', localStorage.getItem('VehiclTypeId'));
+// console.log('HaulerId:', localStorage.getItem('haulerId'));
+// console.log('Token:', localStorage.getItem('token'));
+
       // Fetch and parse user data from localStorage
       const savedPaymentOption = localStorage.getItem('haulerType');
       setPaymentOption(savedPaymentOption);
