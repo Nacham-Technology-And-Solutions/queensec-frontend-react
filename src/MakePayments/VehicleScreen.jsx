@@ -61,7 +61,7 @@ const MakePaymentVehicleScreen = () => {
     }
   };
   const handleRadioChange = (type) => {
-    // console.log('Radio change to:', type);
+
     setHaulerType(type);
     localStorage.setItem('haulerType', type);
     if (type === 'oneTime') {
@@ -69,13 +69,11 @@ const MakePaymentVehicleScreen = () => {
     }
   };
   const handleProceed = () => {
-    // console.log('Hauler Type:', haulerType);
-    // console.log('Selected Vehicle:', selectedVehicle);
-    // console.log('Vehicle Plate:', vehiclePlate);
+
   
     if (haulerType === 'saved' && selectedHauler) {
       const parsedHauler = JSON.parse(selectedHauler);
-      console.log('Selected Hauler:', parsedHauler);
+
       localStorage.setItem("number_plate", parsedHauler.number_plate);
       localStorage.setItem('selected_hauler', selectedHauler);
       localStorage.setItem('hauler_id', parsedHauler.id);
@@ -83,7 +81,7 @@ const MakePaymentVehicleScreen = () => {
       const selectedVehicleType = vehicleTypes.find(
         (type) => type.id === parseInt(selectedVehicle)
       );
-      // console.log('Selected Vehicle Type:', selectedVehicleType);
+
   
       if (selectedVehicleType) {
         localStorage.setItem("selected_vehicle", selectedVehicle);

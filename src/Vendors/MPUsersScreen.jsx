@@ -58,13 +58,16 @@ const MakePaymentVendorUserScreen = () => {
         const haulerResponse = await axios.get(`${API_BASE_URL}/user/get-user-hauler-by-tax-id`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            Accept: 'application/json',
+            Accept: 'application/json',  
           },
           params: { tax_id: inputTaxId },
         });
 
         if (haulerResponse.data.success) {
+          
           const haulersList = haulerResponse.data.data.haulers || [];
+          console.log(haulersList);
+          
           setHaulerOptions(haulersList);
           setHaulers(haulersList.length);
         }
@@ -97,9 +100,11 @@ const MakePaymentVendorUserScreen = () => {
   };
 
   const handleRadioChange = (type) => {
-    // console.log('Radio change to:', type);
+
     setHaulerType(type);
     localStorage.setItem('haulerType', type);
+    console.log('haulerType', type);
+    
     
     if (type === 'oneTimeTrip') {
       fetchVehicleTypes();
@@ -107,9 +112,7 @@ const MakePaymentVendorUserScreen = () => {
   };
 
   const handleProceed = () => {
-    // ('Hauler Type:', haulerType);
-    // console.log('Selected Vehicle:', selectedVehicle);
-    // console.log('Vehicle Plate:', vehiclePlate);
+ 
 
     if (haulerType === 'savedHauler' && selectedHauler) {
       const selectedHaulerData = haulerOptions.find(
@@ -123,12 +126,14 @@ const MakePaymentVendorUserScreen = () => {
           numberPlate: selectedHaulerData.number_plate,
           haulerId: selectedHaulerData.id,
         };
-        // console.log(savedData);
+        console.log(savedData.haulerId);
         
+
+    
         
         localStorage.setItem('savedUser', JSON.stringify(savedData));
-        localStorage.setItem('haulerId', selectedHaulerData.id);
-        // localStorage.setItem('haulers', haulers);
+        localStorage.setItem('haulerId', savedData.haulerId);
+
       } else {
         alert('Please select a hauler before proceeding.');
       }
@@ -136,7 +141,7 @@ const MakePaymentVendorUserScreen = () => {
       const selectedVehicleType = vehicleTypes.find(
         (type) => type.id === parseInt(selectedVehicle)
       );
-      // console.log('Selected Vehicle Type:', selectedVehicleType);
+
   
       if (selectedVehicleType) {
         const oneTimeTripData = {
@@ -184,6 +189,23 @@ const MakePaymentVendorUserScreen = () => {
           </InfoColumn>
         </DashboardText>
       </MiniDashboard>
+
+      <TaxIdContainer>
+            <Label3>Tax ID Number:</Label3>
+            <InputField
+              value={taxId}
+              onChange={handleTaxIdChange}
+              placeholder="Enter Tax ID Number"
+            />
+            {isVerified && (
+              <Green>
+                <GreenTickIcon src={GreenTick} alt="Green Tick" />
+                <VerifiedText>{username}</VerifiedText>
+              </Green>
+            )}
+            {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+      </TaxIdContainer>
+      
       <SelectHaulerText>Select Hauler:</SelectHaulerText>
       <RadioContainer>
         <RadioLabel>
@@ -208,21 +230,7 @@ const MakePaymentVendorUserScreen = () => {
 
       {haulerType === 'savedHauler' && (
         <>
-          <TaxIdContainer>
-            <Label3>Tax ID Number:</Label3>
-            <InputField
-              value={taxId}
-              onChange={handleTaxIdChange}
-              placeholder="Enter Tax ID Number"
-            />
-            {isVerified && (
-              <Green>
-                <GreenTickIcon src={GreenTick} alt="Green Tick" />
-                <VerifiedText>{username}</VerifiedText>
-              </Green>
-            )}
-            {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
-          </TaxIdContainer>
+        
 
           <SelectHaulerText>Select Hauler:</SelectHaulerText>
           <SelectDropdown
@@ -512,6 +520,7 @@ const TaxIdContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 10px 0;
+  margin-top: 20px;
   width: 100%;
 `;
 

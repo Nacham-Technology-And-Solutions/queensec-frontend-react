@@ -34,7 +34,7 @@ const PaymentSuccessVendorScreen = () => {
                     text: `Payment of NGN{ amount }was successful! Pay ID: ${payId}`,
                     url: window.location.href,
                 })
-                .then(() => console.log('Successful share'))
+
                 .catch((error) => console.log('Error sharing:', error));
         } else {
             alert('Sharing is not supported in your browser.');

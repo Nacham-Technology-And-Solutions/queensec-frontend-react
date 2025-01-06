@@ -44,7 +44,7 @@ const VendorsDashboard = () => {
 
         if (response.status === 200 && response.data) {
           const user = response.data;
-// console.log(user);
+
 
           setUserData({
             name: `${user.business_name}`,

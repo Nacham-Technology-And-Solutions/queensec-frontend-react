@@ -70,7 +70,7 @@ const VendorTripDataScreen = () => {
     };
     const handleBack = () => {
         localStorage.removeItem('haulerType');
-
+        // localStorage.clear();
         navigate('/Vendor-User-MakePayment-Screen');
       };
       
