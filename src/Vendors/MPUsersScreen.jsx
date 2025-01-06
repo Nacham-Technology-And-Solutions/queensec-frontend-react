@@ -66,7 +66,7 @@ const MakePaymentVendorUserScreen = () => {
         if (haulerResponse.data.success) {
           
           const haulersList = haulerResponse.data.data.haulers || [];
-          console.log(haulersList);
+
           
           setHaulerOptions(haulersList);
           setHaulers(haulersList.length);
@@ -103,7 +103,7 @@ const MakePaymentVendorUserScreen = () => {
 
     setHaulerType(type);
     localStorage.setItem('haulerType', type);
-    console.log('haulerType', type);
+
     
     
     if (type === 'oneTimeTrip') {
@@ -126,7 +126,7 @@ const MakePaymentVendorUserScreen = () => {
           numberPlate: selectedHaulerData.number_plate,
           haulerId: selectedHaulerData.id,
         };
-        console.log(savedData.haulerId);
+
         
 
     

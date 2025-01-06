@@ -25,7 +25,7 @@ const MakePaymentVendorCategoryScreen = () => {
   
       if (savedPaymentOption === 'savedHauler') {
         const savedDataString = localStorage.getItem('savedUser');
-        console.log(JSON.parse(savedDataString));
+
         
         if (savedDataString) {
           try {
@@ -64,7 +64,7 @@ const MakePaymentVendorCategoryScreen = () => {
         const savedHaulerId = localStorage.getItem('haulerId')
         
        
-        console.log(savedHaulerId);
+
         
         // //       const HaulerId = () => {
         //   //         if (savedPaymentOption === 'savedHauler') {
@@ -76,11 +76,7 @@ const MakePaymentVendorCategoryScreen = () => {
         //       const HaulerId = savedPaymentOption === 'savedHauler' ? savedHaulerId : savedPaymentOption === 'oneTimeTrip' ? vehicleTypeId : ''
      
 
-        if (savedPaymentOption === 'savedUser') {
-          console.log('saved:', savedHaulerId);
-        } else if(savedPaymentOption === 'oneTimeTrip'){
-          console.log('oneTime:', vehicleTypeId);
-        }
+        
     //     haulerType = localStorage.getItem('haulerType');
     //     if (haulerType = 'savedHauler') {
        
@@ -91,7 +87,7 @@ const MakePaymentVendorCategoryScreen = () => {
           : `${API_BASE_URL}/user/get-fee-category?hauler_id=${savedHaulerId}`;
           // /user/get-fee-category
  
-//  console.log(HaulerId);
+
         const response = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${token}`, 
