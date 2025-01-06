@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import searchIcon from '../Assets/searchicon.png';
-import clayIcon from '../Assets/clay.png';
-import gypsumIcon from '../Assets/gypsum.png';
-import ironOreIcon from '../Assets/ironore.png';
-import marbleIcon from '../Assets/marble.png';
-import aquariumIcon from '../Assets/aquarium.png';
-import LeftIcon from '../Assets/left.png';
+import searchIcon from '../assets/searchicon.png';
+import clayIcon from '../assets/clay.png';
+import gypsumIcon from '../assets/gypsum.png';
+import ironOreIcon from '../assets/ironore.png';
+import marbleIcon from '../assets/marble.png';
+import aquariumIcon from '../assets/aquarium.png';
+import LeftIcon from '../assets/left.png';
 import { useNavigate } from 'react-router-dom';
 const SelectedBeneficiaryScreen = () => {
     const payments = [

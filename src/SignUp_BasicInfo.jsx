@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom'; 
-import LeftIcon from './Assets/left.png';  // Back icon
-import QueensecLogo from './Assets/Queensec_1.png';  // Import the logo
+import LeftIcon from './assets/left.png';  // Back icon
+import QueensecLogo from './assets/Queensec_1.png';  // Import the logo
 import { useState,useEffect } from 'react';
 
 const BasicInfoScreen = () => {

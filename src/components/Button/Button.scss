@@ -1,0 +1,40 @@
+/* src/components/Button/Button.scss */
+@import '../../styles/variables';  // Importing global variables if needed
+@import '../../styles/mixins';      // Importing global mixins if any
+
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 256px;
+  transition: all 0.3s ease;
+  height: 50px;
+  @include border-radius(256px);  // Example of mixin usage
+  
+  &.span {
+    width: 100%;
+  }
+
+  &.primary {
+    background-color: $primary-color;
+    color: $primary-accent-color;
+  }
+
+  &.secondary {
+    background-color: $secondary-color;
+    color: #333;
+  }
+
+  &.medium {
+    font-size: 16px;
+  }
+
+  &.large {
+    font-size: 18px;
+  }
+
+  &.small {
+    font-size: 14px;
+  }
+}

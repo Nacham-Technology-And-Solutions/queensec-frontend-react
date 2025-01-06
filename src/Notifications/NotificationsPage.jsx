@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import transactions_N from '../Assets/transactions_N.png';
-import notification_C from '../Assets/notifications_C.png';
-import profile_N from '../Assets/profile_N.png';
-import profile_C from '../Assets/profile_C.png';
-import folder_N from '../Assets/folder_N.png';
-import planeIcon from '../Assets/planeicon.png';
+import transactions_N from '../assets/transactions_N.png';
+import notification_C from '../assets/notifications_C.png';
+import profile_N from '../assets/profile_N.png';
+import profile_C from '../assets/profile_C.png';
+import folder_N from '../assets/folder_N.png';
+import planeIcon from '../assets/planeicon.png';
 
-import { useUser } from '../UserContext';
+import { useUser } from '../context/UserContext';
 const NotificationPage = () => {
 
     const navigate = useNavigate();

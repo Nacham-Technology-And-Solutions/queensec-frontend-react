@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import LeftIcon from '../Assets/left.png';
-import MiniDashboardIcon from '../Assets/MINI_DB.png';
-import { useUser } from '../UserContext';
+import LeftIcon from '../assets/left.png';
+import MiniDashboardIcon from '../assets/MINI_DB.png';
+import { useUser } from '../context/UserContext';
 import axios from 'axios';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 

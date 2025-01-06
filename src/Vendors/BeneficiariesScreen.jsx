@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import searchIcon from '../Assets/searchicon.png';
-import starCIcon from '../Assets/star_C.png';
-import starNIcon from '../Assets/star_N.png';
-import u1Icon from '../Assets/u1.png';
-import LeftIcon from '../Assets/left.png';
+import searchIcon from '../assets/searchicon.png';
+import starCIcon from '../assets/star_C.png';
+import starNIcon from '../assets/star_N.png';
+import u1Icon from '../assets/u1.png';
+import LeftIcon from '../assets/left.png';
 import { useNavigate } from 'react-router-dom';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const BeneficiariesListScreen = () => {

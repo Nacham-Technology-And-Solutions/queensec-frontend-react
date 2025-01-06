@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import QRCode from 'react-qr-code';
-import coalpileIcon from '../Assets/coalpile.png';
-import mineralIcon from '../Assets/mineral_icon.png';
-import LeftIcon from '../Assets/left.png';
+import coalpileIcon from '../assets/coalpile.png';
+import mineralIcon from '../assets/mineral_icon.png';
+import LeftIcon from '../assets/left.png';
 import axios from 'axios';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;

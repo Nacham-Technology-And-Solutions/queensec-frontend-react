@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import searchIcon from '../Assets/searchicon.png';
-import calendarIcon from '../Assets/calendericon.png';
-import LeftIcon from '../Assets/left.png';
-import clayIcon from '../Assets/clay.png';
-import gypsumIcon from '../Assets/gypsum.png';
-import ironOreIcon from '../Assets/ironore.png';
-import marbleIcon from '../Assets/marble.png';
-import aquariumIcon from '../Assets/aquarium.png';
-// import UbuntuFont from '../Assets/Ubuntu/Ubuntu-Regular.ttf';
+import searchIcon from '../assets/searchicon.png';
+import calendarIcon from '../assets/calendericon.png';
+import LeftIcon from '../assets/left.png';
+import clayIcon from '../assets/clay.png';
+import gypsumIcon from '../assets/gypsum.png';
+import ironOreIcon from '../assets/ironore.png';
+import marbleIcon from '../assets/marble.png';
+import aquariumIcon from '../assets/aquarium.png';
+// import UbuntuFont from '../assets/Ubuntu/Ubuntu-Regular.ttf';
 
 const TransactionHistory = () => {
   const navigate = useNavigate();

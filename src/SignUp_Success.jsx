@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import LeftIcon from './Assets/left.png';  // Back icon (if needed)
-import QueensecLogo from './Assets/Queensec_1.png';  // Import logo
-import CompletedImage from './Assets/completed.png';  // Import the completed illustration
+import LeftIcon from './assets/left.png';  // Back icon (if needed)
+import QueensecLogo from './assets/Queensec_1.png';  // Import logo
+import CompletedImage from './assets/completed.png';  // Import the completed illustration
 
 const SuccessScreen = () => {
   const navigate = useNavigate();

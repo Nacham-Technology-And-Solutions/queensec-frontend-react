@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import DASHBOARD from '../Assets/DASHBOARD.png';
-import folder_C from '../Assets/folder_C.png';
-import transactions_N from '../Assets/transactions_N.png';
-import notification_N from '../Assets/notification_N.png';
-import profile_N from '../Assets/profile_N.png';
+import DASHBOARD from '../assets/DASHBOARD.png';
+import folder_C from '../assets/folder_C.png';
+import transactions_N from '../assets/transactions_N.png';
+import notification_N from '../assets/notification_N.png';
+import profile_N from '../assets/profile_N.png';
 import { VictoryChart, VictoryLine, VictoryTheme, VictoryTooltip, VictoryAxis } from 'victory';
-import mineral_icon from '../Assets/mineral_icon.png';
-import logo from '../Assets/Queensec_1.png';
-import Vector from '../Assets/Vector.png'; // Icon for viewing full chart
+import mineral_icon from '../assets/mineral_icon.png';
+import logo from '../assets/Queensec_1.png';
+import Vector from '../assets/Vector.png'; // Icon for viewing full chart
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -118,16 +118,16 @@ const VendorsDashboard = () => {
   }, []);
 
   const mineralIcons = {
-    clay: "Assets/clay.png",
-    aquarium: "Assets/aquarium.png",
-    gypsum: "Assets/gypsum.png",
-    ironore: "Assets/ironore.png",
-    marble: "Assets/marble.png",
+    clay: "assets/clay.png",
+    aquarium: "assets/aquarium.png",
+    gypsum: "assets/gypsum.png",
+    ironore: "assets/ironore.png",
+    marble: "assets/marble.png",
   };
   
   // Function to get the correct mineral icon or default
   const getMineralIcon = (mineralName) => {
-    return mineralIcons[mineralName.toLowerCase()] || "Assets/default.png";
+    return mineralIcons[mineralName.toLowerCase()] || "assets/default.png";
   };
   
   useEffect(() => {

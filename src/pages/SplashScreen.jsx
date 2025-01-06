@@ -1,38 +1,51 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import QueensecLogo from './Assets/Queensec_1.png';
-import OrderRideImage from './Assets/undraw_order_ride_re_372k_1.png';
+import QueensecLogo from '../assets/Queensec_1.png';
+import OrderRideImage from '../assets/images/undraw_order_ride_re_372k_1.svg';
+import Button from '../components/Button/Button';
+import TextButton from '../components/TextButton/TextButton';
 
 
 const SplashScreen = () => {
   const navigate = useNavigate();
 
-  
+
   localStorage.clear();
 
-  const handleNext = () => {
+  const handleClickSignUp = () => {
     navigate('/sign-up-user-type');
-    
   }
+  
+  const handleClick = () => {
+    navigate('/Login-Page');
+  }
+
   return (
     <Wrapper>
       <ContentWrapper>
-  
+
         <HeaderText>Hello,</HeaderText>
-        <SubText>Welcome you to your tax gateway</SubText>
-      
+        <SubText>Welcome to your tax gateway</SubText>
+
         <IconsWrapper>
           <LogoImage src={QueensecLogo} alt="Queensec Logo" />
         </IconsWrapper>
-        
-      
+
+
         <IconsWrapper>
           <RideImage src={OrderRideImage} alt="Order Ride Illustration" />
         </IconsWrapper>
-        
+
+
         <ButtonWrapper>
-          <NextButton onClick={handleNext}>Next</NextButton>
+          <Button onClick={handleClick} label="Sign In" span='span' size='large'/>
+          {/* <NextButton onClick={handleClick}>Next</NextButton> */}
+        </ButtonWrapper>
+        <br />
+        <ButtonWrapper>
+          New to Kadamines? &nbsp;
+          <TextButton onClick={handleClickSignUp} label="Sign Up" span='span' size='large'/> 
         </ButtonWrapper>
       </ContentWrapper>
     </Wrapper>

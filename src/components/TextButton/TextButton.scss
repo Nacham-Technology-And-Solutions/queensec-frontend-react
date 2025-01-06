@@ -1,0 +1,25 @@
+/* src/components/Button/Button.scss */
+@import '../../styles/variables';  // Importing global variables if needed
+@import '../../styles/mixins';      // Importing global mixins if any
+
+/* src/components/TextButton.scss */
+.text-btn {
+  background: none;
+  border: none;
+  color: blue;  // Change this to your desired link color
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+
+  &:hover {
+    color: darkblue;  // Change color on hover (optional)
+    text-decoration: underline;  // Keep the underline on hover (optional)
+  }
+
+  &:focus {
+    outline: none;  // Remove the default focus outline
+  }
+}
+ 

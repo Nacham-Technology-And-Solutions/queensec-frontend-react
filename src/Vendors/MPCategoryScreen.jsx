@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import LeftIcon from '../Assets/left.png';
-import MiniDashboardIcon from '../Assets/MINI_DB.png';
+import LeftIcon from '../assets/left.png';
+import MiniDashboardIcon from '../assets/MINI_DB.png';
 import axios from 'axios';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
@@ -470,9 +470,9 @@ export default MakePaymentVendorCategoryScreen;
 // import React, { useState, useEffect } from 'react';
 // import styled from 'styled-components';
 // import { useNavigate } from 'react-router-dom';
-// import LeftIcon from '../Assets/left.png';
-// import MiniDashboardIcon from '../Assets/MINI_DB.png';
-// import ubuntu from '../Assets/Ubuntu/Ubuntu-Regular.ttf';
+// import LeftIcon from '../assets/left.png';
+// import MiniDashboardIcon from '../assets/MINI_DB.png';
+// import ubuntu from '../assets/Ubuntu/Ubuntu-Regular.ttf';
 
 // const MakePaymentVendorCategoryScreen = () => {
 //   const navigate = useNavigate();

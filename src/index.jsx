@@ -1,19 +1,19 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom/client'; // Import ReactDOM for React 18+
+// import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
-import { UserProvider } from './UserContext';
+import { UserProvider } from './context/UserContext';
 // import GlobalStyle from './GlobalStyle';
 // import { process } from "process";
 
 const rootElement = document.getElementById('root');
-const root = createRoot(rootElement);
+const root = ReactDOM.createRoot(rootElement);
 
 root.render(
   <UserProvider>
     <Router>
-  
-    <App />
+      <App />
     </Router>
-    </UserProvider>
+  </UserProvider>
 );

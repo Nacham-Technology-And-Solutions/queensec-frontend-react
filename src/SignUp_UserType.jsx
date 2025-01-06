@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom'; 
-import LeftIcon from './Assets/left.png';
-import TickIcon from './Assets/tick.png';
-import BuildingIcon from './Assets/building.png';
-import WalletIcon from './Assets/wallet.png';
-import AvatarIcon from './Assets/avatar.png';
-import QueensecLogo from './Assets/Queensec_1.png';  // Import the logo here
+import LeftIcon from './assets/left.png';
+import TickIcon from './assets/tick.png';
+import BuildingIcon from './assets/building.png';
+import WalletIcon from './assets/wallet.png';
+import AvatarIcon from './assets/avatar.png';
+import QueensecLogo from './assets/Queensec_1.png';  // Import the logo here
 import { useState } from 'react';
 
 

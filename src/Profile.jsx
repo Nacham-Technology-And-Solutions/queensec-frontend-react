@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import img_png from './Assets/img_png.png'; // Profile image
-import signOutIcon from './Assets/sign-out.png'; // Sign-out icon
-import folder_C from './Assets/folder_C.png';
-import transactions_N from './Assets/transactions_N.png';
-import notification_N from './Assets/notification_N.png';
-import profile_N from './Assets/profile_N.png';
-import profile_C from './Assets/profile_C.png';
-import folder_N from './Assets/folder_N.png';
-import { useUser } from './UserContext';
+import img_png from './assets/img_png.png'; // Profile image
+import signOutIcon from './assets/sign-out.png'; // Sign-out icon
+import folder_C from './assets/folder_C.png';
+import transactions_N from './assets/transactions_N.png';
+import notification_N from './assets/notification_N.png';
+import profile_N from './assets/profile_N.png';
+import profile_C from './assets/profile_C.png';
+import folder_N from './assets/folder_N.png';
+import { useUser } from './context/UserContext';
 import axios from 'axios';
 import QRCode from 'react-qr-code';
 

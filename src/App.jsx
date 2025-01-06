@@ -3,8 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client'; // Import ReactDOM for React 18+
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 // Correct imports for other components and context
-import { UserContext } from './UserContext';
-import SplashScreen from './SplashScreen';
+import { UserContext } from './context/UserContext.jsx';
+import SplashScreen from './pages/SplashScreen.jsx';
 import SignUp_UserTypeScreen from './SignUp_UserType';
 import BasicInfoScreen from './SignUp_BasicInfo';
 import ContactInfoScreen from './SignUp_ContactInfo';
@@ -30,7 +30,7 @@ import MP_BankDetailsVendorScreen from './Vendors/MPBankDetailsScreen.jsx';
 import PaymentSuccessVendorScreen from "./Vendors/MPPaymentSucccessfulScreen.jsx";
 import BeneficiariesListScreen from './Vendors/BeneficiariesScreen.jsx';
 import SelectedBeneficiaryScreen from './Vendors/SelectedBeneficiaryListScreen.jsx';
-import LoginPage from './LoginPage.jsx';
+import LoginPage from './pages/LoginPage.jsx';
 import TripDataScreen from "./MakePayments/TripDataScreen.jsx";
 import VendorTripDataScreen from './Vendors/VendorTripData.jsx';
 import EnterpriseDashboard from './Enterprise/EnterpriseDashboard.jsx';
@@ -44,49 +44,53 @@ const ProtectedRoute = ({ children }) => {
 function App() {
     return (
 
-            <Routes>
-                {/* Public Routes */}
-                <Route path="/" element={<Navigate to="/splash" />} />
-                <Route path="/splash" element={<SplashScreen />} />
-                <Route path="/Login-Page" element={<LoginPage />} />
+        <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<Navigate to="/splash" />} />
+            <Route path="/splash" element={<SplashScreen />} />
+            <Route path="/Login-Page" element={<LoginPage />} />
 
-                <Route path="/sign-up-user-type" element={<SignUp_UserTypeScreen/>} />
-                <Route path="/basic-info" element={<BasicInfoScreen/>} />
-                <Route path="/contact-info" element={<ContactInfoScreen/> } />
-                <Route path="/security-info" element={<SecurityInfoScreen/>} />
-                <Route path="/success" element={<SuccessScreen/> } />
-                {/* Protected Routes */}
-                <Route path="/dashboard-page" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-                <Route path="/MP_VehicleScreen" element={<ProtectedRoute><MakePaymentVehicleScreen /></ProtectedRoute>} />
-                <Route path="/Trip-Data" element={<ProtectedRoute><TripDataScreen /></ProtectedRoute>} />
-                <Route path="/Trip-Data" element={<ProtectedRoute><TripDataScreen /></ProtectedRoute>} />
-                <Route path="/Vendor-Trip-Data" element={<ProtectedRoute><VendorTripDataScreen /></ProtectedRoute>} />
-                <Route path="/MP_CategoryScreen" element={<ProtectedRoute><MakePaymentCategoryScreen /></ProtectedRoute>} />
-                <Route path="/MP_BankDetailsScreen" element={<ProtectedRoute><MakePaymentBankDetailsScreen /></ProtectedRoute>} />
-                <Route path="/MP_PaymentSuccessScreen" element={<ProtectedRoute><PaymentSuccessScreen /></ProtectedRoute>} />
-                <Route path="/Add-Hauler" element={<ProtectedRoute><AddHaulerScreen /></ProtectedRoute>} />
-                <Route path="/Hauler-Lists" element={<ProtectedRoute><HaulersListScreen /></ProtectedRoute>} />
-                <Route path="/User-Profile" element={<ProtectedRoute><ProfileScreen /></ProtectedRoute>} />
-                <Route path="/Transaction-History" element={<ProtectedRoute><TransactionHistory /></ProtectedRoute>} />
-                <Route path="/TransactionHistory_MineralScreen" element={<ProtectedRoute><TransactionHistory_MineralScreen /></ProtectedRoute>} />
-                <Route path="/Transactions-page" element={<ProtectedRoute><TransactionsPage /></ProtectedRoute>} />
-                <Route path="/Notifications-page" element={<ProtectedRoute><NotificationPage /></ProtectedRoute>} />
-                <Route path="/Notifications-Details-page" element={<ProtectedRoute><NotificationDetailsPage /></ProtectedRoute>} />
-                <Route path="/Vendors-Dashboard" element={<ProtectedRoute><VendorsDashboard /></ProtectedRoute>} />
-                <Route path="/Vendor-User-MakePayment-Screen" element={<ProtectedRoute><MakePaymentVendorUserScreen /></ProtectedRoute>} />
-                <Route path="/Vendor-Category-MakePayment-Screen" element={<ProtectedRoute><MakePaymentVendorCategoryScreen /></ProtectedRoute>} />
-                <Route path="/vendor-BankDetails-MakePayment-Screen" element={<ProtectedRoute><MP_BankDetailsVendorScreen /></ProtectedRoute>} />
-                <Route path="/Vendor-PaymentSuccess-Screen" element={<ProtectedRoute><PaymentSuccessVendorScreen /></ProtectedRoute>} />
-                <Route path="/Beneficiaries-Screen" element={<ProtectedRoute><BeneficiariesListScreen /></ProtectedRoute>} />
-                <Route path="/Selected-Beneficiary-Screen" element={<ProtectedRoute><SelectedBeneficiaryScreen /></ProtectedRoute>} />
-                <Route path="/Enterprise-Dashboard" element={<ProtectedRoute><EnterpriseDashboard /></ProtectedRoute>} />
-            </Routes>
-      
+            <Route path="/sign-up-user-type" element={<SignUp_UserTypeScreen />} />
+            <Route path="/basic-info" element={<BasicInfoScreen />} />
+            <Route path="/contact-info" element={<ContactInfoScreen />} />
+            <Route path="/security-info" element={<SecurityInfoScreen />} />
+            <Route path="/success" element={<SuccessScreen />} />
+            {/* Protected Routes */}
+            <Route path="/dashboard-page" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/MP_VehicleScreen" element={<ProtectedRoute><MakePaymentVehicleScreen /></ProtectedRoute>} />
+            <Route path="/Trip-Data" element={<ProtectedRoute><TripDataScreen /></ProtectedRoute>} />
+            <Route path="/Trip-Data" element={<ProtectedRoute><TripDataScreen /></ProtectedRoute>} />
+            <Route path="/Vendor-Trip-Data" element={<ProtectedRoute><VendorTripDataScreen /></ProtectedRoute>} />
+            <Route path="/MP_CategoryScreen" element={<ProtectedRoute><MakePaymentCategoryScreen /></ProtectedRoute>} />
+            <Route path="/MP_BankDetailsScreen" element={<ProtectedRoute><MakePaymentBankDetailsScreen /></ProtectedRoute>} />
+            <Route path="/MP_PaymentSuccessScreen" element={<ProtectedRoute><PaymentSuccessScreen /></ProtectedRoute>} />
+            <Route path="/Add-Hauler" element={<ProtectedRoute><AddHaulerScreen /></ProtectedRoute>} />
+            <Route path="/Hauler-Lists" element={<ProtectedRoute><HaulersListScreen /></ProtectedRoute>} />
+            <Route path="/User-Profile" element={<ProtectedRoute><ProfileScreen /></ProtectedRoute>} />
+            <Route path="/Transaction-History" element={<ProtectedRoute><TransactionHistory /></ProtectedRoute>} />
+            <Route path="/TransactionHistory_MineralScreen" element={<ProtectedRoute><TransactionHistory_MineralScreen /></ProtectedRoute>} />
+            <Route path="/Transactions-page" element={<ProtectedRoute><TransactionsPage /></ProtectedRoute>} />
+            <Route path="/Notifications-page" element={<ProtectedRoute><NotificationPage /></ProtectedRoute>} />
+            <Route path="/Notifications-Details-page" element={<ProtectedRoute><NotificationDetailsPage /></ProtectedRoute>} />
+            <Route path="/Vendors-Dashboard" element={<ProtectedRoute><VendorsDashboard /></ProtectedRoute>} />
+            <Route path="/Vendor-User-MakePayment-Screen" element={<ProtectedRoute><MakePaymentVendorUserScreen /></ProtectedRoute>} />
+            <Route path="/Vendor-Category-MakePayment-Screen" element={<ProtectedRoute><MakePaymentVendorCategoryScreen /></ProtectedRoute>} />
+            <Route path="/vendor-BankDetails-MakePayment-Screen" element={<ProtectedRoute><MP_BankDetailsVendorScreen /></ProtectedRoute>} />
+            <Route path="/Vendor-PaymentSuccess-Screen" element={<ProtectedRoute><PaymentSuccessVendorScreen /></ProtectedRoute>} />
+            <Route path="/Beneficiaries-Screen" element={<ProtectedRoute><BeneficiariesListScreen /></ProtectedRoute>} />
+            <Route path="/Selected-Beneficiary-Screen" element={<ProtectedRoute><SelectedBeneficiaryScreen /></ProtectedRoute>} />
+            <Route path="/Enterprise-Dashboard" element={<ProtectedRoute><EnterpriseDashboard /></ProtectedRoute>} />
+        </Routes>
+
     );
 }
 
-const rootElement = document.getElementById('root'); // Ensure ID matches Blade file
-ReactDOM.createRoot(rootElement).render(<App />);
+// const rootElement = document.getElementById('root'); // Ensure ID matches Blade file
+// ReactDOM.createRoot(rootElement).render(
+//     <Router>
+//         <App />
+//     </Router>
+// );
 
 export default App;
 // if (document.getElementById('root')) {

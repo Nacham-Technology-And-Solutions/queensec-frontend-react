@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate  } from 'react-router-dom';
-import LeftIcon from './Assets/left.png';
-import QueensecLogo from './Assets/Queensec_1.png';
-import DownIcon from './Assets/down.png';  // Import the down icon
+import LeftIcon from './assets/left.png';
+import QueensecLogo from './assets/Queensec_1.png';
+import DownIcon from './assets/down.png';  // Import the down icon
 import axios from 'axios';
 
 

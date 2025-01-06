@@ -1,0 +1,28 @@
+/* src/components/Button/Button.scss */
+@import '../../styles/variables';  // Importing global variables if needed
+@import '../../styles/mixins';      // Importing global mixins if any
+
+.input-field {
+  margin-bottom: 1rem;
+
+  label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 0.5rem;
+    color: #555;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+
+    &:focus {
+      border-color: #f8b400;
+      outline: none;
+    }
+  }
+}

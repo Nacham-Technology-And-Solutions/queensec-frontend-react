@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import backIcon from '../Assets/left.png';
+import backIcon from '../assets/left.png';
 
 const NotificationDetailsPage = () => {
     const navigate = useNavigate();
@@ -85,7 +85,7 @@ export default NotificationDetailsPage;
 // import React from 'react';
 // import { useNavigate } from 'react-router-dom';
 // import styled from 'styled-components';
-// import planeIcon from '../Assets/planeicon.png';
+// import planeIcon from '../assets/planeicon.png';
 
 // const NotificationPage = ({ notifications }) => {
 //     const navigate = useNavigate();

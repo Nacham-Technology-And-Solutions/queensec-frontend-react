@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import LeftIcon from '../Assets/left.png';
-import clayIcon from '../Assets/clay.png';
-import gypsumIcon from '../Assets/gypsum.png';
-import ironOreIcon from '../Assets/ironore.png';
-import marbleIcon from '../Assets/marble.png';
-import aquariumIcon from '../Assets/aquarium.png';
-import folder_N from '../Assets/folder_N.png';
-import transactions_C from '../Assets/transactions_C.png';
-import notification_N from '../Assets/notification_N.png';
-import profile_N from '../Assets/profile_N.png';
-import { useUser } from '../UserContext';
+import LeftIcon from '../assets/left.png';
+import clayIcon from '../assets/clay.png';
+import gypsumIcon from '../assets/gypsum.png';
+import ironOreIcon from '../assets/ironore.png';
+import marbleIcon from '../assets/marble.png';
+import aquariumIcon from '../assets/aquarium.png';
+import folder_N from '../assets/folder_N.png';
+import transactions_C from '../assets/transactions_C.png';
+import notification_N from '../assets/notification_N.png';
+import profile_N from '../assets/profile_N.png';
+import { useUser } from '../context/UserContext';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
