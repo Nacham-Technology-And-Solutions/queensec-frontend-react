@@ -60,7 +60,7 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
         localStorage.removeItem('user');
          localStorage.clear();
         // Redirect to login page
-        navigate('/Login-Page');
+        navigate('/login-page');
       } else {
         console.error('Failed to log out:', response.statusText);
       }

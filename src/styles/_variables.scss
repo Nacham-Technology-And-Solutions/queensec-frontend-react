@@ -9,3 +9,9 @@ $primary-accent-color: $color-orange;
 $secondary-color: $color-purple;
 $secondary-accent-color: $color-pink;
 $font-family: 'Arial', sans-serif;
+
+$breakpoints: (
+  small: 600px,
+  medium: 1024px,
+  large: 1440px
+);

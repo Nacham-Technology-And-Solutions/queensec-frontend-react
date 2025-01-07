@@ -1,15 +1,9 @@
 
 import React from 'react';
-import ReactDOM from 'react-dom/client'; // Import ReactDOM for React 18+
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-// Correct imports for other components and context
-import { UserContext } from './context/UserContext.jsx';
+import { Route, Routes, Navigate } from 'react-router-dom';
+
+// Correct imports for other components and context 
 import SplashScreen from './pages/SplashScreen.jsx';
-import SignUp_UserTypeScreen from './SignUp_UserType';
-import BasicInfoScreen from './SignUp_BasicInfo';
-import ContactInfoScreen from './SignUp_ContactInfo';
-import SecurityInfoScreen from './SignUp_PasswordScreen';
-import SuccessScreen from './SignUp_Success';
 import Dashboard from './Dashbaord';
 import MakePaymentVehicleScreen from "./MakePayments/VehicleScreen";
 import MakePaymentCategoryScreen from "./MakePayments/CategoryScreen";
@@ -34,11 +28,16 @@ import LoginPage from './pages/LoginPage.jsx';
 import TripDataScreen from "./MakePayments/TripDataScreen.jsx";
 import VendorTripDataScreen from './Vendors/VendorTripData.jsx';
 import EnterpriseDashboard from './Enterprise/EnterpriseDashboard.jsx';
+import SignUpScreenOneUserType from './pages/Registration/SignUpScreenOneUserType.jsx';
+import SignUpScreenTwoBasicInfo from './pages/Registration/SignUpScreenTwoBasicInfo.jsx';
+import SignUpScreenThreeContactInfo from './pages/Registration/SignUpScreenThreeContactInfo.jsx';
+import SignUpScreenFourSecurityInfo from './pages/Registration/SignUpScreenFourSecurityInfo.jsx';
+import SignUpScreenFiveSuccess from './pages/Registration/SignUpScreenFiveSuccess.jsx';
 
 // Inline ProtectedRoute Component
 const ProtectedRoute = ({ children }) => {
     const token = localStorage.getItem('token'); // Check for auth token
-    return token ? children : <Navigate to="/Login-Page" replace />;
+    return token ? children : <Navigate to="/login-page" replace />;
 };
 
 function App() {
@@ -48,13 +47,15 @@ function App() {
             {/* Public Routes */}
             <Route path="/" element={<Navigate to="/splash" />} />
             <Route path="/splash" element={<SplashScreen />} />
-            <Route path="/Login-Page" element={<LoginPage />} />
+            <Route path="/login-page" element={<LoginPage />} />
 
-            <Route path="/sign-up-user-type" element={<SignUp_UserTypeScreen />} />
-            <Route path="/basic-info" element={<BasicInfoScreen />} />
-            <Route path="/contact-info" element={<ContactInfoScreen />} />
-            <Route path="/security-info" element={<SecurityInfoScreen />} />
-            <Route path="/success" element={<SuccessScreen />} />
+            {/* Sign Up Screens 1 - 5 */}
+            <Route path="/sign-up-user-type" element={<SignUpScreenOneUserType />} />
+            <Route path="/basic-info" element={<SignUpScreenTwoBasicInfo />} />
+            <Route path="/contact-info" element={<SignUpScreenThreeContactInfo />} />
+            <Route path="/security-info" element={<SignUpScreenFourSecurityInfo />} />
+            <Route path="/success" element={<SignUpScreenFiveSuccess />} />
+
             {/* Protected Routes */}
             <Route path="/dashboard-page" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/MP_VehicleScreen" element={<ProtectedRoute><MakePaymentVehicleScreen /></ProtectedRoute>} />

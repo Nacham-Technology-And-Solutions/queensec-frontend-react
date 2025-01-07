@@ -18,7 +18,7 @@ const SplashScreen = () => {
   }
   
   const handleClick = () => {
-    navigate('/Login-Page');
+    navigate('/login-page');
   }
 
   return (

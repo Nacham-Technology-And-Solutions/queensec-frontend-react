@@ -1,0 +1,33 @@
+/* src/components/Button/Button.scss */
+@import '../../styles/variables'; // Importing global variables if needed
+@import '../../styles/mixins'; // Importing global mixins if any
+
+.input-field-drop-down {
+  margin-bottom: 1rem;
+
+  label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 0.5rem;
+    color: #555;
+  }
+
+  select {
+    padding: 10px;
+    /* Add right padding for the dropdown icon */
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff; 
+    width: auto;
+    /* Make select width auto to grow based on content */
+    min-width: 100px;
+    /* Optional: Set a minimum width to prevent it from being too small */
+    cursor: pointer;
+
+    &:focus {
+      border-color: #f8b400;
+      outline: none;
+    }
+  }
+}

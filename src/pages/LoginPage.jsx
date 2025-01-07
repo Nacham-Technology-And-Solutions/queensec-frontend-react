@@ -122,6 +122,7 @@ const LoginPage = () => {
           onChange={handleChange}
           placeholder="Enter your password"
         />
+        
       </FormContainer>
       <Bottom>
         <Button label="Login" onClick={handleSubmit} size='large' span='span' />
@@ -169,7 +170,6 @@ const FormTitle = styled.p`
   text-align: center;
   margin-top: 5px;
 `;
-
 
 const FormContainer = styled.div`
   display: flex;

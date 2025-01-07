@@ -1,0 +1,51 @@
+/* src/components/Button/Button.scss */
+@import '../../styles/variables'; // Importing global variables if needed
+@import '../../styles/mixins'; // Importing global mixins if any
+
+.account-type-switch {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  width: 100%;
+  max-width: 280px;
+  max-height: 60px;
+  cursor: pointer;
+  color: #7E7E7E;
+  transition: all 0.2s;
+
+  .tick{
+    visibility: hidden;
+  }
+
+  svg {
+    color: #7E7E7E;
+  }
+
+  &.selected {
+    border: 2px solid #FDC57A;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #F07F23;
+    width: 100%;
+
+    svg {
+      color: #F07F23;
+    }
+
+    .tick{
+      visibility: visible;
+    }
+  }
+
+  span {
+    font-size: 16px;
+    text-align: center;
+    margin-left: 10px;
+    flex-grow: 1;
+  }
+  
+}

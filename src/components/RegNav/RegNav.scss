@@ -1,0 +1,58 @@
+// @use 'mixins';
+/* src/components/Button/Button.scss */
+@import '../../styles/variables'; // Importing global variables if needed
+@import '../../styles/mixins'; // Importing global mixins if any
+
+.reg-nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 100px;
+
+  img {
+    position: absolute;
+    left: -100px;
+    top: -120px;
+    width: 120px;
+    height: auto;
+  }
+
+  .nav-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    padding: 15px;
+    width: 100%;
+    max-width: 280px;
+    color: #181818;
+
+    span {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .nav-back {
+      position: absolute;
+      left: -80px;
+      cursor: pointer;
+
+      // @include respond-to(small) {
+      //   left: -80px;
+      // }
+
+      // @include respond-to(medium) {
+      //   left: 3vw;
+      // }
+
+      // @include respond-to(large) {
+      //   left: 1vw;
+      // }
+
+    }
+
+  }
+}

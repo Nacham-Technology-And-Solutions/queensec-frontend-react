@@ -1,15 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import LeftIcon from './assets/left.png';  // Back icon (if needed)
-import QueensecLogo from './assets/Queensec_1.png';  // Import logo
-import CompletedImage from './assets/completed.png';  // Import the completed illustration
+import QueensecLogo from '../../assets/Queensec_1.png';  // Import logo
+import CompletedImage from '../../assets/images/undraw_completed_m9ci.svg';  // Import the completed illustration
+import Button from '../../components/Button/Button';
 
-const SuccessScreen = () => {
+const SignUpScreenFiveSuccess = () => {
   const navigate = useNavigate();
 
   const handleDashboard = () => {
-    navigate('/Login-Page');  // Navigate to the dashboard
+    //Delete All Registration Data
+    localStorage.removeItem('basicInfo');
+    localStorage.removeItem('contactInfo');
+    localStorage.removeItem('account_type');
+    localStorage.removeItem('password');
+    localStorage.removeItem('password_confirmation');
+
+    navigate('/login-page');  // Navigate to the dashboard
   };
 
   return (
@@ -22,7 +29,6 @@ const SuccessScreen = () => {
 
       <Heading>Success</Heading>
       <SubHeading>
- 
         Registration Completed
       </SubHeading>
 
@@ -30,9 +36,7 @@ const SuccessScreen = () => {
         <Completed src={CompletedImage} alt="Registration Completed" />
       </ImageContainer>
 
-      <DashboardButton onClick={handleDashboard}>
-        <ButtonText>Go to Dashboard</ButtonText>
-      </DashboardButton>
+      <Button label="Go to Dashboard" onClick={handleDashboard} size='large' span='span' />
     </Container>
   );
 };
@@ -40,15 +44,13 @@ const SuccessScreen = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-between; 
   height: 100vh;
-  width: 100%;
   background-color: #f6f6f6;
   padding: 20px;
   align-items: center;
-  max-width: 400px;
-  margin: 0 auto;
-  border-radius: 19px;
+  max-width: 400px; /* Set a max width so it doesn’t expand too much on large screens */
+  margin: 0 auto; /* Center the container horizontally */
 `;
 
 const TopBar = styled.div`
@@ -123,4 +125,4 @@ const ButtonText = styled.p`
   text-align: center;
 `;
 
-export default SuccessScreen;
+export default SignUpScreenFiveSuccess;
