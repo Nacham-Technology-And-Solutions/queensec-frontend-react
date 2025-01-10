@@ -171,7 +171,7 @@ const FormTitle = styled.p`
   margin-top: 5px;
 `;
 
-const FormContainer = styled.div`
+const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
