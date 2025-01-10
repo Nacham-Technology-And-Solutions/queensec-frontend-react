@@ -22,7 +22,12 @@ const MakePaymentVehicleScreen = () => {
 
   const [haulerTypeMode, setHaulerTypeMode] = useState(() => {
     const storedValue = localStorage.getItem('haulerTypeMode');
-    return storedValue !== null && storedValue !== '' && storedValue !== 'undefined' && storedValue !== undefined ? storedValue : 'saved';
+    if (storedValue === 'oneTime') {
+      return 'oneTime';
+    } else {
+      return 'saved';
+
+    }
   });
 
   const [haulers, setHaulers] = useState([]);
