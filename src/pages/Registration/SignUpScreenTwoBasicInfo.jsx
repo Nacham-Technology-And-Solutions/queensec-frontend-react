@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import Button from '../../components/Button/Button'; 
+import Button from '../../components/Button/Button';
 import RegNav from '../../components/RegNav/RegNav';
 import InputFieldx from "../../components/InputField/InputField";
 
@@ -124,7 +124,7 @@ const SignUpScreenTwoBasicInfo = () => {
         )}
       </FormContainer>
 
-      <Button label="Next" onClick={handleNext} size='large' span='span' />
+      <Button label="Next" onClick={handleNext} size='large' isSpanWidth={true} />
     </Container>
   );
 };

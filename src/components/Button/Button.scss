@@ -16,6 +16,10 @@
     width: 100%;
   }
 
+  &.short {
+    height: 35px;
+  }
+
   &.primary {
     background-color: $primary-color;
     color: $primary-accent-color;
@@ -36,5 +40,9 @@
 
   &.small {
     font-size: 14px;
+  }
+
+  &.mini {
+    font-size: 12px;
   }
 }

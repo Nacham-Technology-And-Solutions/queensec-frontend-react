@@ -145,7 +145,7 @@ const SignUpScreenFourSecurityInfo = () => {
         />
       </FormContainer>
 
-      <Button label="Next" onClick={handleSubmit} size='large' span='span' />
+      <Button label="Next" onClick={handleSubmit} size='large' isSpanWidth={true}  />
 
     </Container>
   );

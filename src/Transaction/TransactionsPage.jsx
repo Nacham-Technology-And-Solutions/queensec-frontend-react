@@ -10,6 +10,7 @@ import LeftIcon from '../assets/left.png';
 import aquariumIcon from '../assets/aquarium.png'; 
 import { useUser } from '../context/UserContext';
 import BottomNavigator from '../components/BottomNavigator/BottomNavigator';
+import PageLayout from '../components/PageLayout/PageLayout';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -66,7 +67,7 @@ const TransactionPage = () => {
   //   setStatus('failed');
   // }
   return (
-    <Container>
+    <PageLayout>
       <Header>
         <BackButton src={LeftIcon} alt="Back" onClick={goToDashboard} />
         <Title>Transactions</Title>
@@ -112,25 +113,8 @@ const TransactionPage = () => {
         notificationLink='/Notifications-page'
         profileLink='/user-profile'
       />
-
-      {/* <BottomNav>
-        <NavIcon src={folder_N} onClick={goToDashboard} alt="Dashboard" />
-        <NavIconContainer>
-          <NavIcon
-            src={transactions_C}
-            onClick={goToTransactions}
-            alt="Transactions"
-          />
-          <DashboardLabel>Transactions</DashboardLabel>
-        </NavIconContainer>
-        <NavIcon
-          src={notification_N}
-          onClick={goToNotifications}
-          alt="Notifications"
-        />
-        <NavIcon src={profile_N} onClick={goToProfile} alt="Profile" />
-      </BottomNav> */}
-    </Container>
+ 
+    </PageLayout>
   );
 };
 

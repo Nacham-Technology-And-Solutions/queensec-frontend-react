@@ -36,7 +36,7 @@ const SignUpScreenFiveSuccess = () => {
         <Completed src={CompletedImage} alt="Registration Completed" />
       </ImageContainer>
 
-      <Button label="Go to Dashboard" onClick={handleDashboard} size='large' span='span' />
+      <Button label="Go to Dashboard" onClick={handleDashboard} size='large' isSpanWidth={true}  />
     </Container>
   );
 };

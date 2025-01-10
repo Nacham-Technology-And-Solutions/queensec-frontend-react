@@ -165,7 +165,7 @@ const SignUpScreenThreeContactInfo = () => {
         
       </FormContainer>
 
-      <Button label="Next" onClick={handleNext} size='large' span='span' />
+      <Button label="Next" onClick={handleNext} size='large' isSpanWidth={true}  />
     </Container >
   );
 };

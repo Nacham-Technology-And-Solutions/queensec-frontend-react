@@ -2,8 +2,8 @@
 import React from 'react';
 import './Button.scss'; // Import the SCSS file 
 
-const Button = ({ label, onClick, styleType = 'primary', size = 'medium', span, isDisabled = false }) => {
-    const buttonClass = `btn ${styleType} ${size} ${span} ${isDisabled ? 'disabled' : ''}`;
+const Button = ({ label, onClick, styleType = 'primary', size = 'medium', isSpanWidth = false, isShort = false, isDisabled = false }) => {
+    const buttonClass = `btn ${styleType} ${size} ${isSpanWidth ? 'span' : ''} ${isShort ? 'short' : ''} ${isDisabled ? 'disabled' : ''}`;
 
     return (
         <button className={buttonClass} onClick={onClick} disabled={isDisabled}>

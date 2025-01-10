@@ -39,7 +39,7 @@ const SplashScreen = () => {
 
 
         <ButtonWrapper>
-          <Button onClick={handleClick} label="Sign In" span='span' size='large'/>
+          <Button onClick={handleClick} label="Sign In" isSpanWidth={true}  size='large'/>
           {/* <NextButton onClick={handleClick}>Next</NextButton> */}
         </ButtonWrapper>
         <br />

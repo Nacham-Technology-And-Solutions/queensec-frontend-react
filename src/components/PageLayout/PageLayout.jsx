@@ -8,7 +8,12 @@ const PageLayout = ({ children, header, footer }) => {
         <div className="page-layout">
             {header && <header className="layout-header">{header}</header>}
             <main className="layout-content">{children}</main>
-            {footer && <footer className="layout-footer">{footer}</footer>}
+            <footer className="layout-footer">
+                {footer}
+                <div className='powered'>
+                    <p>Powered ⚡ by Queensec Global</p>
+                </div>
+            </footer>
         </div>
     );
 };

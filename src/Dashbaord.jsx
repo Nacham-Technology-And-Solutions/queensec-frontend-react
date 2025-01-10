@@ -8,6 +8,9 @@ import Vector from './assets/Vector.png'; // Icon for viewing full chart
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BottomNavigator from './components/BottomNavigator/BottomNavigator';
+import PageLayout from './components/PageLayout/PageLayout';
+import DashboardCardx from './components/DashboardCard/DashboardCard';
+import Button from './components/Button/Button';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const Dashboard = () => {
   const [userData, setUserData] = useState({
@@ -195,7 +198,7 @@ const Dashboard = () => {
 
   const haulerScreen = () => navigate('/my-haulers-list')
   return (
-    <DashboardContainer>
+    <PageLayout>
       {/* Header */}
       <Header>
         <DashboardText>
@@ -206,18 +209,14 @@ const Dashboard = () => {
       </Header>
 
       {/* Dashboard Card */}
-      <DashboardCard background={DASHBOARD}>
-        <UserDetails>
-          <WelcomeMessage>Welcome,</WelcomeMessage>
-          <UserName>{truncateText(userData.name, 17)}</UserName>
-          <LabelTextA>Tax ID Number:</LabelTextA>
-          <UserInfoDataA>{userData.taxID}</UserInfoDataA>
-          <LabelTextB>Account type</LabelTextB>
-          <UserInfoDataB>{userData.accountType}</UserInfoDataB>
-        </UserDetails>
-        <MakePaymentButton onClick={handleMakePayment}>Make Payment</MakePaymentButton>
+      <DashboardCardx
+        topLeft={truncateText(userData.name, 17)} topLeftLabel={"Welcome,"}
+        topRight={userData.accountType} topRightLabel={"Account Type:"}
+        bottomLeft={userData.taxID} bottomLeftLabel={"Tax ID Number:"}
+        bottomRight={<Button label="Make Payment" onClick={handleMakePayment} size='mini' isShort={true} />} bottomRightLabel={""}
+      />
+ 
         <HaulersBtn onClick={haulerScreen}>Haulers</HaulersBtn>
-      </DashboardCard>
 
       {/* Transaction Chart */}
       <ChartSection>
@@ -283,10 +282,6 @@ const Dashboard = () => {
         </ul>
       </Transactions>
 
-      <Footer>
-        <p>Powered ⚡ by Queensec Global</p>
-      </Footer>
-
       {/* Bottom Navigation */}
       <BottomNavigator
         currentPage='dashboard'
@@ -296,30 +291,12 @@ const Dashboard = () => {
         profileLink='/user-profile'
       />
 
-    </DashboardContainer>
+    </PageLayout>
   );
 };
 
 // Styled Components
-const DashboardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  font-family: 'Arial, sans-serif';
-  max-width: 400px;
-  margin: 0 auto;
-  background-color: #f9f9f9;
-  border-radius: 25px;
-  height: 100%;
-  position: relative;
-  @media (max-width: 768px) {
-    padding: 15px;
-  }
-  @media (max-width: 480px) {
-    padding: 10px;
-    border-radius: 15px;
-  }
-`;
+
 
 const Header = styled.div`
   display: flex;
@@ -349,124 +326,7 @@ const Logo = styled.img`
     height: 40px;
   }
 `;
-
-const DashboardCard = styled.div`
-  background-size: 100% 100%;
-  padding: 30px;
-  position: relative;
-  border-radius: 10px;
-  background-image: url(${(props) => props.background});
-  margin-bottom: 20px;
-  min-height: 255px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-    @media (max-width: 280px) {
-    gap: 5px;
-  }
-`;
-
-const UserDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
-    @media (max-width: 280px) {
-    gap: 5px;
-  }
-`;
-
-const WelcomeMessage = styled.p`
-  font-size: 11px;
-  color: #67728A;
-  margin-left: 35px;
-  margin-bottom: 5px;
-  margin-top: 55px;
-`;
-
-const UserName = styled.h2`
-  font-size: 13px;
-  color: #CEECFF;
-  margin-left: 35px;
-  font-weight: 700;
-  margin-top: -2px;
-  margin-bottom: 57px;
-  padding-bottom: 15px;
-`;
-
-const LabelTextA = styled.p`
-  font-size: 11px;
-  color: #67728A;
-  margin-left: 35px;
-  
-`;
-
-const UserInfoDataA = styled.p`
-  font-size: 14px;
-  color: #CEECFF;
-  font-weight: 700;
-  margin-left: 35px;
- margin-top: -2px;
-     @media (max-width: 768px) {
-     font-size: 10px;
-   
-  }
-
-  @media (max-width: 480px) {
-     font-size: 10px;
-  }
-  @media (max-width: 1180px) {
-font-size: 10px;
-  }
-`;
-
-const LabelTextB = styled.p`
-  font-size: 11px;
-  color: #67728A;
-  text-align: right;
-  margin-top: -174px;
-  margin-right: 45px;
-`;
-
-const UserInfoDataB = styled.p`
-  font-size: 14px;
-  color: #CEECFF;
-  font-weight: 700;
-  text-align: right;
-  margin-top: -2px;
-  margin-right: 43px;
-`;
-
-const MakePaymentButton = styled.button`
-  background-color: #FDE5C0;
-  color: #F07F23;
-  padding: 20px 30px;
-  border: none;
-  border-radius: 40px;
-  font-size: 14px;
-  cursor: pointer;
-  align-self: flex-end;
-  margin-bottom: 6px;
-  margin-right: 18px;
-
-  @media (max-width: 480px) {
-    font-size: 12px;
-    padding: 10px 15px;
-   margin-left: 25px;
-  }
-         @media (max-width: 768px) {
-   font-size: 12px;
-    padding: 10px 15px;
-   margin-left: 25px;
-  }
-
-
-  @media (max-width: 1180px) {
-       font-size: 12px;
-    padding: 10px 15px;
-   margin-left: 25px;
-  }
-
-`;
+ 
 const HaulersBtn = styled.button`
 color: #F07F23;
 padding: none;
@@ -498,6 +358,8 @@ const ChartSection = styled.div`
 const ChartHeader = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
+  justify-content: space-between;
   margin-bottom: 10px;
 `;
 
@@ -514,7 +376,7 @@ const ChartTitle = styled.p`
 const ViewFullChartIcon = styled.img`
   width: 20px;
   height: 20px;
-  margin-left: 250px;
+  // margin-left: 250px;
 `;
 const TransactionChart = styled.div`
   width: 100%;
@@ -608,28 +470,6 @@ const TransactionRight = styled.div`
     letter-spacing: -0.15399999916553497px;
     text-align: left;
     color: #67728A;
-  }
-`;
-const Footer = styled.footer`
-  display: flex;
-  justify-content: right;
-  align-items: right;
-  padding: 20px 0;
-  background-color: #f9f9f9; /* Light gray background */
-  border-top: 1px solid #e0e0e0; /* Subtle top border */
-  margin-top: -10px;
-
-  p {
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 11px;
-    font-weight: 200;
-    color: #6c3ecf; /* Primary color for branding */
-    text-align: center;
-  }
-
-  p span {
-    font-weight: 400;
-    color: #ff9800; /* Highlight for the lightning symbol */
   }
 `;
 

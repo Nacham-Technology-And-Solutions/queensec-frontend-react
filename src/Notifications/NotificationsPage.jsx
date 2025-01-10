@@ -5,6 +5,7 @@ import planeIcon from '../assets/planeicon.png';
 
 import { useUser } from '../context/UserContext';
 import BottomNavigator from '../components/BottomNavigator/BottomNavigator';
+import PageLayout from '../components/PageLayout/PageLayout';
 const NotificationPage = () => {
 
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const NotificationPage = () => {
   };
 
   return (
-    <Container>
+    <PageLayout>
       <Header>
         <Title>Transaction</Title>
       </Header>
@@ -50,7 +51,7 @@ const NotificationPage = () => {
         profileLink='/user-profile'
       />
 
-    </Container>
+    </PageLayout>
   );
 };
 

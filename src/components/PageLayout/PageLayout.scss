@@ -2,11 +2,14 @@
 @import '../../styles/mixins'; // Importing global mixins if any
 
 .page-layout {
-    max-width: 1200px;
+    max-width: 400px;
     /* Constrain to a specific width */
     margin: 0 auto;
     /* Center the container horizontally */
-    padding: 20px;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 40px;
     /* Add space around the content */
     background-color: #f9f9f9;
     /* Light background for contrast */
@@ -18,21 +21,47 @@
     /* Ensure it takes full screen height */
     display: flex;
     flex-direction: column;
+    border-radius: 25px;
 
     .layout-header {
         padding: 10px 20px;
-        background-color: #333;
-        color: white;
+        // background-color: #333;
+        // color: white;
         text-align: center;
     }
 
     .layout-footer {
-        padding: 10px 20px;
-        background-color: #333;
-        color: white;
+        padding: 10px 20px; 
         text-align: center;
         margin-top: auto;
         /* Push the footer to the bottom if content is short */
+
+        .powered {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+            background-color: #f9f9f9;
+            /* Light gray background */
+            border-top: 1px solid #e0e0e0;
+            /* Subtle top border */
+            margin-top: -10px;
+
+            p {
+                font-family: 'Ubuntu', sans-serif;
+                font-size: 11px;
+                font-weight: 200;
+                color: #6c3ecf;
+                /* Primary color for branding */
+                text-align: center;
+            }
+
+            p span {
+                font-weight: 400;
+                color: #ff9800;
+                /* Highlight for the lightning symbol */
+            }
+        }
     }
 
     .layout-content {

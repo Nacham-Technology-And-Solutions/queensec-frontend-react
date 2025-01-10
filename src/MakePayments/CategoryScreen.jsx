@@ -28,7 +28,7 @@ const MakePaymentCategoryScreen = () => {
         const haulerTypeId = localStorage.getItem("hauler_type_id");
         const savedHaulerId = localStorage.getItem("payee_hauler_id");
 
-        const isOneTime = localStorage.getItem("haulerTypeMode") === 'saved' ? false : true;
+        const isOneTime = localStorage.getItem("haulerTypeMode") === 'oneTime' ? true : false;
         const url = isOneTime
           ? `${API_BASE_URL}/user/get-fee-category-by-hauler-type?hauler_type_id=${haulerTypeId}`
           : `${API_BASE_URL}/fee-category?hauler_id=${savedHaulerId}`;

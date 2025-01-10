@@ -27,7 +27,7 @@ const RouteNotFoundScreen = () => {
 
        
       <Bottom>
-        <Button label="Return to Dashboard" onClick={returnHistory} size='large' span='span' />
+        <Button label="Return to Dashboard" onClick={returnHistory} size='large' isSpanWidth={true} />
         <br />
         <span>New to Kadamines? &nbsp; <TextButton onClick={handleSigUp} label="Sign-Up" /></span>
       </Bottom>

@@ -6,6 +6,7 @@ import { useUser } from './context/UserContext';
 import axios from 'axios';
 import QRCode from 'react-qr-code';
 import BottomNavigator from './components/BottomNavigator/BottomNavigator';
+import PageLayout from './components/PageLayout/PageLayout';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
@@ -70,25 +71,30 @@ const ProfileScreen = () => {
     }
   };
 
-  const img = localStorage.getItem("image_url") || "https://via.placeholder.com/150";
+  const img = localStorage.getItem("image_url") !== "undefined" ? localStorage.getItem("image_url") : "https://via.placeholder.com/150";
+  console.log(img)
   return (
-    <Container>
-      <Header>
-        <ProfileHeader>
-          <ProfileTitle>Profile</ProfileTitle>
-          <SignOutContainer>
-            <SignOutText>Sign Out</SignOutText>
-            <SignOutButton
-              src={signOutIcon}
-              alt="Sign Out"
-              onClick={handleSignOut} // Replace with proper signOut handling
-            />
-          </SignOutContainer>
-        </ProfileHeader>
+    <PageLayout
 
-        <ProfileImage src={img} alt="Profile" />
-        <UserName>{userName(user?.accountType) || ''}</UserName>
-      </Header>
+      header={
+        <Header>
+          <ProfileHeader>
+            <ProfileTitle>Profile</ProfileTitle>
+            <SignOutContainer>
+              <SignOutText>Sign Out</SignOutText>
+              <SignOutButton
+                src={signOutIcon}
+                alt="Sign Out"
+                onClick={handleSignOut} // Replace with proper signOut handling
+              />
+            </SignOutContainer>
+          </ProfileHeader>
+
+          <ProfileImage src={img} alt="Profile" />
+          <UserName>{userName(user?.accountType) || ''}</UserName>
+        </Header>
+      }>
+
 
       <Details>
         <Label>Tax Identification</Label>
@@ -115,7 +121,7 @@ const ProfileScreen = () => {
       <QRCodeContainer>
         <QRCode value={`${user?.taxId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
       </QRCodeContainer>
-       
+
 
 
       {/* Bottom Navigation */}
@@ -127,23 +133,12 @@ const ProfileScreen = () => {
         profileLink='/user-profile'
       />
 
-    </Container>
+    </PageLayout>
   );
 }
 
 // Styled Components
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  padding-bottom: 0px;
-  background-color: #F7F9FA;
-  height: 120vh;
-  max-width: 400px;
-  margin: 0 auto;
-  border-radius: 30px;
-`;
+
 
 const Header = styled.div`
   display: flex;
@@ -249,7 +244,7 @@ const SeeMore = styled.span`
 const QRCodeContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom: 275px;
+  margin-bottom: 35px;
   margin-top: 35px;
 `;
 

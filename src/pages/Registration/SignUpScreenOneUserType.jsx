@@ -80,7 +80,7 @@ const SignUpScreenOneUserType = () => {
       </UserTypeContainer>
 
 
-      <Button label="Next" onClick={handleNext} size='large' span='span' />
+      <Button label="Next" onClick={handleNext} size='large' isSpanWidth={true}  />
       <div>
         <br />
         <span>Have an account? &nbsp; <TextButton onClick={handleLogin} label="Log-In" /></span>

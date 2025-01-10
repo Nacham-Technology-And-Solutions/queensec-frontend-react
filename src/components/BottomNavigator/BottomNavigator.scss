@@ -2,7 +2,9 @@
 @import '../../styles/mixins'; // Importing global mixins if any
 
 .bottom-navigator {
-    padding: 15px 5px;
+    padding: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;
@@ -52,15 +54,17 @@
             justify-content: center;
             flex-direction: row;
             text-align: center;
+            width: 100px;
 
             svg {
                 color: $secondary-color;
             }
 
             div {
+                
                 visibility: visible;
                 color: $secondary-color;
-                font-size: 16px;
+                font-size: 14px;
                 font-weight: bold;
                 margin: auto;
             }

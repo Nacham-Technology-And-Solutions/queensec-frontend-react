@@ -125,7 +125,7 @@ const LoginPage = () => {
         
       </FormContainer>
       <Bottom>
-        <Button label="Login" onClick={handleSubmit} size='large' span='span' />
+        <Button label="Login" onClick={handleSubmit} size='large' isSpanWidth={true} />
         <br />
         <span>New to Kadamines? &nbsp; <TextButton onClick={handleSigUp} label="Sign-Up" /></span>
       </Bottom>
