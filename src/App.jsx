@@ -33,13 +33,12 @@ import SignUpScreenTwoBasicInfo from './pages/Registration/SignUpScreenTwoBasicI
 import SignUpScreenThreeContactInfo from './pages/Registration/SignUpScreenThreeContactInfo.jsx';
 import SignUpScreenFourSecurityInfo from './pages/Registration/SignUpScreenFourSecurityInfo.jsx';
 import SignUpScreenFiveSuccess from './pages/Registration/SignUpScreenFiveSuccess.jsx';
+import { loginStatus } from './utils/authApiRequests.jsx';
+import RouteNotFoundScreen from './pages/RouteNotFoundScreen.jsx';
+import ProtectedRoute from './ProtectedRoute.jsx';
 
 // Inline ProtectedRoute Component
-const ProtectedRoute = ({ children }) => {
-    const token = localStorage.getItem('token'); // Check for auth token
-    return token ? children : <Navigate to="/login-page" replace />;
-};
-
+ 
 function App() {
     return (
 
@@ -58,44 +57,41 @@ function App() {
 
             {/* Protected Routes */}
             <Route path="/dashboard-page" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-            <Route path="/MP_VehicleScreen" element={<ProtectedRoute><MakePaymentVehicleScreen /></ProtectedRoute>} />
-            <Route path="/Trip-Data" element={<ProtectedRoute><TripDataScreen /></ProtectedRoute>} />
-            <Route path="/Trip-Data" element={<ProtectedRoute><TripDataScreen /></ProtectedRoute>} />
-            <Route path="/Vendor-Trip-Data" element={<ProtectedRoute><VendorTripDataScreen /></ProtectedRoute>} />
-            <Route path="/MP_CategoryScreen" element={<ProtectedRoute><MakePaymentCategoryScreen /></ProtectedRoute>} />
-            <Route path="/MP_BankDetailsScreen" element={<ProtectedRoute><MakePaymentBankDetailsScreen /></ProtectedRoute>} />
-            <Route path="/MP_PaymentSuccessScreen" element={<ProtectedRoute><PaymentSuccessScreen /></ProtectedRoute>} />
-            <Route path="/Add-Hauler" element={<ProtectedRoute><AddHaulerScreen /></ProtectedRoute>} />
-            <Route path="/Hauler-Lists" element={<ProtectedRoute><HaulersListScreen /></ProtectedRoute>} />
-            <Route path="/User-Profile" element={<ProtectedRoute><ProfileScreen /></ProtectedRoute>} />
-            <Route path="/Transaction-History" element={<ProtectedRoute><TransactionHistory /></ProtectedRoute>} />
-            <Route path="/TransactionHistory_MineralScreen" element={<ProtectedRoute><TransactionHistory_MineralScreen /></ProtectedRoute>} />
-            <Route path="/Transactions-page" element={<ProtectedRoute><TransactionsPage /></ProtectedRoute>} />
+            <Route path="/add-hauler" element={<ProtectedRoute><AddHaulerScreen /></ProtectedRoute>} />
+            <Route path="/my-haulers-list" element={<ProtectedRoute><HaulersListScreen /></ProtectedRoute>} />
+            <Route path="/user-profile" element={<ProtectedRoute><ProfileScreen /></ProtectedRoute>} />
+            <Route path="/transaction-history" element={<ProtectedRoute><TransactionHistory /></ProtectedRoute>} />
+            <Route path="/transaction-history-mineral" element={<ProtectedRoute><TransactionHistory_MineralScreen /></ProtectedRoute>} />
+            <Route path="/transactions" element={<ProtectedRoute><TransactionsPage /></ProtectedRoute>} />
+
+            {/* Ejiro Finish */}
             <Route path="/Notifications-page" element={<ProtectedRoute><NotificationPage /></ProtectedRoute>} />
             <Route path="/Notifications-Details-page" element={<ProtectedRoute><NotificationDetailsPage /></ProtectedRoute>} />
             <Route path="/Vendors-Dashboard" element={<ProtectedRoute><VendorsDashboard /></ProtectedRoute>} />
-            <Route path="/Vendor-User-MakePayment-Screen" element={<ProtectedRoute><MakePaymentVendorUserScreen /></ProtectedRoute>} />
-            <Route path="/Vendor-Category-MakePayment-Screen" element={<ProtectedRoute><MakePaymentVendorCategoryScreen /></ProtectedRoute>} />
-            <Route path="/vendor-BankDetails-MakePayment-Screen" element={<ProtectedRoute><MP_BankDetailsVendorScreen /></ProtectedRoute>} />
-            <Route path="/Vendor-PaymentSuccess-Screen" element={<ProtectedRoute><PaymentSuccessVendorScreen /></ProtectedRoute>} />
             <Route path="/Beneficiaries-Screen" element={<ProtectedRoute><BeneficiariesListScreen /></ProtectedRoute>} />
             <Route path="/Selected-Beneficiary-Screen" element={<ProtectedRoute><SelectedBeneficiaryScreen /></ProtectedRoute>} />
             <Route path="/Enterprise-Dashboard" element={<ProtectedRoute><EnterpriseDashboard /></ProtectedRoute>} />
+
+            {/* Payments Routes */}
+            {/* User|Corperate */}
+            <Route path="/mp-vehicle" element={<ProtectedRoute><MakePaymentVehicleScreen /></ProtectedRoute>} />
+            <Route path="/mp-trip-data" element={<ProtectedRoute><TripDataScreen /></ProtectedRoute>} />
+            <Route path="/mp-fee-category" element={<ProtectedRoute><MakePaymentCategoryScreen /></ProtectedRoute>} />
+            <Route path="/mp-bank-details" element={<ProtectedRoute><MakePaymentBankDetailsScreen /></ProtectedRoute>} />
+            <Route path="/mp-payment-status" element={<ProtectedRoute><PaymentSuccessScreen /></ProtectedRoute>} />
+
+            {/* Vendor */}
+            <Route path="/vendor-mp-user" element={<ProtectedRoute><MakePaymentVendorUserScreen /></ProtectedRoute>} />
+            <Route path="/vendor-mp-trip-data" element={<ProtectedRoute><VendorTripDataScreen /></ProtectedRoute>} />
+            <Route path="/vendor-mp-fee-category" element={<ProtectedRoute><MakePaymentVendorCategoryScreen /></ProtectedRoute>} />
+            <Route path="/vendor-mp-bank-details" element={<ProtectedRoute><MP_BankDetailsVendorScreen /></ProtectedRoute>} />
+            <Route path="/vendor-mp-payment-status" element={<ProtectedRoute><PaymentSuccessVendorScreen /></ProtectedRoute>} />
+
+            <Route path="*" element={<RouteNotFoundScreen />} />
+
         </Routes>
 
     );
 }
 
-// const rootElement = document.getElementById('root'); // Ensure ID matches Blade file
-// ReactDOM.createRoot(rootElement).render(
-//     <Router>
-//         <App />
-//     </Router>
-// );
-
-export default App;
-// if (document.getElementById('root')) {
-//     ReactDOM.render(<App />, document.getElementById('root'));
-// }
-
-
+export default App; 

@@ -4,101 +4,103 @@ import { useNavigate } from 'react-router-dom';
 import LeftIcon from '../assets/left.png';
 import MiniDashboardIcon from '../assets/MINI_DB.png';
 import { useUser } from '../context/UserContext';
-import { getHaulers, getHaulerTypes } from '../utils/userApiRequests';
-import Button from '../components/Button/Button'
+import PaymentModel from './DataModels/PaymentModel';
+import axios from 'axios';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-// Select Vehicle
-// hauler type mode saved/single-trip
-// Get users vehicles - saved
-// Or single trip.
-// if saved hauler then use hauler_id
-// if single-trip then user hauler_type_id & number_plate
-// requests get haulers and hauler_types
 
-const MakePaymentVehicleScreen = () => {
+const MPScreenOneVehicle = () => {
   const navigate = useNavigate();
+
+  // Variables
+  const [paymentData, setPaymentData] = useState(PaymentModel.fromJson(localStorage.getItem('paymentData')) || new PaymentModel());
+
   const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || '');
-  const [haulerTypeMode, setHaulerTypeMode] = useState(localStorage.getItem('haulerTypeMode') || 'saved'); // hauler type mode saved/oneTime
-
-  const [haulers, setHaulers] = useState([]);
-  const [haulersCount, setHaulersCount] = useState(localStorage.getItem('haulers_count') || 0);
-  const [selectedHaulerID, setSelectedHaulerID] = useState(localStorage.getItem('payee_hauler_id') || 0);
-
-  const [haulerTypes, setHaulerTypes] = useState([]);
-  const [selectedHaulerTypeID, setSelectedHaulerTypeID] = useState(localStorage.getItem('hauler_type_id') || 0);
-  const [numberPlate, setNumberPlate] = useState(localStorage.getItem('number_plate') || '');
-
+  const [haulers, setHaulers] = useState(0);
+  const [haulerOptions, setHaulerOptions] = useState([]);
+  const [haulerType, setHaulerType] = useState('saved');
+  const [selectedHauler, setSelectedHauler] = useState('');
+  const [vehicleTypes, setVehicleTypes] = useState([]);
+  const [selectedVehicle, setSelectedVehicle] = useState('');
+  const [vehiclePlate, setVehiclePlate] = useState('');
   const { user } = useUser();
+
+
   useEffect(() => {
-    // Get User Haulers
-    const retrievedSavedHaulers = getHaulers();
+    const fetchHaulerData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const url = `${API_BASE_URL}/haulers`;
+        const response = await axios.get(url, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-    retrievedSavedHaulers.then((value) => {
-      const haulerData = value.map((hauler) => ({
-        id: hauler.id,
-        hauler_type_id: hauler?.hauler_type_id,
-        hauler_type_name: hauler?.hauler_type.name,
-        name: hauler?.name || 'Unknown Name',
-        number_plate: hauler?.number_plate || 'Unknown Plate',
-      }));
+        if (response.data.success) {
+          const haulerData = response.data.data.map((hauler) => ({
+            id: hauler.id,
+            type: 'Vehicle',
+            name: hauler?.name || 'Unknown Name',
+            number_plate: hauler?.number_plate || 'Unknown Plate',
+          }));
+          setHaulerOptions(haulerData);
+          setHaulers(haulerData.length);
+        }
+      } catch (error) {
+        console.error('Error fetching hauler data:', error);
+      }
+    };
 
-      setHaulers(haulerData);
-      setHaulersCount(haulerData.length);
-      localStorage.setItem('haulers_count', haulerData.length);
-      localStorage.setItem('haulers', haulerData);
-    });
-
-
-    // Get Hauler Types
-    const retrievedHaulerTypes = getHaulerTypes();
-
-    retrievedHaulerTypes.then((value) => {
-      const haulerTypesData = value.map((haulerType) => ({
-        id: haulerType.id,
-        name: haulerType?.name || 'No Name',
-        volume: haulerType?.volume || 'No Volume',
-        description: haulerType?.description || 'No Description',
-        img: haulerType?.img || 'Place Holder',
-      }));
-      setHaulerTypes(haulerTypesData);
-      localStorage.setItem('haulerTypes', haulerTypesData);
-    })
-
+    fetchHaulerData();
   }, []);
 
+  const fetchVehicleTypes = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/haulers/type`);
+      if (response.data.success) {
+        setVehicleTypes(response.data.data);
+
+
+      }
+    } catch (error) {
+      console.error('Error fetching vehicle types:', error);
+    }
+  };
   const handleRadioChange = (type) => {
 
-    setHaulerTypeMode(type);
-    localStorage.setItem('haulerTypeMode', type);
-
+    setHaulerType(type);
+    localStorage.setItem('haulerType', type);
+    if (type === 'oneTime') {
+      fetchVehicleTypes();
+    }
   };
-
   const handleProceed = () => {
 
-    // If Saved Hauler
-    if (haulerTypeMode === 'saved' && selectedHaulerID) {
-      localStorage.setItem('payee_hauler_id', selectedHaulerID);
 
-      // Find Selected Hauler Data from the list of user haulers gotten from db.
-      const selectedHauler = haulers.find(
-        (hauler) => hauler.id === parseInt(selectedHaulerID)
+    if (haulerType === 'saved' && selectedHauler) {
+      const parsedHauler = JSON.parse(selectedHauler);
+
+      localStorage.setItem("number_plate", parsedHauler.number_plate);
+      localStorage.setItem('selected_hauler', selectedHauler);
+      localStorage.setItem('hauler_id', parsedHauler.id);
+      // setPaymentData(paymentData.copyWith(undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined,))
+    } else if (haulerType === "oneTime" && selectedVehicle && vehiclePlate) {
+      const selectedVehicleType = vehicleTypes.find(
+        (type) => type.id === parseInt(selectedVehicle)
       );
-      localStorage.setItem("number_plate", selectedHauler.number_plate);
 
-    } else if (haulerTypeMode === "oneTime" && selectedHaulerTypeID && numberPlate) {
-      localStorage.setItem("hauler_type_id", selectedHaulerTypeID);
-      localStorage.setItem("number_plate", numberPlate);
 
-      // Find Selected Hauler Type Data from the list of user haulers gotten from db.
-      // const selectedHaulerType = haulerTypes.find(
-      //   (haulerType) => haulerType.id === parseInt(selectedHaulerTypeID)
-      // );
+      if (selectedVehicleType) {
+        localStorage.setItem("selected_vehicle", selectedVehicle);
+        localStorage.setItem("number_plate", vehiclePlate);
+        localStorage.setItem("hauler_type_id", selectedVehicleType.id);
+      }
     } else {
       console.error("Missing required fields for the selected hauler type.");
       alert("Please fill all required fields.");
       return;
     }
-
 
     navigate('/mp-trip-data');
   };
@@ -141,7 +143,7 @@ const MakePaymentVehicleScreen = () => {
           </InfoColumn>
           <InfoColumn>
             <Label2>Haulers:</Label2>
-            <Value2>{haulersCount}</Value2>
+            <Value2>{haulers}</Value2>
           </InfoColumn>
         </DashboardText>
       </MiniDashboard>
@@ -153,7 +155,7 @@ const MakePaymentVehicleScreen = () => {
             type="radio"
             name="haulerType"
             value="saved"
-            checked={haulerTypeMode === 'saved'}
+            checked={haulerType === 'saved'}
             onChange={() => handleRadioChange('saved')}
           />
           Saved Hauler
@@ -163,23 +165,23 @@ const MakePaymentVehicleScreen = () => {
             type="radio"
             name="haulerType"
             value="oneTime"
-            checked={haulerTypeMode === 'oneTime'}
+            checked={haulerType === 'oneTime'}
             onChange={() => handleRadioChange('oneTime')}
           />
           One Time Hauler
         </RadioLabel>
       </RadioGroup>
 
-      {haulerTypeMode === 'saved' && (
+      {haulerType === 'saved' && (
         <>
           <SelectDropdown
-            value={selectedHaulerID}
-            onChange={(e) => setSelectedHaulerID(e.target.value)}
+            value={selectedHauler}
+            onChange={(e) => setSelectedHauler(e.target.value)}
           >
             <option value="">-- Select Hauler --</option>
-            {haulers.map((hauler) => (
-              <option key={hauler.id} value={hauler.id} >
-                {`${hauler.hauler_type_name}: ${hauler.name} (${hauler.number_plate})`}
+            {haulerOptions.map((hauler) => (
+              <option key={hauler.id} value={JSON.stringify(hauler)}>
+                {`${hauler.type}: ${hauler.name} (${hauler.number_plate})`}
               </option>
             ))}
           </SelectDropdown>
@@ -189,15 +191,15 @@ const MakePaymentVehicleScreen = () => {
         </>
       )}
 
-      {haulerTypeMode === 'oneTime' && (
+      {haulerType === 'oneTime' && (
         <>
           <SelectDropdown
-            value={selectedHaulerTypeID}
-            onChange={(e) => setSelectedHaulerTypeID(e.target.value)}
+            value={selectedVehicle}
+            onChange={(e) => setSelectedVehicle(e.target.value)}
           >
             <option value="">-- Select Vehicle --</option>
-            {haulerTypes.map((type) => (
-              <option key={type.id} value={type.id} >
+            {vehicleTypes.map((type) => (
+              <option key={type.id} value={type.id}>
                 {type.name}
               </option>
             ))}
@@ -205,13 +207,13 @@ const MakePaymentVehicleScreen = () => {
           <InputField
             type="text"
             placeholder="Vehicle plate number"
-            value={numberPlate}
-            onChange={(e) => setNumberPlate(e.target.value)}
+            value={vehiclePlate}
+            onChange={(e) => setVehiclePlate(e.target.value)}
           />
         </>
       )}
 
-      <Button label="Proceed" onClick={handleProceed} size='large' />
+      <ProceedButton onClick={handleProceed}>Proceed</ProceedButton>
     </Container>
   );
 };
@@ -348,7 +350,6 @@ const Tab = styled.div`
   width: 100px; /* Set fixed width for tabs */
   border-radius: 0px; /* Adds rounded corners */
 `;
-
 const MiniDashboard = styled.div`
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -459,6 +460,44 @@ const AdditionalInfoText = styled.p`
   color: #666;
   text-align: center;
   margin: 10px 0 20px;
-`; 
+`;
 
-export default MakePaymentVehicleScreen;
+const ProceedButton = styled.button`
+  
+  
+  background-color: #FDE5C0;
+  padding: 12px 40px; /* Adjust padding as needed */
+  border-radius: 25px;
+  border: none;
+  width: 90%;
+  max-width: 300px;
+  cursor: pointer;
+  margin-top: 190px; /* Keep margin-top if needed */
+  
+  /* Text color */
+  color:  #F07F23; /* Set text color to #F07F23 */
+  
+  /* Center the text */
+  text-align: center; /* Center the text horizontally */
+  display: flex; /* Use flexbox for centering */
+  justify-content: center; /* Center the text horizontally */
+  align-items: center; /* Center the text vertically */
+
+  /* Hover effect */
+  &:hover {
+    background-color: #e5b46a;
+    color: #fff; /* Change text color on hover */
+  }
+
+  /* Additional styles */
+  width: 114px; /* Set a fixed width */
+  height: 50px; /* Set a fixed height */
+  opacity: 1; /* Set opacity to 1 to make it visible */
+  position: relative; /* If you want to use top and left, set position */
+  top: 0; /* Adjust as needed */
+  left: 0; /* Adjust as needed */
+  gap: 0; /* gap is not applicable for button */
+
+`;
+
+export default MPScreenOneVehicle;

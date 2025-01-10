@@ -1,65 +1,57 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import transactions_N from '../assets/transactions_N.png';
-import notification_C from '../assets/notifications_C.png';
-import profile_N from '../assets/profile_N.png';
-import profile_C from '../assets/profile_C.png';
-import folder_N from '../assets/folder_N.png';
+import { useNavigate } from 'react-router-dom'; 
 import planeIcon from '../assets/planeicon.png';
 
 import { useUser } from '../context/UserContext';
+import BottomNavigator from '../components/BottomNavigator/BottomNavigator';
 const NotificationPage = () => {
 
-    const navigate = useNavigate();
-  const { user } = useUser(); 
+  const navigate = useNavigate();
+  const { user } = useUser();
   // const accountType = localStorage.getItem()
-    const goToDashboard = () => {
-      if (user?.accountType === 'federal_agency') {
-        navigate('/Enterprise-Dashboard');
-      } else if (user?.accountType === 'vendor') {
-        navigate('/Vendors-Dashboard');
-      }  else if (user?.accountType === 'individual') {
-        navigate('/dashboard-page');
-      }
-    };
-    const goToTransactions = () => navigate('/Transactions-page');
-    const goToNotifications = () => navigate('/Notifications-page');
-    const goToProfile = () => navigate('/User-Profile');
-    // const Navigationdetailspage = () => navigate('/User-Profile');
+  const goToDashboard = () => {
+    if (user?.accountType === 'federal_agency') {
+      return '/Enterprise-Dashboard';
+    } else if (user?.accountType === 'vendor') {
+      return '/Vendors-Dashboard';
+    } else if (user?.accountType === 'individual') {
+      return '/dashboard-page';
+    }
+  };
 
-    return (
-        <Container>
-            <Header>
-                <Title>Transaction</Title>
-            </Header>
+  return (
+    <Container>
+      <Header>
+        <Title>Transaction</Title>
+      </Header>
 
-            <Date>16 Sep 2024</Date>
+      <Date>16 Sep 2024</Date>
 
 
-            <NotificationContainer onClick={() => navigate('/Notifications-Details-page')}>
+      <NotificationContainer onClick={() => navigate('/Notifications-Details-page')}>
 
-                <PlaneIcon src={planeIcon} alt="Plane Icon" />
-                <IconContainer>
-                    <NotificationText>More ways to pay your tax</NotificationText>
-             </IconContainer>
-                <PreviewMessage>
-                    We have added two payment gateways to make your payment experience faster
-                    </PreviewMessage>
-               
-            </NotificationContainer>   
+        <PlaneIcon src={planeIcon} alt="Plane Icon" />
+        <IconContainer>
+          <NotificationText>More ways to pay your tax</NotificationText>
+        </IconContainer>
+        <PreviewMessage>
+          We have added two payment gateways to make your payment experience faster
+        </PreviewMessage>
 
-         <BottomNav>
-                <NavIcon onClick={goToDashboard} src={folder_N} alt="Dashboard" />
-                <NavIcon onClick={goToTransactions} src={transactions_N} alt="Transactions" />
-                <NavIconContainer onClick={goToNotifications}>
-                    <NavIcon src={notification_C} alt="Notifications" />
-                    <DashboardLabel>Notifications</DashboardLabel>
-                </NavIconContainer>
-                <NavIcon onClick={goToProfile} src={profile_N} alt="Profile" />
-            </BottomNav>
-        </Container>
-    );
+      </NotificationContainer>
+
+      {/* Bottom Navigation */}
+      <BottomNavigator
+        currentPage='notifications'
+        dashboardLink={goToDashboard()} // 
+        transactionLink='/transactions'
+        notificationLink='/Notifications-page'
+        profileLink='/user-profile'
+      />
+
+    </Container>
+  );
 };
 
 // Styled Components
@@ -146,44 +138,6 @@ const PreviewMessage = styled.p`
   color: #67728A;
   margin-top: -5px;
   margin-left: 40px;
-`;
-
-const BottomNav = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 15px 0;
-  background-color: white;
-  border-radius: 0px;
-  width: 438px;
-  position: fixed; /* Fix it to the viewport */
-  bottom: 0; /* Always stay at the bottom of the screen */
-  margin-left: -19px; /* Align to the left edge of the screen */
-  z-index: 100; /* Ensure it stays on top of other content */
-  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
-  @media (max-width: 450px) {
-    padding: 8px 0;
-     width: 100%;
-  }
-    @media (max-width: 1150px) {
-    padding: 8px 0;
-     width: 100%;
-  }
-`;
-const NavIconContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const NavIcon = styled.img`
-  width: 26x;
-  height: 26px;
-`;
-
-const DashboardLabel = styled.span`
-  font-size: 12px;
-  color: #421B73;
-  margin-left: 5px;
 `;
 
 export default NotificationPage;

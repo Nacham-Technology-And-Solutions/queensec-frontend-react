@@ -44,7 +44,7 @@ const VendorsDashboard = () => {
 
         if (response.status === 200 && response.data) {
           const user = response.data;
-// console.log(user);
+
 
           setUserData({
             name: `${user.business_name}`,
@@ -117,18 +117,18 @@ const VendorsDashboard = () => {
     fetchChartData();
   }, []);
 
-  const mineralIcons = {
-    clay: "assets/clay.png",
-    aquarium: "assets/aquarium.png",
-    gypsum: "assets/gypsum.png",
-    ironore: "assets/ironore.png",
-    marble: "assets/marble.png",
-  };
+  // const mineralIcons = {
+  //   clay: "Assets/clay.png",
+  //   aquarium: "Assets/aquarium.png",
+  //   gypsum: "Assets/gypsum.png",
+  //   ironore: "Assets/ironore.png",
+  //   marble: "Assets/marble.png",
+  // };
   
   // Function to get the correct mineral icon or default
-  const getMineralIcon = (mineralName) => {
-    return mineralIcons[mineralName.toLowerCase()] || "assets/default.png";
-  };
+  // const getMineralIcon = (mineralName) => {
+  //   return mineralIcons[mineralName.toLowerCase()] || "Assets/default.png";
+  // };
   
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -172,7 +172,7 @@ const VendorsDashboard = () => {
   ]);
 
   const handleMakePayment = () => {
-    navigate('/Vendor-User-MakePayment-Screen'); // Use navigate to change routes
+    navigate('/vendor-mp-user'); // Use navigate to change routes
   };
   
   
@@ -180,11 +180,11 @@ const VendorsDashboard = () => {
   const truncateText = (text, maxLength) => 
     text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 
-  const goToDashboard = () => navigate('/dashboard-page');
-  const goToTransactions = () => navigate('/Transactions-page');
+  // const goToDashboard = () => navigate('/dashboard-page');
+  const goToTransactions = () => navigate('/transactions');
   const goToNotifications = () => navigate('/Notifications-page');
-  const goToProfile = () => navigate('/User-Profile');
-  const haulerScreen = () =>  navigate('/Hauler-Lists')
+  const goToProfile = () => navigate('/user-profile');
+  // const haulerScreen = () =>  navigate('/my-haulers-list')
   return (
     <DashboardContainer>
       {/* Header */}
@@ -252,7 +252,7 @@ const VendorsDashboard = () => {
       <TransactionsHeader>
         <h3>Transactions</h3>
           <ViewAllButton onClick={goToTransactions}>View All</ViewAllButton>
-          {/* onClick={navigate('/Transactions-page') */}
+          {/* onClick={navigate('/transactions') */}
       </TransactionsHeader>
       <ul>
         {transactions.map((transaction) => (
@@ -325,12 +325,12 @@ const DashboardText = styled.div`
     margin: 0;
   }
 `;
-const NoDataText = styled.div`
-  text-align: center;
-  margin-top: 20px;
-  font-size: 16px;
-  color: #888;
-`;
+// const NoDataText = styled.div`
+//   text-align: center;
+//   margin-top: 20px;
+//   font-size: 16px;
+//   color: #888;
+// `;
 
 
 const DateText = styled.p`
@@ -365,28 +365,28 @@ const DashboardCard = styled.div`
    gap: 30px;
   }
 `;
-const HaulersBtn = styled.button`
-color: #F07F23;
-padding: none;
-font-family: Ubuntu;
-font-size: 14px;
-font-weight: 500;
-line-height: 20px;
-letter-spacing: -0.15399999916553497px;
-text-align: left;
-text-underline-position: from-font;
-text-decoration-skip-ink: none;
-width: 49px;
-height: 20px;
-gap: 0px;
-opacity: 0px;
+// const HaulersBtn = styled.button`
+// color: #F07F23;
+// padding: none;
+// font-family: Ubuntu;
+// font-size: 14px;
+// font-weight: 500;
+// line-height: 20px;
+// letter-spacing: -0.15399999916553497px;
+// text-align: left;
+// text-underline-position: from-font;
+// text-decoration-skip-ink: none;
+// width: 49px;
+// height: 20px;
+// gap: 0px;
+// opacity: 0px;
 
-margin-bottom: -30px;
-background: none; 
-  background-color: transparent; 
-  border: none; 
-  cursor: pointer
-`
+// margin-bottom: -30px;
+// background: none; 
+//   background-color: transparent; 
+//   border: none; 
+//   cursor: pointer
+// `
 
 
 const UserDetails = styled.div`
@@ -416,20 +416,20 @@ const UserName = styled.h2`
   padding-bottom: 15px;
 `;
 
-const LabelTextA = styled.p`
-  font-size: 11px;
-  color: #67728A;
-  margin-left: 35px;
+// const LabelTextA = styled.p`
+//   font-size: 11px;
+//   color: #67728A;
+//   margin-left: 35px;
   
-`;
+// `;
 
-const UserInfoDataA = styled.p`
-  font-size: 14px;
-  color: #CEECFF;
-  font-weight: 700;
-  margin-left: 35px;
- margin-top: -2px;
-`;
+// const UserInfoDataA = styled.p`
+//   font-size: 14px;
+//   color: #CEECFF;
+//   font-weight: 700;
+//   margin-left: 35px;
+//  margin-top: -2px;
+// `;
 
 const LabelTextB = styled.p`
   font-size: 11px;

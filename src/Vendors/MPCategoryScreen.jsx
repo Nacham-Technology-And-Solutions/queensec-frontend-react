@@ -17,10 +17,7 @@ const MakePaymentVendorCategoryScreen = () => {
   const [paymentOption, setPaymentOption] = useState('');
 
   useEffect(() => {
-    // Fetch user, hauler, and plate number from localStorage
-//     console.log('VehicleTypeId:', localStorage.getItem('VehiclTypeId'));
-// console.log('HaulerId:', localStorage.getItem('haulerId'));
-// console.log('Token:', localStorage.getItem('token'));
+
 
       // Fetch and parse user data from localStorage
       const savedPaymentOption = localStorage.getItem('haulerType');
@@ -28,6 +25,8 @@ const MakePaymentVendorCategoryScreen = () => {
   
       if (savedPaymentOption === 'savedHauler') {
         const savedDataString = localStorage.getItem('savedUser');
+
+        
         if (savedDataString) {
           try {
             const savedData = JSON.parse(savedDataString);
@@ -61,18 +60,33 @@ const MakePaymentVendorCategoryScreen = () => {
           console.error("No token found, please log in.");
           return; 
         }
-  
-        
         const vehicleTypeId = localStorage.getItem("VehiclTypeId"); 
-        const savedHaulerId = localStorage.getItem("haulerId"); 
+        const savedHaulerId = localStorage.getItem('haulerId')
+        
+       
 
-  
+        
+        // //       const HaulerId = () => {
+        //   //         if (savedPaymentOption === 'savedHauler') {
+        //     //           return vehicleTypeId
+        //     //         }else if (savedPaymentOption === 'oneTimeTrip') {
+        //       //           return savedHaulerId
+        //       //         }
+        //       // }
+        //       const HaulerId = savedPaymentOption === 'savedHauler' ? savedHaulerId : savedPaymentOption === 'oneTimeTrip' ? vehicleTypeId : ''
      
+
+        
+    //     haulerType = localStorage.getItem('haulerType');
+    //     if (haulerType = 'savedHauler') {
+       
+    //  }
         const isOneTime = vehicleTypeId && vehicleTypeId !== savedHaulerId;
         const url = isOneTime
           ? `${API_BASE_URL}/user/get-fee-category-by-hauler-type?hauler_type_id=${vehicleTypeId}`
-          : `${API_BASE_URL}/fee-category?hauler_id=${savedHaulerId}`;
-  
+          : `${API_BASE_URL}/user/get-fee-category?hauler_id=${savedHaulerId}`;
+          // /user/get-fee-category
+ 
 
         const response = await axios.get(url, {
           headers: {
@@ -94,7 +108,7 @@ const MakePaymentVendorCategoryScreen = () => {
   }, []);
 
   const handleBack = () => {
-    navigate('/Vendor-Trip-Data');
+    navigate('/vendor-mp-trip-data');
   };
 
   const handleProceed = () => {
@@ -312,6 +326,9 @@ const Label1 = styled.p`
   @media (max-width: 280px) {
     margin-left: -3px;
   }
+  @media (max-width: 740px) {
+    margin-left: 5px;
+  }
 
 `;
 
@@ -334,6 +351,9 @@ const Value1 = styled.p`
   }
       @media (max-width: 280px) {
     margin-left: -3px;
+  }
+      @media (max-width: 740px) {
+    margin-right: 133px;
   }
 
 

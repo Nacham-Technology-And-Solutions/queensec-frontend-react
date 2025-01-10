@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import LeftIcon from '../assets/left.png';
 import MiniDashboardIcon from '../assets/MINI_DB.png';
 import GreenTick from '../assets/greentick.png'; 
-import { useUser } from '../context/UserContext';
+// import { useUser } from '../context/UserContext';
 import axios from 'axios';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
@@ -20,7 +20,7 @@ const MakePaymentVendorUserScreen = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isVerified, setIsVerified] = useState(false);
   // const [paymentOption, setPaymentOption] = useState('savedHauler'); // 'savedHauler' or 'oneTimeTrip'
-  const [oneTimeDetails, setOneTimeDetails] = useState({ vehicleName: '', numberPlate: '' });
+  // const [oneTimeDetails, setOneTimeDetails] = useState({ vehicleName: '', numberPlate: '' });
   const token = localStorage.getItem('token');
   const [vehicleTypes, setVehicleTypes] = useState([]);
   const [selectedVehicle, setSelectedVehicle] = useState('');
@@ -58,13 +58,16 @@ const MakePaymentVendorUserScreen = () => {
         const haulerResponse = await axios.get(`${API_BASE_URL}/user/get-user-hauler-by-tax-id`, {
           headers: {
             Authorization: `Bearer ${token}`,
-            Accept: 'application/json',
+            Accept: 'application/json',  
           },
           params: { tax_id: inputTaxId },
         });
 
         if (haulerResponse.data.success) {
+          
           const haulersList = haulerResponse.data.data.haulers || [];
+
+          
           setHaulerOptions(haulersList);
           setHaulers(haulersList.length);
         }
@@ -97,9 +100,11 @@ const MakePaymentVendorUserScreen = () => {
   };
 
   const handleRadioChange = (type) => {
-    // console.log('Radio change to:', type);
+
     setHaulerType(type);
     localStorage.setItem('haulerType', type);
+
+    
     
     if (type === 'oneTimeTrip') {
       fetchVehicleTypes();
@@ -107,9 +112,7 @@ const MakePaymentVendorUserScreen = () => {
   };
 
   const handleProceed = () => {
-    // ('Hauler Type:', haulerType);
-    // console.log('Selected Vehicle:', selectedVehicle);
-    // console.log('Vehicle Plate:', vehiclePlate);
+ 
 
     if (haulerType === 'savedHauler' && selectedHauler) {
       const selectedHaulerData = haulerOptions.find(
@@ -123,12 +126,14 @@ const MakePaymentVendorUserScreen = () => {
           numberPlate: selectedHaulerData.number_plate,
           haulerId: selectedHaulerData.id,
         };
-        // console.log(savedData);
+
         
+
+    
         
         localStorage.setItem('savedUser', JSON.stringify(savedData));
-        localStorage.setItem('haulerId', selectedHaulerData.id);
-        // localStorage.setItem('haulers', haulers);
+        localStorage.setItem('haulerId', savedData.haulerId);
+
       } else {
         alert('Please select a hauler before proceeding.');
       }
@@ -136,7 +141,7 @@ const MakePaymentVendorUserScreen = () => {
       const selectedVehicleType = vehicleTypes.find(
         (type) => type.id === parseInt(selectedVehicle)
       );
-      // console.log('Selected Vehicle Type:', selectedVehicleType);
+
   
       if (selectedVehicleType) {
         const oneTimeTripData = {
@@ -152,7 +157,7 @@ const MakePaymentVendorUserScreen = () => {
         alert("Please fill all required fields.");
         return;
       } };
-      navigate('/Vendor-Trip-Data');
+      navigate('/vendor-mp-trip-data');
    
   }
   const handleBack = () => navigate('/Vendors-Dashboard');
@@ -184,6 +189,23 @@ const MakePaymentVendorUserScreen = () => {
           </InfoColumn>
         </DashboardText>
       </MiniDashboard>
+
+      <TaxIdContainer>
+            <Label3>Tax ID Number:</Label3>
+            <InputField
+              value={taxId}
+              onChange={handleTaxIdChange}
+              placeholder="Enter Tax ID Number"
+            />
+            {isVerified && (
+              <Green>
+                <GreenTickIcon src={GreenTick} alt="Green Tick" />
+                <VerifiedText>{username}</VerifiedText>
+              </Green>
+            )}
+            {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+      </TaxIdContainer>
+      
       <SelectHaulerText>Select Hauler:</SelectHaulerText>
       <RadioContainer>
         <RadioLabel>
@@ -208,21 +230,7 @@ const MakePaymentVendorUserScreen = () => {
 
       {haulerType === 'savedHauler' && (
         <>
-          <TaxIdContainer>
-            <Label3>Tax ID Number:</Label3>
-            <InputField
-              value={taxId}
-              onChange={handleTaxIdChange}
-              placeholder="Enter Tax ID Number"
-            />
-            {isVerified && (
-              <Green>
-                <GreenTickIcon src={GreenTick} alt="Green Tick" />
-                <VerifiedText>{username}</VerifiedText>
-              </Green>
-            )}
-            {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
-          </TaxIdContainer>
+        
 
           <SelectHaulerText>Select Hauler:</SelectHaulerText>
           <SelectDropdown
@@ -395,16 +403,16 @@ const Tab = styled.div`
   border-radius: 0px; /* Adds rounded corners */
 `;
 
-const BeneficiaryText = styled.div`
-  font-size: 16px;
-  color: #666;
-  margin-top: 10px;
-  text-align: right;
-  width: 100%;
-   margin-bottom: -15px;
-   margin-top: 38px;
-   cursor: pointer;
-`;
+// const BeneficiaryText = styled.div`
+//   font-size: 16px;
+//   color: #666;
+//   margin-top: 10px;
+//   text-align: right;
+//   width: 100%;
+//    margin-bottom: -15px;
+//    margin-top: 38px;
+//    cursor: pointer;
+// `;
 
 
 const MiniDashboard = styled.div`
@@ -512,6 +520,7 @@ const TaxIdContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin: 10px 0;
+  margin-top: 20px;
   width: 100%;
 `;
 
@@ -615,21 +624,21 @@ const SelectDropdown = styled.select`
   font-size: 16px;
 `;
 
-const AdditionalInfoContainer = styled.div`
-  margin-top: 10px;
-  text-align: center;
-`;
+// const AdditionalInfoContainer = styled.div`
+//   margin-top: 10px;
+//   text-align: center;
+// `;
 
-const AdditionalInfoText = styled.p`
-width: 315px;
-height: 47px;
-top: 609px;
-left: 25px;
-gap: 0px;
-opacity: 0px;
-color: #414D63;
+// const AdditionalInfoText = styled.p`
+// width: 315px;
+// height: 47px;
+// top: 609px;
+// left: 25px;
+// gap: 0px;
+// opacity: 0px;
+// color: #414D63;
 
-`;
+// `;
 
 const ProceedButton = styled.button`
   background-color: #FDE5C0;

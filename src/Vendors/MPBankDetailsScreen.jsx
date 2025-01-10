@@ -21,16 +21,14 @@ const MP_BankDetailsVendorScreen = () => {
     });
   const [paymentOption, setPaymentOption] = useState('');
 
-  // useEffect(() => {
-  //   console.log('Fetched haulers:', savedData.haulers);
-  // }, []);
+
   
   
   useEffect(() => {
 
     const savedPaymentOption = localStorage.getItem('haulerType');
     setPaymentOption(savedPaymentOption);
-    // console.log('savedUser:', JSON.parse(localStorage.getItem('savedUser')));
+
     if (savedPaymentOption === 'savedHauler') {
       const savedDataString = localStorage.getItem('savedUser');
       if (savedDataString) {
@@ -72,15 +70,16 @@ const MP_BankDetailsVendorScreen = () => {
         // Retrieve required data from localStorage
         const token = localStorage.getItem('token');
         const payerId = localStorage.getItem('payer_id');
-        const haulerId = savedUser?.haulerId;
+        // const haulerId = savedUser?.haulerId;
         const haulerType = localStorage.getItem('haulerType'); 
         const mineralId = localStorage.getItem('mineral_id');
         const mineralSubId = localStorage.getItem('mineral_sub_id');
         const payee_id = localStorage.getItem('payee_id');
         const parsedAmount = parseFloat(localStorage.getItem('selectedCategoryPrice').replace('NGN', '').replace(',', '').trim());
 
+      
   
-        if (!token || !payerId || !haulerId || !mineralId || !mineralSubId || isNaN(amount)) {
+        if (!token || !payerId || !mineralId || !mineralSubId || isNaN(amount)) {
           throw new Error('Missing or invalid payment parameters.');
         }
       
@@ -96,7 +95,7 @@ const MP_BankDetailsVendorScreen = () => {
   
         const payload = {
           payer_id: payerId,
-          payee_id: payerId,
+          payee_id: payee_id,
           mineral_id: mineralId,
           mineral_sub_id: mineralSubId,
           total_amount: parsedAmount.toFixed(2),
@@ -123,7 +122,7 @@ const MP_BankDetailsVendorScreen = () => {
         } else {
           throw new Error('Invalid hauler type selected.');
         }
-        // console.log('Payload to be sent:', payload);
+
    
         const orderResponse = await axios.post(`${API_BASE_URL}/orders`, payload, {
           headers: {
@@ -139,7 +138,7 @@ const MP_BankDetailsVendorScreen = () => {
         // Redirect to the payment link
         window.location.href = paymentLink;
       } catch (error) {
-        console.error('Error initiating payment:', error);
+        console.error('Error initiating payment:', error); //todo
         alert('Failed to initiate payment. Please try again.');
       }finally {
         setLoading(false); // Reset loading state on success or error
@@ -148,7 +147,7 @@ const MP_BankDetailsVendorScreen = () => {
     
 
   const handleBack = () => {
-    navigate('/Vendor-Category-MakePayment-Screen');
+    navigate('/vendor-mp-fee-category');
   };
 
   // useEffect(() => {
@@ -371,7 +370,9 @@ const Label1 = styled.p`
   margin-right: 150px;
   padding-left: 10px;
   }
-
+  @media (max-width: 740px) {
+    margin-left: 5px;
+  }
 `;
 
 const Value1 = styled.p`
@@ -392,7 +393,9 @@ const Value1 = styled.p`
   margin-right: 150px;
   padding-left: 10px;
   }
-
+      @media (max-width: 740px) {
+    margin-right: 133px;
+  }
 `;
 
 
@@ -574,7 +577,7 @@ const PayNowButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 70px;
+  margin-top: 50px;
   &:hover {
     background-color: #e5b46a;
     color: #fff;

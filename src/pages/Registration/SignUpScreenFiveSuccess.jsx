@@ -103,26 +103,4 @@ const Completed = styled.img`
   height: auto;
 `;
 
-const DashboardButton = styled.button`
-  background-color: #fdc57a;
-  padding: 12px 40px;
-  border-radius: 50px;
-  border: none;
-  width: 90%;
-  max-width: 400px;
-  cursor: pointer;
-  margin-bottom: 40px;
-
-  &:hover {
-    background-color: #e5b46a; 
-  }
-`;
-
-const ButtonText = styled.p`
-  font-size: 18px;
-  color: #fff;
-  font-weight: bold;
-  text-align: center;
-`;
-
 export default SignUpScreenFiveSuccess;

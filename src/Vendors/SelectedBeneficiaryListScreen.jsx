@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import searchIcon from '../assets/searchicon.png';
+// import searchIcon from '../assets/searchicon.png';
 import clayIcon from '../assets/clay.png';
 import gypsumIcon from '../assets/gypsum.png';
 import ironOreIcon from '../assets/ironore.png';

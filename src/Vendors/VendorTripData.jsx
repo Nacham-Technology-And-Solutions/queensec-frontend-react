@@ -2,9 +2,7 @@ import React, { useState , useEffect} from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import LeftIcon from '../assets/left.png';
-import MiniDashboardIcon from '../assets/MINI_DB.png';
-import axios from 'axios';
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+import MiniDashboardIcon from '../assets/MINI_DB.png'; 
 
 const VendorTripDataScreen = () => {
     const navigate = useNavigate();
@@ -38,7 +36,7 @@ const VendorTripDataScreen = () => {
         const oneTimeTrip = localStorage.getItem('oneTimeTripData');
         if (oneTimeTrip) {
           try {
-            const oneTimeTripData = JSON.parse(oneTimeTrip);
+            // const oneTimeTripData = JSON.parse(oneTimeTrip);
             setUsername('OTP');
             setHaulers('N/A'); 
           } catch (error) {
@@ -63,15 +61,15 @@ const VendorTripDataScreen = () => {
         localStorage.setItem('loadingPoint', loadingPoint);
         localStorage.setItem('offloadingPoint', offloadingPoint);
   
-        navigate('/Vendor-Category-MakePayment-Screen'); // Navigate to the next screen
+        navigate('/vendor-mp-fee-category'); // Navigate to the next screen
       } else {
         alert('Please fill in all fields.');
       }
     };
     const handleBack = () => {
         localStorage.removeItem('haulerType');
-
-        navigate('/Vendor-User-MakePayment-Screen');
+        // localStorage.clear();
+        navigate('/vendor-mp-user');
       };
       
       return (

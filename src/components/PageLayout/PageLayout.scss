@@ -1,0 +1,42 @@
+@import '../../styles/variables'; // Importing global variables if needed
+@import '../../styles/mixins'; // Importing global mixins if any
+
+.page-layout {
+    max-width: 1200px;
+    /* Constrain to a specific width */
+    margin: 0 auto;
+    /* Center the container horizontally */
+    padding: 20px;
+    /* Add space around the content */
+    background-color: #f9f9f9;
+    /* Light background for contrast */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /* Optional shadow for framing */
+    border-radius: 8px;
+    /* Optional rounded corners */
+    min-height: 100vh;
+    /* Ensure it takes full screen height */
+    display: flex;
+    flex-direction: column;
+
+    .layout-header {
+        padding: 10px 20px;
+        background-color: #333;
+        color: white;
+        text-align: center;
+    }
+
+    .layout-footer {
+        padding: 10px 20px;
+        background-color: #333;
+        color: white;
+        text-align: center;
+        margin-top: auto;
+        /* Push the footer to the bottom if content is short */
+    }
+
+    .layout-content {
+        flex: 1;
+        /* Allow content to expand dynamically */
+    }
+}

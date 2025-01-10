@@ -1,0 +1,70 @@
+@import '../../styles/variables'; // Importing global variables if needed
+@import '../../styles/mixins'; // Importing global mixins if any
+
+.bottom-navigator {
+    padding: 15px 5px;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    text-align: center;
+    border: none;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    transition: all 0.5s ease;
+    height: 30px;
+    background: white;
+
+    position: fixed;
+    /* Fix it to the viewport */
+    left: 0;
+    bottom: 0;
+    /* Always stay at the bottom of the screen */
+    // margin-left: -19px;
+    /* Align to the left edge of the screen */
+    z-index: 100;
+    /* Ensure it stays on top of other content */
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+    /* Optional shadow for better visibility */
+
+    background-color: white;
+    border-radius: 0px;
+    max-height: 70px;
+    width: 100vw;
+
+    @media (max-width: 450px) {
+        width: 100%;
+    }
+
+    div {
+        cursor: pointer;
+        width: fit-content;
+
+        svg {
+            color: #555;
+        }
+
+        div {
+            visibility: hidden;
+        }
+
+        &.selected-page {
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            text-align: center;
+
+            svg {
+                color: $secondary-color;
+            }
+
+            div {
+                visibility: visible;
+                color: $secondary-color;
+                font-size: 16px;
+                font-weight: bold;
+                margin: auto;
+            }
+        }
+    }
+
+}

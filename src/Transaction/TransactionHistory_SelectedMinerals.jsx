@@ -70,7 +70,7 @@ const TransactionHistory_MineralScreen = () => {
           title: 'Transaction Details',
           text: `Details for ${transaction.mineral_name}: Amount ₦${transaction.amount}, Status: ${transaction.status}`,
         })
-        .then(() => console.log('Successful share'))
+     
         .catch((error) => console.error('Error sharing:', error));
     } else {
       alert('Sharing is not supported in your browser.');

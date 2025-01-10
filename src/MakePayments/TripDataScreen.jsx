@@ -1,50 +1,20 @@
-import React, { useState , useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import LeftIcon from '../assets/left.png';
 import MiniDashboardIcon from '../assets/MINI_DB.png';
-import axios from 'axios';
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-
+import Button from '../components/Button/Button';
 
 const TripDataScreen = () => {
   const navigate = useNavigate();
   const [tripData, setTripData] = useState({
-    driverName: '',
-    phoneNumber: '',
-    loadingPoint: '',
-    offloadingPoint: '',
+    driverName: localStorage.getItem('driverName') || '',
+    phoneNumber: localStorage.getItem('phoneNumber') || '',
+    loadingPoint: localStorage.getItem('loadingPoint') || '',
+    offloadingPoint: localStorage.getItem('offloadingPoint') || '',
   });
-  const [haulers, setHaulers] = useState(0);
-  
-  useEffect(() => {
-    const fetchHaulerData = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const url = `${API_BASE_URL}/haulers`;
-        const response = await axios.get(url, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+  const [haulersCount, setHaulersCount] = useState(localStorage.getItem('haulers_count') || 0);
 
-        if (response.data.success) {
-          const haulerData = response.data.data.map((hauler) => ({
-            id: hauler.id,
-            type: 'Vehicle',
-            name: hauler?.name || 'Unknown Name',
-            number_plate: hauler?.number_plate || 'Unknown Plate',
-          }));
-         
-          setHaulers(haulerData.length);
-        }
-      } catch (error) {
-        console.error('Error fetching hauler data:', error);
-      }
-    };
-
-    fetchHaulerData();
-  }, []);
 
 
   const handleInputChange = (e) => {
@@ -62,96 +32,96 @@ const TripDataScreen = () => {
       localStorage.setItem('loadingPoint', loadingPoint);
       localStorage.setItem('offloadingPoint', offloadingPoint);
 
-      navigate('/MP_CategoryScreen'); // Navigate to the next screen
+      navigate('/mp-fee-category'); // Navigate to the next screen
     } else {
       alert('Please fill in all fields.');
     }
   };
 
-  return(
+  return (
     <Container>
-    <TopBar>
-      <BackIcon src={LeftIcon} onClick={() => navigate('/MP_VehicleScreen')} />
-      <Title>Trip Data</Title>
-    </TopBar>
+      <TopBar>
+        <BackIcon src={LeftIcon} onClick={() => navigate('/mp-vehicle')} />
+        <Title>Trip Data</Title>
+      </TopBar>
 
-    <TabContainer>
-      <Tab active>Vehicle</Tab>
-      <Tab active>Trip Data</Tab>
-      <Tab>Category</Tab>
-      <Tab>Bank details</Tab>
-    </TabContainer>
+      <TabContainer>
+        <Tab active>Vehicle</Tab>
+        <Tab active>Trip Data</Tab>
+        <Tab>Category</Tab>
+        <Tab>Bank details</Tab>
+      </TabContainer>
 
-    <MiniDashboard>
-      <MiniDashboardIconStyled src={MiniDashboardIcon} />
-      <DashboardText>
-        <InfoColumn>
-          <Label1>Tax ID:</Label1>
-          <Value1>{localStorage.getItem('tax_id') || 'N/A'}</Value1>
-        </InfoColumn>
-        <InfoColumn>
-          <Label2>Haulers:</Label2>
-          <Value2>{haulers}</Value2>
-        </InfoColumn>
-      </DashboardText>
-    </MiniDashboard>
+      <MiniDashboard>
+        <MiniDashboardIconStyled src={MiniDashboardIcon} />
+        <DashboardText>
+          <InfoColumn>
+            <Label1>Tax ID:</Label1>
+            <Value1>{localStorage.getItem('tax_id') || 'N/A'}</Value1>
+          </InfoColumn>
+          <InfoColumn>
+            <Label2>Haulers:</Label2>
+            <Value2>{haulersCount}</Value2>
+          </InfoColumn>
+        </DashboardText>
+      </MiniDashboard>
 
-    {/* Form Inputs */}
-    <InputFieldWrapper>
-      <Label htmlFor="driverName">Driver Name</Label>
-      <InputField
-        type="text"
-        id="driverName"
-        name="driverName"
-        value={tripData.driverName}
-        onChange={handleInputChange}
-        placeholder="Enter Driver Name"
-        required
-      />
-    </InputFieldWrapper>
+      {/* Form Inputs */}
+      <InputFieldWrapper>
+        <Label htmlFor="driverName">Driver Name</Label>
+        <InputField
+          type="text"
+          id="driverName"
+          name="driverName"
+          value={tripData.driverName}
+          onChange={handleInputChange}
+          placeholder="Enter Driver Name"
+          required
+        />
+      </InputFieldWrapper>
 
-    <InputFieldWrapper>
-      <Label htmlFor="phoneNumber">Phone Number</Label>
-      <InputField
-        type="tel"
-        id="phoneNumber"
-        name="phoneNumber"
-        value={tripData.phoneNumber}
-        onChange={handleInputChange}
-        placeholder="Enter Phone Number"
-        required
-      />
-    </InputFieldWrapper>
+      <InputFieldWrapper>
+        <Label htmlFor="phoneNumber">Phone Number</Label>
+        <InputField
+          type="tel"
+          id="phoneNumber"
+          name="phoneNumber"
+          value={tripData.phoneNumber}
+          onChange={handleInputChange}
+          placeholder="Enter Phone Number"
+          required
+        />
+      </InputFieldWrapper>
 
-    <InputFieldWrapper>
-      <Label htmlFor="loadingPoint">Loading Point</Label>
-      <InputField
-        type="text"
-        id="loadingPoint"
-        name="loadingPoint"
-        value={tripData.loadingPoint}
-        onChange={handleInputChange}
-        placeholder="Enter Loading Point"
-        required
-      />
-    </InputFieldWrapper>
+      <InputFieldWrapper>
+        <Label htmlFor="loadingPoint">Loading Point</Label>
+        <InputField
+          type="text"
+          id="loadingPoint"
+          name="loadingPoint"
+          value={tripData.loadingPoint}
+          onChange={handleInputChange}
+          placeholder="Enter Loading Point"
+          required
+        />
+      </InputFieldWrapper>
 
-    <InputFieldWrapper>
-      <Label htmlFor="offloadingPoint">Offloading Point</Label>
-      <InputField
-        type="text"
-        id="offloadingPoint"
-        name="offloadingPoint"
-        value={tripData.offloadingPoint}
-        onChange={handleInputChange}
-        placeholder="Enter Offloading Point"
-        required
-      />
-    </InputFieldWrapper>
+      <InputFieldWrapper>
+        <Label htmlFor="offloadingPoint">Offloading Point</Label>
+        <InputField
+          type="text"
+          id="offloadingPoint"
+          name="offloadingPoint"
+          value={tripData.offloadingPoint}
+          onChange={handleInputChange}
+          placeholder="Enter Offloading Point"
+          required
+        />
+      </InputFieldWrapper>
 
-    <ProceedButton onClick={handleProceed}>Proceed</ProceedButton>
-  </Container>
-);
+      <Button label="Proceed" onClick={handleProceed} size='large' /> 
+    </Container>
+  );
 
 };
 
@@ -311,7 +281,7 @@ const Value1 = styled.p`
     margin-left: 25px;
     margin-right: -15px;
 `;
-const Value2= styled.p`
+const Value2 = styled.p`
   font-size: 14px;
   font-weight: bold;
   color: #CEECFF;
@@ -338,43 +308,6 @@ const InputField = styled.input`
     box-shadow: 0 0 5px rgba(108, 62, 207, 0.3);
   }
 `;
-
-const ProceedButton = styled.button`
-  
-  
-  background-color: #FDE5C0;
-  padding: 12px 40px; /* Adjust padding as needed */
-  border-radius: 25px;
-  border: none;
-  width: 90%;
-  max-width: 300px;
-  cursor: pointer;
-  margin-top: 85px; /* Keep margin-top if needed */
-  
-  /* Text color */
-  color:  #F07F23; /* Set text color to #F07F23 */
-  
-  /* Center the text */
-  text-align: center; /* Center the text horizontally */
-  display: flex; /* Use flexbox for centering */
-  justify-content: center; /* Center the text horizontally */
-  align-items: center; /* Center the text vertically */
-
-  /* Hover effect */
-  &:hover {
-    background-color: #e5b46a;
-    color: #fff; /* Change text color on hover */
-  }
-
-  /* Additional styles */
-  width: 114px; /* Set a fixed width */
-  height: 50px; /* Set a fixed height */
-  opacity: 1; /* Set opacity to 1 to make it visible */
-  position: relative; /* If you want to use top and left, set position */
-  top: 0; /* Adjust as needed */
-  left: 0; /* Adjust as needed */
-  gap: 0; /* gap is not applicable for button */
-
-`;
+ 
 
 export default TripDataScreen;

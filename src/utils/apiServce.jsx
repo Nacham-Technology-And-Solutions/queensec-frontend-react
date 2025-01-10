@@ -28,45 +28,46 @@ apiClient.interceptors.request.use(
 );
 
 // Function to get data
-export const getData = async (endpoint) => {
+export const getData = async (endpoint, data, defaultErrorMessage) => {
     try {
-        const response = await apiClient.get(endpoint);
+        const response = await apiClient.get(endpoint, data);
         return response.data;
     } catch (error) {
-        console.error('Error fetching data: ', error);
-        throw error;
+        console.error(defaultErrorMessage ?? 'Error fetching data: ', error);
+        // throw error;
+        throw error.response ? error.response.data : defaultErrorMessage;
     }
 };
 
 // Function to post data
-export const postData = async (endpoint, data) => {
+export const postData = async (endpoint, data, defaultErrorMessage) => {
     try {
         const response = await apiClient.post(endpoint, data);
         return response.data;
     } catch (error) {
-        console.error('Error posting data: ', error);
-        throw error;
+        console.error(defaultErrorMessage ?? 'Error posting data: ', error);
+        throw error.response ? error.response.data : defaultErrorMessage;
     }
 };
 
 // Function to put data
-export const putData = async (endpoint, data) => {
+export const putData = async (endpoint, data, defaultErrorMessage) => {
     try {
         const response = await apiClient.put(endpoint, data);
         return response.data;
     } catch (error) {
-        console.error('Error updating data: ', error);
-        throw error;
+        console.error(defaultErrorMessage ?? 'Error updating data: ', error);
+        throw error.response ? error.response.data : defaultErrorMessage;
     }
 };
 
 // Function to delete data
-export const deleteData = async (endpoint) => {
+export const deleteData = async (endpoint, defaultErrorMessage) => {
     try {
         const response = await apiClient.delete(endpoint);
         return response.data;
     } catch (error) {
-        console.error('Error deleting data: ', error);
-        throw error;
+        console.error(defaultErrorMessage ?? 'Error deleting data: ', error);
+        throw error.response ? error.response.data : defaultErrorMessage;
     }
 };

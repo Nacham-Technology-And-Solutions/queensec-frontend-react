@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import DASHBOARD from './assets/DASHBOARD.png';
-import folder_C from './assets/folder_C.png';
-import transactions_N from './assets/transactions_N.png';
-import notification_N from './assets/notification_N.png';
-import profile_N from './assets/profile_N.png';
 import { VictoryChart, VictoryLine, VictoryTheme, VictoryTooltip, VictoryAxis } from 'victory';
 import mineral_icon from './assets/mineral_icon.png';
 import logo from './assets/Queensec_1.png';
 import Vector from './assets/Vector.png'; // Icon for viewing full chart
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import BottomNavigator from './components/BottomNavigator/BottomNavigator';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const Dashboard = () => {
   const [userData, setUserData] = useState({
@@ -38,7 +35,7 @@ const Dashboard = () => {
         }
 
         const url = `${API_BASE_URL}/user`;
-         const response = await axios.get(url, {
+        const response = await axios.get(url, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -51,10 +48,10 @@ const Dashboard = () => {
           setUserData({
             name: `${user.first_name} ${user.last_name}`,
             taxID: user.tax_id || 'null',
-            accountType: user.account_type ===  'individual' 
-            ? 'Individual' 
-            : 'me' // Default case if account_type doesn't match 1, 2, or 3
-          
+            accountType: user.account_type === 'individual'
+              ? 'Individual'
+              : 'me' // Default case if account_type doesn't match 1, 2, or 3
+
           });
           localStorage.setItem('phone', user.phone);
           localStorage.setItem('name', user.first_name);
@@ -76,7 +73,7 @@ const Dashboard = () => {
       }
     };
 
-      fetchUserData();
+    fetchUserData();
   }, []);
 
   const [chartData, setChartData] = useState([
@@ -113,8 +110,8 @@ const Dashboard = () => {
             { day: 'Sun', amount: rawData.sunday },
           ];
           setChartData(transformedData);
-    
-          
+
+
         } else {
           console.error('Failed to load chart data:', response.data.message);
         }
@@ -133,12 +130,12 @@ const Dashboard = () => {
     ironore: "assets/ironore.png",
     marble: "assets/marble.png",
   };
-  
+
   // Function to get the correct mineral icon or default
   const getMineralIcon = (mineralName) => {
     return mineralIcons[mineralName.toLowerCase()] || "assets/default.png";
   };
-  
+
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
@@ -149,11 +146,11 @@ const Dashboard = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-  
+
         if (response.data.success) {
           // Access the transactions array
           const transactions = response.data.data.transactions;
-  
+
           const transactionList = transactions.map((transaction, index) => ({
             id: transaction.id || index + 1, // Use transaction ID or fallback to index
             name: transaction.mineral_name || "Unknown Mineral",
@@ -171,35 +168,32 @@ const Dashboard = () => {
         console.error("Error fetching transactions:", error.response?.data || error.message);
       }
     };
-  
+
     fetchTransactions();
   }, []);
-  
+
 
 
 
   const [transactions, setTransactions] = useState([
 
   ]);
-  
+
 
 
 
 
   const handleMakePayment = () => {
-    navigate('/MP_VehicleScreen'); // Use navigate to change routes
+    navigate('/mp-vehicle'); // Use navigate to change routes
   };
   const navigate = useNavigate();
 
+  const goToTransactions = () => navigate('/transactions');
 
-  const goToDashboard = () => navigate('/dashboard-page');
-  const goToTransactions = () => navigate('/Transactions-page');
-  const goToNotifications = () => navigate('/Notifications-page');
-  const goToProfile = () => navigate('/User-Profile');
-  const truncateText = (text, maxLength) => 
+  const truncateText = (text, maxLength) =>
     text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 
-  const haulerScreen = () =>  navigate('/Hauler-Lists')
+  const haulerScreen = () => navigate('/my-haulers-list')
   return (
     <DashboardContainer>
       {/* Header */}
@@ -222,9 +216,9 @@ const Dashboard = () => {
           <UserInfoDataB>{userData.accountType}</UserInfoDataB>
         </UserDetails>
         <MakePaymentButton onClick={handleMakePayment}>Make Payment</MakePaymentButton>
-      <HaulersBtn onClick={haulerScreen}>Haulers</HaulersBtn>
+        <HaulersBtn onClick={haulerScreen}>Haulers</HaulersBtn>
       </DashboardCard>
-      
+
       {/* Transaction Chart */}
       <ChartSection>
         <ChartHeader>
@@ -233,21 +227,21 @@ const Dashboard = () => {
         </ChartHeader>
         <TransactionChart>
           <VictoryChart theme={VictoryTheme.material} domainPadding={{ x: 20, y: 20 }}>
-              {/* X-axis */}
-              <VictoryAxis
-                style={{
-                  tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
-                }}
-              />
+            {/* X-axis */}
+            <VictoryAxis
+              style={{
+                tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
+              }}
+            />
 
-              {/* Y-axis with formatted labels */}
-              <VictoryAxis
-                dependentAxis
-                tickFormat={(t) => `N ${(t / 1000).toFixed(0)}k`} // Format Y-axis values as "N 10k"
-                style={{
-                  tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
-                }}
-              />
+            {/* Y-axis with formatted labels */}
+            <VictoryAxis
+              dependentAxis
+              tickFormat={(t) => `N ${(t / 1000).toFixed(0)}k`} // Format Y-axis values as "N 10k"
+              style={{
+                tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
+              }}
+            />
 
             <VictoryLine
               data={chartData}
@@ -266,43 +260,42 @@ const Dashboard = () => {
 
       {/* Transaction List */}
       <Transactions>
-      <TransactionsHeader>
-        <h3>Transactions</h3>
-        <ViewAllButton onClick={goToTransactions}>View All</ViewAllButton>
-      </TransactionsHeader>
-      <ul>
-        {transactions.map((transaction) => (
-          <TransactionItem key={transaction.id}>
-            <TransactionLeft>
+        <TransactionsHeader>
+          <h3>Transactions</h3>
+          <ViewAllButton onClick={goToTransactions}>View All</ViewAllButton>
+        </TransactionsHeader>
+        <ul>
+          {transactions.map((transaction) => (
+            <TransactionItem key={transaction.id}>
+              <TransactionLeft>
                 <img src={transaction.mineral_image || mineral_icon} alt="mineral icon" />
-              <TextContainer>
-                <span>{transaction.name}</span>
-                <span>{transaction.mineralNumber}</span>
-              </TextContainer>
-            </TransactionLeft>
-            <TransactionRight>
-              <span className="amount">{transaction.amount}</span>
-              <span className="date">{transaction.date}</span>
-            </TransactionRight>
-          </TransactionItem>
-        ))}
-      </ul>
+                <TextContainer>
+                  <span>{transaction.name}</span>
+                  <span>{transaction.mineralNumber}</span>
+                </TextContainer>
+              </TransactionLeft>
+              <TransactionRight>
+                <span className="amount">{transaction.amount}</span>
+                <span className="date">{transaction.date}</span>
+              </TransactionRight>
+            </TransactionItem>
+          ))}
+        </ul>
       </Transactions>
-      
-    <Footer>
+
+      <Footer>
         <p>Powered ⚡ by Queensec Global</p>
       </Footer>
-      
+
       {/* Bottom Navigation */}
-      <BottomNav>
-  <div style={{ display: 'flex', alignItems: 'center' }}>
-    <NavIcon src={folder_C} alt="Dashboard" className="selected" />
-    <DashboardLabel>Dashboard</DashboardLabel>
-  </div>
-  <NavIcon src={transactions_N} onClick={goToTransactions}  alt="Transactions" />
-  <NavIcon src={notification_N} onClick={goToNotifications} alt="Notifications" />
-  <NavIcon src={profile_N} onClick={goToProfile} alt="Profile" />
-</BottomNav>
+      <BottomNavigator
+        currentPage='dashboard'
+        dashboardLink='#' // /dashboard-page
+        transactionLink='/transactions'
+        notificationLink='/Notifications-page'
+        profileLink='/user-profile'
+      />
+
     </DashboardContainer>
   );
 };
@@ -316,10 +309,10 @@ const DashboardContainer = styled.div`
   max-width: 400px;
   margin: 0 auto;
   background-color: #f9f9f9;
-    border-radius: 25px;
+  border-radius: 25px;
   height: 100%;
-      position: relative;
-        @media (max-width: 768px) {
+  position: relative;
+  @media (max-width: 768px) {
     padding: 15px;
   }
   @media (max-width: 480px) {
@@ -398,12 +391,6 @@ const UserName = styled.h2`
   margin-top: -2px;
   margin-bottom: 57px;
   padding-bottom: 15px;
-`;
-const NoDataText = styled.div`
-  text-align: center;
-  margin-top: 20px;
-  font-size: 16px;
-  color: #888;
 `;
 
 const LabelTextA = styled.p`
@@ -645,42 +632,5 @@ const Footer = styled.footer`
     color: #ff9800; /* Highlight for the lightning symbol */
   }
 `;
-
-
-// Bottom navigation bar
-const BottomNav = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 15px 0;
-  background-color: white;
-  border-radius: 0px;
-  width: 438px;
-  position: fixed; /* Fix it to the viewport */
-  bottom: 0; /* Always stay at the bottom of the screen */
-  margin-left: -19px; /* Align to the left edge of the screen */
-  z-index: 100; /* Ensure it stays on top of other content */
-  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
-  @media (max-width: 450px) {
-    padding: 8px 0;
-     width: 100%;
-  }
-`;
-const NavIcon = styled.img`
-width: 30px;
-height: 30px;
-
-// &.selected {
-//   border-bottom: 2px solid #ffc107;
-// }
-`;
-
-const DashboardLabel = styled.span`
-color: #421B73;
-font-size: 14px;
-font-weight: bold;
-margin-left: 8px; /* Space between icon and text */
-`;
-
 
 export default Dashboard;

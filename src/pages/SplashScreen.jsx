@@ -52,8 +52,6 @@ const SplashScreen = () => {
   );
 };
 
-export default SplashScreen;
-
 // Styled Components
 const Wrapper = styled.div`
   display: flex;
@@ -122,18 +120,4 @@ const ButtonWrapper = styled.div`
   width: 100%;
 `;
 
-const NextButton = styled.button`
-  background-color: #f7c28e;
-  font-size: 18px;
-  color: #e06500;
-  border: none;
-  padding: 15px 30px;
-  border-radius: 25px;
-  cursor: pointer;
-  font-weight: bold;
-  width: 320px;
-  text-align: center;
-   margin-top: 10px; /*
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-   transition: background-color 0.3s;
-`;
+export default SplashScreen;

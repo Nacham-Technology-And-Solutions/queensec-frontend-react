@@ -5,6 +5,7 @@ import LeftIcon from '../assets/left.png';
 import MiniDashboardIcon from '../assets/MINI_DB.png';
 // import ubuntu from '../assets/Ubuntu/Ubuntu-Regular.ttf'
 import axios from 'axios';
+import Button from '../components/Button/Button';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 const MakePaymentCategoryScreen = () => {
@@ -13,39 +14,37 @@ const MakePaymentCategoryScreen = () => {
   const [plateNumber, setPlateNumber] = useState(localStorage.getItem('number_plate') || 'null'); // Example plate number
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
-  
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const token = localStorage.getItem("token"); 
+        const token = localStorage.getItem("token");
         if (!token) {
           console.error("No token found, please log in.");
-          return; 
+          return;
         }
-  
-        
-        const haulerTypeId = localStorage.getItem("hauler_type_id"); 
-        const savedHaulerId = localStorage.getItem("hauler_id"); 
 
-  
-     
-        const isOneTime = haulerTypeId && haulerTypeId !== savedHaulerId;
+
+        const haulerTypeId = localStorage.getItem("hauler_type_id");
+        const savedHaulerId = localStorage.getItem("payee_hauler_id");
+
+        const isOneTime = localStorage.getItem("haulerTypeMode") === 'saved' ? false : true;
         const url = isOneTime
           ? `${API_BASE_URL}/user/get-fee-category-by-hauler-type?hauler_type_id=${haulerTypeId}`
           : `${API_BASE_URL}/fee-category?hauler_id=${savedHaulerId}`;
-  
+
 
         const response = await axios.get(url, {
           headers: {
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         });
-  
+
         if (response.data.success) {
-          const categories = response.data.data; 
+          const categories = response.data.data;
           setCategories(categories);
-  
-         
+
+
           if (categories.length > 0 && categories[0].mineral_id) {
             localStorage.setItem("mineral_id", categories[0].mineral_id);
           } else {
@@ -58,47 +57,47 @@ const MakePaymentCategoryScreen = () => {
         console.error("Error fetching category data:", error.response?.data || error.message);
       }
     };
-  
+
     fetchCategories();
   }, []);
   const handleBack = () => {
-    navigate('/Trip-Data');
+    navigate('/mp-trip-data');
   };
-const handleProceed = () => {
-  if (!selectedCategory) {
-    alert("Please select a category before proceeding.");
-    return;
-  }
+  const handleProceed = () => {
+    if (!selectedCategory) {
+      alert("Please select a category before proceeding.");
+      return;
+    }
 
 
-  const [selectedMineralId, selectedMineralSubId] = selectedCategory.split("-").map(Number);
+    const [selectedMineralId, selectedMineralSubId] = selectedCategory.split("-").map(Number);
 
 
-  const selectedCategoryData = categories.find(
-    (category) =>
-      category.mineral_id === selectedMineralId &&
-      category.mineral_sub_id === selectedMineralSubId
-  );
+    const selectedCategoryData = categories.find(
+      (category) =>
+        category.mineral_id === selectedMineralId &&
+        category.mineral_sub_id === selectedMineralSubId
+    );
 
-  if (selectedCategoryData) {
-    const formattedPrice = `NGN ${parseFloat(selectedCategoryData.price).toLocaleString()}`;
-    localStorage.setItem("selectedCategoryPrice", formattedPrice); 
+    if (selectedCategoryData) {
+      const formattedPrice = `NGN ${parseFloat(selectedCategoryData.price).toLocaleString()}`;
+      localStorage.setItem("selectedCategoryPrice", formattedPrice);
 
-    localStorage.setItem("mineral_sub_id", selectedCategoryData.mineral_sub_id);
-    const categoryWithSubId = {
-      ...selectedCategoryData,
-      mineral_sub_id: selectedCategoryData.mineral_sub_id, 
-    };
-    localStorage.setItem("selectedCategory", JSON.stringify(categoryWithSubId));
+      localStorage.setItem("mineral_sub_id", selectedCategoryData.mineral_sub_id);
+      const categoryWithSubId = {
+        ...selectedCategoryData,
+        mineral_sub_id: selectedCategoryData.mineral_sub_id,
+      };
+      localStorage.setItem("selectedCategory", JSON.stringify(categoryWithSubId));
 
 
-  } else {
-    console.error("Category not found for selected ID:", selectedCategory);
-  }
+    } else {
+      console.error("Category not found for selected ID:", selectedCategory);
+    }
 
-  // Navigate to the Bank Details screen
-  navigate("/MP_BankDetailsScreen");
-};
+    // Navigate to the Bank Details screen
+    navigate("/mp-bank-details");
+  };
 
   return (
     <Container>
@@ -106,14 +105,14 @@ const handleProceed = () => {
         <BackIcon src={LeftIcon} onClick={handleBack} />
         <Title>Make Payment</Title>
       </TopBar>
-  
+
       <TabContainer>
         <Tab active>Vehicle</Tab>
         <Tab active>Trip Data</Tab>
         <Tab active>Category</Tab>
         <Tab>Bank details</Tab>
       </TabContainer>
-  
+
       <MiniDashboard>
         <MiniDashboardIconStyled src={MiniDashboardIcon} />
         <DashboardText>
@@ -127,34 +126,34 @@ const handleProceed = () => {
           </InfoColumn>
         </DashboardText>
       </MiniDashboard>
-  
+
       <SelectCategoryText>Fee Category</SelectCategoryText>
       <SelectDropdown
-  value={selectedCategory} // Ensure this state correctly matches the selected option
-  onChange={(e) => {
-    const selectedValue = e.target.value;
-    setSelectedCategory(selectedValue); // Update the state correctly
+        value={selectedCategory} // Ensure this state correctly matches the selected option
+        onChange={(e) => {
+          const selectedValue = e.target.value;
+          setSelectedCategory(selectedValue); // Update the state correctly
 
-    // Optionally log for debugging
+          // Optionally log for debugging
 
-  }}
->
-  <option value="">Select a category</option>
-  {categories.map((category) => (
-    <option
-    key={`${category.mineral_id}-${category.mineral_sub_id}`} 
-    value={`${category.mineral_id}-${category.mineral_sub_id}`} 
-    >
-      {category.name} - NGN {parseFloat(category.price).toLocaleString()} {/* Format price */}
-    </option>
-  ))}
-</SelectDropdown>
+        }}
+      >
+        <option value="">Select a category</option>
+        {categories.map((category) => (
+          <option
+            key={`${category.mineral_id}-${category.mineral_sub_id}`}
+            value={`${category.mineral_id}-${category.mineral_sub_id}`}
+          >
+            {category.name} - NGN {parseFloat(category.price).toLocaleString()} {/* Format price */}
+          </option>
+        ))}
+      </SelectDropdown>
 
-  
-      <ProceedButton onClick={handleProceed}>Proceed</ProceedButton>
+      
+      <Button label="Proceed" onClick={handleProceed} size='large' /> 
     </Container>
   );
-  
+
 };
 
 
@@ -321,7 +320,7 @@ const Value1 = styled.p`
 font-size: 12.5px;
   }
 `;
-const Value2= styled.p`
+const Value2 = styled.p`
   font-size: 14px;
   font-weight: bold;
   color: #CEECFF;
@@ -346,30 +345,6 @@ const SelectDropdown = styled.select`
   border-radius: 8px;
   background-color: #fff;
   font-size: 16px;
-`;
-
-const ProceedButton = styled.button`
-  background-color: #FDE5C0;
-  padding: 12px 40px;
-  border-radius: 25px;
-  border: none;
-  width: 90%;
-  max-width: 300px;
-  cursor: pointer;
-  color: #F07F23;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 190px;
-  &:hover {
-    background-color: #e5b46a;
-    color: #fff;
-  }
-  width: 114px;
-  height: 50px;
-  opacity: 1;
-  font-family: ubuntu;
 `;
 
 export default MakePaymentCategoryScreen;

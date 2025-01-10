@@ -9,115 +9,128 @@ import MasterCardIcon from '../assets/mastercard.png';
 import PayUIcon from '../assets/payu.png';
 
 import axios from 'axios';
+import Button from '../components/Button/Button';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 const MakePaymentBankDetailsScreen = () => {
   const navigate = useNavigate();
-  const [taxId] = useState(localStorage.getItem('tax_id') || 'Nas/Nas/0013'); 
+  const [taxId] = useState(localStorage.getItem('tax_id') || 'Nas/Nas/0013');
   const [plateNumber] = useState(localStorage.getItem('number_plate') || 'null');
   const [amount] = useState(() => {
     const savedAmount = localStorage.getItem('selectedCategoryPrice');
     return savedAmount || '0';
   });
 
-  const email = localStorage.getItem('email') || 'leolindgren@example.net';
-  const phone = localStorage.getItem('phone') || '';
-  const name = localStorage.getItem('name') || '';
-  const payerId = localStorage.getItem('payer_id') || '';
-  const haulerId = localStorage.getItem('hauler_id') || '';
-  const mineralId = localStorage.getItem('mineral_id') || '';
 
-  
-const parsedAmount = parseFloat(amount.replace(/[^0-9.]/g, ''));
-if (isNaN(parsedAmount) || parsedAmount <= 0) {
-  console.error('Invalid amount:', amount);
-}
+  const parsedAmount = parseFloat(amount.replace(/[^0-9.]/g, ''));
+  if (isNaN(parsedAmount) || parsedAmount <= 0) {
+    console.error('Invalid amount:', amount);
+  }
 
 
-    const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
 
-    const initiatePayment = async () => {
-      if (loading) return;
-    
-      setLoading(true);
-    
-      try {
-        const payerId = localStorage.getItem('payer_id');
-        const mineralId = localStorage.getItem('mineral_id');
-        const mineralSubId = localStorage.getItem('mineral_sub_id');
-        const parsedAmount = parseFloat(localStorage.getItem('selectedCategoryPrice').replace('NGN', '').replace(',', '').trim());
-        const email = localStorage.getItem('email');
-        const name = localStorage.getItem('name');
-        const phone = localStorage.getItem('phone');
-        const token = localStorage.getItem('token');
-        const haulerType = localStorage.getItem('haulerType'); 
-    
-        const driverName = localStorage.getItem('driverName');
-        const phoneNumber = localStorage.getItem('phoneNumber');
-        const loadingPoint = localStorage.getItem('loadingPoint');
-        const offloadingPoint = localStorage.getItem('offloadingPoint');
-    
-        if (!driverName || !phoneNumber || !loadingPoint || !offloadingPoint) {
-          throw new Error('Incomplete trip data. Please ensure all fields are filled.');
-        }
-    
-    
-        const payload = {
-          payer_id: payerId,
-          payee_id: payerId,
-          mineral_id: mineralId,
-          mineral_sub_id: mineralSubId,
-          total_amount: parsedAmount.toFixed(2),
-            driver_name: driverName,
-            phone_number: phoneNumber,
-            loading_point: loadingPoint,
-          offloading_point: offloadingPoint,
-        };
-    
-        if (haulerType === 'saved') {
-          const haulerId = localStorage.getItem('hauler_id');
-          if (!haulerId) {
-            throw new Error('Hauler ID is missing.');
-          }
-          payload.payee_hauler_id = haulerId; 
-        } else if (haulerType === 'oneTime') {
-          const haulerTypeId = localStorage.getItem('hauler_type_id');
-          const plateNumber = localStorage.getItem('number_plate');
-          if (!haulerTypeId || !plateNumber) {
-            throw new Error('Hauler type or plate number is missing for one-time hauler.');
-          }
-          payload.hauler_type_id = haulerTypeId;
-          payload.number_plate = plateNumber; 
-        } else {
-          throw new Error('Invalid hauler type selected.');
-        }
+  const initiatePayment = async () => {
+    if (loading) return;
 
-   
-        const orderResponse = await axios.post(`${API_BASE_URL}/orders`, payload, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-    
-        const paymentLink = orderResponse.data?.data?.payment_link;
-        if (!paymentLink) {
-          throw new Error('Payment link not provided by the backend.');
-        }
-    
-        
-        window.location.href = paymentLink;
-      } catch (error) {
-        console.error('Error initiating payment:', error);
-        alert('Failed to initiate payment. Please try again.');
-      } finally {
-        setLoading(false);
+    setLoading(true);
+
+    try {
+      const payerId = localStorage.getItem('payer_id');
+      const mineralId = localStorage.getItem('mineral_id');
+      const mineralSubId = localStorage.getItem('mineral_sub_id');
+      const parsedAmount = parseFloat(localStorage.getItem('selectedCategoryPrice').replace('NGN', '').replace(',', '').trim());
+      const token = localStorage.getItem('token');
+      const haulerTypeMode = localStorage.getItem('haulerTypeMode');
+
+      const driverName = localStorage.getItem('driverName');
+      const phoneNumber = localStorage.getItem('phoneNumber');
+      const loadingPoint = localStorage.getItem('loadingPoint');
+      const offloadingPoint = localStorage.getItem('offloadingPoint');
+
+      if (!driverName || !phoneNumber || !loadingPoint || !offloadingPoint) {
+        throw new Error('Incomplete trip data. Please ensure all fields are filled.');
       }
-    };
+
+
+      const payload = {
+        payer_id: payerId,
+        payee_id: payerId,
+        mineral_id: mineralId,
+        mineral_sub_id: mineralSubId,
+        total_amount: parsedAmount.toFixed(2),
+
+        driver_name: driverName,
+        phone_number: phoneNumber,
+        loading_point: loadingPoint,
+        offloading_point: offloadingPoint,
+      };
+
+      if (haulerTypeMode === 'saved') {
+        const haulerId = localStorage.getItem('payee_hauler_id');
+        if (!haulerId) {
+          throw new Error('Hauler ID is missing.');
+        }
+        payload.payee_hauler_id = haulerId;
+      } else if (haulerTypeMode === 'oneTime') {
+        const haulerTypeId = localStorage.getItem('hauler_type_id');
+        const plateNumber = localStorage.getItem('number_plate');
+        if (!haulerTypeId || !plateNumber) {
+          throw new Error('Hauler type or plate number is missing for one-time hauler.');
+        }
+        payload.hauler_type_id = haulerTypeId;
+        payload.number_plate = plateNumber;
+      } else {
+        throw new Error('Invalid hauler type selected.');
+      }
+
+
+      const orderResponse = await axios.post(`${API_BASE_URL}/orders`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const paymentLink = orderResponse.data?.data?.payment_link;
+      if (!paymentLink) {
+        throw new Error('Payment link not provided by the backend.');
+      }
+
+      // Delete All old Payment Data if set
+      localStorage.removeItem('payer_id');
+      localStorage.removeItem('mineral_id');
+      localStorage.removeItem('mineral_sub_id');
+      localStorage.removeItem('selectedCategoryPrice');
+      localStorage.removeItem('selectedCategory');
+      localStorage.removeItem('haulerTypeMode');
+      localStorage.removeItem('driverName');
+      localStorage.removeItem('phoneNumber');
+      localStorage.removeItem('loadingPoint');
+      localStorage.removeItem('offloadingPoint');
+      localStorage.removeItem('payee_hauler_id');
+      localStorage.removeItem('hauler_type_id');
+      localStorage.removeItem('number_plate');
+      localStorage.removeItem('haulers_count');
+      localStorage.removeItem('haulers');
+      localStorage.removeItem('haulerTypes');
+      localStorage.removeItem('number_plate');
+      localStorage.removeItem('number_plate');
+      localStorage.removeItem('number_plate');
+      localStorage.removeItem('number_plate');
+
+      window.location.href = paymentLink;
+    } catch (error) {
+      console.error('Error initiating payment:', error);
+      alert('Failed to initiate payment. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Container>
       <TopBar>
-        <BackIcon src={LeftIcon} onClick={() => navigate('/MP_CategoryScreen')} />
+        <BackIcon src={LeftIcon} onClick={() => navigate('/mp-fee-category')} />
         <Title>Make Payment</Title>
       </TopBar>
 
@@ -169,15 +182,14 @@ if (isNaN(parsedAmount) || parsedAmount <= 0) {
         </PaymentMethod>
       </PaymentMethods>
 
-     
-      <PayNowButton onClick={initiatePayment} disabled={loading}>
-        {loading ? 'Processing...' : 'Pay Now'}
-      </PayNowButton>
+
+      <Button label={loading ? 'Processing...' : 'Pay Now'} onClick={initiatePayment} size='large' isDisabled={loading} />
+       
     </Container>
   );
 };
 // const handlePayNow = () => {
-//   navigate('/MP_PaymentSuccessScreen');
+//   navigate('/mp-payment-status');
 //   <FlutterWaveButton {...fwConfig} />
 
 // }
@@ -241,7 +253,7 @@ const Tab = styled.div`
   &:not(:last-child) {
     margin-right: 10px;
   }`
-;
+  ;
 
 const MiniDashboard = styled.div`
   background-color: #ffffff;
@@ -392,31 +404,5 @@ const PaymentIcon1 = styled.img`
   height: 30px;
   margin-left: 10px;
 ;
-`
-const PayNowButton = styled.button`
- background-color: #FDE5C0;
-  padding: 12px 40px;
-  border-radius: 25px;
-  border: none;
-  width: 90%;
-  max-width: 300px;
-  cursor: pointer;
-  color: #F07F23;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 90px;
-  &:hover {
-    background-color: #e5b46a;
-    color: #fff;
-  }
-  width: 114px;
-  height: 50px;
-  opacity: 1;
-  font-family: ubuntu;
- 
-;
-
-`
+`  
 export default MakePaymentBankDetailsScreen;

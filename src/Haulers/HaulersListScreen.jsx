@@ -61,7 +61,7 @@ const token = localStorage.getItem("token");
     setSelectedHauler(null);
   };
   const handleAddHauler = () => {
-    navigate('/Add-Hauler');
+    navigate('/add-hauler');
   };
 
   

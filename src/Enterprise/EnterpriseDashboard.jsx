@@ -180,19 +180,19 @@ const EnterpriseDashboard = () => {
 
 
   const handleMakePayment = () => {
-    navigate('/MP_VehicleScreen'); // Use navigate to change routes
+    navigate('/mp-vehicle'); // Use navigate to change routes
   };
   const navigate = useNavigate();
 
 
   const goToDashboard = () => navigate('/Enterprise-Dashboard');
-  const goToTransactions = () => navigate('/Transactions-page');
+  const goToTransactions = () => navigate('/transactions');
   const goToNotifications = () => navigate('/Notifications-page');
-  const goToProfile = () => navigate('/User-Profile');
+  const goToProfile = () => navigate('/user-profile');
   const truncateText = (text, maxLength) => 
     text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 
-    const haulerScreen = () =>  navigate('/Hauler-Lists')
+    const haulerScreen = () =>  navigate('/my-haulers-list')
   return (
     <DashboardContainer>
       {/* Header */}

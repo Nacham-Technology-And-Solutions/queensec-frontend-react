@@ -58,7 +58,7 @@ const AddHaulerScreen = () => {
 
       if (response.status === 201) {
         alert('Hauler added successfully!');
-        navigate('/Hauler-Lists'); // Navigate to hauler list or dashboard page
+        navigate('/my-haulers-list'); // Navigate to hauler list or dashboard page
       }
     } catch (error) {
       console.error('Error adding hauler:', error);
