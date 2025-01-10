@@ -187,6 +187,25 @@ const Dashboard = () => {
 
 
   const handleMakePayment = () => {
+
+    // Delete All old Payment Data if set
+    localStorage.removeItem('payer_id');
+    localStorage.removeItem('mineral_id');
+    localStorage.removeItem('mineral_sub_id');
+    localStorage.removeItem('selectedCategoryPrice');
+    localStorage.removeItem('selectedCategory');
+    localStorage.removeItem('haulerTypeMode');
+    localStorage.removeItem('driverName');
+    localStorage.removeItem('phoneNumber');
+    localStorage.removeItem('loadingPoint');
+    localStorage.removeItem('offloadingPoint');
+    localStorage.removeItem('payee_hauler_id');
+    localStorage.removeItem('hauler_type_id');
+    localStorage.removeItem('number_plate');
+    localStorage.removeItem('haulers_count');
+    localStorage.removeItem('haulers');
+    localStorage.removeItem('haulerTypes');
+
     navigate('/mp-vehicle'); // Use navigate to change routes
   };
   const navigate = useNavigate();
@@ -215,8 +234,8 @@ const Dashboard = () => {
         bottomLeft={userData.taxID} bottomLeftLabel={"Tax ID Number:"}
         bottomRight={<Button label="Make Payment" onClick={handleMakePayment} size='mini' isShort={true} />} bottomRightLabel={""}
       />
- 
-        <HaulersBtn onClick={haulerScreen}>Haulers</HaulersBtn>
+
+      <HaulersBtn onClick={haulerScreen}>Haulers</HaulersBtn>
 
       {/* Transaction Chart */}
       <ChartSection>
@@ -326,7 +345,7 @@ const Logo = styled.img`
     height: 40px;
   }
 `;
- 
+
 const HaulersBtn = styled.button`
 color: #F07F23;
 padding: none;

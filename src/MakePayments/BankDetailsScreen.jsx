@@ -112,11 +112,7 @@ const MakePaymentBankDetailsScreen = () => {
       localStorage.removeItem('number_plate');
       localStorage.removeItem('haulers_count');
       localStorage.removeItem('haulers');
-      localStorage.removeItem('haulerTypes');
-      localStorage.removeItem('number_plate');
-      localStorage.removeItem('number_plate');
-      localStorage.removeItem('number_plate');
-      localStorage.removeItem('number_plate');
+      localStorage.removeItem('haulerTypes'); 
 
       window.location.href = paymentLink;
     } catch (error) {

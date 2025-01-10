@@ -18,7 +18,12 @@ import Button from '../components/Button/Button'
 const MakePaymentVehicleScreen = () => {
   const navigate = useNavigate();
   const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || '');
-  const [haulerTypeMode, setHaulerTypeMode] = useState(localStorage.getItem('haulerTypeMode') || 'saved'); // hauler type mode saved/oneTime
+  // const [haulerTypeMode, setHaulerTypeMode] = useState(localStorage.getItem('haulerTypeMode') || 'saved'); // hauler type mode saved/oneTime
+
+  const [haulerTypeMode, setHaulerTypeMode] = useState(() => {
+    const storedValue = localStorage.getItem('haulerTypeMode');
+    return storedValue !== null && storedValue !== '' && storedValue !== 'undefined' && storedValue !== undefined ? storedValue : 'saved';
+  });
 
   const [haulers, setHaulers] = useState([]);
   const [haulersCount, setHaulersCount] = useState(localStorage.getItem('haulers_count') || 0);
@@ -459,6 +464,6 @@ const AdditionalInfoText = styled.p`
   color: #666;
   text-align: center;
   margin: 10px 0 20px;
-`; 
+`;
 
 export default MakePaymentVehicleScreen;
