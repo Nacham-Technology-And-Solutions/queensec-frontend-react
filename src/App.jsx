@@ -38,6 +38,7 @@ import SignUpScreenTwoBasicInfo from './pages/Registration/SignUpScreenTwoBasicI
 import SignUpScreenThreeContactInfo from './pages/Registration/SignUpScreenThreeContactInfo.jsx';
 import SignUpScreenFourSecurityInfo from './pages/Registration/SignUpScreenFourSecurityInfo.jsx';
 import SignUpScreenFiveSuccess from './pages/Registration/SignUpScreenFiveSuccess.jsx';
+import MPScreenPaymentStatus from './pages/Regular/MPScreenPaymentStatus.jsx';
 
 import RouteNotFoundScreen from './pages/RouteNotFoundScreen.jsx';
 import ProtectedRoute from './utils/ProtectedRoute.jsx';
