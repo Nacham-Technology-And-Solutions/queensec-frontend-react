@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-// import ubuntu from '../assets/Ubuntu/Ubuntu-Regular.ttf';
-import LeftIcon from '../assets/left.png';
+// import ubuntu from '../../../assets/Ubuntu/Ubuntu-Regular.ttf';
+import LeftIcon from '../../../assets/left.png';
 import axios from 'axios';
 
 

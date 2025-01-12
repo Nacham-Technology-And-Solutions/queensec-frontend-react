@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import LeftIcon from '../assets/left.png';
-import MiniDashboardIcon from '../assets/MINI_DB.png';
-// import ubuntu from '../assets/Ubuntu/Ubuntu-Regular.ttf'
+import LeftIcon from '../../../assets/left.png';
+import MiniDashboardIcon from '../../../assets/MINI_DB.png';
+// import ubuntu from '../../../assets/Ubuntu/Ubuntu-Regular.ttf'
 import axios from 'axios';
-import Button from '../components/Button/Button';
+import Button from '../../../components/Button/Button';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
-const MakePaymentCategoryScreen = () => {
+const MPScreenThreeCategory = () => {
   const navigate = useNavigate();
   const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || 'Nas/Nas/0013'); // Example tax ID
   const [plateNumber, setPlateNumber] = useState(localStorage.getItem('number_plate') || 'null'); // Example plate number
@@ -61,7 +61,7 @@ const MakePaymentCategoryScreen = () => {
     fetchCategories();
   }, []);
   const handleBack = () => {
-    navigate('/mp-trip-data');
+    navigate('/mp-two-trip-data');
   };
   const handleProceed = () => {
     if (!selectedCategory) {
@@ -96,7 +96,7 @@ const MakePaymentCategoryScreen = () => {
     }
 
     // Navigate to the Bank Details screen
-    navigate("/mp-bank-details");
+    navigate("/mp-four-bank-details");
   };
 
   return (
@@ -347,6 +347,6 @@ const SelectDropdown = styled.select`
   font-size: 16px;
 `;
 
-export default MakePaymentCategoryScreen;
+export default MPScreenThreeCategory;
 
 

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import LeftIcon from '../assets/left.png';
-import MiniDashboardIcon from '../assets/MINI_DB.png';
-import VisaIcon from '../assets/Visa.png';
-import MasterCardIcon from '../assets/mastercard.png';
-import PayUIcon from '../assets/payu.png';
+import LeftIcon from '../../../assets/left.png';
+import MiniDashboardIcon from '../../../assets/MINI_DB.png';
+import VisaIcon from '../../../assets/Visa.png';
+import MasterCardIcon from '../../../assets/mastercard.png';
+import PayUIcon from '../../../assets/payu.png';
 import axios from 'axios';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
-const MP_BankDetailsVendorScreen = () => {
+const VMPScreenFourBankDetails = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState('Username');
     const [truckInfo, setTruckInfo] = useState('Truck, Yamaha 201'); // Example truck info
@@ -147,7 +147,7 @@ const MP_BankDetailsVendorScreen = () => {
     
 
   const handleBack = () => {
-    navigate('/vendor-mp-fee-category');
+    navigate('/vendor-mp-three-fee-category');
   };
 
   // useEffect(() => {
@@ -590,4 +590,4 @@ const PayNowButton = styled.button`
   flex;-wrap: none;
 `;
 
-export default MP_BankDetailsVendorScreen;
+export default VMPScreenFourBankDetails;

@@ -1,10 +1,10 @@
 import React, { useState , useEffect} from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import LeftIcon from '../assets/left.png';
-import MiniDashboardIcon from '../assets/MINI_DB.png'; 
+import LeftIcon from '../../../assets/left.png';
+import MiniDashboardIcon from '../../../assets/MINI_DB.png'; 
 
-const VendorTripDataScreen = () => {
+const VMPScreenTwoTripData = () => {
     const navigate = useNavigate();
     const [tripData, setTripData] = useState({
       driverName: '',
@@ -61,7 +61,7 @@ const VendorTripDataScreen = () => {
         localStorage.setItem('loadingPoint', loadingPoint);
         localStorage.setItem('offloadingPoint', offloadingPoint);
   
-        navigate('/vendor-mp-fee-category'); // Navigate to the next screen
+        navigate('/vendor-mp-three-fee-category'); // Navigate to the next screen
       } else {
         alert('Please fill in all fields.');
       }
@@ -69,7 +69,7 @@ const VendorTripDataScreen = () => {
     const handleBack = () => {
         localStorage.removeItem('haulerType');
         // localStorage.clear();
-        navigate('/vendor-mp-user');
+        navigate('/vendor-mp-one-payee');
       };
       
       return (
@@ -382,4 +382,4 @@ const ProceedButton = styled.button`
 
 `;
 
-export default VendorTripDataScreen;
+export default VMPScreenTwoTripData;

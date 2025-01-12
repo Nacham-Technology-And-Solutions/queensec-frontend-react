@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import LeftIcon from '../assets/left.png';
-import MiniDashboardIcon from '../assets/MINI_DB.png';
-import { useUser } from '../context/UserContext';
-import { getHaulers, getHaulerTypes } from '../utils/userApiRequests';
-import Button from '../components/Button/Button'
+import LeftIcon from '../../../assets/left.png';
+import MiniDashboardIcon from '../../../assets/MINI_DB.png';
+import { useUser } from '../../../context/UserContext';
+import { getHaulers, getHaulerTypes } from '../../../utils/userApiRequests';
+import Button from '../../../components/Button/Button'
 
 // Select Vehicle
 // hauler type mode saved/single-trip
@@ -15,7 +15,7 @@ import Button from '../components/Button/Button'
 // if single-trip then user hauler_type_id & number_plate
 // requests get haulers and hauler_types
 
-const MakePaymentVehicleScreen = () => {
+const MPScreenOneVehicle = () => {
   const navigate = useNavigate();
   const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || '');
   // const [haulerTypeMode, setHaulerTypeMode] = useState(localStorage.getItem('haulerTypeMode') || 'saved'); // hauler type mode saved/oneTime
@@ -25,8 +25,8 @@ const MakePaymentVehicleScreen = () => {
     if (storedValue === 'oneTime') {
       return 'oneTime';
     } else {
+      localStorage.setItem('haulerTypeMode', 'saved');
       return 'saved';
-
     }
   });
 
@@ -84,6 +84,7 @@ const MakePaymentVehicleScreen = () => {
   };
 
   const handleProceed = () => {
+ 
 
     // If Saved Hauler
     if (haulerTypeMode === 'saved' && selectedHaulerID) {
@@ -110,16 +111,16 @@ const MakePaymentVehicleScreen = () => {
     }
 
 
-    navigate('/mp-trip-data');
+    navigate('/mp-two-trip-data');
   };
 
   const goToDashboard = () => {
     if (user?.accountType === 'federal_agency') {
-      navigate('/Enterprise-Dashboard');
+      navigate('/enterprise-dashboard');
     } else if (user?.accountType === 'vendor') {
-      navigate('/Vendors-Dashboard');
+      navigate('/vendors-dashboard');
     } else if (user?.accountType === 'individual') {
-      navigate('/dashboard-page');
+      navigate('/dashboard');
     } else {
       console.warn('Unknown account type');
     }
@@ -471,4 +472,4 @@ const AdditionalInfoText = styled.p`
   margin: 10px 0 20px;
 `;
 
-export default MakePaymentVehicleScreen;
+export default MPScreenOneVehicle;

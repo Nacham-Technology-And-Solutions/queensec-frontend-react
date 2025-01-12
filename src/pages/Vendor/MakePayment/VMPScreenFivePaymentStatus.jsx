@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import QRCode from 'react-qr-code';
-import coalpileIcon from '../assets/coalpile.png';
-import mineralIcon from '../assets/mineral_icon.png';
+import coalpileIcon from '../../../assets/coalpile.png';
+import mineralIcon from '../../../assets/mineral_icon.png';
 
 const PaymentSuccessVendorScreen = () => {
     const navigate = useNavigate();

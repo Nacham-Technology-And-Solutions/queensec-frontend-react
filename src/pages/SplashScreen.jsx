@@ -5,6 +5,7 @@ import QueensecLogo from '../assets/Queensec_1.png';
 import OrderRideImage from '../assets/images/undraw_order_ride_re_372k_1.svg';
 import Button from '../components/Button/Button';
 import TextButton from '../components/TextButton/TextButton';
+import PageLayout from '../components/PageLayout/PageLayout';
 
 
 const SplashScreen = () => {
@@ -16,39 +17,40 @@ const SplashScreen = () => {
   const handleClickSignUp = () => {
     navigate('/sign-up-user-type');
   }
-  
+
   const handleClick = () => {
     navigate('/login-page');
   }
 
   return (
-    <Wrapper>
-      <ContentWrapper>
 
-        <HeaderText>Hello,</HeaderText>
-        <SubText>Welcome to your tax gateway</SubText>
+    <PageLayout>
 
-        <IconsWrapper>
-          <LogoImage src={QueensecLogo} alt="Queensec Logo" />
-        </IconsWrapper>
+      <HeaderText>Hello,</HeaderText>
+      <SubText>Welcome to your tax gateway</SubText>
 
-
-        <IconsWrapper>
-          <RideImage src={OrderRideImage} alt="Order Ride Illustration" />
-        </IconsWrapper>
+      <IconsWrapper>
+        <LogoImage src={QueensecLogo} alt="Queensec Logo" />
+      </IconsWrapper>
 
 
-        <ButtonWrapper>
-          <Button onClick={handleClick} label="Sign In" isSpanWidth={true}  size='large'/>
-          {/* <NextButton onClick={handleClick}>Next</NextButton> */}
-        </ButtonWrapper>
-        <br />
-        <ButtonWrapper>
-          New to Kadamines? &nbsp;
-          <TextButton onClick={handleClickSignUp} label="Sign Up" span='span' size='large'/> 
-        </ButtonWrapper>
-      </ContentWrapper>
-    </Wrapper>
+      <IconsWrapper>
+        <RideImage src={OrderRideImage} alt="Order Ride Illustration" />
+      </IconsWrapper>
+
+
+      <ButtonWrapper>
+        <Button onClick={handleClick} label="Sign In" isSpanWidth={true} size='large' />
+        {/* <NextButton onClick={handleClick}>Next</NextButton> */}
+      </ButtonWrapper>
+      <br />
+      <ButtonWrapper>
+        New to Kadamines? &nbsp;
+        <TextButton onClick={handleClickSignUp} label="Sign Up" span='span' size='large' />
+      </ButtonWrapper>
+
+    </PageLayout>
+
   );
 };
 

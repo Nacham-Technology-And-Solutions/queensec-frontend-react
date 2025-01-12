@@ -2,17 +2,17 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import LeftIcon from '../assets/left.png';
-import MiniDashboardIcon from '../assets/MINI_DB.png';
-import VisaIcon from '../assets/Visa.png';
-import MasterCardIcon from '../assets/mastercard.png';
-import PayUIcon from '../assets/payu.png';
+import LeftIcon from '../../../assets/left.png';
+import MiniDashboardIcon from '../../../assets/MINI_DB.png';
+import VisaIcon from '../../../assets/Visa.png';
+import MasterCardIcon from '../../../assets/mastercard.png';
+import PayUIcon from '../../../assets/payu.png';
 
 import axios from 'axios';
-import Button from '../components/Button/Button';
+import Button from '../../../components/Button/Button';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
-const MakePaymentBankDetailsScreen = () => {
+const MPScreenFourBankDetails = () => {
   const navigate = useNavigate();
   const [taxId] = useState(localStorage.getItem('tax_id') || 'Nas/Nas/0013');
   const [plateNumber] = useState(localStorage.getItem('number_plate') || 'null');
@@ -65,7 +65,7 @@ const MakePaymentBankDetailsScreen = () => {
         loading_point: loadingPoint,
         offloading_point: offloadingPoint,
       };
-
+      debugger;
       if (haulerTypeMode === 'saved') {
         const haulerId = localStorage.getItem('payee_hauler_id');
         if (!haulerId) {
@@ -96,24 +96,6 @@ const MakePaymentBankDetailsScreen = () => {
         throw new Error('Payment link not provided by the backend.');
       }
 
-      // Delete All old Payment Data if set
-      localStorage.removeItem('payer_id');
-      localStorage.removeItem('mineral_id');
-      localStorage.removeItem('mineral_sub_id');
-      localStorage.removeItem('selectedCategoryPrice');
-      localStorage.removeItem('selectedCategory');
-      localStorage.removeItem('haulerTypeMode');
-      localStorage.removeItem('driverName');
-      localStorage.removeItem('phoneNumber');
-      localStorage.removeItem('loadingPoint');
-      localStorage.removeItem('offloadingPoint');
-      localStorage.removeItem('payee_hauler_id');
-      localStorage.removeItem('hauler_type_id');
-      localStorage.removeItem('number_plate');
-      localStorage.removeItem('haulers_count');
-      localStorage.removeItem('haulers');
-      localStorage.removeItem('haulerTypes'); 
-
       window.location.href = paymentLink;
     } catch (error) {
       console.error('Error initiating payment:', error);
@@ -126,7 +108,7 @@ const MakePaymentBankDetailsScreen = () => {
   return (
     <Container>
       <TopBar>
-        <BackIcon src={LeftIcon} onClick={() => navigate('/mp-fee-category')} />
+        <BackIcon src={LeftIcon} onClick={() => navigate('/mp-three-fee-category')} />
         <Title>Make Payment</Title>
       </TopBar>
 
@@ -185,7 +167,7 @@ const MakePaymentBankDetailsScreen = () => {
   );
 };
 // const handlePayNow = () => {
-//   navigate('/mp-payment-status');
+//   navigate('/mp-five-payment-status');
 //   <FlutterWaveButton {...fwConfig} />
 
 // }
@@ -401,4 +383,4 @@ const PaymentIcon1 = styled.img`
   margin-left: 10px;
 ;
 `  
-export default MakePaymentBankDetailsScreen;
+export default MPScreenFourBankDetails;

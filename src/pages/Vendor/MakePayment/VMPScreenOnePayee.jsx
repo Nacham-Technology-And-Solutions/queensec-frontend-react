@@ -2,14 +2,14 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import LeftIcon from '../assets/left.png';
-import MiniDashboardIcon from '../assets/MINI_DB.png';
-import GreenTick from '../assets/greentick.png'; 
-// import { useUser } from '../context/UserContext';
+import LeftIcon from '../../../assets/left.png';
+import MiniDashboardIcon from '../../../assets/MINI_DB.png';
+import GreenTick from '../../../assets/greentick.png'; 
+// import { useUser } from '../../../context/UserContext';
 import axios from 'axios';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
-const MakePaymentVendorUserScreen = () => {
+const VMPScreenOnePayee = () => {
   const navigate = useNavigate();
   const [taxId, setTaxId] = useState('');
   const [username, setUsername] = useState('');
@@ -157,10 +157,10 @@ const MakePaymentVendorUserScreen = () => {
         alert("Please fill all required fields.");
         return;
       } };
-      navigate('/vendor-mp-trip-data');
+      navigate('/vendor-mp-two-trip-data');
    
   }
-  const handleBack = () => navigate('/Vendors-Dashboard');
+  const handleBack = () => navigate('/vendors-dashboard');
 
   return (
     <Container>
@@ -656,4 +656,4 @@ const ProceedButton = styled.button`
   text-align: center;
 `;
 
-export default MakePaymentVendorUserScreen;
+export default VMPScreenOnePayee;

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import backIcon from '../assets/left.png';
+import backIcon from '../../../assets/left.png';
 
 const NotificationDetailsPage = () => {
     const navigate = useNavigate();

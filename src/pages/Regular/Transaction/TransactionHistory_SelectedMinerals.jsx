@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import QRCode from 'react-qr-code';
-import coalpileIcon from '../assets/coalpile.png';
-import mineralIcon from '../assets/mineral_icon.png';
-import LeftIcon from '../assets/left.png';
+import coalpileIcon from '../../../assets/coalpile.png';
+import mineralIcon from '../../../assets/mineral_icon.png';
+import LeftIcon from '../../../assets/left.png';
 import axios from 'axios';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -78,11 +78,11 @@ const TransactionHistory_MineralScreen = () => {
   };
   // const goToDashboard = () => {
   //   if (user?.accountType === 'federal_agency') {
-  //     navigate('/Enterprise-Dashboard');
+  //     navigate('/enterprise-dashboard');
   //   } else if (user?.accountType === 'vendor') {
-  //     navigate('/Vendors-Dashboard');
+  //     navigate('/vendors-dashboard');
   //   } else if (user?.accountType === 'individual') {
-  //     navigate('/dashboard-page');
+  //     navigate('/dashboard');
   //   } else {
   //     console.warn('Unknown account type');
   //   }

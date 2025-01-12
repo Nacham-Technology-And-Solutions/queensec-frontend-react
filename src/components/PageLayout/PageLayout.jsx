@@ -1,11 +1,25 @@
 
 import React from 'react';
 import './PageLayout.scss'; // Import the SCSS file
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 const PageLayout = ({ children, header, footer }) => {
 
     return (
         <div className="page-layout">
+            {/* <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            /> */}
+
             {header && <header className="layout-header">{header}</header>}
             <main className="layout-content">{children}</main>
             <footer className="layout-footer">

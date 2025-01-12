@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom'; 
-import planeIcon from '../assets/planeicon.png';
+import planeIcon from '../../../assets/planeicon.png';
 
-import { useUser } from '../context/UserContext';
-import BottomNavigator from '../components/BottomNavigator/BottomNavigator';
-import PageLayout from '../components/PageLayout/PageLayout';
+import { useUser } from '../../../context/UserContext';
+import BottomNavigator from '../../../components/BottomNavigator/BottomNavigator';
+import PageLayout from '../../../components/PageLayout/PageLayout';
 const NotificationPage = () => {
 
   const navigate = useNavigate();
@@ -13,11 +13,11 @@ const NotificationPage = () => {
   // const accountType = localStorage.getItem()
   const goToDashboard = () => {
     if (user?.accountType === 'federal_agency') {
-      return '/Enterprise-Dashboard';
+      return '/enterprise-dashboard';
     } else if (user?.accountType === 'vendor') {
-      return '/Vendors-Dashboard';
+      return '/vendors-dashboard';
     } else if (user?.accountType === 'individual') {
-      return '/dashboard-page';
+      return '/dashboard';
     }
   };
 

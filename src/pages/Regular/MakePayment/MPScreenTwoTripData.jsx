@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import LeftIcon from '../assets/left.png';
-import MiniDashboardIcon from '../assets/MINI_DB.png';
-import Button from '../components/Button/Button';
+import LeftIcon from '../../../assets/left.png';
+import MiniDashboardIcon from '../../../assets/MINI_DB.png';
+import Button from '../../../components/Button/Button';
 
-const TripDataScreen = () => {
+const MPScreenTwoTripData = () => {
   const navigate = useNavigate();
   const [tripData, setTripData] = useState({
     driverName: localStorage.getItem('driverName') || '',
@@ -32,7 +32,7 @@ const TripDataScreen = () => {
       localStorage.setItem('loadingPoint', loadingPoint);
       localStorage.setItem('offloadingPoint', offloadingPoint);
 
-      navigate('/mp-fee-category'); // Navigate to the next screen
+      navigate('/mp-three-fee-category'); // Navigate to the next screen
     } else {
       alert('Please fill in all fields.');
     }
@@ -41,7 +41,7 @@ const TripDataScreen = () => {
   return (
     <Container>
       <TopBar>
-        <BackIcon src={LeftIcon} onClick={() => navigate('/mp-vehicle')} />
+        <BackIcon src={LeftIcon} onClick={() => navigate('/mp-one-vehicle')} />
         <Title>Trip Data</Title>
       </TopBar>
 
@@ -310,4 +310,4 @@ const InputField = styled.input`
 `;
  
 
-export default TripDataScreen;
+export default MPScreenTwoTripData;

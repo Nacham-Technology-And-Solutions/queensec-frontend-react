@@ -2,16 +2,16 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import QRCode from 'react-qr-code';
-import coalpileIcon from '../assets/coalpile.png';
-import mineralIcon from '../assets/mineral_icon.png';
+import coalpileIcon from '../../../assets/coalpile.png';
+import mineralIcon from '../../../assets/mineral_icon.png';
 import axios from 'axios';
-import { useUser } from '../context/UserContext';
+import { useUser } from '../../../context/UserContext';
 
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 
-const PaymentSuccessScreen = () => {
+const MPScreenFivePaymentStatus = () => {
   const [loading, setLoading] = useState(true);
   const [amount, setAmount] = useState('');
   const [payId, setPayId] = useState('');
@@ -55,7 +55,7 @@ const PaymentSuccessScreen = () => {
         
         if (statusParam === 'cancelled') {
           setStatus('cancelled');
-        } else if (statusParam === 'completed') {
+        } else if (statusParam === 'successful') {
           setStatus('completed');
         } else {
           setStatus('failed');
@@ -100,11 +100,11 @@ const PaymentSuccessScreen = () => {
 
   const goToDashboard = () => {
     if (user?.accountType === 'federal_agency') {
-      navigate('/Enterprise-Dashboard');
+      navigate('/enterprise-dashboard');
     } else if (user?.accountType === 'vendor') {
-      navigate('/Vendors-Dashboard');
+      navigate('/vendors-dashboard');
     } else if (user?.accountType === 'individual') {
-      navigate('/dashboard-page');
+      navigate('/dashboard');
     } else {
       console.warn('Unknown account type');
     }
@@ -407,4 +407,4 @@ const BackButton = styled.button`
   cursor: pointer;
 `;
 
-export default PaymentSuccessScreen;
+export default MPScreenFivePaymentStatus;

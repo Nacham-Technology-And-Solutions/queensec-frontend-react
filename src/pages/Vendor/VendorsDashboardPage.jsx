@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import DASHBOARD from '../assets/DASHBOARD.png';
-import folder_C from '../assets/folder_C.png';
-import transactions_N from '../assets/transactions_N.png';
-import notification_N from '../assets/notification_N.png';
-import profile_N from '../assets/profile_N.png';
+import styled from 'styled-components';   
+import folder_C from '../../assets/folder_C.png';
+import transactions_N from '../../assets/transactions_N.png';
+import notification_N from '../../assets/notification_N.png';
+import profile_N from '../../assets/profile_N.png';
 import { VictoryChart, VictoryLine, VictoryTheme, VictoryTooltip, VictoryAxis } from 'victory';
-import mineral_icon from '../assets/mineral_icon.png';
-import logo from '../assets/Queensec_1.png';
-import Vector from '../assets/Vector.png'; // Icon for viewing full chart
+import mineral_icon from '../../assets/mineral_icon.png';
+import logo from '../../assets/Queensec_1.png';
+import Vector from '../../assets/Vector.png'; // Icon for viewing full chart
+import PageLayout from '../../components/PageLayout/PageLayout';
+import DashboardCardx from '../../components/DashboardCard/DashboardCard';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Button from '../../components/Button/Button';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
@@ -104,8 +106,8 @@ const VendorsDashboard = () => {
             { day: 'Sun', amount: rawData.sunday },
           ];
           setChartData(transformedData);
-    
-          
+
+
         } else {
           console.error('Failed to load chart data:', response.data.message);
         }
@@ -124,12 +126,12 @@ const VendorsDashboard = () => {
   //   ironore: "Assets/ironore.png",
   //   marble: "Assets/marble.png",
   // };
-  
+
   // Function to get the correct mineral icon or default
   // const getMineralIcon = (mineralName) => {
   //   return mineralIcons[mineralName.toLowerCase()] || "Assets/default.png";
   // };
-  
+
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
@@ -140,11 +142,11 @@ const VendorsDashboard = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-  
+
         if (response.data.success) {
           // Access the transactions array
           const transactions = response.data.data.transactions;
-  
+
           const transactionList = transactions.map((transaction, index) => ({
             id: transaction.id || index + 1, // Use transaction ID or fallback to index
             name: transaction.mineral_name || "Unknown Mineral",
@@ -162,7 +164,7 @@ const VendorsDashboard = () => {
         console.error("Error fetching transactions:", error.response?.data || error.message);
       }
     };
-  
+
     fetchTransactions();
   }, []);
 
@@ -172,122 +174,120 @@ const VendorsDashboard = () => {
   ]);
 
   const handleMakePayment = () => {
-    navigate('/vendor-mp-user'); // Use navigate to change routes
+    navigate('/vendor-mp-one-payee'); // Use navigate to change routes
   };
-  
-  
+
+
   const navigate = useNavigate();
-  const truncateText = (text, maxLength) => 
+  const truncateText = (text, maxLength) =>
     text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 
-  // const goToDashboard = () => navigate('/dashboard-page');
+  // const goToDashboard = () => navigate('/dashboard');
   const goToTransactions = () => navigate('/transactions');
   const goToNotifications = () => navigate('/Notifications-page');
   const goToProfile = () => navigate('/user-profile');
   // const haulerScreen = () =>  navigate('/my-haulers-list')
   return (
-    <DashboardContainer>
-      {/* Header */}
-      <Header>
-        <DashboardText>
-          <h1>Dashboard</h1>
-          <DateText>{date}</DateText>
-        </DashboardText>
-        <Logo src={logo} alt="Logo" />
-      </Header>
+    <PageLayout>
+      <DashboardContainer>
+        {/* Header */}
+        <Header>
+          <DashboardText>
+            <h1>Dashboard</h1>
+            <DateText>{date}</DateText>
+          </DashboardText>
+          <Logo src={logo} alt="Logo" />
+        </Header>
 
-      {/* Dashboard Card */}
-      <DashboardCard background={DASHBOARD}>
-        <UserDetails>
-          <WelcomeMessage>Welcome,</WelcomeMessage>
-          <UserName>{truncateText(userData.name, 10)}</UserName>
-          <LabelTextB>Account type</LabelTextB>
-          <UserInfoDataB>{userData.accountType}</UserInfoDataB>
-        </UserDetails>
-        <MakePaymentButton onClick={handleMakePayment}>Make Payment</MakePaymentButton>
 
-      </DashboardCard>
-      
-      {/* Transaction Chart */}
-      <ChartSection>
-        <ChartHeader>
-          <ChartTitle>Transactions Chart</ChartTitle>
-          <ViewFullChartIcon src={Vector} alt="View full chart" />
-        </ChartHeader>
-        <TransactionChart>
-          <VictoryChart theme={VictoryTheme.material} domainPadding={{ x: 20, y: 20 }}>
-            {/* X-axis */}
-            <VictoryAxis
-              style={{
-                tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
-              }}
-            />
+        {/* Dashboard Card */}
+        <DashboardCardx
+          topLeft={truncateText(userData.name, 17)} topLeftLabel={"Welcome,"}
+          topRight={userData.accountType} topRightLabel={"Account Type:"}
+          bottomLeft={<Button label="Make Payment" onClick={handleMakePayment} size='mini' isShort={true} />} bottomLeftLabel={""}
+        />
 
-            {/* Y-axis with formatted labels */}
-            <VictoryAxis
-              dependentAxis
-              tickFormat={(t) => `N ${(t / 1000).toFixed(0)}k`}  // Format Y-axis values as "N 10k"
-              style={{
-                tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
-              }}
-            />
+        {/* Transaction Chart */}
+        <ChartSection>
+          <ChartHeader>
+            <ChartTitle>Transactions Chart</ChartTitle>
+            <ViewFullChartIcon src={Vector} alt="View full chart" />
+          </ChartHeader>
+          <TransactionChart>
+            <VictoryChart theme={VictoryTheme.material} domainPadding={{ x: 20, y: 20 }}>
+              {/* X-axis */}
+              <VictoryAxis
+                style={{
+                  tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
+                }}
+              />
 
-            <VictoryLine
-              data={chartData}
-              x="day"
-              y="amount"
-              labels={({ datum }) => `₦${datum.amount}`}
-              labelComponent={<VictoryTooltip />}
-              style={{
-                data: { stroke: '#ffa726' },
-                parent: { border: '1px solid #ccc' },
-              }}
-            />
-          </VictoryChart>
-        </TransactionChart>
-      </ChartSection>
+              {/* Y-axis with formatted labels */}
+              <VictoryAxis
+                dependentAxis
+                tickFormat={(t) => `N ${(t / 1000).toFixed(0)}k`}  // Format Y-axis values as "N 10k"
+                style={{
+                  tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
+                }}
+              />
 
-      {/* Transaction List */}
-      <Transactions>
-      <TransactionsHeader>
-        <h3>Transactions</h3>
-          <ViewAllButton onClick={goToTransactions}>View All</ViewAllButton>
-          {/* onClick={navigate('/transactions') */}
-      </TransactionsHeader>
-      <ul>
-        {transactions.map((transaction) => (
-          <TransactionItem key={transaction.id}>
-            <TransactionLeft>
-                <img src={transaction.mineral_image || mineral_icon} alt="mineral icon" />
-              <TextContainer>
-                <span>{transaction.name}</span>
-                <span>{transaction.mineralNumber}</span>
-              </TextContainer>
-            </TransactionLeft>
-            <TransactionRight>
-              <span className="amount">{transaction.amount}</span>
-              <span className="date">{transaction.date}</span>
-            </TransactionRight>
-          </TransactionItem>
-        ))}
-      </ul>
-      </Transactions>
-          
-    <Footer>
-        <p>Powered ⚡ by Queensec Global</p>
-      </Footer>
+              <VictoryLine
+                data={chartData}
+                x="day"
+                y="amount"
+                labels={({ datum }) => `₦${datum.amount}`}
+                labelComponent={<VictoryTooltip />}
+                style={{
+                  data: { stroke: '#ffa726' },
+                  parent: { border: '1px solid #ccc' },
+                }}
+              />
+            </VictoryChart>
+          </TransactionChart>
+        </ChartSection>
 
-      {/* Bottom Navigation */}
-      <BottomNav>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <NavIcon src={folder_C} alt="Dashboard" className="selected" />
-          <DashboardLabel>Dashboard</DashboardLabel>
-        </div>
-        <NavIcon src={transactions_N} onClick={goToTransactions} alt="Transactions" />
-        <NavIcon src={notification_N} onClick={goToNotifications} alt="Notifications" />
-        <NavIcon src={profile_N} onClick={goToProfile} alt="Profile" />
-      </BottomNav>
-    </DashboardContainer>
+        {/* Transaction List */}
+        <Transactions>
+          <TransactionsHeader>
+            <h3>Transactions</h3>
+            <ViewAllButton onClick={goToTransactions}>View All</ViewAllButton>
+            {/* onClick={navigate('/transactions') */}
+          </TransactionsHeader>
+          <ul>
+            {transactions.map((transaction) => (
+              <TransactionItem key={transaction.id}>
+                <TransactionLeft>
+                  <img src={transaction.mineral_image || mineral_icon} alt="mineral icon" />
+                  <TextContainer>
+                    <span>{transaction.name}</span>
+                    <span>{transaction.mineralNumber}</span>
+                  </TextContainer>
+                </TransactionLeft>
+                <TransactionRight>
+                  <span className="amount">{transaction.amount}</span>
+                  <span className="date">{transaction.date}</span>
+                </TransactionRight>
+              </TransactionItem>
+            ))}
+          </ul>
+        </Transactions>
+
+        <Footer>
+          <p>Powered ⚡ by Queensec Global</p>
+        </Footer>
+
+        {/* Bottom Navigation */}
+        <BottomNav>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <NavIcon src={folder_C} alt="Dashboard" className="selected" />
+            <DashboardLabel>Dashboard</DashboardLabel>
+          </div>
+          <NavIcon src={transactions_N} onClick={goToTransactions} alt="Transactions" />
+          <NavIcon src={notification_N} onClick={goToNotifications} alt="Notifications" />
+          <NavIcon src={profile_N} onClick={goToProfile} alt="Profile" />
+        </BottomNav>
+      </DashboardContainer>
+    </PageLayout>
   );
 };
 
@@ -344,124 +344,6 @@ const Logo = styled.img`
    @media (max-width: 480px) {
     width: 40px;
     height: 40px;
-  }
-`;
-
-const DashboardCard = styled.div`
-  background-size: 100% 100%;
-  padding: 30px;
-  position: relative;
-  border-radius: 10px;
-  background-image: url(${(props) => props.background});
-  margin-bottom: 20px;
-  min-height: 255px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-      @media (max-width: 768px) {
-   gap: 30px;
-  }
-  @media (max-width: 480px) {
-   gap: 30px;
-  }
-`;
-// const HaulersBtn = styled.button`
-// color: #F07F23;
-// padding: none;
-// font-family: Ubuntu;
-// font-size: 14px;
-// font-weight: 500;
-// line-height: 20px;
-// letter-spacing: -0.15399999916553497px;
-// text-align: left;
-// text-underline-position: from-font;
-// text-decoration-skip-ink: none;
-// width: 49px;
-// height: 20px;
-// gap: 0px;
-// opacity: 0px;
-
-// margin-bottom: -30px;
-// background: none; 
-//   background-color: transparent; 
-//   border: none; 
-//   cursor: pointer
-// `
-
-
-const UserDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
-    @media (max-width: 480px) {
-    gap: 5px;
-  }
-`;
-
-const WelcomeMessage = styled.p`
-  font-size: 11px;
-  color: #67728A;
-  margin-left: 35px;
-  margin-bottom: 5px;
-  margin-top: 55px;
-`;
-
-const UserName = styled.h2`
-  font-size: 15px;
-  color: #CEECFF;
-  margin-left: 35px;
-  font-weight: 700;
-  margin-top: -3.5px;
-  margin-bottom: 57px;
-  padding-bottom: 15px;
-`;
-
-// const LabelTextA = styled.p`
-//   font-size: 11px;
-//   color: #67728A;
-//   margin-left: 35px;
-  
-// `;
-
-// const UserInfoDataA = styled.p`
-//   font-size: 14px;
-//   color: #CEECFF;
-//   font-weight: 700;
-//   margin-left: 35px;
-//  margin-top: -2px;
-// `;
-
-const LabelTextB = styled.p`
-  font-size: 11px;
-  color: #67728A;
-  text-align: right;
-  margin-top: -115px;
-  margin-right: 45px;
-`;
-
-const UserInfoDataB = styled.p`
-  font-size: 14px;
-  color: #CEECFF;
-  font-weight: 700;
-  text-align: right;
-  margin-top: -5px;
-  margin-right: 43px;
-`;
-
-const MakePaymentButton = styled.button`
-  background-color: #FDE5C0;
-  color: #F07F23;
-  padding: 20px 30px;
-  border: none;
-  border-radius: 40px;
-  font-size: 14px;
-  cursor: pointer;
-  align-self: flex-end;
-  margin-bottom: 27px;
-  margin-right: 160px;
-    @media (max-width: 480px) {
-    font-size: 12px;
-    padding: 10px 15px;
   }
 `;
 

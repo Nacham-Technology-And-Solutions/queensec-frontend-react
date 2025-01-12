@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import signOutIcon from './assets/sign-out.png'; // Sign-out icon
-import { useUser } from './context/UserContext';
+import signOutIcon from '../../assets/sign-out.png'; // Sign-out icon
+import { useUser } from '../../context/UserContext';
 import axios from 'axios';
 import QRCode from 'react-qr-code';
-import BottomNavigator from './components/BottomNavigator/BottomNavigator';
-import PageLayout from './components/PageLayout/PageLayout';
+import BottomNavigator from '../../components/BottomNavigator/BottomNavigator';
+import PageLayout from '../../components/PageLayout/PageLayout';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
@@ -17,11 +17,11 @@ const ProfileScreen = () => {
 
   const goToDashboard = () => {
     if (user?.accountType === 'federal_agency') {
-      return '/Enterprise-Dashboard';
+      return '/enterprise-dashboard';
     } else if (user?.accountType === 'vendor') {
-      return '/Vendors-Dashboard';
+      return '/vendors-dashboard';
     } else if (user?.accountType === 'individual') {
-      return '/dashboard-page';
+      return '/dashboard';
     }
   };
 

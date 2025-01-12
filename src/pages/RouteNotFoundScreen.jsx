@@ -11,7 +11,7 @@ const RouteNotFoundScreen = () => {
   const navigate = useNavigate(); 
 
   const returnHistory = () => {
-    navigate('/dashboard-page');
+    navigate('/dashboard');
   };
 
   const handleSigUp = () => {

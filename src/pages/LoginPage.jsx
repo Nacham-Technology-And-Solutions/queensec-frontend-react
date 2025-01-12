@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -6,7 +6,8 @@ import QueensecLogo from '../assets/Queensec_1.png'; // Import the logo
 import { useUser } from '../context/UserContext';
 import TextButton from "../components/TextButton/TextButton";
 import InputFieldx from "../components/InputField/InputField";
-import Button from "../components/Button/Button";
+import Button from "../components/Button/Button"; 
+import { login } from '../utils/authApiRequests';
 
 // import { postData } from '../utils/apiServce';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
@@ -29,6 +30,7 @@ const LoginPage = () => {
     }));
   };
 
+
   const handleSubmit = async () => {
     const payload = {
       email: loginInfo.email,
@@ -38,11 +40,17 @@ const LoginPage = () => {
 
     // Validate fields
     if (!loginInfo.email || !loginInfo.password) {
+
       alert('Please fill in all fields.');
       return;
 
     }
+
+    const loginResponse = login(payload);
+
     const url = `${API_BASE_URL}/auth/user/login`;
+
+
 
 
     try {
@@ -77,11 +85,11 @@ const LoginPage = () => {
 
 
         if (accountType === 'federal_agency') {
-          navigate('/Enterprise-Dashboard');
+          navigate('/enterprise-dashboard');
         } else if (accountType === 'vendor') {
-          navigate('/Vendors-Dashboard');
+          navigate('/vendors-dashboard');
         } else if (accountType === 'individual') {
-          navigate('/dashboard-page');
+          navigate('/dashboard');
 
         }
       } else {
@@ -99,8 +107,8 @@ const LoginPage = () => {
 
   return (
     <Container>
-      <Logo src={QueensecLogo} /> 
-      
+      <Logo src={QueensecLogo} />
+
       <Heading>Login</Heading>
       <FormTitle> Please enter your email and password to login.</FormTitle>
 
@@ -122,14 +130,14 @@ const LoginPage = () => {
           onChange={handleChange}
           placeholder="Enter your password"
         />
-        
+
       </FormContainer>
-      <Bottom>
+      <Bottom> 
         <Button label="Login" onClick={handleSubmit} size='large' isSpanWidth={true} />
         <br />
         <span>New to Kadamines? &nbsp; <TextButton onClick={handleSigUp} label="Sign-Up" /></span>
       </Bottom>
-
+      
     </Container>
   );
 };

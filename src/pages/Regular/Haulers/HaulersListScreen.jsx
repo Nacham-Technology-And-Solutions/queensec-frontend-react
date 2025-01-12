@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import styled , { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import LeftIcon from '../assets/left.png';
-import AddIcon from '../assets/add.png';
-import MiniDashboardIcon from '../assets/MINI_DB.png';
-import HaulerIcon from '../assets/haulericon.png';
-import { useUser } from '../context/UserContext';
+import LeftIcon from '../../../assets/left.png';
+import AddIcon from '../../../assets/add.png';
+import MiniDashboardIcon from '../../../assets/MINI_DB.png';
+import HaulerIcon from '../../../assets/haulericon.png';
+import { useUser } from '../../../context/UserContext';
 import QRCode from 'react-qr-code'; 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const HaulersListScreen = () => {

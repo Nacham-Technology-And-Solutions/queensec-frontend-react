@@ -1,5 +1,6 @@
 // src/api/apiService.jsx
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // Set base URL for API
 // const BASE_URL = 'https://admin.queensecglobal.com/api';
@@ -35,6 +36,16 @@ export const getData = async (endpoint, data, defaultErrorMessage) => {
     } catch (error) {
         console.error(defaultErrorMessage ?? 'Error fetching data: ', error);
         // throw error;
+        // toast.error('Error: ' + error, {
+        //     position: "top-right",
+        //     autoClose: 5000,
+        //     hideProgressBar: true,
+        //     closeOnClick: true,
+        //     pauseOnHover: true,
+        //     draggable: true,
+        //     progress: undefined,
+        // });
+
         throw error.response ? error.response.data : defaultErrorMessage;
     }
 };
@@ -46,6 +57,15 @@ export const postData = async (endpoint, data, defaultErrorMessage) => {
         return response.data;
     } catch (error) {
         console.error(defaultErrorMessage ?? 'Error posting data: ', error);
+        // toast.error('Error: ' + error, {
+        //     position: "top-right",
+        //     autoClose: 5000,
+        //     hideProgressBar: true,
+        //     closeOnClick: true,
+        //     pauseOnHover: true,
+        //     draggable: true,
+        //     progress: undefined,
+        // });
         throw error.response ? error.response.data : defaultErrorMessage;
     }
 };
@@ -57,6 +77,15 @@ export const putData = async (endpoint, data, defaultErrorMessage) => {
         return response.data;
     } catch (error) {
         console.error(defaultErrorMessage ?? 'Error updating data: ', error);
+        // toast.error('Error: ' + error, {
+        //     position: "top-right",
+        //     autoClose: 5000,
+        //     hideProgressBar: true,
+        //     closeOnClick: true,
+        //     pauseOnHover: true,
+        //     draggable: true,
+        //     progress: undefined,
+        // });
         throw error.response ? error.response.data : defaultErrorMessage;
     }
 };

@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import DASHBOARD from '../assets/DASHBOARD.png';
-import folder_C from '../assets/folder_C.png';
-import transactions_N from '../assets/transactions_N.png';
-import notification_N from '../assets/notification_N.png';
-import profile_N from '../assets/profile_N.png';
+import DASHBOARD from '../../assets/DASHBOARD.png';
 import { VictoryChart, VictoryLine, VictoryTheme, VictoryTooltip, VictoryAxis } from 'victory';
-import mineral_icon from '../assets/mineral_icon.png';
-import logo from '../assets/Queensec_1.png';
-import Vector from '../assets/Vector.png'; // Icon for viewing full chart
+import mineral_icon from '../../assets/mineral_icon.png';
+import logo from '../../assets/Queensec_1.png';
+import Vector from '../../assets/Vector.png'; // Icon for viewing full chart
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
-const EnterpriseDashboard = () => {
+import BottomNavigator from '../../components/BottomNavigator/BottomNavigator';
+import PageLayout from '../../components/PageLayout/PageLayout';
+import DashboardCardx from '../../components/DashboardCard/DashboardCard';
+import Button from '../../components/Button/Button';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const Dashboard = () => {
   const [userData, setUserData] = useState({
     name: 'Musa Bako',
     taxID: 'Nas/Nas/0013',
-    accountType: 'Enterprise',
+    accountType: 'Individual',
   });
 
   const [date, setDate] = useState('');
@@ -37,7 +37,7 @@ const EnterpriseDashboard = () => {
           return;
         }
 
-       const url = `${API_BASE_URL}/user`
+        const url = `${API_BASE_URL}/user`;
         const response = await axios.get(url, {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -49,9 +49,12 @@ const EnterpriseDashboard = () => {
 
           // Update state with user data
           setUserData({
-            name: `${user.business_name}`,
-            taxID: `${user.tax_id}`,
-            accountType: `${user.account_type}`, // You can customize this logic as needed
+            name: `${user.first_name} ${user.last_name}`,
+            taxID: user.tax_id || 'null',
+            accountType: user.account_type === 'individual'
+              ? 'Individual'
+              : 'me' // Default case if account_type doesn't match 1, 2, or 3
+
           });
           localStorage.setItem('phone', user.phone);
           localStorage.setItem('name', user.first_name);
@@ -73,7 +76,7 @@ const EnterpriseDashboard = () => {
       }
     };
 
-      fetchUserData();
+    fetchUserData();
   }, []);
 
   const [chartData, setChartData] = useState([
@@ -90,8 +93,8 @@ const EnterpriseDashboard = () => {
     const fetchChartData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const url = `${API_BASE_URL}/transactions/chart`
-        const response = await axios.get(url, {
+        const uri = `${API_BASE_URL}/transactions/chart`
+        const response = await axios.get(uri, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -110,8 +113,8 @@ const EnterpriseDashboard = () => {
             { day: 'Sun', amount: rawData.sunday },
           ];
           setChartData(transformedData);
-    
-          
+
+
         } else {
           console.error('Failed to load chart data:', response.data.message);
         }
@@ -130,17 +133,17 @@ const EnterpriseDashboard = () => {
     ironore: "assets/ironore.png",
     marble: "assets/marble.png",
   };
-  
+
   // Function to get the correct mineral icon or default
   const getMineralIcon = (mineralName) => {
     return mineralIcons[mineralName.toLowerCase()] || "assets/default.png";
   };
-  
+
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const url = `${API_BASE_URL}/transactions`
+        const token = localStorage.getItem("token");
+        const url = `${API_BASE_URL}/transactions`;
         const response = await axios.get(url, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -148,21 +151,24 @@ const EnterpriseDashboard = () => {
         });
 
         if (response.data.success) {
+          // Access the transactions array
           const transactions = response.data.data.transactions;
 
           const transactionList = transactions.map((transaction, index) => ({
-            id: transaction.id || index + 1, // Assign an ID if it's not provided in the response
-            name: transaction.mineral_name, // Make sure the response includes these fields
-            mineralNumber: transaction.order ? `Nas/${transaction.order.id}` : 'N/A',
-            amount: `₦${transaction.order.total_amount}`,
-            date: new Date(transaction.date).toLocaleDateString() || 'Today', // Default to 'Today' if date is missing
+            id: transaction.id || index + 1, // Use transaction ID or fallback to index
+            name: transaction.mineral_name || "Unknown Mineral",
+            mineralNumber: transaction.ticket_id ? `Nas/${transaction.ticket_id.id}` : "N/A",
+            amount: `₦${transaction.amount || 0}`, // Ensure amount is handled properly
+            date: transaction.date
+              ? new Date(transaction.date).toLocaleDateString()
+              : "Today", // Format or fallback to 'Today'
           }));
           setTransactions(transactionList.slice(0, 5));
         } else {
-          console.error('Failed to load transactions:', response.data.message);
+          console.error("Failed to load transactions:", response.data.message);
         }
       } catch (error) {
-        console.error('Error fetching transactions:', error.response?.data || error.message);
+        console.error("Error fetching transactions:", error.response?.data || error.message);
       }
     };
 
@@ -171,30 +177,46 @@ const EnterpriseDashboard = () => {
 
 
 
+
   const [transactions, setTransactions] = useState([
-  
+
   ]);
-  
+
 
 
 
 
   const handleMakePayment = () => {
-    navigate('/mp-vehicle'); // Use navigate to change routes
+
+    // Delete All old Payment Data if set 
+    localStorage.removeItem('mineral_id');
+    localStorage.removeItem('mineral_sub_id');
+    localStorage.removeItem('selectedCategoryPrice');
+    localStorage.removeItem('selectedCategory');
+    localStorage.removeItem('haulerTypeMode');
+    localStorage.removeItem('driverName');
+    localStorage.removeItem('phoneNumber');
+    localStorage.removeItem('loadingPoint');
+    localStorage.removeItem('offloadingPoint');
+    localStorage.removeItem('payee_hauler_id');
+    localStorage.removeItem('hauler_type_id');
+    localStorage.removeItem('number_plate');
+    localStorage.removeItem('haulers_count');
+    localStorage.removeItem('haulers');
+    localStorage.removeItem('haulerTypes');
+
+    navigate('/mp-one-vehicle'); // Use navigate to change routes
   };
   const navigate = useNavigate();
 
-
-  const goToDashboard = () => navigate('/Enterprise-Dashboard');
   const goToTransactions = () => navigate('/transactions');
-  const goToNotifications = () => navigate('/Notifications-page');
-  const goToProfile = () => navigate('/user-profile');
-  const truncateText = (text, maxLength) => 
+
+  const truncateText = (text, maxLength) =>
     text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 
-    const haulerScreen = () =>  navigate('/my-haulers-list')
+  const haulerScreen = () => navigate('/my-haulers-list')
   return (
-    <DashboardContainer>
+    <PageLayout>
       {/* Header */}
       <Header>
         <DashboardText>
@@ -205,19 +227,15 @@ const EnterpriseDashboard = () => {
       </Header>
 
       {/* Dashboard Card */}
-      <DashboardCard background={DASHBOARD}>
-        <UserDetails>
-          <WelcomeMessage>Welcome,</WelcomeMessage>
-          <UserName>{truncateText(userData.name, 15)}</UserName>
-          <LabelTextA>Tax ID Number:</LabelTextA>
-          <UserInfoDataA>{userData.taxID}</UserInfoDataA>
-          <LabelTextB>Account type</LabelTextB>
-          <UserInfoDataB>Corporate</UserInfoDataB>
-              </UserDetails>
-              <HaulersBtn onClick={haulerScreen}>Haulers</HaulersBtn>
-        <MakePaymentButton onClick={handleMakePayment}>Make Payment</MakePaymentButton>
-      </DashboardCard>
-      
+      <DashboardCardx
+        topLeft={truncateText(userData.name, 17)} topLeftLabel={"Welcome,"}
+        topRight={userData.accountType} topRightLabel={"Account Type:"}
+        bottomLeft={userData.taxID} bottomLeftLabel={"Tax ID Number:"}
+        bottomRight={<Button label="Make Payment" onClick={handleMakePayment} size='mini' isShort={true} />} bottomRightLabel={""}
+      />
+
+      <HaulersBtn onClick={haulerScreen}>Haulers</HaulersBtn>
+
       {/* Transaction Chart */}
       <ChartSection>
         <ChartHeader>
@@ -236,7 +254,7 @@ const EnterpriseDashboard = () => {
             {/* Y-axis with formatted labels */}
             <VictoryAxis
               dependentAxis
-              tickFormat={(t) => `N ${(t / 1000).toFixed(0)}k`}  // Format Y-axis values as "N 10k"
+              tickFormat={(t) => `N ${(t / 1000).toFixed(0)}k`} // Format Y-axis values as "N 10k"
               style={{
                 tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
               }}
@@ -249,7 +267,7 @@ const EnterpriseDashboard = () => {
               labels={({ datum }) => `₦${datum.amount}`}
               labelComponent={<VictoryTooltip />}
               style={{
-                data: { stroke: '#ffa726' },
+                data: { stroke: '#ffa726', strokeWidth: 2 },
                 parent: { border: '1px solid #ccc' },
               }}
             />
@@ -259,66 +277,44 @@ const EnterpriseDashboard = () => {
 
       {/* Transaction List */}
       <Transactions>
-      <TransactionsHeader>
-        <h3>Transactions</h3>
-        <ViewAllButton onClick={goToTransactions}>View All</ViewAllButton>
-      </TransactionsHeader>
-      <ul>
-        {transactions.map((transaction) => (
-          <TransactionItem key={transaction.id}>
-            <TransactionLeft>
-              <img src={mineral_icon} alt="mineral icon" />
-              <TextContainer>
-                <span>{transaction.name}</span>
-                <span>{transaction.mineralNumber}</span>
-              </TextContainer>
-            </TransactionLeft>
-            <TransactionRight>
-              <span className="amount">{transaction.amount}</span>
-              <span className="date">{transaction.date}</span>
-            </TransactionRight>
-          </TransactionItem>
-        ))}
-      </ul>
+        <TransactionsHeader>
+          <h3>Transactions</h3>
+          <ViewAllButton onClick={goToTransactions}>View All</ViewAllButton>
+        </TransactionsHeader>
+        <ul>
+          {transactions.map((transaction) => (
+            <TransactionItem key={transaction.id}>
+              <TransactionLeft>
+                <img src={transaction.mineral_image || mineral_icon} alt="mineral icon" />
+                <TextContainer>
+                  <span>{transaction.name}</span>
+                  <span>{transaction.mineralNumber}</span>
+                </TextContainer>
+              </TransactionLeft>
+              <TransactionRight>
+                <span className="amount">{transaction.amount}</span>
+                <span className="date">{transaction.date}</span>
+              </TransactionRight>
+            </TransactionItem>
+          ))}
+        </ul>
       </Transactions>
-          
-    <Footer>
-        <p>Powered ⚡ by Queensec Global</p>
-      </Footer>
 
       {/* Bottom Navigation */}
-      <BottomNav>
-  <div style={{ display: 'flex', alignItems: 'center' }}>
-    <NavIcon src={folder_C} alt="Dashboard" className="selected" />
-    <DashboardLabel>Dashboard</DashboardLabel>
-  </div>
-  <NavIcon src={transactions_N} onClick={goToTransactions}  alt="Transactions" />
-  <NavIcon src={notification_N} onClick={goToNotifications} alt="Notifications" />
-  <NavIcon src={profile_N} onClick={goToProfile} alt="Profile" />
-</BottomNav>
-    </DashboardContainer>
+      <BottomNavigator
+        currentPage='dashboard'
+        dashboardLink='#' // /dashboard
+        transactionLink='/transactions'
+        notificationLink='/Notifications-page'
+        profileLink='/user-profile'
+      />
+
+    </PageLayout>
   );
 };
 
 // Styled Components
-const DashboardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  font-family: 'Arial, sans-serif';
-  max-width: 400px;
-  margin: 0 auto;
-  background-color: #f9f9f9;
-  height: 100%;
-  border-radius: 25px;
-    @media (max-width: 768px) {
-    padding: 15px;
-  }
-  @media (max-width: 480px) {
-    padding: 10px;
-    border-radius: 15px;
-  }
-`;
+
 
 const Header = styled.div`
   display: flex;
@@ -349,89 +345,6 @@ const Logo = styled.img`
   }
 `;
 
-const DashboardCard = styled.div`
-  background-size: 100% 100%;
-  padding: 30px;
-  position: relative;
-  border-radius: 10px;
-  background-image: url(${(props) => props.background});
-  margin-bottom: 20px;
-  min-height: 255px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-`;
-
-const UserDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
-    @media (max-width: 280px) {
-    gap: 5px;
-  }
-`;
-
-const WelcomeMessage = styled.p`
-  font-size: 11px;
-  color: #67728A;
-  margin-left: 35px;
-  margin-bottom: 5px;
-  margin-top: 55px;
-`;
-const NoDataText = styled.div`
-  text-align: center;
-  margin-top: 20px;
-  font-size: 16px;
-  color: #888;
-`;
-
-const UserName = styled.h2`
-  font-size: 15px;
-  color: #CEECFF;
-  margin-left: 35px;
-  font-weight: 700;
-  margin-top: -2px;
-  margin-bottom: 57px;
-  padding-bottom: 15px;
-`;
-
-const LabelTextA = styled.p`
-  font-size: 11px;
-  color: #67728A;
-  text-align: right;
-  margin-top: -80px;
-  margin-right: 45px;
-  
-`;
-
-const UserInfoDataA = styled.p`
-  font-size: 11px;
-  color: #CEECFF;
-  font-weight: 700;
-  text-align: right;
-  margin-top: -2px;
-  margin-right: 43px;
-`;
-
-const LabelTextB = styled.p`
-  font-size: 11px;
-  color: #67728A;
-  text-align: right;
-  margin-top: -84px;
-  margin-right: 45px;
-
-`;
-
-const UserInfoDataB = styled.p`
-  font-size: 11px;
-  color: #CEECFF;
-  font-weight: 700;
-  text-align: right;
-  margin-top: -2px;
-  margin-right: 43px;
-    margin-bottom: -60px;
-`;
-
 const HaulersBtn = styled.button`
 color: #F07F23;
 padding: none;
@@ -447,26 +360,13 @@ width: 49px;
 height: 20px;
 gap: 0px;
 opacity: 0px;
-margin-left: 35px;
-margin-bottom: -198px;
+
+margin-bottom: -30px;
 background: none; 
   background-color: transparent; 
   border: none; 
   cursor: pointer
 `
-
-const MakePaymentButton = styled.button`
-  background-color: #FDE5C0;
-  color: #F07F23;
-  padding: 20px 30px;
-  border: none;
-  border-radius: 40px;
-  font-size: 14px;
-  cursor: pointer;
-  align-self: flex-end;
-  margin-bottom: 27px;
-  margin-right: 18px;
-`;
 
 const ChartSection = styled.div`
   margin: 20px 0;
@@ -476,6 +376,8 @@ const ChartSection = styled.div`
 const ChartHeader = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
+  justify-content: space-between;
   margin-bottom: 10px;
 `;
 
@@ -492,7 +394,7 @@ const ChartTitle = styled.p`
 const ViewFullChartIcon = styled.img`
   width: 20px;
   height: 20px;
-  margin-left: 250px;
+  // margin-left: 250px;
 `;
 const TransactionChart = styled.div`
   width: 100%;
@@ -502,10 +404,11 @@ const Transactions = styled.div`
   margin-top: 20px;
   background-color: white;
   padding: 10px 15px;
+  padding-bottom: 20px;
   border-radius: 10px;
   width: 100%;
-   margin-left: -15px;
-   padding-bottom: 15px;
+    margin-left: -15px;
+     padding-bottom: 15px;
 `;
 
 const TransactionsHeader = styled.div`
@@ -537,6 +440,7 @@ const TransactionItem = styled.li`
   justify-content: space-between;
   padding: 10px 0;
   border-bottom: 0px solid #eee;
+
 `;
 const TransactionLeft = styled.div`
   display: flex;
@@ -587,64 +491,4 @@ const TransactionRight = styled.div`
   }
 `;
 
-const Footer = styled.footer`
-  display: flex;
-  justify-content: right;
-  align-items: right;
-  padding: 20px 0;
-  background-color: #f9f9f9; /* Light gray background */
-  border-top: 1px solid #e0e0e0; /* Subtle top border */
-  margin-top: -10px;
-
-  p {
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 11px;
-    font-weight: 200;
-    color: #6c3ecf; /* Primary color for branding */
-    text-align: center;
-  }
-
-  p span {
-    font-weight: 400;
-    color: #ff9800; /* Highlight for the lightning symbol */
-  }
-`;
-
-// Bottom navigation bar
-const BottomNav = styled.div`
-display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 15px 0;
-  background-color: white;
-  border-radius: 0px;
-  width: 438px;
-  position: fixed; /* Fix it to the viewport */
-  bottom: 0; /* Always stay at the bottom of the screen */
-  margin-left: -19px; /* Align to the left edge of the screen */
-  z-index: 100; /* Ensure it stays on top of other content */
-  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
-    @media (max-width: 480px) {
-    padding: 8px 0;
-     width: 100%;
-  }
-`;
-
-const NavIcon = styled.img`
-width: 30px;
-height: 30px;
-
-// &.selected {
-//   border-bottom: 2px solid #ffc107;
-// }
-`;
-
-const DashboardLabel = styled.span`
-color: #421B73;
-font-size: 14px;
-font-weight: bold;
-margin-left: 8px; /* Space between icon and text */
-`;
-
-
-export default EnterpriseDashboard;
+export default Dashboard;

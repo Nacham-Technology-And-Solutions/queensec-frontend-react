@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import LeftIcon from '../assets/left.png';
-// import clayIcon from '../assets/clay.png';
-// import gypsumIcon from '../assets/gypsum.png';
-// import ironOreIcon from '../assets/ironore.png';
-// import marbleIcon from '../assets/marble.png';
-import aquariumIcon from '../assets/aquarium.png'; 
-import { useUser } from '../../context/UserContext';
-import BottomNavigator from '../../components/BottomNavigator/BottomNavigator';
-import PageLayout from '../../components/PageLayout/PageLayout';
+import LeftIcon from '../../../assets/left.png';
+// import clayIcon from '../../../assets/clay.png';
+// import gypsumIcon from '../../../assets/gypsum.png';
+// import ironOreIcon from '../../../assets/ironore.png';
+// import marbleIcon from '../../../assets/marble.png';
+import aquariumIcon from '../../../assets/aquarium.png'; 
+import { useUser } from '../../../context/UserContext';
+import BottomNavigator from '../../../components/BottomNavigator/BottomNavigator';
+import PageLayout from '../../../components/PageLayout/PageLayout';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
