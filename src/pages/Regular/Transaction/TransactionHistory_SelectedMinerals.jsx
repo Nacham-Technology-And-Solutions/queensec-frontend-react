@@ -80,7 +80,7 @@ const TransactionHistory_MineralScreen = () => {
   //   if (user?.accountType === 'federal_agency') {
   //     navigate('/enterprise-dashboard');
   //   } else if (user?.accountType === 'vendor') {
-  //     navigate('/vendors-dashboard');
+  //     navigate('/vendor-dashboard');
   //   } else if (user?.accountType === 'individual') {
   //     navigate('/dashboard');
   //   } else {

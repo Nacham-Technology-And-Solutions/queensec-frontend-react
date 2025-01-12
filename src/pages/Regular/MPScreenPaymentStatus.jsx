@@ -12,18 +12,19 @@ const MPScreenPaymentStatus = () => {
         // Convert the entire searchParams object to a string, e.g. "tx_ref=123&status=success&accountType=vendor"
         const queryString = searchParams.toString();
 
-        if (user?.accountType === 'federal_agency') {
+        navigate(`/mp-five-payment-status?${queryString}`, { replace: true });
+        // if (user?.accountType === 'federal_agency') {
+            
+        //     navigate(`/mp-five-payment-status?${queryString}`, { replace: true });
 
-            navigate(`/mp-five-payment-status?${queryString}`, { replace: true });
+        // } else if (user?.accountType === 'vendor') {
 
-        } else if (user?.accountType === 'vendor') {
+        //     navigate(`/vendor-mp-five-payment-status?${queryString}`, { replace: true });
 
-            navigate(`/vendor-mp-five-payment-status?${queryString}`, { replace: true });
+        // } else if (user?.accountType === 'individual') {
 
-        } else if (user?.accountType === 'individual') {
-
-            navigate(`/mp-five-payment-status?${queryString}`, { replace: true });
-        }
+        //     navigate(`/mp-five-payment-status?${queryString}`, { replace: true });
+        // }
 
     }, [user, searchParams, navigate]);
 

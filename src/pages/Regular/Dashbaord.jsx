@@ -20,11 +20,14 @@ const Dashboard = () => {
   });
 
   const [date, setDate] = useState('');
+  // const { user } = useUser(); // Access user from context
 
   useEffect(() => {
     const now = new Date();
     const formattedDate = `${String(now.getDate()).padStart(2, '0')} ${now.toLocaleString('en', { month: 'short' })}`;
     setDate(formattedDate);
+
+
 
     const fetchUserData = async () => {
       try {
@@ -67,6 +70,22 @@ const Dashboard = () => {
 
 
           localStorage.setItem('tax_id', user.tax_id);
+
+
+
+          if (user?.accountType === 'federal_agency' || user?.accountType === 'state_agency' || user?.accountType === 'corperate') {
+
+            navigate(`/enterprise-dashboard`, { replace: true });
+
+          } else if (user?.accountType === 'vendor') {
+
+            navigate(`/vendor-dashboard`, { replace: true });
+
+          } else if (user?.accountType === 'individual') {
+            // Do nothing
+            // navigate(`/dashboard`, { replace: true });
+          }
+
 
         } else {
           console.error('Failed to fetch user data:', response.data.message || 'Unknown error.');
@@ -305,7 +324,7 @@ const Dashboard = () => {
         currentPage='dashboard'
         dashboardLink='#' // /dashboard
         transactionLink='/transactions'
-        notificationLink='/Notifications-page'
+        notificationLink='/notifications'
         profileLink='/user-profile'
       />
 

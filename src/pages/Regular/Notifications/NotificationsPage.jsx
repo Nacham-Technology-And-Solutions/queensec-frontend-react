@@ -15,7 +15,7 @@ const NotificationPage = () => {
     if (user?.accountType === 'federal_agency') {
       return '/enterprise-dashboard';
     } else if (user?.accountType === 'vendor') {
-      return '/vendors-dashboard';
+      return '/vendor-dashboard';
     } else if (user?.accountType === 'individual') {
       return '/dashboard';
     }
@@ -30,7 +30,7 @@ const NotificationPage = () => {
       <Date>16 Sep 2024</Date>
 
 
-      <NotificationContainer onClick={() => navigate('/Notifications-Details-page')}>
+      <NotificationContainer onClick={() => navigate('/notifications-details')}>
 
         <PlaneIcon src={planeIcon} alt="Plane Icon" />
         <IconContainer>
@@ -47,7 +47,7 @@ const NotificationPage = () => {
         currentPage='notifications'
         dashboardLink={goToDashboard()} // 
         transactionLink='/transactions'
-        notificationLink='/Notifications-page'
+        notificationLink='/notifications'
         profileLink='/user-profile'
       />
 

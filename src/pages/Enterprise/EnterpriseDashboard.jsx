@@ -11,6 +11,7 @@ import logo from '../../assets/Queensec_1.png';
 import Vector from '../../assets/Vector.png'; // Icon for viewing full chart
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import PageLayout from '../../components/PageLayout/PageLayout';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 const EnterpriseDashboard = () => {
   const [userData, setUserData] = useState({
@@ -37,7 +38,7 @@ const EnterpriseDashboard = () => {
           return;
         }
 
-       const url = `${API_BASE_URL}/user`
+        const url = `${API_BASE_URL}/user`
         const response = await axios.get(url, {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -73,7 +74,7 @@ const EnterpriseDashboard = () => {
       }
     };
 
-      fetchUserData();
+    fetchUserData();
   }, []);
 
   const [chartData, setChartData] = useState([
@@ -110,8 +111,8 @@ const EnterpriseDashboard = () => {
             { day: 'Sun', amount: rawData.sunday },
           ];
           setChartData(transformedData);
-    
-          
+
+
         } else {
           console.error('Failed to load chart data:', response.data.message);
         }
@@ -130,12 +131,12 @@ const EnterpriseDashboard = () => {
     ironore: "assets/ironore.png",
     marble: "assets/marble.png",
   };
-  
+
   // Function to get the correct mineral icon or default
   const getMineralIcon = (mineralName) => {
     return mineralIcons[mineralName.toLowerCase()] || "assets/default.png";
   };
-  
+
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
@@ -172,9 +173,9 @@ const EnterpriseDashboard = () => {
 
 
   const [transactions, setTransactions] = useState([
-  
+
   ]);
-  
+
 
 
 
@@ -187,14 +188,14 @@ const EnterpriseDashboard = () => {
 
   const goToDashboard = () => navigate('/enterprise-dashboard');
   const goToTransactions = () => navigate('/transactions');
-  const goToNotifications = () => navigate('/Notifications-page');
+  const goToNotifications = () => navigate('/notifications');
   const goToProfile = () => navigate('/user-profile');
-  const truncateText = (text, maxLength) => 
+  const truncateText = (text, maxLength) =>
     text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 
-    const haulerScreen = () =>  navigate('/my-haulers-list')
+  const haulerScreen = () => navigate('/my-haulers-list')
   return (
-    <DashboardContainer>
+    <PageLayout>
       {/* Header */}
       <Header>
         <DashboardText>
@@ -213,11 +214,11 @@ const EnterpriseDashboard = () => {
           <UserInfoDataA>{userData.taxID}</UserInfoDataA>
           <LabelTextB>Account type</LabelTextB>
           <UserInfoDataB>Corporate</UserInfoDataB>
-              </UserDetails>
-              <HaulersBtn onClick={haulerScreen}>Haulers</HaulersBtn>
+        </UserDetails>
+        <HaulersBtn onClick={haulerScreen}>Haulers</HaulersBtn>
         <MakePaymentButton onClick={handleMakePayment}>Make Payment</MakePaymentButton>
       </DashboardCard>
-      
+
       {/* Transaction Chart */}
       <ChartSection>
         <ChartHeader>
@@ -259,44 +260,44 @@ const EnterpriseDashboard = () => {
 
       {/* Transaction List */}
       <Transactions>
-      <TransactionsHeader>
-        <h3>Transactions</h3>
-        <ViewAllButton onClick={goToTransactions}>View All</ViewAllButton>
-      </TransactionsHeader>
-      <ul>
-        {transactions.map((transaction) => (
-          <TransactionItem key={transaction.id}>
-            <TransactionLeft>
-              <img src={mineral_icon} alt="mineral icon" />
-              <TextContainer>
-                <span>{transaction.name}</span>
-                <span>{transaction.mineralNumber}</span>
-              </TextContainer>
-            </TransactionLeft>
-            <TransactionRight>
-              <span className="amount">{transaction.amount}</span>
-              <span className="date">{transaction.date}</span>
-            </TransactionRight>
-          </TransactionItem>
-        ))}
-      </ul>
+        <TransactionsHeader>
+          <h3>Transactions</h3>
+          <ViewAllButton onClick={goToTransactions}>View All</ViewAllButton>
+        </TransactionsHeader>
+        <ul>
+          {transactions.map((transaction) => (
+            <TransactionItem key={transaction.id}>
+              <TransactionLeft>
+                <img src={mineral_icon} alt="mineral icon" />
+                <TextContainer>
+                  <span>{transaction.name}</span>
+                  <span>{transaction.mineralNumber}</span>
+                </TextContainer>
+              </TransactionLeft>
+              <TransactionRight>
+                <span className="amount">{transaction.amount}</span>
+                <span className="date">{transaction.date}</span>
+              </TransactionRight>
+            </TransactionItem>
+          ))}
+        </ul>
       </Transactions>
-          
-    <Footer>
+
+      <Footer>
         <p>Powered ⚡ by Queensec Global</p>
       </Footer>
 
       {/* Bottom Navigation */}
       <BottomNav>
-  <div style={{ display: 'flex', alignItems: 'center' }}>
-    <NavIcon src={folder_C} alt="Dashboard" className="selected" />
-    <DashboardLabel>Dashboard</DashboardLabel>
-  </div>
-  <NavIcon src={transactions_N} onClick={goToTransactions}  alt="Transactions" />
-  <NavIcon src={notification_N} onClick={goToNotifications} alt="Notifications" />
-  <NavIcon src={profile_N} onClick={goToProfile} alt="Profile" />
-</BottomNav>
-    </DashboardContainer>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <NavIcon src={folder_C} alt="Dashboard" className="selected" />
+          <DashboardLabel>Dashboard</DashboardLabel>
+        </div>
+        <NavIcon src={transactions_N} onClick={goToTransactions} alt="Transactions" />
+        <NavIcon src={notification_N} onClick={goToNotifications} alt="Notifications" />
+        <NavIcon src={profile_N} onClick={goToProfile} alt="Profile" />
+      </BottomNav>
+    </PageLayout>
   );
 };
 

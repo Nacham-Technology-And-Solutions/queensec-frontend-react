@@ -160,7 +160,7 @@ const VMPScreenOnePayee = () => {
       navigate('/vendor-mp-two-trip-data');
    
   }
-  const handleBack = () => navigate('/vendors-dashboard');
+  const handleBack = () => navigate('/vendor-dashboard');
 
   return (
     <Container>

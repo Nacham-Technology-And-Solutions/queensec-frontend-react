@@ -19,7 +19,7 @@ const ProfileScreen = () => {
     if (user?.accountType === 'federal_agency') {
       return '/enterprise-dashboard';
     } else if (user?.accountType === 'vendor') {
-      return '/vendors-dashboard';
+      return '/vendor-dashboard';
     } else if (user?.accountType === 'individual') {
       return '/dashboard';
     }
@@ -129,7 +129,7 @@ const ProfileScreen = () => {
         currentPage='profile'
         dashboardLink={goToDashboard()} // 
         transactionLink='/transactions'
-        notificationLink='/Notifications-page'
+        notificationLink='/notifications'
         profileLink='/user-profile'
       />
 

@@ -1,17 +1,31 @@
- 
+
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import QueensecLogo from '../assets/Queensec_1.png'; // Import the logo 
-import TextButton from "../components/TextButton/TextButton"; 
+import TextButton from "../components/TextButton/TextButton";
 import Button from "../components/Button/Button";
- 
+import { useUser } from '../context/UserContext';
+
 
 
 const RouteNotFoundScreen = () => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const { user } = useUser(); // Access user from context
 
   const returnHistory = () => {
-    navigate('/dashboard');
+
+    if (user?.accountType === 'federal_agency' || user?.accountType === 'state_agency' || user?.accountType === 'corperate') {
+
+      navigate(`/enterprise-dashboard`, { replace: true });
+
+    } else if (user?.accountType === 'vendor') {
+
+      navigate(`/vendor-dashboard`, { replace: true });
+
+    } else if (user?.accountType === 'individual') {
+
+      navigate(`/dashboard`, { replace: true });
+    }
   };
 
   const handleSigUp = () => {
@@ -20,12 +34,12 @@ const RouteNotFoundScreen = () => {
 
   return (
     <Container>
-      <Logo src={QueensecLogo} /> 
-      
+      <Logo src={QueensecLogo} />
+
       <Heading>Not Found</Heading>
       <FormTitle> Ops seems you are lost?.</FormTitle>
 
-       
+
       <Bottom>
         <Button label="Return to Dashboard" onClick={returnHistory} size='large' isSpanWidth={true} />
         <br />
@@ -71,7 +85,7 @@ const FormTitle = styled.p`
   color: #666;
   text-align: center;
   margin-top: 5px;
-`; 
+`;
 
 const Bottom = styled.div`
   display: flex;

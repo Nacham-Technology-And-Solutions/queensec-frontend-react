@@ -7,7 +7,7 @@ import LeftIcon from '../../../assets/left.png';
 // import gypsumIcon from '../../../assets/gypsum.png';
 // import ironOreIcon from '../../../assets/ironore.png';
 // import marbleIcon from '../../../assets/marble.png';
-import aquariumIcon from '../../../assets/aquarium.png'; 
+import aquariumIcon from '../../../assets/aquarium.png';
 import { useUser } from '../../../context/UserContext';
 import BottomNavigator from '../../../components/BottomNavigator/BottomNavigator';
 import PageLayout from '../../../components/PageLayout/PageLayout';
@@ -47,15 +47,22 @@ const TransactionPage = () => {
   };
 
   const goToDashboard = () => {
+     
     if (user?.accountType === 'federal_agency') {
-      navigate('/enterprise-dashboard');
+      return '/enterprise-dashboard';
     } else if (user?.accountType === 'vendor') {
-      navigate('/vendors-dashboard');
+      return '/vendor-dashboard';
     } else if (user?.accountType === 'individual') {
-      navigate('/dashboard');
+      return '/dashboard';
     } else {
       console.warn('Unknown account type');
+      return '/dashboard';
     }
+  };
+
+  const doTheBoard = () => {
+    console.log(goToDashboard());
+    navigate(goToDashboard());
   };
 
 
@@ -69,7 +76,7 @@ const TransactionPage = () => {
   return (
     <PageLayout>
       <Header>
-        <BackButton src={LeftIcon} alt="Back" onClick={goToDashboard} />
+        <BackButton src={LeftIcon} alt="Back" onClick={doTheBoard} />
         <Title>Transactions</Title>
       </Header>
 
@@ -108,12 +115,12 @@ const TransactionPage = () => {
 
       <BottomNavigator
         currentPage='transactions'
-        dashboardLink='/dashboard'
+        dashboardLink={goToDashboard()}
         transactionLink='#' ///transactions
-        notificationLink='/Notifications-page'
+        notificationLink='/notifications'
         profileLink='/user-profile'
       />
- 
+
     </PageLayout>
   );
 };

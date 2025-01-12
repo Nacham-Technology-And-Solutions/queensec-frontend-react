@@ -87,7 +87,7 @@ const LoginPage = () => {
         if (accountType === 'federal_agency') {
           navigate('/enterprise-dashboard');
         } else if (accountType === 'vendor') {
-          navigate('/vendors-dashboard');
+          navigate('/vendor-dashboard');
         } else if (accountType === 'individual') {
           navigate('/dashboard');
 

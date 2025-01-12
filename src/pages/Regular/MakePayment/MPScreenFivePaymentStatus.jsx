@@ -34,15 +34,16 @@ const MPScreenFivePaymentStatus = () => {
         const txRefParam = queryParams.get('tx_ref');
         const transactionIdParam = queryParams.get('transaction_id');
         const token = localStorage.getItem('token');
+        var responseData = {};
 
-    
+
         if (statusParam && txRefParam) {
-          await axios.post(
+          const response = await axios.post(
             `${API_BASE_URL}/payments`,
             {
               status: statusParam,
               tx_ref: txRefParam,
-              transaction_id: transactionIdParam || '', 
+              transaction_id: transactionIdParam || '',
             },
             {
               headers: {
@@ -50,9 +51,35 @@ const MPScreenFivePaymentStatus = () => {
               },
             }
           );
+
+          if (response.status == 200) {
+            responseData = response.data;
+          }
+
+          const kindResponse = {
+            "success": true,
+            "message": "Payment Updated",
+            "data": {
+              "id": 7,
+              "user_name": "Precious Chikezie",
+              "payment_id": "KAD/RXM2334",
+              "order_id": 8,
+              "mineral_image": null,
+              "mineral_name": "ANTIMONY ORE",
+              "amount": "24000.00",
+              "hauler": "N/A",
+              "number_plate": "fortzi truck",
+              "unit": "Ton",
+              "status": "completed",
+              "date": "2025-01-12T05:51:29.000000Z",
+              "validated": false
+            }
+          }
+
+          responseData = kindResponse.data;
         }
 
-        
+
         if (statusParam === 'cancelled') {
           setStatus('cancelled');
         } else if (statusParam === 'successful') {
@@ -61,15 +88,17 @@ const MPScreenFivePaymentStatus = () => {
           setStatus('failed');
         }
 
-        
-        setAmount('0'); // Replace with actual data.amount from backend if available
-        setPayId(txRefParam || '');
-        setUserName(''); // Replace with actual data.user_name
-        setHauler(''); // Replace with actual data.hauler
-        setNumberPlate(''); // Replace with actual data.number_plate
-        setMineralName(''); // Replace with actual data.mineral_name
-        setDate(new Date().toLocaleDateString()); // Replace with actual data.date
-        setTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })); // Replace with actual data.date
+
+        setAmount(responseData.amount || '0'); // Replace with actual data.amount from backend if available
+        setPayId(responseData.payment_id || txRefParam || '');
+        setUserName(responseData.user_name || ''); // Replace with actual data.user_name
+        setHauler(responseData.hauler || ''); // Replace with actual data.hauler
+        setNumberPlate(responseData.number_plate || ''); // Replace with actual data.number_plate
+        setMineralName(responseData.mineral_name || ''); // Replace with actual data.mineral_name
+        setDate(new Date(responseData.date).toLocaleDateString()); // Replace with actual data.date
+        setTime(new Date(responseData.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })); // Replace with actual data.date
+        // setDate(new Date().toLocaleDateString()); // Replace with actual data.date
+        // setTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })); // Replace with actual data.date
       } catch (error) {
         console.error('Error fetching payment details:', error.response?.data || error.message);
         alert('Failed to retrieve payment details. Please try again.');
@@ -102,7 +131,7 @@ const MPScreenFivePaymentStatus = () => {
     if (user?.accountType === 'federal_agency') {
       navigate('/enterprise-dashboard');
     } else if (user?.accountType === 'vendor') {
-      navigate('/vendors-dashboard');
+      navigate('/vendor-dashboard');
     } else if (user?.accountType === 'individual') {
       navigate('/dashboard');
     } else {
@@ -127,8 +156,8 @@ const MPScreenFivePaymentStatus = () => {
         {status === 'completed'
           ? 'Payment Successful'
           : status === 'cancelled'
-          ? 'Payment Cancelled'
-          : 'Payment Failed'}
+            ? 'Payment Cancelled'
+            : 'Payment Failed'}
       </Status>
       <Details>
         <InfoRow>
@@ -371,7 +400,7 @@ const DetailItem = styled.div`
 // const Label = styled.p`
 //   color: #67728A;
 //   font-size: 12px;
-  
+
 // `;
 
 // const Value = styled.p`

@@ -50,7 +50,7 @@ const TransactionPage = () => {
     if (user?.accountType === 'federal_agency') {
       navigate('/enterprise-dashboard');
     } else if (user?.accountType === 'vendor') {
-      navigate('/vendors-dashboard');
+      navigate('/vendor-dashboard');
     } else if (user?.accountType === 'individual') {
       navigate('/dashboard');
     } else {
@@ -110,7 +110,7 @@ const TransactionPage = () => {
         currentPage='transactions'
         dashboardLink='/dashboard'
         transactionLink='#' ///transactions
-        notificationLink='/Notifications-page'
+        notificationLink='/notifications'
         profileLink='/user-profile'
       />
  

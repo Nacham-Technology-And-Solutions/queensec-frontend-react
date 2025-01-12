@@ -91,7 +91,7 @@ export default NotificationDetailsPage;
 //     const navigate = useNavigate();
 
 //     const handleNotificationClick = (id) => {
-//         navigate(`/Notifications-page/${id}`);
+//         navigate(`/notifications/${id}`);
 //     };
 
 //     const getPreviewMessage = (message) => {

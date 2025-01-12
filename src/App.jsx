@@ -20,7 +20,7 @@ import TransactionHistory_MineralScreen from './pages/Regular/Transaction/Transa
 import TransactionsPage from './pages/Regular/Transaction/TransactionsPage.jsx';
 import NotificationPage from './pages/Regular/Notifications/NotificationsPage.jsx';
 import NotificationDetailsPage from './pages/Regular/Notifications/NotificationDetailsPage.jsx';
-import VendorsDashboard from './pages/Vendor/VendorsDashboardPage.jsx';
+import VendorDashboard from './pages/Vendor/VendorDashboard.jsx';
 
 import VMPScreenOnePayee from './pages/Vendor/MakePayment/VMPScreenOnePayee.jsx';
 import VMPScreenTwoTripData from './pages/Vendor/MakePayment/VMPScreenTwoTripData.jsx';
@@ -70,11 +70,9 @@ function App() {
             <Route path="/transactions" element={<ProtectedRoute><TransactionsPage /></ProtectedRoute>} />
 
             {/* Ejiro Finish */}
-            <Route path="/Notifications-page" element={<ProtectedRoute><NotificationPage /></ProtectedRoute>} />
-            <Route path="/Notifications-Details-page" element={<ProtectedRoute><NotificationDetailsPage /></ProtectedRoute>} />
-            <Route path="/vendors-dashboard" element={<ProtectedRoute><VendorsDashboard /></ProtectedRoute>} />
-            <Route path="/Beneficiaries-Screen" element={<ProtectedRoute><BeneficiariesListScreen /></ProtectedRoute>} />
-            <Route path="/Selected-Beneficiary-Screen" element={<ProtectedRoute><SelectedBeneficiaryScreen /></ProtectedRoute>} />
+            <Route path="/notifications" element={<ProtectedRoute><NotificationPage /></ProtectedRoute>} />
+            <Route path="/notifications-details" element={<ProtectedRoute><NotificationDetailsPage /></ProtectedRoute>} />
+           
             
             <Route path="/enterprise-dashboard" element={<ProtectedRoute><EnterpriseDashboard /></ProtectedRoute>} />
 
@@ -87,6 +85,10 @@ function App() {
             <Route path="/mp-five-payment-status" element={<ProtectedRoute><MPScreenFivePaymentStatus /></ProtectedRoute>} />
 
             {/* Vendor */}
+            <Route path="/vendor-dashboard" element={<ProtectedRoute><VendorDashboard /></ProtectedRoute>} />
+            <Route path="/beneficiaries" element={<ProtectedRoute><BeneficiariesListScreen /></ProtectedRoute>} />
+            <Route path="/selected-beneficiary" element={<ProtectedRoute><SelectedBeneficiaryScreen /></ProtectedRoute>} />
+
             <Route path="/vendor-mp-one-payee" element={<ProtectedRoute><VMPScreenOnePayee /></ProtectedRoute>} />
             <Route path="/vendor-mp-two-trip-data" element={<ProtectedRoute><VMPScreenTwoTripData /></ProtectedRoute>} />
             <Route path="/vendor-mp-three-fee-category" element={<ProtectedRoute><VMPScreenThreeCategory /></ProtectedRoute>} />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';   
+import styled from 'styled-components';
 import folder_C from '../../assets/folder_C.png';
 import transactions_N from '../../assets/transactions_N.png';
 import notification_N from '../../assets/notification_N.png';
@@ -13,10 +13,11 @@ import DashboardCardx from '../../components/DashboardCard/DashboardCard';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Button from '../../components/Button/Button';
+import BottomNavigator from '../../components/BottomNavigator/BottomNavigator';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
-const VendorsDashboard = () => {
+const VendorDashboard = () => {
   const [userData, setUserData] = useState({
     name: 'Vendor Bako',
     accountType: 'Vendor',
@@ -182,135 +183,107 @@ const VendorsDashboard = () => {
   const truncateText = (text, maxLength) =>
     text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 
-  // const goToDashboard = () => navigate('/dashboard');
   const goToTransactions = () => navigate('/transactions');
-  const goToNotifications = () => navigate('/Notifications-page');
-  const goToProfile = () => navigate('/user-profile');
-  // const haulerScreen = () =>  navigate('/my-haulers-list')
   return (
     <PageLayout>
-      <DashboardContainer>
-        {/* Header */}
-        <Header>
-          <DashboardText>
-            <h1>Dashboard</h1>
-            <DateText>{date}</DateText>
-          </DashboardText>
-          <Logo src={logo} alt="Logo" />
-        </Header>
+
+      {/* Header */}
+      <Header>
+        <DashboardText>
+          <h1>Dashboard</h1>
+          <DateText>{date}</DateText>
+        </DashboardText>
+        <Logo src={logo} alt="Logo" />
+      </Header>
 
 
-        {/* Dashboard Card */}
-        <DashboardCardx
-          topLeft={truncateText(userData.name, 17)} topLeftLabel={"Welcome,"}
-          topRight={userData.accountType} topRightLabel={"Account Type:"}
-          bottomLeft={<Button label="Make Payment" onClick={handleMakePayment} size='mini' isShort={true} />} bottomLeftLabel={""}
-        />
+      {/* Dashboard Card */}
+      <DashboardCardx
+        topLeft={truncateText(userData.name, 17)} topLeftLabel={"Welcome,"}
+        topRight={userData.accountType} topRightLabel={"Account Type:"}
+        bottomLeft={<Button label="Make Payment" onClick={handleMakePayment} size='mini' isShort={true} />} bottomLeftLabel={""}
+      />
 
-        {/* Transaction Chart */}
-        <ChartSection>
-          <ChartHeader>
-            <ChartTitle>Transactions Chart</ChartTitle>
-            <ViewFullChartIcon src={Vector} alt="View full chart" />
-          </ChartHeader>
-          <TransactionChart>
-            <VictoryChart theme={VictoryTheme.material} domainPadding={{ x: 20, y: 20 }}>
-              {/* X-axis */}
-              <VictoryAxis
-                style={{
-                  tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
-                }}
-              />
+      {/* Transaction Chart */}
+      <ChartSection>
+        <ChartHeader>
+          <ChartTitle>Transactions Chart</ChartTitle>
+          <ViewFullChartIcon src={Vector} alt="View full chart" />
+        </ChartHeader>
+        <TransactionChart>
+          <VictoryChart theme={VictoryTheme.material} domainPadding={{ x: 20, y: 20 }}>
+            {/* X-axis */}
+            <VictoryAxis
+              style={{
+                tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
+              }}
+            />
 
-              {/* Y-axis with formatted labels */}
-              <VictoryAxis
-                dependentAxis
-                tickFormat={(t) => `N ${(t / 1000).toFixed(0)}k`}  // Format Y-axis values as "N 10k"
-                style={{
-                  tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
-                }}
-              />
+            {/* Y-axis with formatted labels */}
+            <VictoryAxis
+              dependentAxis
+              tickFormat={(t) => `N ${(t / 1000).toFixed(0)}k`}  // Format Y-axis values as "N 10k"
+              style={{
+                tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
+              }}
+            />
 
-              <VictoryLine
-                data={chartData}
-                x="day"
-                y="amount"
-                labels={({ datum }) => `₦${datum.amount}`}
-                labelComponent={<VictoryTooltip />}
-                style={{
-                  data: { stroke: '#ffa726' },
-                  parent: { border: '1px solid #ccc' },
-                }}
-              />
-            </VictoryChart>
-          </TransactionChart>
-        </ChartSection>
+            <VictoryLine
+              data={chartData}
+              x="day"
+              y="amount"
+              labels={({ datum }) => `₦${datum.amount}`}
+              labelComponent={<VictoryTooltip />}
+              style={{
+                data: { stroke: '#ffa726' },
+                parent: { border: '1px solid #ccc' },
+              }}
+            />
+          </VictoryChart>
+        </TransactionChart>
+      </ChartSection>
 
-        {/* Transaction List */}
-        <Transactions>
-          <TransactionsHeader>
-            <h3>Transactions</h3>
-            <ViewAllButton onClick={goToTransactions}>View All</ViewAllButton>
-            {/* onClick={navigate('/transactions') */}
-          </TransactionsHeader>
-          <ul>
-            {transactions.map((transaction) => (
-              <TransactionItem key={transaction.id}>
-                <TransactionLeft>
-                  <img src={transaction.mineral_image || mineral_icon} alt="mineral icon" />
-                  <TextContainer>
-                    <span>{transaction.name}</span>
-                    <span>{transaction.mineralNumber}</span>
-                  </TextContainer>
-                </TransactionLeft>
-                <TransactionRight>
-                  <span className="amount">{transaction.amount}</span>
-                  <span className="date">{transaction.date}</span>
-                </TransactionRight>
-              </TransactionItem>
-            ))}
-          </ul>
-        </Transactions>
+      {/* Transaction List */}
+      <Transactions>
+        <TransactionsHeader>
+          <h3>Transactions</h3>
+          <ViewAllButton onClick={goToTransactions}>View All</ViewAllButton>
+          {/* onClick={navigate('/transactions') */}
+        </TransactionsHeader>
+        <ul>
+          {transactions.map((transaction) => (
+            <TransactionItem key={transaction.id}>
+              <TransactionLeft>
+                <img src={transaction.mineral_image || mineral_icon} alt="mineral icon" />
+                <TextContainer>
+                  <span>{transaction.name}</span>
+                  <span>{transaction.mineralNumber}</span>
+                </TextContainer>
+              </TransactionLeft>
+              <TransactionRight>
+                <span className="amount">{transaction.amount}</span>
+                <span className="date">{transaction.date}</span>
+              </TransactionRight>
+            </TransactionItem>
+          ))}
+        </ul>
+      </Transactions> 
 
-        <Footer>
-          <p>Powered ⚡ by Queensec Global</p>
-        </Footer>
-
-        {/* Bottom Navigation */}
-        <BottomNav>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <NavIcon src={folder_C} alt="Dashboard" className="selected" />
-            <DashboardLabel>Dashboard</DashboardLabel>
-          </div>
-          <NavIcon src={transactions_N} onClick={goToTransactions} alt="Transactions" />
-          <NavIcon src={notification_N} onClick={goToNotifications} alt="Notifications" />
-          <NavIcon src={profile_N} onClick={goToProfile} alt="Profile" />
-        </BottomNav>
-      </DashboardContainer>
+      {/* Bottom Navigation */}
+      <BottomNavigator
+        currentPage='dashboard'
+        dashboardLink='#' // /dashboard
+        transactionLink='/transactions'
+        notificationLink='/notifications'
+        profileLink='/user-profile'
+      />
     </PageLayout>
   );
 };
 
 
 // Styled Components
-const DashboardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  font-family: 'Arial, sans-serif';
-  max-width: 400px;
-  margin: 0 auto;
-  background-color: #f9f9f9;
-  height: 100%;
-    @media (max-width: 768px) {
-    padding: 15px;
-  }
-  @media (max-width: 480px) {
-    padding: 10px;
-    border-radius: 15px;
-  }
-`;
-
+ 
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
@@ -466,63 +439,5 @@ const TransactionRight = styled.div`
   }
 `;
 
-const Footer = styled.footer`
-  display: flex;
-  justify-content: right;
-  align-items: right;
-  padding: 20px 0;
-  background-color: #f9f9f9; /* Light gray background */
-  border-top: 1px solid #e0e0e0; /* Subtle top border */
-  margin-top: -10px;
 
-  p {
-    font-family: 'Ubuntu', sans-serif;
-    font-size: 11px;
-    font-weight: 200;
-    color: #6c3ecf; /* Primary color for branding */
-    text-align: center;
-  }
-
-  p span {
-    font-weight: 400;
-    color: #ff9800; /* Highlight for the lightning symbol */
-  }
-`;
-
-const BottomNav = styled.div`
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 15px 0;
-  background-color: white;
-  border-radius: 0px;
-  width: 438px;
-  position: fixed; /* Fix it to the viewport */
-  bottom: 0; /* Always stay at the bottom of the screen */
-  margin-left: -19px; /* Align to the left edge of the screen */
-  z-index: 100; /* Ensure it stays on top of other content */
-  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
-    @media (max-width: 480px) {
-    padding: 8px 0;
-    width: 100%;
-  }
-`;
-
-const NavIcon = styled.img`
-width: 30px;
-height: 30px;
-
-&.selected {
-  border-bottom: 0px solid #ffc107;
-}
-`;
-
-const DashboardLabel = styled.span`
-color: #421B73;
-font-size: 14px;
-font-weight: bold;
-margin-left: 8px; /* Space between icon and text */
-`;
-
-
-export default VendorsDashboard;
+export default VendorDashboard;

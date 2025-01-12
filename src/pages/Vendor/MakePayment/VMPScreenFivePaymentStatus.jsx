@@ -5,7 +5,7 @@ import QRCode from 'react-qr-code';
 import coalpileIcon from '../../../assets/coalpile.png';
 import mineralIcon from '../../../assets/mineral_icon.png';
 
-const PaymentSuccessVendorScreen = () => {
+const VMPScreenFivePaymentStatus = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { amount } = location.state || { amount: '0' };
@@ -312,4 +312,4 @@ const BackButton = styled.button`
   cursor: pointer;
 `;
 
-export default PaymentSuccessVendorScreen;
+export default VMPScreenFivePaymentStatus;
