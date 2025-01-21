@@ -53,9 +53,8 @@ const MPScreenFivePaymentStatus = () => {
           );
 
           if (response.status === 200) {
-            responseData = response.data;
+            responseData = response.data.data;
           }
-          debugger;
           // const kindResponse = {
           //   "success": true,
           //   "message": "Payment Updated",
