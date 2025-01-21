@@ -101,13 +101,13 @@ const VMPScreenThreeCategory = () => {
     }
 
     // Save selected category for the next screen
-    const selectedCategoryData = categories.find((cat) => cat.mineral_sub_id === parseInt(selectedCategory, 10));
+    const selectedCategoryData = categories.find((cat) => cat.id === parseInt(selectedCategory, 10));
 
 
     if (selectedCategoryData) {
       localStorage.setItem('selectedCategory', JSON.stringify(selectedCategoryData));
       localStorage.setItem('mineral_id', selectedCategoryData.mineral_id);
-      localStorage.setItem('mineral_sub_id', selectedCategoryData.mineral_sub_id);
+      localStorage.setItem('fee_category_id', selectedCategoryData.id);
       localStorage.setItem('selectedCategoryPrice', selectedCategoryData.price);
 
 
@@ -155,8 +155,8 @@ const VMPScreenThreeCategory = () => {
         <option value="">Select a category</option>
         {categories.map((category) => (
           <option
-            key={category.mineral_sub_id}
-            value={category.mineral_sub_id}
+            key={category.id}
+            value={category.id}
           >
             {category.name} - NGN {category.price}
           </option>

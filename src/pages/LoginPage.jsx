@@ -21,6 +21,7 @@ const LoginPage = () => {
     password: '',
     // loginType: 'normal',
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,6 +33,7 @@ const LoginPage = () => {
 
 
   const handleSubmit = async () => {
+    setLoading(true);
     const payload = {
       email: loginInfo.email,
       password: loginInfo.password,
@@ -42,6 +44,7 @@ const LoginPage = () => {
     if (!loginInfo.email || !loginInfo.password) {
 
       alert('Please fill in all fields.');
+      setLoading(false);
       return;
 
     }
@@ -95,9 +98,11 @@ const LoginPage = () => {
       } else {
         alert(`Login failed: ${response.data.message || 'Please try again.'}`);
       }
+      setLoading(false);
     } catch (error) {
       console.error('Error during login:', error);
       alert('An error occurred during login. Please try again.');
+      setLoading(false);
     }
   }
 
@@ -133,7 +138,7 @@ const LoginPage = () => {
 
       </FormContainer>
       <Bottom> 
-        <Button label="Login" onClick={handleSubmit} size='large' isSpanWidth={true} />
+        <Button label="Login" onClick={handleSubmit} size='large' isSpanWidth={true} isLoading={loading} />
         <br />
         <span>New to Kadamines? &nbsp; <TextButton onClick={handleSigUp} label="Sign-Up" /></span>
       </Bottom>

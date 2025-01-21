@@ -38,7 +38,7 @@ const MPScreenFourBankDetails = () => {
     try {
       const payerId = localStorage.getItem('payer_id');
       const mineralId = localStorage.getItem('mineral_id');
-      const mineralSubId = localStorage.getItem('mineral_sub_id');
+      const mineralSubId = localStorage.getItem('fee_category_id');
       const parsedAmount = parseFloat(localStorage.getItem('selectedCategoryPrice').replace('NGN', '').replace(',', '').trim());
       const token = localStorage.getItem('token');
       const haulerTypeMode = localStorage.getItem('haulerTypeMode');
@@ -54,18 +54,18 @@ const MPScreenFourBankDetails = () => {
 
 
       const payload = {
-        payer_id: payerId,
+        // payer_id: payerId,
         payee_id: payerId,
-        mineral_id: mineralId,
-        mineral_sub_id: mineralSubId,
-        total_amount: parsedAmount.toFixed(2),
+        // mineral_id: mineralId,
+        fee_category_id: mineralSubId,
+        // total_amount: parsedAmount.toFixed(2),
 
         driver_name: driverName,
         phone_number: phoneNumber,
         loading_point: loadingPoint,
         offloading_point: offloadingPoint,
       };
-      debugger;
+      // debugger;
       if (haulerTypeMode === 'saved') {
         const haulerId = localStorage.getItem('payee_hauler_id');
         if (!haulerId) {

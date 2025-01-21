@@ -48,7 +48,7 @@ export const VENDOR_ENDPOINTS = {
 // Payment-related endpoints
 //Todo : Ejiro Change
 export const PAYMENT_ENDPOINTS = {
-    createPayment: { url: '/orders', method: 'post', payload: 'payer_id, payee_id, mineral_id, mineral_sub_id, total_amount, payee_hauler_id, hauler_type_id, number_plate, driver_name, phone_number, loading_point, offloading_point' },
+    createPayment: { url: '/orders', method: 'post', payload: 'payer_id, payee_id, mineral_id, fee_category_id, total_amount, payee_hauler_id, hauler_type_id, number_plate, driver_name, phone_number, loading_point, offloading_point' },
     updatePayment: { url: '/payments', method: 'post', payload: '' },
     getPaymentStatus: { url: '/payments/status', method: 'post', payload: '' },
 };

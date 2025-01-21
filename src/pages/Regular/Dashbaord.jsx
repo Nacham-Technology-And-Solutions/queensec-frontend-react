@@ -209,7 +209,7 @@ const Dashboard = () => {
 
     // Delete All old Payment Data if set 
     localStorage.removeItem('mineral_id');
-    localStorage.removeItem('mineral_sub_id');
+    localStorage.removeItem('fee_category_id');
     localStorage.removeItem('selectedCategoryPrice');
     localStorage.removeItem('selectedCategory');
     localStorage.removeItem('haulerTypeMode');

@@ -43,6 +43,7 @@ const MPScreenThreeCategory = () => {
         if (response.data.success) {
           const categories = response.data.data;
           setCategories(categories);
+          
 
 
           if (categories.length > 0 && categories[0].mineral_id) {
@@ -70,23 +71,23 @@ const MPScreenThreeCategory = () => {
     }
 
 
-    const [selectedMineralId, selectedMineralSubId] = selectedCategory.split("-").map(Number);
-
+    const [selectedMineralId, selectedFeeCategoryId] = selectedCategory.split("-").map(Number);
+    
 
     const selectedCategoryData = categories.find(
       (category) =>
         category.mineral_id === selectedMineralId &&
-        category.mineral_sub_id === selectedMineralSubId
+        category.id === selectedFeeCategoryId
     );
 
     if (selectedCategoryData) {
       const formattedPrice = `NGN ${parseFloat(selectedCategoryData.price).toLocaleString()}`;
       localStorage.setItem("selectedCategoryPrice", formattedPrice);
 
-      localStorage.setItem("mineral_sub_id", selectedCategoryData.mineral_sub_id);
+      localStorage.setItem("fee_category_id", selectedCategoryData.id);
       const categoryWithSubId = {
         ...selectedCategoryData,
-        mineral_sub_id: selectedCategoryData.mineral_sub_id,
+        id: selectedCategoryData.id,
       };
       localStorage.setItem("selectedCategory", JSON.stringify(categoryWithSubId));
 
@@ -141,16 +142,16 @@ const MPScreenThreeCategory = () => {
         <option value="">Select a category</option>
         {categories.map((category) => (
           <option
-            key={`${category.mineral_id}-${category.mineral_sub_id}`}
-            value={`${category.mineral_id}-${category.mineral_sub_id}`}
+            key={`${category.mineral_id}-${category.id}`}
+            value={`${category.mineral_id}-${category.id}`}
           >
             {category.name} - NGN {parseFloat(category.price).toLocaleString()} {/* Format price */}
           </option>
         ))}
       </SelectDropdown>
 
-      
-      <Button label="Proceed" onClick={handleProceed} size='large' /> 
+
+      <Button label="Proceed" onClick={handleProceed} size='large' />
     </Container>
   );
 

@@ -52,31 +52,31 @@ const MPScreenFivePaymentStatus = () => {
             }
           );
 
-          if (response.status == 200) {
+          if (response.status === 200) {
             responseData = response.data;
           }
+          // debugger;
+          // const kindResponse = {
+          //   "success": true,
+          //   "message": "Payment Updated",
+          //   "data": {
+          //     "id": 7,
+          //     "user_name": "Precious Chikezie",
+          //     "payment_id": "KAD/RXM2334",
+          //     "order_id": 8,
+          //     "mineral_image": null,
+          //     "mineral_name": "ANTIMONY ORE",
+          //     "amount": "24000.00",
+          //     "hauler": "N/A",
+          //     "number_plate": "fortzi truck",
+          //     "unit": "Ton",
+          //     "status": "completed",
+          //     "date": "2025-01-12T05:51:29.000000Z",
+          //     "validated": false
+          //   }
+          // }
 
-          const kindResponse = {
-            "success": true,
-            "message": "Payment Updated",
-            "data": {
-              "id": 7,
-              "user_name": "Precious Chikezie",
-              "payment_id": "KAD/RXM2334",
-              "order_id": 8,
-              "mineral_image": null,
-              "mineral_name": "ANTIMONY ORE",
-              "amount": "24000.00",
-              "hauler": "N/A",
-              "number_plate": "fortzi truck",
-              "unit": "Ton",
-              "status": "completed",
-              "date": "2025-01-12T05:51:29.000000Z",
-              "validated": false
-            }
-          }
-
-          responseData = kindResponse.data;
+          // responseData = kindResponse.data;
         }
 
 

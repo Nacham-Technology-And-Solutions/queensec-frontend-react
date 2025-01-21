@@ -73,7 +73,7 @@ const VMPScreenFourBankDetails = () => {
         // const haulerId = savedUser?.haulerId;
         const haulerType = localStorage.getItem('haulerType'); 
         const mineralId = localStorage.getItem('mineral_id');
-        const mineralSubId = localStorage.getItem('mineral_sub_id');
+        const mineralSubId = localStorage.getItem('fee_category_id');
         const payee_id = localStorage.getItem('payee_id');
         const parsedAmount = parseFloat(localStorage.getItem('selectedCategoryPrice').replace('NGN', '').replace(',', '').trim());
 
@@ -97,7 +97,7 @@ const VMPScreenFourBankDetails = () => {
           payer_id: payerId,
           payee_id: payee_id,
           mineral_id: mineralId,
-          mineral_sub_id: mineralSubId,
+          fee_category_id: mineralSubId,
           total_amount: parsedAmount.toFixed(2),
             driver_name: driverName,
             phone_number: phoneNumber,
