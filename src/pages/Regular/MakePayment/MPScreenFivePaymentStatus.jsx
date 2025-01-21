@@ -88,7 +88,7 @@ const MPScreenFivePaymentStatus = () => {
           setStatus('failed');
         }
 
-
+        debugger;
         setAmount(responseData.amount || '0'); // Replace with actual data.amount from backend if available
         setPayId(responseData.payment_id || txRefParam || '');
         setUserName(responseData.user_name || ''); // Replace with actual data.user_name
