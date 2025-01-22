@@ -1,6 +1,6 @@
 /* src/components/Button/Button.scss */
-@import '../../styles/variables';  // Importing global variables if needed
-@import '../../styles/mixins';      // Importing global mixins if any
+@import '../../styles/variables'; // Importing global variables if needed
+@import '../../styles/mixins'; // Importing global mixins if any
 
 .input-field {
   margin-bottom: 1rem;
@@ -23,6 +23,28 @@
     &:focus {
       border-color: #f8b400;
       outline: none;
+    }
+  }
+
+  .field {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+
+    button {
+      background-color: $primary-color;
+      color: $primary-accent-color;
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      padding: 5px 5px;
+      font-size: 10px;
+      border: none;
+      border-radius: 256px;
+      transition: all 0.3s ease;
+
     }
   }
 }

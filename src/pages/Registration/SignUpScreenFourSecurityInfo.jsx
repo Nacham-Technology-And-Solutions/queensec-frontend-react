@@ -10,10 +10,22 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 const SignUpScreenFourSecurityInfo = () => {
   const navigate = useNavigate();
+
+  // showPassword: boolean controlling visibility
+  // setShowPassword: function to toggle show/hide
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Store or track the password text
   const [securityInfo, setSecurityInfo] = useState({
     password: '',
     confirmPassword: '',
   });
+
+  // Toggle function to flip show/hide
+  const toggleShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   const [isLoading, setIsLoading] = useState(false); // Loading state
 
   const handleBack = () => {
@@ -104,9 +116,13 @@ const SignUpScreenFourSecurityInfo = () => {
       console.error('Error during registration:', error);
       if (error.response && error.response.data && error.response.data.errors) {
         // Display the backend error messages
-        alert(`Error: ${error.response.data.errors.account_type || 'Unknown error occurred.'}`);
+        let errorMessage = error.response.data.message;
+        alert(errorMessage + ', Please try again.');
+        // alert(`Error: ${error.response.data.errors.account_type || 'Unknown error occurred.'}`);
       } else {
-        alert('An error occurred during registration. Please try again.');
+        let errorMessage = error.response.data.message;
+        alert(errorMessage + ', Please try again.');
+        // alert('An error occurred during registration. Please try again.');
       }
     } finally {
       setIsLoading(false); // Hide loading screen
@@ -128,24 +144,33 @@ const SignUpScreenFourSecurityInfo = () => {
       <FormContainer>
         <InputFieldx
           label="Password"
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           name="password"
           value={securityInfo.password}
           onChange={handleChange}
           placeholder="Enter your password"
+          hasButton={true}
+          onButtonClick={toggleShowPassword}
+          buttonLabel={(showPassword ? 'Hide' : 'Show') + 'Password'}
         />
 
         <InputFieldx
-          label="Password"
-          type="password"
+          label="Confirm Password"
+          type={showPassword ? 'text' : 'password'}
           name="confirmPassword"
           value={securityInfo.confirmPassword}
           onChange={handleChange}
           placeholder="Confirm your password"
         />
+
+        {/* Button or checkbox to toggle password visibility */}
+
+        {/* <button type="button" onClick={toggleShowPassword}>
+          {showPassword ? 'Hide' : 'Show'} Password
+        </button> */}
       </FormContainer>
 
-      <Button label="Next" onClick={handleSubmit} size='large' isSpanWidth={true}  />
+      <Button label="Next" onClick={handleSubmit} size='large' isSpanWidth={true} />
 
     </Container>
   );

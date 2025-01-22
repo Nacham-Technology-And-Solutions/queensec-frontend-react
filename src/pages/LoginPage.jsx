@@ -6,7 +6,7 @@ import QueensecLogo from '../assets/Queensec_1.png'; // Import the logo
 import { useUser } from '../context/UserContext';
 import TextButton from "../components/TextButton/TextButton";
 import InputFieldx from "../components/InputField/InputField";
-import Button from "../components/Button/Button"; 
+import Button from "../components/Button/Button";
 import { login } from '../utils/authApiRequests';
 
 // import { postData } from '../utils/apiServce';
@@ -15,6 +15,15 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 const LoginPage = () => {
   const navigate = useNavigate();
+
+  // showPassword: boolean controlling visibility
+  // setShowPassword: function to toggle show/hide
+  const [showPassword, setShowPassword] = useState(false);
+  // Toggle function to flip show/hide
+  const toggleShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   const { saveUser } = useUser();
   const [loginInfo, setLoginInfo] = useState({
     email: '',
@@ -49,7 +58,7 @@ const LoginPage = () => {
 
     }
 
-    const loginResponse = login(payload);
+    // const loginResponse = login(payload);
 
     const url = `${API_BASE_URL}/auth/user/login`;
 
@@ -101,7 +110,9 @@ const LoginPage = () => {
       setLoading(false);
     } catch (error) {
       console.error('Error during login:', error);
-      alert('An error occurred during login. Please try again.');
+      
+      let errorMessage = error.response.data.message;
+      alert(errorMessage + ', Please try again.');
       setLoading(false);
     }
   }
@@ -129,20 +140,23 @@ const LoginPage = () => {
 
         <InputFieldx
           label="Password"
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           name="password"
           value={loginInfo.password}
           onChange={handleChange}
           placeholder="Enter your password"
+          hasButton={true}
+          onButtonClick={toggleShowPassword}
+          buttonLabel={(showPassword ? 'Hide' : 'Show') + 'Password'}
         />
 
       </FormContainer>
-      <Bottom> 
+      <Bottom>
         <Button label="Login" onClick={handleSubmit} size='large' isSpanWidth={true} isLoading={loading} />
         <br />
         <span>New to Kadamines? &nbsp; <TextButton onClick={handleSigUp} label="Sign-Up" /></span>
       </Bottom>
-      
+
     </Container>
   );
 };
