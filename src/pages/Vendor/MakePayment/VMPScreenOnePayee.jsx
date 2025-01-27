@@ -305,7 +305,7 @@ const BackIcon = styled.img`
 
 const Title = styled.h1`
   color: #6C3ECF;
-  font-family: Ubuntu;
+  
   font-size: 20px;
   font-weight: 500;
   line-height: 32px;
@@ -330,7 +330,7 @@ const RadioContainer = styled.div`
 const RadioLabel = styled.label`
   display: flex;
   align-items: center;
-  font-family: Ubuntu, sans-serif;
+  
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
@@ -361,7 +361,7 @@ const RadioInput = styled.input`
 // const InputField = styled.input`
 //   width: 92%;
 //   padding: 10px 15px;
-//   font-family: Ubuntu, sans-serif;
+//   
 //   font-size: 14px;
 //   font-weight: 400;
 //   line-height: 20px;
@@ -493,7 +493,7 @@ const Label2 = styled.p`
 const Label3 = styled.p`
   font-size: 12px;
   color: #414D63;
-  font-family: Ubuntu;
+  
 font-size: var(--sds-typography-body-size-medium);
 font-weight: 400;
 line-height: 22.4px;

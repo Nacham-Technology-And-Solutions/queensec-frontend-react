@@ -45,10 +45,9 @@
             /* Light gray background */
             border-top: 1px solid #e0e0e0;
             /* Subtle top border */
-            margin-top: -10px;
+            // margin-top: -10px;
 
-            p {
-                font-family: 'Ubuntu', sans-serif;
+            p { 
                 font-size: 11px;
                 font-weight: 200;
                 color: #6c3ecf;
@@ -65,7 +64,16 @@
     }
 
     .layout-content {
+        
         flex: 1;
         /* Allow content to expand dynamically */
+
+        &.center {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            height: 100vh
+        }
     }
 }

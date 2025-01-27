@@ -188,8 +188,7 @@ const BackIcon = styled.img`
 `;
 
 const Title = styled.h1`
-  color: #6C3ECF;
-  font-family: Ubuntu;
+  color: #6C3ECF; 
   font-size: 20px;
   font-weight: 500;
   line-height: 32px;
@@ -303,8 +302,7 @@ const Label1 = styled.p`
   margin-left: 28px;
 `;
 const Label2 = styled.p`
-  font-size: 12px;
-  font-family:  ubuntu;
+  font-size: 12px; 
   color: #67728A;
   margin: 0;
   margin-top: 25px;
@@ -334,8 +332,7 @@ const SelectCategoryText = styled.p`
   color: #666;
   margin-top: 10px;
   text-align: left;
-  width: 100%;
-  font-family: ubuntu;
+  width: 100%; 
 `;
 
 const SelectDropdown = styled.select`

@@ -5,6 +5,8 @@ import axios from 'axios'; // Import Axios for HTTP requests
 import Button from '../../components/Button/Button';
 import RegNav from '../../components/RegNav/RegNav';
 import InputFieldx from "../../components/InputField/InputField";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 
@@ -151,7 +153,7 @@ const SignUpScreenFourSecurityInfo = () => {
           placeholder="Enter your password"
           hasButton={true}
           onButtonClick={toggleShowPassword}
-          buttonLabel={(showPassword ? 'Hide' : 'Show') + 'Password'}
+          buttonLabel={<FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} fontSize='15px' />}
         />
 
         <InputFieldx

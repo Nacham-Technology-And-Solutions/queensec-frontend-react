@@ -200,7 +200,7 @@ const BackIcon = styled.img`
 
 const Title = styled.h1`
   color: #6c3ecf;
-  font-family: Ubuntu;
+  
   font-size: 20px;
   font-weight: 500;
   line-height: 32px;
@@ -332,7 +332,7 @@ const InputFieldWrapper = styled.div`
 const InputField = styled.input`
   width: 90%;
   padding: 10px;
-  font-family: Ubuntu, sans-serif;
+  
   font-size: 14px;
   border: 1px solid #d9d9d9;
   border-radius: 8px;

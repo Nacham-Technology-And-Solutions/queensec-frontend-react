@@ -263,7 +263,7 @@ const BackIcon = styled.img`
 
 const Title = styled.h1`
   color: #6C3ECF;
-  font-family: Ubuntu;
+  
   font-size: 20px;
   font-weight: 500;
   line-height: 32px;
@@ -285,7 +285,7 @@ const Tab = styled.div`
   cursor: pointer;
   flex: 1;
   text-align: center;
-  font-family: ubuntu;
+  
 
   &:not(:last-child) {
     margin-right: 10px;
@@ -400,7 +400,7 @@ const Value1 = styled.p`
 
 
 const Label = styled.p`
-  font-family: Ubuntu;
+  
   font-size: 11px;
   font-weight: 500;
   line-height: 20px;
@@ -422,7 +422,7 @@ const Label = styled.p`
 `;
 
 const ValueBold = styled.p`
-  font-family: Ubuntu;
+  
   font-size: 14px;
   font-weight: 700;
   line-height: 20px;
@@ -448,7 +448,7 @@ const ValueBold = styled.p`
 
 
 const Label0 = styled.p`
-  font-family: Ubuntu;
+  
   font-size: 11px;
   font-weight: 500;
   line-height: 20px;
@@ -471,7 +471,7 @@ const Label0 = styled.p`
 `;
 
 const Value0 = styled.p`
-  font-family: Ubuntu;
+  
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
@@ -505,7 +505,7 @@ const AmountLabel = styled.p`
   color: #666;
   text-align: left;
   width: 100%;
-  font-family: ubuntu;
+  
 `;
 
 const AmountInput = styled.input`
@@ -585,7 +585,7 @@ const PayNowButton = styled.button`
   width: 114px;
   height: 50px;
   opacity: 1;
-  font-family: ubuntu;
+  
   diplay:flex;
   flex;-wrap: none;
 `;

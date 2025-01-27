@@ -56,27 +56,13 @@ const NotificationPage = () => {
 };
 
 // Styled Components
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  background-color: #F7F9FA;
-  height: 100vh;
-  max-width: 400px;
-  margin: 0 auto;
-  border-radius: 30px;
-  font-family: 'Ubuntu', sans-serif;
-    position: relative;
-`;
-
 const Header = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 `;
 
-const Title = styled.h1`
-  font-family: Ubuntu;
+const Title = styled.h1` 
   font-size: 20px;
   font-weight: 500;
   line-height: 32px;
@@ -85,8 +71,7 @@ const Title = styled.h1`
   margin-bottom: 45px;
 `;
 
-const Date = styled.p`
-  font-family: Ubuntu;
+const Date = styled.p` 
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
@@ -119,8 +104,7 @@ const PlaneIcon = styled.img`
   margin-bottom: -60px;
 `;
 
-const NotificationText = styled.h2`
-  font-family: Ubuntu;
+const NotificationText = styled.h2` 
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
@@ -130,8 +114,7 @@ const NotificationText = styled.h2`
   margin-top: 40px;
 `;
 
-const PreviewMessage = styled.p`
-  font-family: Ubuntu;
+const PreviewMessage = styled.p` 
   font-size: 11px;
   font-weight: 400;
   line-height: 20px;

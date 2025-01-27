@@ -142,7 +142,7 @@ const DateText = styled.p`
   font-size: 14px;
   color: #67728A;
   font-weight: 500;
-  font-family: Ubuntu, sans-serif;
+  
   line-height: 20px;
   margin: 0;
   margin-bottom:  10px;
@@ -304,7 +304,7 @@ const ShareButton = styled.button`
 
 const BackButton = styled.button`
   color: #414D63;
-  font-family: Ubuntu, sans-serif;
+  
   font-size: 11px;
   font-weight: 500;
   background: none;

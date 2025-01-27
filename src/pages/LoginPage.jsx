@@ -8,6 +8,8 @@ import TextButton from "../components/TextButton/TextButton";
 import InputFieldx from "../components/InputField/InputField";
 import Button from "../components/Button/Button";
 import { login } from '../utils/authApiRequests';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 // import { postData } from '../utils/apiServce';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
@@ -110,7 +112,7 @@ const LoginPage = () => {
       setLoading(false);
     } catch (error) {
       console.error('Error during login:', error);
-      
+
       let errorMessage = error.response.data.message;
       alert(errorMessage + ', Please try again.');
       setLoading(false);
@@ -119,6 +121,9 @@ const LoginPage = () => {
 
   const handleSigUp = () => {
     navigate('/sign-up-user-type');
+  };
+  const handleForgotPassword = () => {
+    navigate('/password-recovery');
   };
 
   return (
@@ -147,8 +152,11 @@ const LoginPage = () => {
           placeholder="Enter your password"
           hasButton={true}
           onButtonClick={toggleShowPassword}
-          buttonLabel={(showPassword ? 'Hide' : 'Show') + 'Password'}
+          buttonLabel={<FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} fontSize='15px' />}
         />
+        <span> <TextButton onClick={handleForgotPassword} label="Forgot Password?" /></span>
+
+
 
       </FormContainer>
       <Bottom>

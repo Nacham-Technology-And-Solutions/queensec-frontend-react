@@ -127,20 +127,6 @@ const TransactionPage = () => {
 
 
 // Styled Components
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  background-color: #F7F9FA;
-  height: 100vh;
-  max-width: 400px;
-  margin: 0 auto;
-  border-radius: 30px;
-
-  font-family: 'Ubuntu', sans-serif;
-  position: relative;
-`;
-
 const Status = styled.div`
   color: ${({ status }) => (status === 'completed' ? 'black' : 'red')};
   font-size: 11.5px;
@@ -157,8 +143,7 @@ const BackButton = styled.img`
   cursor: pointer;
 `;
 
-const Title = styled.h1`
-  font-family: Ubuntu;
+const Title = styled.h1` 
   font-size: 20px;
   font-weight: 500;
   line-height: 32px;
@@ -174,13 +159,7 @@ const Transactions = styled.div`
   box-sizing: border-box;
   margin-top: 10px;
 `;
-
-const TransactionDate = styled.div`
-  font-size: 14px;
-  color: #999;
-  margin-top: 15px;
-`;
-
+ 
 const TransactionItem = styled.div`
   display: flex;
   justify-content: space-between; /* Distribute space evenly */
@@ -226,12 +205,6 @@ const ItemTitle = styled.span`
   margin-bottom:  6px; 
 `;
 
-const ItemCode = styled.span`
-  font-size: 12px;
-  color: #67728A;
-`;
-
-
 const AmountContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -239,10 +212,8 @@ const AmountContainer = styled.div`
   margin-left: auto; /* Push to the right */
 `;
 
-
 const AmountToday = styled.p`
   color: #f07f23;
-  font-family: Ubuntu;
   font-size: 14px;
   font-weight: 700;
   line-height: 20px;
@@ -253,7 +224,6 @@ const AmountToday = styled.p`
 const DateText = styled.p`
   font-size: 14px;
   color: #67728A;
-  font-family: Ubuntu, sans-serif;
   font-weight: 500;
   margin: 0;
 `;
@@ -268,21 +238,6 @@ const NoTransactionsMessage = styled.div`
   color: #999;
   text-align: center;
   margin-top: 20px;
-`;
-
-// Responsive Media Queries for Transactions Container
-const StyledContainer = styled.div`
-  @media (max-width: 768px) {
-    ${Transactions} {
-      max-height: 50vh; /* Reduce height for smaller screens */
-    }
-
-    ${TransactionItem} {
-      flex-direction: column; /* Stack items vertically on small screens */
-      align-items: flex-start; /* Align items to the start */
-      gap: 10px; /* Add spacing between elements */
-    }
-  }
 `;
 
 export default TransactionPage;

@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import QRCode from 'react-qr-code';
-import coalpileIcon from '../../../assets/coalpile.png';
-import mineralIcon from '../../../assets/mineral_icon.png';
+import coalpileIcon from '../../../assets/coalpile.png'; 
 import axios from 'axios';
 import { useUser } from '../../../context/UserContext';
 
@@ -273,8 +272,7 @@ const Amount = styled.h1`
 const Label = styled.p`
   color: #67728A;
   font-size: 12px;
-  font-weight: 500;
-  font-family: Ubuntu, sans-serif;
+  font-weight: 500; 
   line-height: 20px;
   text-align: left;
   flex: 1; /* Takes up available space on the left */
@@ -288,8 +286,7 @@ const Label1 = styled(Label)`
 const Value = styled.p`
   color: #67728A;
   font-size: 14px;
-  font-weight: bold;
-  font-family: Ubuntu, sans-serif;
+  font-weight: bold; 
   line-height: 20px;
   text-align: right;
   flex: 1; /* Takes up available space on the right */
@@ -316,8 +313,7 @@ const AmountToday = styled.p`
 const DateText = styled.p`
   font-size: 14px;
   color: #67728A;
-  font-weight: 500;
-  font-family: Ubuntu, sans-serif;
+  font-weight: 500; 
   line-height: 20px;
   margin: 0;
   margin-bottom:  10px;
@@ -380,13 +376,7 @@ const UserPayId = styled.p`
   color: #666;
   font-size: 12px;
 `;
-
-const DateTimeRow = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-bottom: 20px;
-`;
+ 
 
 const DetailItem = styled.div`
   display: flex;
@@ -394,19 +384,7 @@ const DetailItem = styled.div`
   align-items: center;
   width: 100%;
   margin-bottom: 10px; /* Add spacing between items */
-`;
-
-// const Label = styled.p`
-//   color: #67728A;
-//   font-size: 12px;
-
-// `;
-
-// const Value = styled.p`
-//   color: #67728A;
-//   font-weight: bold;
-//   font-size: 14px;
-// `;
+`; 
 
 const QRCodeContainer = styled.div`
   display: flex;
@@ -426,8 +404,7 @@ const ShareButton = styled.button`
 `;
 
 const BackButton = styled.button`
-  color: #414D63;
-  font-family: Ubuntu, sans-serif;
+  color: #414D63; 
   font-size: 11px;
   font-weight: 500;
   background: none;

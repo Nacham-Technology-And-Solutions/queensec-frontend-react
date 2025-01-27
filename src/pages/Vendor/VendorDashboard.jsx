@@ -367,7 +367,7 @@ const TransactionsHeader = styled.div`
 
   h3 {
     color: #414D63;
-    font-family: Ubuntu;
+    
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
@@ -419,7 +419,7 @@ const TransactionRight = styled.div`
   span.amount {
     color: #F07F45; /* Changed color for the amount */
     font-weight: bold;
-    font-family: Ubuntu;
+    
     font-size: 14px;
     font-weight: 700;
     line-height: 20px;
@@ -429,7 +429,7 @@ const TransactionRight = styled.div`
   }
 
   span.date {
-    font-family: Ubuntu;
+    
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;

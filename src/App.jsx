@@ -42,6 +42,9 @@ import MPScreenPaymentStatus from './pages/Regular/MPScreenPaymentStatus.jsx';
 
 import RouteNotFoundScreen from './pages/RouteNotFoundScreen.jsx';
 import ProtectedRoute from './utils/ProtectedRoute.jsx';
+import PasswordRecoveryRequestScreen from './pages/password/PasswordRecoveryRequestScreen.jsx';
+import PasswordRecoveryRequestSentScreen from './pages/password/PasswordRecoveryRequestSentScreen.jsx';
+import PasswordRecoveryRequestCreateScreen from './pages/password/PasswordRecoveryRequestCreateScreen.jsx';
 
 // Inline ProtectedRoute Component
 
@@ -52,6 +55,10 @@ function App() {
             <Route path="/" element={<Navigate to="/splash" />} />
             <Route path="/splash" element={<SplashScreen />} />
             <Route path="/login-page" element={<LoginPage />} />
+            <Route path="/password-recovery" element={<PasswordRecoveryRequestScreen />} />
+            <Route path="/password-recovery-sent" element={<PasswordRecoveryRequestSentScreen />} />
+            <Route path="/password-recovery-create" element={<PasswordRecoveryRequestCreateScreen />} />
+            <Route path="/password-recovery-successful" element={<LoginPage />} />
 
             {/* Sign Up Screens 1 - 5 */}
             <Route path="/sign-up-user-type" element={<SignUpScreenOneUserType />} />

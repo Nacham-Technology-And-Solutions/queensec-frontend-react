@@ -164,8 +164,7 @@ const BackIcon = styled.img`
 `;
 
 const Title = styled.h1`
-  color: #6c3ecf;
-  font-family: Ubuntu;
+  color: #6c3ecf; 
   font-size: 20px;
   font-weight: 500;
   line-height: 32px;
@@ -265,8 +264,7 @@ const Label1 = styled.p`
   margin-left: 24px;
 `;
 const Label2 = styled.p`
-  font-size: 12px;
-  font-family:  ubuntu;
+  font-size: 12px; 
   color: #67728A;
   margin: 0;
   margin-top: 25px;
@@ -296,8 +294,7 @@ const InputFieldWrapper = styled.div`
 
 const InputField = styled.input`
   width: 90%;
-  padding: 10px;
-  font-family: Ubuntu, sans-serif;
+  padding: 10px; 
   font-size: 14px;
   border: 1px solid #d9d9d9;
   border-radius: 8px;

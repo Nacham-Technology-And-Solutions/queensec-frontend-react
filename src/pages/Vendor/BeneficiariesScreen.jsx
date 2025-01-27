@@ -86,8 +86,7 @@ const Container = styled.div`
   height: 100vh;
   max-width: 400px;
   margin: 0 auto;
-  border-radius: 30px;
-  font-family: 'Ubuntu', sans-serif;
+  border-radius: 30px; 
 `;
 const BackButton = styled.img`
   width: 24px;
@@ -95,8 +94,7 @@ const BackButton = styled.img`
   cursor: pointer;
 `;
 
-const Header = styled.h1`
-    font-family: Ubuntu, sans-serif;
+const Header = styled.h1` 
     font-size: 24px;
     color: #6c3ecf;
     margin-top: -27.5px;
@@ -140,8 +138,7 @@ height: 20px;
 gap: 0px;
 opacity: 0px;
 color: #414D63;
-//styleName: Paragraph/Normal;
-font-family: Ubuntu;
+//styleName: Paragraph/Normal; 
 font-size: 14px;
 font-weight: 400;
 line-height: 20px;
@@ -172,11 +169,8 @@ const Icon = styled.img`
 `;
 
 const Name = styled.p`
-   
-    color: #414D63;
-    flex: 1;
-    //styleName: Paragraph/Normal;
-font-family: Ubuntu;
+color: #414D63;
+flex: 1; 
 font-size: 14px;
 font-weight: 400;
 line-height: 20px;

@@ -7,6 +7,8 @@ export const AUTH_ENDPOINTS = {
     logout: { url: '/auth/user/logout', method: 'post', payload: '' },
     register: { url: '/auth/user/register', method: 'post', payload: 'first_name, middle_name, last_name, email, phone, password, password_confirmation, business_name, state, locality, username, account_type' },
     loginStatus: { url: '/auth/user/auth-status', method: 'get', payload: '' },
+    passwordResetRequest: { url: '/auth/user/forgot-password', method: 'post', payload: 'email' },
+    passwordReset: { url: '/auth/user/reset-password', method: 'post', payload: 'email, password, password_confirmation, token' },
 };
 
 // Auth endpoints

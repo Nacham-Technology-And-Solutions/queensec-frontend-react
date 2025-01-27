@@ -151,7 +151,7 @@ const BackButton = styled.img`
 `;
 
 const Title = styled.h1`
-  font-family: Ubuntu;
+  
   font-size: 20px;
   font-weight: 500;
   line-height: 32px;
@@ -235,7 +235,7 @@ const AmountContainer = styled.div`
 
 const AmountToday = styled.p`
   color: #f07f23;
-  font-family: Ubuntu;
+  
   font-size: 14px;
   font-weight: 700;
   line-height: 20px;
@@ -246,7 +246,7 @@ const AmountToday = styled.p`
 const DateText = styled.p`
   font-size: 14px;
   color: #67728A;
-  font-family: Ubuntu, sans-serif;
+  
   font-weight: 500;
   margin: 0;
 `;

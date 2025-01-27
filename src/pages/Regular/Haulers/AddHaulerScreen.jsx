@@ -123,8 +123,7 @@ const Container = styled.div`
   height: 100vh;
   max-width: 400px;
   margin: 0 auto;
-  border-radius: 30px;
-  font-family: 'Ubuntu', sans-serif;
+  border-radius: 30px; 
 `;
 
 const Header = styled.div`

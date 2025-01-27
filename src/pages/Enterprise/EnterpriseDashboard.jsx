@@ -302,24 +302,6 @@ const EnterpriseDashboard = () => {
 };
 
 // Styled Components
-const DashboardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  font-family: 'Arial, sans-serif';
-  max-width: 400px;
-  margin: 0 auto;
-  background-color: #f9f9f9;
-  height: 100%;
-  border-radius: 25px;
-    @media (max-width: 768px) {
-    padding: 15px;
-  }
-  @media (max-width: 480px) {
-    padding: 10px;
-    border-radius: 15px;
-  }
-`;
 
 const Header = styled.div`
   display: flex;
@@ -379,12 +361,6 @@ const WelcomeMessage = styled.p`
   margin-bottom: 5px;
   margin-top: 55px;
 `;
-const NoDataText = styled.div`
-  text-align: center;
-  margin-top: 20px;
-  font-size: 16px;
-  color: #888;
-`;
 
 const UserName = styled.h2`
   font-size: 15px;
@@ -435,8 +411,7 @@ const UserInfoDataB = styled.p`
 
 const HaulersBtn = styled.button`
 color: #F07F23;
-padding: none;
-font-family: Ubuntu;
+padding: none; 
 font-size: 14px;
 font-weight: 500;
 line-height: 20px;
@@ -482,7 +457,6 @@ const ChartHeader = styled.div`
 
 const ChartTitle = styled.p`
   color: #414D63;
-  font-family: 'Ubuntu', sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
@@ -515,8 +489,7 @@ const TransactionsHeader = styled.div`
   align-items: center;
 
   h3 {
-    color: #414D63;
-    font-family: Ubuntu;
+    color: #414D63; 
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
@@ -567,8 +540,7 @@ const TransactionRight = styled.div`
 
   span.amount {
     color: #F07F45; /* Changed color for the amount */
-    font-weight: bold;
-    font-family: Ubuntu;
+    font-weight: bold; 
     font-size: 14px;
     font-weight: 700;
     line-height: 20px;
@@ -577,8 +549,7 @@ const TransactionRight = styled.div`
 
   }
 
-  span.date {
-    font-family: Ubuntu;
+  span.date { 
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
@@ -597,8 +568,7 @@ const Footer = styled.footer`
   border-top: 1px solid #e0e0e0; /* Subtle top border */
   margin-top: -10px;
 
-  p {
-    font-family: 'Ubuntu', sans-serif;
+  p { 
     font-size: 11px;
     font-weight: 200;
     color: #6c3ecf; /* Primary color for branding */

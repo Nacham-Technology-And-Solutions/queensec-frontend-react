@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import DASHBOARD from '../../assets/DASHBOARD.png';
+import styled from 'styled-components'; 
 import { VictoryChart, VictoryLine, VictoryTheme, VictoryTooltip, VictoryAxis } from 'victory';
 import mineral_icon from '../../assets/mineral_icon.png';
 import logo from '../../assets/Queensec_1.png';
@@ -145,18 +144,9 @@ const Dashboard = () => {
     fetchChartData();
   }, []);
 
-  const mineralIcons = {
-    clay: "assets/clay.png",
-    aquarium: "assets/aquarium.png",
-    gypsum: "assets/gypsum.png",
-    ironore: "assets/ironore.png",
-    marble: "assets/marble.png",
-  };
+   
 
   // Function to get the correct mineral icon or default
-  const getMineralIcon = (mineralName) => {
-    return mineralIcons[mineralName.toLowerCase()] || "assets/default.png";
-  };
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -366,8 +356,7 @@ const Logo = styled.img`
 
 const HaulersBtn = styled.button`
 color: #F07F23;
-padding: none;
-font-family: Ubuntu;
+padding: none; 
 font-size: 14px;
 font-weight: 500;
 line-height: 20px;
@@ -401,8 +390,7 @@ const ChartHeader = styled.div`
 `;
 
 const ChartTitle = styled.p`
-  color: #414D63;
-  font-family: 'Ubuntu', sans-serif;
+  color: #414D63; 
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
@@ -436,8 +424,7 @@ const TransactionsHeader = styled.div`
   align-items: center;
 
   h3 {
-    color: #414D63;
-    font-family: Ubuntu;
+    color: #414D63; 
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;
@@ -489,8 +476,7 @@ const TransactionRight = styled.div`
 
   span.amount {
     color: #F07F45; /* Changed color for the amount */
-    font-weight: bold;
-    font-family: Ubuntu;
+    font-weight: bold; 
     font-size: 14px;
     font-weight: 700;
     line-height: 20px;
@@ -499,8 +485,7 @@ const TransactionRight = styled.div`
 
   }
 
-  span.date {
-    font-family: Ubuntu;
+  span.date { 
     font-size: 14px;
     font-weight: 400;
     line-height: 20px;

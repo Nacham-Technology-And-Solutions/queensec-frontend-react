@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client'; // Import ReactDOM for React 18+
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import { UserProvider } from './context/UserContext';
-// import './index.scss';
+import './index.scss';
  
 
 const rootElement = document.getElementById('root');

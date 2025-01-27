@@ -203,8 +203,7 @@ const BackIcon = styled.img`
 ;`
 
 const Title = styled.h1`
-  color: #6C3ECF;
-  font-family: Ubuntu;
+  color: #6C3ECF; 
   font-size: 20px;
   font-weight: 500;
   line-height: 32px;
@@ -225,8 +224,7 @@ const Tab = styled.div`
   border-bottom: ${(props) => (props.active ? '2px solid #F28500' : 'none')};
   cursor: pointer;
   flex: 1;
-  text-align: center;
-  font-family: ubuntu;
+  text-align: center; 
 
   &:not(:last-child) {
     margin-right: 10px;
@@ -323,8 +321,7 @@ const AmountLabel = styled.p`
   font-size: 16px;
   color: #666;
   text-align: left;
-  width: 100%;
-  font-family: ubuntu;
+  width: 100%; 
 ;`
 
 const AmountInput = styled.input`

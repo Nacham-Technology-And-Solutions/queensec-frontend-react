@@ -1,6 +1,8 @@
 // src/components/Button/Button.jsx
 import React from 'react';
 import './Button.scss'; // Import the SCSS file 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 const Button = ({ label, onClick, styleType = 'primary', size = 'medium', isSpanWidth = false, isShort = false, isDisabled = false, isLoading = false }) => {
 
@@ -9,7 +11,7 @@ const Button = ({ label, onClick, styleType = 'primary', size = 'medium', isSpan
 
         return (
             <button className={buttonClass} disabled={true}>
-                <span className="loading loading-spinner loading-lg "></span>
+                <FontAwesomeIcon icon={faSpinner} spin={true} fontSize='20px' />
             </button>
         );
     } else {

@@ -45,7 +45,7 @@ export const getData = async (endpoint, data, defaultErrorMessage) => {
         //     draggable: true,
         //     progress: undefined,
         // });
-
+        alert(error.response.data.message);
         throw error.response ? error.response.data : defaultErrorMessage;
     }
 };
@@ -66,6 +66,7 @@ export const postData = async (endpoint, data, defaultErrorMessage) => {
         //     draggable: true,
         //     progress: undefined,
         // });
+        alert(error.response.data.message);
         throw error.response ? error.response.data : defaultErrorMessage;
     }
 };
@@ -86,6 +87,7 @@ export const putData = async (endpoint, data, defaultErrorMessage) => {
         //     draggable: true,
         //     progress: undefined,
         // });
+        alert(error.response.data.message);
         throw error.response ? error.response.data : defaultErrorMessage;
     }
 };
@@ -97,6 +99,7 @@ export const deleteData = async (endpoint, defaultErrorMessage) => {
         return response.data;
     } catch (error) {
         console.error(defaultErrorMessage ?? 'Error deleting data: ', error);
+        alert(error.response.data.message);
         throw error.response ? error.response.data : defaultErrorMessage;
     }
 };

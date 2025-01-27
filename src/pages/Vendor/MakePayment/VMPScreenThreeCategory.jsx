@@ -199,7 +199,7 @@ const BackIcon = styled.img`
 
 const Title = styled.h1`
   color: #6C3ECF;
-  font-family: Ubuntu;
+  
   font-size: 20px;
   font-weight: 500;
   line-height: 32px;
@@ -226,7 +226,7 @@ const Tab = styled.div`
   cursor: pointer;
   flex: 1;
   text-align: center;
-  font-family: ubuntu;
+  
 
   &:first-child {
     margin-right: 12px; /* Add space between tabs */
@@ -344,7 +344,7 @@ const Value1 = styled.p`
 
 
 const Label = styled.p`
-  font-family: Ubuntu;
+  
   font-size: 11px;
   font-weight: 500;
   line-height: 20px;
@@ -355,7 +355,7 @@ const Label = styled.p`
 `;
 
 const ValueBold = styled.p`
-  font-family: Ubuntu;
+  
   font-size: 14px;
   font-weight: 700;
   line-height: 20px;
@@ -369,7 +369,7 @@ const ValueBold = styled.p`
 `;
 
 const Value = styled.p`
-  font-family: Ubuntu;
+  
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
@@ -382,7 +382,7 @@ const Value = styled.p`
   border-radius: 4px;
 `;
 const Label0 = styled.p`
-  font-family: Ubuntu;
+  
   font-size: 11px;
   font-weight: 500;
   line-height: 20px;
@@ -394,7 +394,7 @@ const Label0 = styled.p`
 `;
 
 const ValueBold0 = styled.p`
-  font-family: Ubuntu;
+  
   font-size: 14px;
   font-weight: 700;
   line-height: 20px;
@@ -408,7 +408,7 @@ const ValueBold0 = styled.p`
 `;
 
 const Value0 = styled.p`
-  font-family: Ubuntu;
+  
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
@@ -427,7 +427,7 @@ const SelectCategoryText = styled.p`
   margin-top: 10px;
   text-align: left;
   width: 100%;
-  font-family: ubuntu;
+  
   margin-bottom: -4px;
 `;
 
@@ -462,7 +462,7 @@ const ProceedButton = styled.button`
   width: 114px;
   height: 50px;
   opacity: 1;
-  font-family: ubuntu;
+  
 `;
 
 export default VMPScreenThreeCategory;

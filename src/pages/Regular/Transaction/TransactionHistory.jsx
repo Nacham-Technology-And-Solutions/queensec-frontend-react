@@ -111,8 +111,7 @@ const Container = styled.div`
   height: 100vh;
   max-width: 400px;
   margin: 0 auto;
-  border-radius: 30px;
-  font-family: 'Ubuntu', sans-serif;
+  border-radius: 30px; 
 `;
 
 const Header = styled.div`
@@ -127,8 +126,7 @@ const BackButton = styled.img`
   cursor: pointer;
 `;
 
-const Title = styled.h1`
-  font-family: Ubuntu;
+const Title = styled.h1` 
   font-size: 20px;
   font-weight: 500;
   line-height: 32px;
@@ -228,8 +226,7 @@ const AmountContainer = styled.div`
 `;
 
 const AmountToday = styled.p`
-  color: #F07F23;
-  font-family: Ubuntu;
+  color: #F07F23; 
   font-size: 14px;
   font-weight: 700;
   line-height: 20px;
@@ -241,8 +238,7 @@ const AmountToday = styled.p`
 const DateText = styled.p`
   font-size: 14px;
   color: #67728A;
-  font-weight: 500;
-  font-family: Ubuntu, sans-serif;
+  font-weight: 500; 
   line-height: 20px;
   margin: 0;
   margin-bottom: 10px;

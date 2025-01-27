@@ -79,7 +79,7 @@ height: 32px;
 gap: 0px;
 opacity: 0px;
 //styleName: Heading/20;
-font-family: Ubuntu;
+
 font-size: 20px;
 font-weight: 500;
 line-height: 32px;
@@ -103,7 +103,7 @@ gap: 0px;
 opacity: 0px;
 
 //styleName: Paragraph/Normal;
-font-family: Ubuntu;
+
 font-size: 14px;
 font-weight: 400;
 line-height: 20px;
@@ -146,7 +146,7 @@ height: 20px;
 gap: 0px;
 opacity: 0px;
 //styleName: Paragraph/Bold;
-font-family: Ubuntu;
+
 font-size: 14px;
 font-weight: 700;
 line-height: 20px;
@@ -160,7 +160,7 @@ text-decoration-skip-ink: none;
 `;
 
 const PayId = styled.p`
-    font-family: Ubuntu, sans-serif;
+    
     font-size: 12px;
     color: #67728a;
     margin: 0;
@@ -171,7 +171,7 @@ const AmountDetails = styled.div`
 `;
 
 const Amount = styled.h3`
-    font-family: Ubuntu, sans-serif;
+    
     font-size: 16px;
     font-weight: 700;
     color: #F07F23;
@@ -184,7 +184,7 @@ opacity: 0px;
 `;
 
 const Date = styled.p`
-    font-family: Ubuntu, sans-serif;
+    
     font-size: 12px;
     color: #67728a;
     margin: 0;
@@ -197,7 +197,7 @@ const MakePaymentButton = styled.button`
     color: #F07F23;
     border: none;
     border-radius: 30px;
-    font-family: Ubuntu, sans-serif;
+    
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;

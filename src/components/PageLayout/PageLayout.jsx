@@ -4,7 +4,7 @@ import './PageLayout.scss'; // Import the SCSS file
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 
-const PageLayout = ({ children, header, footer }) => {
+const PageLayout = ({ children, header, footer, centered = false }) => {
 
     return (
         <div className="page-layout">
@@ -21,7 +21,7 @@ const PageLayout = ({ children, header, footer }) => {
             /> */}
 
             {header && <header className="layout-header">{header}</header>}
-            <main className="layout-content">{children}</main>
+            <main className={"layout-content " + (centered ? "center" : "")}>{children}</main>
             <footer className="layout-footer">
                 {footer}
                 <div className='powered'>

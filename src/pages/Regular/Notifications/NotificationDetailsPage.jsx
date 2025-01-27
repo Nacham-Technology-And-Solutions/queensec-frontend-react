@@ -37,8 +37,7 @@ const Container = styled.div`
   height: 100vh;
   max-width: 400px;
   margin: 0 auto;
-  border-radius: 30px;
-  font-family: 'Ubuntu', sans-serif;
+  border-radius: 30px; 
 `;
 
 const Header = styled.div`
@@ -58,8 +57,7 @@ const BackIcon = styled.img`
   height: 24px;
 `;
 
-const Title = styled.h1`
-  font-family: Ubuntu, sans-serif;
+const Title = styled.h1` 
   font-size: 20px;
   font-weight: 500;
   line-height: 20px;
@@ -80,139 +78,3 @@ const Message = styled.p`
 `;
 
 export default NotificationDetailsPage;
-
-
-// import React from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import styled from 'styled-components';
-// import planeIcon from '../assets/planeicon.png';
-
-// const NotificationPage = ({ notifications }) => {
-//     const navigate = useNavigate();
-
-//     const handleNotificationClick = (id) => {
-//         navigate(`/notifications/${id}`);
-//     };
-
-//     const getPreviewMessage = (message) => {
-//         return message.length > 60 ? `${message.substring(0, 60)}...` : message;
-//     };
-
-//     return (
-//         <Container>
-//             <Header>
-//                 <Title>Transaction</Title>
-//             </Header>
-
-//             {notifications.map((notification) => (
-//                 <NotificationContainer key={notification.id} onClick={() => handleNotificationClick(notification.id)}>
-//                     <NotificationDate>{notification.date || new Date().toLocaleDateString()}</NotificationDate>
-//                     <NotificationContent>
-//                         <PlaneIcon src={planeIcon} alt="Plane Icon" />
-//                         <div>
-//                             <NotificationTitle>{notification.title}</NotificationTitle>
-//                             <NotificationMessage>{getPreviewMessage(notification.message)}</NotificationMessage>
-//                         </div>
-//                     </NotificationContent>
-//                 </NotificationContainer>
-//             ))}
-
-//             {/* Bottom Navigation (assuming it’s already styled and functional as shown before) */}
-//             <BottomNav>
-//                 {/* Other navigation icons */}
-//             </BottomNav>
-//         </Container>
-//     );
-// };
-
-// // Styled Components
-// const Container = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   padding: 20px;
-//   background-color: #F7F9FA;
-//   height: 100vh;
-//   max-width: 400px;
-//   margin: 0 auto;
-//   border-radius: 30px;
-//   font-family: 'Ubuntu', sans-serif;
-// `;
-
-// const Header = styled.div`
-//   display: flex;
-//   align-items: center;
-//   margin-bottom: 20px;
-// `;
-
-// const Title = styled.h1`
-//   font-family: Ubuntu;
-//   font-size: 20px;
-//   font-weight: 500;
-//   line-height: 32px;
-//   letter-spacing: 0.3799999952316284px;
-//   text-align: left;
-//   color: #6C3ECF;
-//   margin-left: 28px;
-// `;
-
-// const NotificationContainer = styled.div`
-//   background-color: white;
-//   padding: 15px;
-//   border-radius: 10px;
-//   margin-bottom: 15px;
-//   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-//   cursor: pointer;
-// `;
-
-// const NotificationDate = styled.p`
-//   font-family: Ubuntu;
-//   font-size: 14px;
-//   font-weight: 400;
-//   line-height: 20px;
-//   letter-spacing: -0.153px;
-//   color: #414D63;
-// `;
-
-// const NotificationContent = styled.div`
-//   display: flex;
-//   align-items: center;
-// `;
-
-// const PlaneIcon = styled.img`
-//   width: 20px;
-//   height: 20px;
-//   margin-right: 10px;
-// `;
-
-// const NotificationTitle = styled.h2`
-//   font-family: Ubuntu;
-//   font-size: 14px;
-//   font-weight: 500;
-//   line-height: 20px;
-//   letter-spacing: -0.153px;
-//   color: #414D63;
-//   margin: 0;
-// `;
-
-// const NotificationMessage = styled.p`
-//   font-family: Ubuntu;
-//   font-size: 11px;
-//   font-weight: 400;
-//   line-height: 20px;
-//   letter-spacing: -0.153px;
-//   color: #67728A;
-//   margin: 0;
-// `;
-
-// // Example data for notifications (for testing)
-// const notifications = [
-//     {
-//         id: 1,
-//         title: "More ways to pay your tax",
-//         message: "We have added two payment gateways to make your payment experience faster.",
-//         date: "16 Sep 2024"
-//     },
-//     // More notifications...
-// ];
-
-// export default NotificationPage;

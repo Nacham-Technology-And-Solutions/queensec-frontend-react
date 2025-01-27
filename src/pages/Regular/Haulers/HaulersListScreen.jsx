@@ -358,8 +358,7 @@ const HaulerInfo = styled.div`
 
 const MoreText = styled.span`
 
-  color: #67728A;
-  font-family: Ubuntu;
+  color: #67728A; 
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
@@ -494,12 +493,5 @@ const CloseButton = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
-`;
-
-const AddIconStyled = styled.img`
-  width: 20px;
-  height: 20px;
-  margin-right: 8px;
-`;
-
+`; 
 export default HaulersListScreen;
