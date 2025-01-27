@@ -37,7 +37,7 @@ const PasswordRecoveryRequestScreen = () => {
 
     request.then((response) => {
       setLoading(false);
-      alert(response.message);
+      alert(response);
       navigate('/password-recovery-sent');
     });
     // Validate fields

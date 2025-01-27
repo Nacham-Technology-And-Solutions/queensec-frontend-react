@@ -14,6 +14,7 @@ const PasswordRecoveryRequestCreateScreen = () => {
 
   // Get individual query parameters
   const token = searchParams.get('token'); // "John"
+  const email = searchParams.get('email'); // "John"
 
   // showPassword: boolean controlling visibility
   // setShowPassword: function to toggle show/hide
@@ -59,6 +60,7 @@ const PasswordRecoveryRequestCreateScreen = () => {
     const payload = {
       password: securityInfo.password,
       password_confirmation: securityInfo.confirmPassword,
+      email: email,
       token: token,
     };
 
@@ -66,7 +68,7 @@ const PasswordRecoveryRequestCreateScreen = () => {
 
     requestReset.then((response) => {
       setLoading(false);
-      alert(response.message);
+      alert(response);
       navigate('/login-page');
     });
   };
