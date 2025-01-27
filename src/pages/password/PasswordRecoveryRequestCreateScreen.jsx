@@ -6,7 +6,7 @@ import InputFieldx from "../../components/InputField/InputField";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { passwordResetRequest } from '../../utils/authApiRequests';
+import { passwordReset } from '../../utils/authApiRequests';
 
 const PasswordRecoveryRequestCreateScreen = () => {
   const [searchParams] = useSearchParams();
@@ -64,7 +64,7 @@ const PasswordRecoveryRequestCreateScreen = () => {
       token: token,
     };
 
-    const requestReset = passwordResetRequest(payload);
+    const requestReset = passwordReset(payload);
 
     requestReset.then((response) => {
       setLoading(false);
