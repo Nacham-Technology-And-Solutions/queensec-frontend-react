@@ -45,6 +45,12 @@ import ProtectedRoute from './utils/ProtectedRoute.jsx';
 import PasswordRecoveryRequestScreen from './pages/password/PasswordRecoveryRequestScreen.jsx';
 import PasswordRecoveryRequestSentScreen from './pages/password/PasswordRecoveryRequestSentScreen.jsx';
 import PasswordRecoveryRequestCreateScreen from './pages/password/PasswordRecoveryRequestCreateScreen.jsx';
+import FWScreenOneAmount from './pages/Regular/FundWallet/FWScreenOneAmount.jsx';
+import FWScreenTwoPaymentMethod from './pages/Regular/FundWallet/FWScreenTwoPaymentMethod.jsx';
+import FWScreenThreePaymentStatus from './pages/Regular/FundWallet/FWScreenThreePaymentStatus.jsx'; 
+import VFWScreenOneAmount from './pages/Vendor/FundWallet/VFWScreenOneAmount.jsx';
+import VFWScreenTwoPaymentMethod from './pages/Vendor/FundWallet/VFWScreenTwoPaymentMethod.jsx';
+import VFWScreenThreePaymentStatus from './pages/Vendor/FundWallet/VFWScreenThreePaymentStatus.jsx';
 
 // Inline ProtectedRoute Component
 
@@ -79,8 +85,8 @@ function App() {
             {/* Ejiro Finish */}
             <Route path="/notifications" element={<ProtectedRoute><NotificationPage /></ProtectedRoute>} />
             <Route path="/notifications-details" element={<ProtectedRoute><NotificationDetailsPage /></ProtectedRoute>} />
-           
-            
+
+
             <Route path="/enterprise-dashboard" element={<ProtectedRoute><EnterpriseDashboard /></ProtectedRoute>} />
 
             {/* Payments Routes */}
@@ -104,6 +110,26 @@ function App() {
 
             <Route path="/mp-payment-status" element={<ProtectedRoute><MPScreenPaymentStatus /></ProtectedRoute>} />
             <Route path="*" element={<RouteNotFoundScreen />} />
+
+
+
+            {/* Wallet Routes */}
+            {/* User|Corperate */}
+            {/* <Route path="/fw-one-amount" element={<ProtectedRoute><FWScreenOneAmount /></ProtectedRoute>} />
+            <Route path="/fw-two-payment-method" element={<ProtectedRoute><FWScreenTwoPaymentMethod /></ProtectedRoute>} />
+            <Route path="/fw-three-payment-status" element={<ProtectedRoute><FWScreenThreePaymentStatus /></ProtectedRoute>} /> */}
+             
+            {/* Vendor */}
+            {/* Fund Wallet */}
+            <Route path="/vendor-fw-one-amount" element={<ProtectedRoute><VFWScreenOneAmount /></ProtectedRoute>} />
+            <Route path="/vendor-fw-two-payment-method" element={<ProtectedRoute><VFWScreenTwoPaymentMethod /></ProtectedRoute>} />
+            <Route path="/vendor-fw-three-payment-status" element={<ProtectedRoute><VFWScreenThreePaymentStatus /></ProtectedRoute>} />
+
+            {/* Issue Ticket */}
+            {/* <Route path="/vendor-it-one-ticket-mode" element={<ProtectedRoute><VITScreenTicketMode /></ProtectedRoute>} />
+            <Route path="/vendor-it-two-details" element={<ProtectedRoute><VITScreenTwoDetails /></ProtectedRoute>} />
+            <Route path="/vendor-it-three-amount" element={<ProtectedRoute><VITScreenThreeAmount /></ProtectedRoute>} />
+            <Route path="/vendor-it-four-success" element={<ProtectedRoute><VITScreenFourSuccess /></ProtectedRoute>} /> */}
 
         </Routes>
 

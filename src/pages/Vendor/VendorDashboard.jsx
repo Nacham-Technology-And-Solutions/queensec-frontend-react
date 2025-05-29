@@ -62,6 +62,7 @@ const VendorDashboard = () => {
           localStorage.setItem('username', user.username);
           localStorage.setItem('account_type', user.account_type);
           localStorage.setItem('state', user.state);
+          localStorage.setItem('wallet_balance', user.wallet_balance);
         } else {
           console.error('Failed to fetch user data:', response.data.message || 'Unknown error.');
         }
@@ -174,8 +175,12 @@ const VendorDashboard = () => {
 
   ]);
 
-  const handleMakePayment = () => {
-    navigate('/vendor-mp-one-payee'); // Use navigate to change routes
+  const handleFundWallet = () => {
+    navigate('/vendor-fw-one-amount'); // Use navigate to change routes
+  };
+
+  const handleTicketIssue = () => {
+    navigate('/vendor-it-one-ticket-mode'); // Use navigate to change routes
   };
 
 
@@ -201,7 +206,8 @@ const VendorDashboard = () => {
       <DashboardCardx
         topLeft={truncateText(userData.name, 17)} topLeftLabel={"Welcome,"}
         topRight={userData.accountType} topRightLabel={"Account Type:"}
-        bottomLeft={<Button label="Make Payment" onClick={handleMakePayment} size='mini' isShort={true} />} bottomLeftLabel={""}
+        bottomLeft={<Button label="Fund Wallet" onClick={handleFundWallet} size='mini' isShort={true} />} bottomLeftLabel={""}
+        bottomRight={<Button label="Issue Ticket" onClick={handleTicketIssue} size='mini' isShort={true} />} bottomRightLabel={""}
       />
 
       {/* Transaction Chart */}

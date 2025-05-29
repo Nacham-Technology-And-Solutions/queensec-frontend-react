@@ -7,7 +7,7 @@ const InputField = ({ label, type = "text", placeholder, name, value = "", onCha
     const labelID = `input-field-${label}`;
 
     return (
-        <div className={inputClass}>
+        <div className={inputClass} >
             <label htmlFor={labelID}>{label} {isRequired && <span style={{ color: "red" }}>*</span>}</label>
             <div className='field'>
                 <input
