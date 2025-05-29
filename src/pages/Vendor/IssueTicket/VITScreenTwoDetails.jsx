@@ -44,6 +44,10 @@ const VITScreenTwoDetails = () => {
   const handleCategoriesChange = async (e) => {
     const value = e.target.value;
     setSelectedCategory(value);
+ 
+    const foundItem = categories.find(item => item.id === value);
+    console.log(e.target.value)
+    // localStorage.setItem('mineral', )
   };
 
   const fetchVehicleTypes = async () => {
@@ -67,7 +71,6 @@ const VITScreenTwoDetails = () => {
       }
 
       const url = `${API_BASE_URL}/user/get-fee-category-by-hauler-type?hauler_type_id=${haulerTypeId}`;
-      // /user/get-fee-category
 
 
       const response = await axios.get(url, {

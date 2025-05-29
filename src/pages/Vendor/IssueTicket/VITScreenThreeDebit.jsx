@@ -123,7 +123,7 @@ const VITScreenThreeDebit = () => {
 
       <TaxIdContainer>
 
-        <p>[Hauler Type], Will Cost [Mineral Cost].</p>
+        <p>You want to pay for a [Hauler Type], Will Cost [Mineral Cost].</p>
         <InputFieldx
           label="Mineral Cost"
           type="number"
@@ -136,8 +136,8 @@ const VITScreenThreeDebit = () => {
         />
 
         <Feedback>
-          <PositiveFeedBack>{sufficiency}</PositiveFeedBack>
-          <NegativeFeedBack>{sufficiency}</NegativeFeedBack>
+          {sufficient && (<PositiveFeedBack>{sufficiency}</PositiveFeedBack>)}
+          {!sufficient && (<NegativeFeedBack>{sufficiency}</NegativeFeedBack>)}
         </Feedback>
 
         <p>
@@ -145,7 +145,7 @@ const VITScreenThreeDebit = () => {
 
           <PositiveFeedBack>Wallet: ₦{balance}</PositiveFeedBack>
           <NegativeFeedBack>Cost: ₦{amount}</NegativeFeedBack>
-          <OrangeFeedBack>Fund Needed: ₦{balance - amount}</OrangeFeedBack>
+          <OrangeFeedBack>Fund Needed: ₦{difference}</OrangeFeedBack>
         </p>
       </TaxIdContainer>
 
