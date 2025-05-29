@@ -1,60 +1,91 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import QRCode from 'react-qr-code';
-import coalpileIcon from '../../../assets/coalpile.png';
+import coalpileIcon from '../../assets/coalpile.png';
 import axios from 'axios';
-import { useUser } from '../../../context/UserContext';
+import { useUser } from '../../context/UserContext';
 
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 
-const VITScreenFourSuccess = () => {
+const VendorTicketStatus = () => {
+
+  const [searchParams] = useSearchParams();
+  const queryString = searchParams.toString();
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const ticketIdParam = queryParams.get('ticket_id');
+
+
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState('');
-  const [status, setStatus] = useState('');
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate(); 
   const { user } = useUser();
-
-
+  
+  const token = localStorage.getItem('token');
+  
+  const [scanned, setScanned] = useState('0');
+  const [status, setStatus] = useState('');
+  const [statusMessage, setStatusMessage] = useState('');
   const [amount, setAmount] = useState('');
-  const [haulerTypeName, setHaulerTypeName] = useState(localStorage.getItem('hauler_type_id') || 1);
+  const [haulerTypeName, setHaulerTypeName] = useState('');
   const [transactionId, setTransactionId] = useState('');
   const [numberPlate, setNumberPlate] = useState('');
   const [mineralName, setMineralName] = useState('');
+  const [mineralSymbol, setMineralSymbol] = useState('XL');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [ticketId, setTicketId] = useState('');
 
-  useEffect(() => {
+  useEffect(() => { 
     const fetchPaymentDetails = async () => {
+ 
+      try {
+        const orderResponse = await axios.get(`${API_BASE_URL}/wallet/ticket-status/${ticketIdParam}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      const responseData = JSON.parse(localStorage.getItem('responseData'));
+        if (orderResponse.status === 200) {
+          if (orderResponse.data.success) {
+            const responseData = orderResponse.data.data;
 
-      setAmount(responseData.amount || '0'); // Replace with actual data.amount from backend if available
-      setHaulerTypeName(responseData.hauler_type_name || '');
-      setTransactionId(responseData.wallet_transaction_id || ''); // Replace with actual data.user_name
-      setNumberPlate(responseData.number_plate || ''); // Replace with actual data.number_plate
-      setMineralName(responseData.mineral_name || ''); // Replace with actual data.mineral_name
-      setDate(new Date(responseData.date).toLocaleDateString()); // Replace with actual data.date
-      setTime(new Date(responseData.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })); // Replace with actual data.date 
-      setTicketId(responseData.ticket_id || ''); // Replace with actual data.hauler
-      setLoading(false);
+            setAmount(responseData.amount || '0'); 
+            setHaulerTypeName(responseData.hauler_type_name || '');
+            setTransactionId(responseData.wallet_transaction_id || ''); 
+            setNumberPlate(responseData.number_plate || ''); 
+            setMineralName(responseData.mineral_name || '');  
+            setMineralSymbol(responseData.mineral_symbol || '');  
+            setDate(new Date(responseData.date).toLocaleDateString());  
+            setTime(new Date(responseData.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })); // Replace with actual data.date 
+            setTicketId(responseData.ticket_id || '');  
+            setStatus(responseData.status || '');  
+            setStatusMessage(responseData.status_message || '');  
+            setScanned(responseData.scanned || '');  
+          }
+        }
+
+
+      } catch (error) {
+        console.error('Error Issuing Ticket:', error);
+      } finally {
+        setLoading(false);
+      }
     }
 
     fetchPaymentDetails();
-  }, [location]);
+  }, []);
 
   const handleShare = () => {
     if (navigator.share) {
       navigator
         .share({
-          title: status === 'completed' ? 'Payment Successful' : 'Payment Cancelled',
-          text: status === 'completed'
-            ? `Payment of NGN ${amount} for ${mineralName} was successful! Pay ID: ${transactionId}`
-            : `Payment was cancelled. Pay ID: ${transactionId}`,
+          title: status,
+          text: statusMessage,
           url: window.location.href,
         })
         .then(() => console.log('Successful share'))
@@ -90,12 +121,12 @@ const VITScreenFourSuccess = () => {
       <Icon src={coalpileIcon} alt="Coalpile Icon" />
       <Amount>NGN {parseInt(amount).toLocaleString() || '0'}</Amount>
       <Status>
-        Payment Successful
+        {status}
       </Status>
       <Details>
         <InfoRow>
           <UserInfo>
-            <UserIcon>CL</UserIcon>
+            <UserIcon>{mineralSymbol}</UserIcon>
             <UserDetails>
               <UserName>{mineralName}</UserName>
               <UserPayId>{transactionId}</UserPayId>
@@ -140,7 +171,7 @@ const VITScreenFourSuccess = () => {
         {/* <QRCode value={`${ticketId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" /> */}
       </QRCodeContainer>
       <ShareButton onClick={handleShare}>Share</ShareButton>
-      <BackButton onClick={goToDashboard}>Return to Dashboard</BackButton>
+      <BackButton onClick={goToDashboard}>Go to Dashboard</BackButton>
     </Container>
   );
 };
@@ -348,4 +379,4 @@ const BackButton = styled.button`
   cursor: pointer;
 `;
 
-export default VITScreenFourSuccess;
+export default VendorTicketStatus;

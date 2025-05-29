@@ -176,10 +176,29 @@ const VendorDashboard = () => {
   ]);
 
   const handleFundWallet = () => {
+
+    // Delete All old Payment Data if set 
+    localStorage.removeItem('amount');
+
     navigate('/vendor-fw-one-amount'); // Use navigate to change routes
   };
 
   const handleTicketIssue = () => {
+
+    // Delete All old Payment Data if set
+    localStorage.removeItem('issue_method');
+
+    localStorage.removeItem('fee_category_id');
+    localStorage.removeItem('number_plate');
+    localStorage.removeItem('hauler_type_id');
+    localStorage.removeItem('driver_name');
+    localStorage.removeItem('phone_number');
+    localStorage.removeItem('loading_point');
+    localStorage.removeItem('offloading_point');
+    localStorage.removeItem('fee_category');
+    localStorage.removeItem('hauler_type');
+     
+
     navigate('/vendor-it-one-ticket-mode'); // Use navigate to change routes
   };
 

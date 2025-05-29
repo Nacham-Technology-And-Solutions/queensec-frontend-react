@@ -14,11 +14,15 @@ const VITScreenThreeDebit = () => {
   const [sufficient, setSufficient] = useState(false);
   const [sufficiency, setSufficiency] = useState('Sufficient Balance');
 
+  const [btnLabel, setBtnLabel] = useState("Proceed");
   const [difference, setDifference] = useState(0);
   const [amount, setAmount] = useState(localStorage.getItem('amount') || 1);
   const [balance, setBalance] = useState(localStorage.getItem('wallet_balance') || 1);
   const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || '');
   const token = localStorage.getItem('token');
+  const [feeCategory, setFeeCategory] = useState(JSON.parse(localStorage.getItem('fee_category')) || null);
+  const [haulerType, setHaulerType] = useState(JSON.parse(localStorage.getItem('hauler_type')) || null);
+
   const [feeCategoryId, setFeeCategoryId] = useState(localStorage.getItem('fee_category_id') || 1);
   const [haulerTypeId, setHaulerTypeId] = useState(localStorage.getItem('hauler_type_id') || 1);
   const [numberPlate, setNumberPlate] = useState(localStorage.getItem('number_plate') || '');
@@ -36,22 +40,24 @@ const VITScreenThreeDebit = () => {
   useEffect(() => {
     // Extract Data for Placing Order  
     setDifference(balance - amount); // Check if the cost can be subtracted from the wallet balance without negatives
-
+    console.log(haulerType);
     // If sufficient funds are in the wallet,
     // change the proceed button to lead to ticket generation area. 
     // lock and debit the wallet.
     // Issue Ticket.
     if ((balance - amount) > -1) {
-      setSufficient(true)
-      setSufficiency("Sufficient Balance")
+      setSufficient(true);
+      setSufficiency("Sufficient Balance");
+      setBtnLabel("Issue Ticket");
     } else {
       // If insufficient funds,
       // change the proceed button to lead the fund screen.
       setSufficient(false)
       setSufficiency("Insufficient Balance")
+      setBtnLabel("Fund Wallet");
     }
 
-  }, [amount, balance]);
+  }, [amount, balance, haulerType]);
 
 
   const handleProceed = async () => {
@@ -71,15 +77,28 @@ const VITScreenThreeDebit = () => {
         loading_point: loadingPoint,
         offloading_point: offloadingPoint,
       };
+      try {
+        const orderResponse = await axios.post(`${API_BASE_URL}/wallet/issue-ticket`, payload, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      const orderResponse = await axios.post(`${API_BASE_URL}/wallet/issue-ticket`, payload, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+        if (orderResponse.status === 201) {
+          if (orderResponse.data.success) {
+            const responseData = orderResponse.data.data;
+
+            localStorage.setItem('responseData', JSON.stringify(responseData));
+
+          }
+        }
+
+        navigate('/vendor-it-four-success');
+      } catch (error) {
+        console.error('Error Issuing Ticket:', error);
+      }
 
 
-      navigate('/vendor-it-four-success');
     } else {
       // Navigate to fund wallet flow,
       navigate('/vendor-fw-one-amount');
@@ -87,7 +106,7 @@ const VITScreenThreeDebit = () => {
 
   }
 
-  const handleBack = () => navigate('/vendor-it-one-ticket-mode');
+  const handleBack = () => navigate('/vendor-it-two-details');
 
   return (
     <Container>
@@ -123,7 +142,7 @@ const VITScreenThreeDebit = () => {
 
       <TaxIdContainer>
 
-        <p>You want to pay for a [Hauler Type], Will Cost [Mineral Cost].</p>
+        <p>You want to issue ticket for [ {feeCategory.name} ] in a [ {haulerType.name} ], Which will Cost [ ₦{amount} ]?</p>
         <InputFieldx
           label="Mineral Cost"
           type="number"
@@ -139,17 +158,23 @@ const VITScreenThreeDebit = () => {
           {sufficient && (<PositiveFeedBack>{sufficiency}</PositiveFeedBack>)}
           {!sufficient && (<NegativeFeedBack>{sufficiency}</NegativeFeedBack>)}
         </Feedback>
+        {
+          !sufficient && (
+            <>
+              <p>
+                You will need to fund your wallet to continue to issue this ticket.
 
-        <p>
-          You will need to fund your wallet to continue to issue this ticket.
+                <PositiveFeedBack>Wallet: ₦{balance}</PositiveFeedBack>
+                <NegativeFeedBack>Cost: ₦{amount}</NegativeFeedBack>
+                <OrangeFeedBack>Fund Needed: ₦{difference}</OrangeFeedBack>
+              </p>
+            </>
+          )
+        }
 
-          <PositiveFeedBack>Wallet: ₦{balance}</PositiveFeedBack>
-          <NegativeFeedBack>Cost: ₦{amount}</NegativeFeedBack>
-          <OrangeFeedBack>Fund Needed: ₦{difference}</OrangeFeedBack>
-        </p>
       </TaxIdContainer>
 
-      <ProceedButton onClick={handleProceed}>Proceed</ProceedButton>
+      <ProceedButton onClick={handleProceed}>{btnLabel}</ProceedButton>
     </Container>
   );
 };

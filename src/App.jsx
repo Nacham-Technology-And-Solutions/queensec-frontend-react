@@ -52,6 +52,7 @@ import VITScreenTwoDetails from './pages/Vendor/IssueTicket/VITScreenTwoDetails.
 import VITScreenThreeDebit from './pages/Vendor/IssueTicket/VITScreenThreeDebit.jsx';
 import VITScreenOneTicketMode from './pages/Vendor/IssueTicket/VITScreenOneTicketMode.jsx';
 import VITScreenFourSuccess from './pages/Vendor/IssueTicket/VITScreenFourSuccess.jsx';
+import VendorTicketStatus from './pages/Vendor/VendorTicketStatus.jsx';
 
 // Inline ProtectedRoute Component
 
@@ -66,6 +67,7 @@ function App() {
             <Route path="/password-recovery-sent" element={<PasswordRecoveryRequestSentScreen />} />
             <Route path="/password-recovery-create" element={<PasswordRecoveryRequestCreateScreen />} />
             <Route path="/password-recovery-successful" element={<LoginPage />} />
+            <Route path="/ticket-status" element={<VendorTicketStatus />} />
 
             {/* Sign Up Screens 1 - 5 */}
             <Route path="/sign-up-user-type" element={<SignUpScreenOneUserType />} />

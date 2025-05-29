@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import LeftIcon from '../../../assets/left.png';
@@ -11,58 +11,30 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 const VITScreenTwoDetails = () => {
   const navigate = useNavigate();
   const [vehicleTypes, setVehicleTypes] = useState([]);
-  const [selectedVehicle, setSelectedVehicle] = useState('');
+  const [selectedVehicle, setSelectedVehicle] = useState(localStorage.getItem('hauler_type_id') || '');
+
+  const [feeCategory, setFeeCategory] = useState(JSON.parse(localStorage.getItem('fee_category')) || null);
+  const [haulerType, setHaulerType] = useState(JSON.parse(localStorage.getItem('hauler_type')) || null);
 
   const [balance, setBalance] = useState(localStorage.getItem('wallet_balance') || 1);
   const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || '');
   const token = localStorage.getItem('token');
 
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(localStorage.getItem('fee_category_id') || '');
   const [loadingCategories, setLoadingCategories] = useState(false);
 
-  const [feeCategoryId, setFeeCategoryId] = useState(localStorage.getItem('fee_category_id') || 1);
-  const [haulerTypeId, setHaulerTypeId] = useState(localStorage.getItem('hauler_type_id') || 1);
+  // const [feeCategoryId, setFeeCategoryId] = useState(localStorage.getItem('fee_category_id') || 0);
+  // const [haulerTypeId, setHaulerTypeId] = useState(localStorage.getItem('hauler_type_id') || 0);
   const [numberPlate, setNumberPlate] = useState(localStorage.getItem('number_plate') || '');
-  const [driverName, setDriverName] = useState(localStorage.getItem('driver_name') || 'null');
-  const [phoneNumber, setPhoneNumber] = useState(localStorage.getItem('phone_number') || 'null');
-  const [loadingPoint, setLoadingPoint] = useState(localStorage.getItem('loading_point') || 'null');
-  const [offloadingPoint, setOffloadingPoint] = useState(localStorage.getItem('offloading_point') || 'null');
+  // const [driverName, setDriverName] = useState(localStorage.getItem('driver_name') || 'null');
+  // const [phoneNumber, setPhoneNumber] = useState(localStorage.getItem('phone_number') || 'null');
+  // const [loadingPoint, setLoadingPoint] = useState(localStorage.getItem('loading_point') || 'null');
+  // const [offloadingPoint, setOffloadingPoint] = useState(localStorage.getItem('offloading_point') || 'null');
 
-  useEffect(() => {
-    fetchVehicleTypes();
-  }, []);
-
-  const handleVehicleChange = async (e) => {
-    const value = e.target.value;
-    setSelectedVehicle(value);
-    setLoadingCategories(true);
-    setSelectedCategory('');
-    fetchCategories(value);
-  };
-
-  const handleCategoriesChange = async (e) => {
-    const value = e.target.value;
-    setSelectedCategory(value);
- 
-    const foundItem = categories.find(item => item.id === value);
-    console.log(e.target.value)
-    // localStorage.setItem('mineral', )
-  };
-
-  const fetchVehicleTypes = async () => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/haulers/type`);
-      if (response.data.success) {
-        setVehicleTypes(response.data.data);
-      }
-    } catch (error) {
-      console.error('Error fetching vehicle types:', error);
-    }
-  };
 
   // Fetch fee categories
-  const fetchCategories = async (haulerTypeId) => {
+  const fetchCategories = useCallback(async (haulerTypeId) => {
 
     try {
       if (!token) {
@@ -88,7 +60,41 @@ const VITScreenTwoDetails = () => {
     }
 
     setLoadingCategories(false);
+  });
+
+  useEffect(() => {
+    fetchVehicleTypes();
+
+    if (selectedVehicle) {
+      fetchCategories(selectedVehicle);
+    }
+  }, [selectedVehicle, fetchCategories]);
+
+  const handleVehicleChange = async (e) => {
+    const value = e.target.value;
+    setSelectedVehicle(value);
+    setLoadingCategories(true);
+    setSelectedCategory('');
+    fetchCategories(value);
   };
+
+  const handleCategoriesChange = async (e) => {
+    const value = e.target.value;
+    setSelectedCategory(value);
+  };
+
+  const fetchVehicleTypes = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/haulers/type`);
+      if (response.data.success) {
+        setVehicleTypes(response.data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching vehicle types:', error);
+    }
+  };
+
+
 
 
 
@@ -104,6 +110,14 @@ const VITScreenTwoDetails = () => {
       localStorage.setItem('phone_number', 'null');
       localStorage.setItem('loading_point', 'null');
       localStorage.setItem('offloading_point', 'null');
+
+      const selCat = categories.find(item => Number(item.id) === Number(selectedCategory));
+      const selVeh = vehicleTypes.find(item => Number(item.id) === Number(selectedVehicle));
+
+      localStorage.setItem('fee_category', JSON.stringify(selCat));
+      localStorage.setItem('hauler_type', JSON.stringify(selVeh));
+      localStorage.setItem('amount', selCat.price);
+
 
       navigate('/vendor-it-three-debit');
     } else {

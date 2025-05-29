@@ -26,7 +26,7 @@ const VITScreenOneTicketMode = () => {
     }
 
     else {
-      alert('Please enter amount to fund greater than ₦1,000.');
+      alert('Please choose Ticket Issue Method (Quick Issue).');
     }
   }
 
