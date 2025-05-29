@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate, useLocation } from 'react-router-dom'; 
+import { useNavigate, useLocation } from 'react-router-dom';
+import QRCode from 'react-qr-code';
+import coalpileIcon from '../../../assets/coalpile.png'; 
 import axios from 'axios';
 import { useUser } from '../../../context/UserContext';
-import QueensecLogo from '../../../assets/Queensec_1.png'; // Import the logo
 
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 
-const VFWScreenThreePaymentStatus = () => {
+const VITScreenFourSuccess = () => {
   const [loading, setLoading] = useState(true);
-  const [newWalletBalance, setNewWalletBalance] = useState('');
   const [amount, setAmount] = useState('');
-  const [taxId, setTaxId] = useState(''); 
+  const [payId, setPayId] = useState('');
+  const [userName, setUserName] = useState('');
+  const [hauler, setHauler] = useState('');
+  const [numberPlate, setNumberPlate] = useState('');
+  const [mineralName, setMineralName] = useState('');
   const [status, setStatus] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('');
-  const [transactionId, setTransactionId] = useState('');
-  const [transactionType, setTransactionType] = useState('');
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const VFWScreenThreePaymentStatus = () => {
 
         if (statusParam && txRefParam) {
           const response = await axios.post(
-            `${API_BASE_URL}/wallet/payment`,
+            `${API_BASE_URL}/payments`,
             {
               status: statusParam,
               tx_ref: txRefParam,
@@ -53,25 +54,78 @@ const VFWScreenThreePaymentStatus = () => {
           if (response.status === 200) {
             responseData = response.data.data;
           }
-          // const kindResponse = {
-          //   "success": true,
-          //   "message": "Payment Updated",
-          //   "data": {
-          //     "id": 7,
-          //     "user_name": "Precious Chikezie",
-          //     "payment_id": "KAD/RXM2334",
-          //     "order_id": 8,
-          //     "mineral_image": null,
-          //     "mineral_name": "ANTIMONY ORE",
-          //     "amount": "24000.00",
-          //     "hauler": "N/A",
-          //     "number_plate": "fortzi truck",
-          //     "unit": "Ton",
-          //     "status": "completed",
-          //     "date": "2025-01-12T05:51:29.000000Z",
-          //     "validated": false
-          //   }
-          // }
+          // const kindResponse =  {
+            //     "success": true,
+            //     "message": "Ticket Issued.",
+            //     "data": {
+            //         "payer_id": 1,
+            //         "mineral_id": 1,
+            //         "fee_category_id": 2,
+            //         "amount": "360000.00",
+            //         "status": "completed",
+            //         "updated_at": "2025-05-29T05:07:18.000000Z",
+            //         "created_at": "2025-05-29T05:07:18.000000Z",
+            //         "id": 9,
+            //         "transaction_id": 9,
+            //         "ticket_id": 8,
+            //         "mineral": {
+            //             "id": 1,
+            //             "name": "ANTIMONY ORE",
+            //             "advalorem": "3",
+            //             "market_value": "200000.00",
+            //             "royalty_rate": "6000.00",
+            //             "measurement_unit": "TON",
+            //             "description": "180000 SMALL TRUCK \\/ 360000 BIG TRUCK",
+            //             "img": null,
+            //             "active": "1",
+            //             "deleted_at": null,
+            //             "created_at": "2025-05-29T04:50:37.000000Z",
+            //             "updated_at": "2025-05-29T04:50:37.000000Z"
+            //         },
+            //         "transaction": {
+            //             "id": 9,
+            //             "wallet_id": "1",
+            //             "type": "FEE_PAYMENT",
+            //             "amount": "-360000",
+            //             "status": "COMPLETED",
+            //             "related_order_id": null,
+            //             "metadata": {
+            //                 "wallet_order_id": 9
+            //             },
+            //             "deleted_at": null,
+            //             "created_at": "2025-05-29T05:07:18.000000Z",
+            //             "updated_at": "2025-05-29T05:07:18.000000Z"
+            //         },
+            //         "ticket": {
+            //             "id": 8,
+            //             "price": "360000.00",
+            //             "orderable_type": "App\\Models\\WalletTicketOrder",
+            //             "orderable_id": "9",
+            //             "vehicle_owner_id": null,
+            //             "status": "active",
+            //             "valid_from": "2025-05-29",
+            //             "valid_until": "2025-06-05",
+            //             "enforcer_check_status": "not_checked",
+            //             "deleted_at": null,
+            //             "created_at": "2025-05-29T05:07:18.000000Z",
+            //             "updated_at": "2025-05-29T05:07:18.000000Z"
+            //         },
+            //         "trip_data": {
+            //             "id": 9,
+            //             "orderable_type": "App\\Models\\WalletTicketOrder",
+            //             "orderable_id": "9",
+            //             "driver_name": "null",
+            //             "phone_number": "null",
+            //             "number_plate": "X12X",
+            //             "hauler_type_id": "2",
+            //             "loading_point": "null",
+            //             "offloading_point": "null",
+            //             "deleted_at": null,
+            //             "created_at": "2025-05-29T05:07:18.000000Z",
+            //             "updated_at": "2025-05-29T05:07:18.000000Z"
+            //         }
+            //     }
+            // }
 
           // responseData = kindResponse.data;
         }
@@ -86,14 +140,16 @@ const VFWScreenThreePaymentStatus = () => {
         }
 
         debugger;
-        setTaxId(responseData.wallet_id || '0'); 
-        setNewWalletBalance(responseData.new_wallet_balance || '0'); 
-        setAmount(responseData.amount || '0'); 
-        setTransactionId(responseData.transaction_id || txRefParam || '');
-        setTransactionType(responseData.transaction_type || '');  
-        setPaymentMethod(responseData.payment_method || '');   
+        setAmount(responseData.amount || '0'); // Replace with actual data.amount from backend if available
+        setPayId(responseData.payment_id || txRefParam || '');
+        setUserName(responseData.user_name || ''); // Replace with actual data.user_name
+        setHauler(responseData.hauler || ''); // Replace with actual data.hauler
+        setNumberPlate(responseData.number_plate || ''); // Replace with actual data.number_plate
+        setMineralName(responseData.mineral_name || ''); // Replace with actual data.mineral_name
         setDate(new Date(responseData.date).toLocaleDateString()); // Replace with actual data.date
         setTime(new Date(responseData.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })); // Replace with actual data.date
+        // setDate(new Date().toLocaleDateString()); // Replace with actual data.date
+        // setTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })); // Replace with actual data.date
       } catch (error) {
         console.error('Error fetching payment details:', error.response?.data || error.message);
         alert('Failed to retrieve payment details. Please try again.');
@@ -105,22 +161,22 @@ const VFWScreenThreePaymentStatus = () => {
     fetchPaymentDetails();
   }, [location]);
 
-  // const handleShare = () => {
-  //   if (navigator.share) {
-  //     navigator
-  //       .share({
-  //         title: status === 'completed' ? 'Payment Successful' : 'Payment Cancelled',
-  //         text: status === 'completed'
-  //           ? `Payment of NGN ${amount} for ${mineralName} was successful! Pay ID: ${payId}`
-  //           : `Payment was cancelled. Pay ID: ${payId}`,
-  //         url: window.location.href,
-  //       })
-  //       .then(() => console.log('Successful share'))
-  //       .catch((error) => console.log('Error sharing:', error));
-  //   } else {
-  //     alert('Sharing is not supported in your browser.');
-  //   }
-  // };
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator
+        .share({
+          title: status === 'completed' ? 'Payment Successful' : 'Payment Cancelled',
+          text: status === 'completed'
+            ? `Payment of NGN ${amount} for ${mineralName} was successful! Pay ID: ${payId}`
+            : `Payment was cancelled. Pay ID: ${payId}`,
+          url: window.location.href,
+        })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing:', error));
+    } else {
+      alert('Sharing is not supported in your browser.');
+    }
+  };
 
   const goToDashboard = () => {
     if (user?.accountType === 'federal_agency') {
@@ -145,8 +201,7 @@ const VFWScreenThreePaymentStatus = () => {
 
   return (
     <Container>
-      
-      <Logo src={QueensecLogo} />
+      <Icon src={coalpileIcon} alt="Coalpile Icon" />
       <Amount>NGN {parseInt(amount).toLocaleString() || '0'}</Amount>
       <Status>
         {status === 'completed'
@@ -157,31 +212,33 @@ const VFWScreenThreePaymentStatus = () => {
       </Status>
       <Details>
         <InfoRow>
-           
-        <DetailItem>
-          <Label>New Balance</Label>
-          <Value>{newWalletBalance}</Value>
-        </DetailItem>
+          <UserInfo>
+            <UserIcon>CL</UserIcon>
+            <UserDetails>
+              <UserName>{mineralName}</UserName>
+              <UserPayId>{payId}</UserPayId>
+            </UserDetails>
+          </UserInfo>
           <AmountContainer>
             <AmountToday>NGN {parseInt(amount).toLocaleString()}</AmountToday>
             <DateText>{date}</DateText>
           </AmountContainer>
         </InfoRow>
         <DetailItem>
-          <Label>Wallet ID</Label>
-          <Value>{taxId}</Value>
+          <Label>User</Label>
+          <Value>{userName}</Value>
         </DetailItem>
         <DetailItem>
-          <Label>Payment Method</Label>
-          <Value>{paymentMethod}</Value>
+          <Label>Hauler</Label>
+          <Value>{hauler}</Value>
         </DetailItem>
         <DetailItem>
-          <Label1>Transaction ID </Label1>
-          <Value>{transactionId}</Value>
+          <Label1>Number Plate </Label1>
+          <Value>{numberPlate}</Value>
         </DetailItem>
         <DetailItem>
-          <Label>Transaction Type</Label>
-          <Value>{transactionType}</Value>
+          <Label>Mineral</Label>
+          <Value>{mineralName}</Value>
         </DetailItem>
         <DetailItem>
           <Label>Date</Label>
@@ -190,21 +247,21 @@ const VFWScreenThreePaymentStatus = () => {
         <DetailItem>
           <Label>Time</Label>
           <Value>{time}</Value>
-        </DetailItem> 
-      </Details> 
-      {/* <ShareButton onClick={handleShare}>Share</ShareButton> */}
+        </DetailItem>
+        <DetailItem>
+          <Label>Pay ID</Label>
+          <Value>{payId}</Value>
+        </DetailItem>
+      </Details>
+      <QRCodeContainer>
+        <QRCode value={`${payId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
+      </QRCodeContainer>
+      <ShareButton onClick={handleShare}>Share</ShareButton>
       <BackButton onClick={goToDashboard}>Return to Dashboard</BackButton>
     </Container>
   );
 };
 
-const Logo = styled.img`
-
-  width: 100px;
-  margin-bottom: 20px;
-  margin-left : -280px;
-  // padding-left: 100px;
-`;
 
 // Styled Components
 const LoadingContainer = styled.div`
@@ -382,6 +439,12 @@ const DetailItem = styled.div`
   margin-bottom: 10px; /* Add spacing between items */
 `; 
 
+const QRCodeContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+`;
+
 const ShareButton = styled.button`
   background-color: #fde5c0;
   color: #f28500;
@@ -402,4 +465,4 @@ const BackButton = styled.button`
   cursor: pointer;
 `;
 
-export default VFWScreenThreePaymentStatus;
+export default VITScreenFourSuccess;

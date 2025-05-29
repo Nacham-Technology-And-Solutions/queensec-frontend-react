@@ -3,19 +3,15 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import LeftIcon from '../../../assets/left.png';
-import MiniDashboardIcon from '../../../assets/MINI_DB.png';
-// import { useUser } from '../../../context/UserContext';
-import axios from 'axios';
-import InputFieldx from "../../../components/InputField/InputField";
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
+import MiniDashboardIcon from '../../../assets/MINI_DB.png'; 
+import InputFieldx from "../../../components/InputField/InputField"; 
 
 const VFWScreenOneAmount = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState(localStorage.getItem('amount') || 1);
   const [balance, setBalance] = useState(localStorage.getItem('wallet_balance') || 1);
   const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || '');
-  const [newBalance, setNewBalance] = useState(Number(balance) + Number(amount) || 0);
-  const token = localStorage.getItem('token');
+  const [newBalance, setNewBalance] = useState(Number(balance) + Number(amount) || 0); 
 
   const handleAmountChange = async (e) => {
     const inputTaxId = e.target.value;
@@ -44,7 +40,7 @@ const VFWScreenOneAmount = () => {
     <Container>
       <TopBar>
         <BackIcon src={LeftIcon} onClick={handleBack} />
-        <Title>Make Payment</Title>
+        <Title>Fund Wallet</Title>
       </TopBar>
 
       <TabContainer>
@@ -144,19 +140,7 @@ const Tab = styled.div`
   text-align: center;
   width: 100px; /* Set fixed width for tabs */
   border-radius: 0px; /* Adds rounded corners */
-`;
-
-// const BeneficiaryText = styled.div`
-//   font-size: 16px;
-//   color: #666;
-//   margin-top: 10px;
-//   text-align: right;
-//   width: 100%;
-//    margin-bottom: -15px;
-//    margin-top: 38px;
-//    cursor: pointer;
-// `;
-
+`; 
 
 const MiniDashboard = styled.div`
   background-color: #ffffff;

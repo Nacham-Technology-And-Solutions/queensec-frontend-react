@@ -46,7 +46,7 @@ const VFWScreenTwoPaymentMethod = () => {
 
 
 
-      const orderResponse = await axios.post(`${API_BASE_URL}/orders`, payload, {
+      const orderResponse = await axios.post(`${API_BASE_URL}/wallet/fund`, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -76,7 +76,7 @@ const VFWScreenTwoPaymentMethod = () => {
     <Container>
       <TopBar>
         <BackIcon src={LeftIcon} onClick={handleBack} />
-        <Title>Make Payment</Title>
+        <Title>Fund Wallet</Title>
       </TopBar>
 
       <TabContainer>
