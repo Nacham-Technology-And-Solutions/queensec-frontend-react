@@ -37,7 +37,7 @@ const VFWScreenThreePaymentStatus = () => {
 
         if (statusParam && txRefParam) {
           const response = await axios.post(
-            `${API_BASE_URL}/payments`,
+            `${API_BASE_URL}/wallet/payment`,
             {
               status: statusParam,
               tx_ref: txRefParam,
