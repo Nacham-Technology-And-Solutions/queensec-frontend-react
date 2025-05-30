@@ -116,7 +116,7 @@ const VITScreenTwoDetails = () => {
 
       localStorage.setItem('fee_category', JSON.stringify(selCat));
       localStorage.setItem('hauler_type', JSON.stringify(selVeh));
-      localStorage.setItem('amount', selCat.price);
+      localStorage.setItem('amount', Number(selCat.price));
 
 
       navigate('/vendor-it-three-debit');

@@ -51,10 +51,9 @@ const VITScreenFourSuccess = () => {
     if (navigator.share) {
       navigator
         .share({
-          title: status === 'completed' ? 'Payment Successful' : 'Payment Cancelled',
-          text: status === 'completed'
-            ? `Payment of NGN ${amount} for ${mineralName} was successful! Pay ID: ${transactionId}`
-            : `Payment was cancelled. Pay ID: ${transactionId}`,
+          title: "Ticket Issued",
+          text:
+            `Payment of NGN ${amount} for ${mineralName} was successful! Pay ID: ${transactionId} \n\n https://queensec.netlify.app/ticket-status?ticket_id=${ticketId}`,
           url: window.location.href,
         })
         .then(() => console.log('Successful share'))
