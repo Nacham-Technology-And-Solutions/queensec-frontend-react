@@ -135,7 +135,7 @@ const VITScreenFourSuccess = () => {
         </DetailItem>
       </Details>
       <QRCodeContainer>
-        <QRCode value={`https://queensec.netlify.app/ticket-status?ticket_id=${ticketId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
+        <QRCode value={`https://queensec.netlify.app/validator/ticket-id?ticket_id=${ticketId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
         {/* <QRCode value={`${ticketId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" /> */}
       </QRCodeContainer>
       <ShareButton onClick={handleShare}>Share</ShareButton>

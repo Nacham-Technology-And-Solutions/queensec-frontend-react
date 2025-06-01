@@ -2,15 +2,17 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import QRCode from 'react-qr-code';
-import coalpileIcon from '../../assets/coalpile.png';
+import coalpileIcon from '../../../assets/coalpile.png';
 import axios from 'axios';
-import { useUser } from '../../context/UserContext';
+import { useUser } from '../../../context/UserContext';
+
+import LeftIcon from '../../../assets/left.png';
 
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 
-const VendorTicketStatus = () => {
+const VendorTicketStatusByTicketId = () => {
 
   const [searchParams] = useSearchParams();
   const queryString = searchParams.toString();
@@ -22,11 +24,11 @@ const VendorTicketStatus = () => {
 
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState('');
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const { user } = useUser();
-  
+
   const token = localStorage.getItem('token');
-  
+
   const [scanned, setScanned] = useState('0');
   const [status, setStatus] = useState('');
   const [statusMessage, setStatusMessage] = useState('');
@@ -40,11 +42,11 @@ const VendorTicketStatus = () => {
   const [time, setTime] = useState('');
   const [ticketId, setTicketId] = useState('');
 
-  useEffect(() => { 
+  useEffect(() => {
     const fetchPaymentDetails = async () => {
- 
+
       try {
-        const orderResponse = await axios.get(`${API_BASE_URL}/wallet/ticket-status/${ticketIdParam}`, {
+        const orderResponse = await axios.post(`${API_BASE_URL}/wallet/ticket-status`, { 'ticket_id': ticketIdParam }, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -54,18 +56,18 @@ const VendorTicketStatus = () => {
           if (orderResponse.data.success) {
             const responseData = orderResponse.data.data;
 
-            setAmount(responseData.amount || '0'); 
+            setAmount(responseData.amount || '0');
             setHaulerTypeName(responseData.hauler_type_name || '');
-            setTransactionId(responseData.wallet_transaction_id || ''); 
-            setNumberPlate(responseData.number_plate || ''); 
-            setMineralName(responseData.mineral_name || '');  
-            setMineralSymbol(responseData.mineral_symbol || '');  
-            setDate(new Date(responseData.date).toLocaleDateString());  
+            setTransactionId(responseData.wallet_transaction_id || '');
+            setNumberPlate(responseData.number_plate || '');
+            setMineralName(responseData.mineral_name || '');
+            setMineralSymbol(responseData.mineral_symbol || '');
+            setDate(new Date(responseData.date).toLocaleDateString());
             setTime(new Date(responseData.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })); // Replace with actual data.date 
-            setTicketId(responseData.ticket_id || '');  
-            setStatus(responseData.status || '');  
-            setStatusMessage(responseData.status_message || '');  
-            setScanned(responseData.scanned || '');  
+            setTicketId(responseData.ticket_id || '');
+            setStatus(responseData.status || '');
+            setStatusMessage(responseData.status_message || '');
+            setScanned(responseData.scanned || '');
           }
         }
 
@@ -95,6 +97,11 @@ const VendorTicketStatus = () => {
     }
   };
 
+  const handleBack = () => {
+
+    navigate('/validator');
+  }
+
   const goToDashboard = () => {
     if (user?.accountType === 'federal_agency') {
       navigate('/enterprise-dashboard');
@@ -118,60 +125,74 @@ const VendorTicketStatus = () => {
 
   return (
     <Container>
-      <Icon src={coalpileIcon} alt="Coalpile Icon" />
-      <Amount>NGN {parseInt(amount).toLocaleString() || '0'}</Amount>
-      <Status>
-        {status}
-      </Status>
-      <Details>
-        <InfoRow>
-          <UserInfo>
-            <UserIcon>{mineralSymbol}</UserIcon>
-            <UserDetails>
-              <UserName>{mineralName}</UserName>
-              <UserPayId>{transactionId}</UserPayId>
-            </UserDetails>
-          </UserInfo>
-          <AmountContainer>
-            <AmountToday>NGN {parseInt(amount).toLocaleString()}</AmountToday>
-            <DateText>{date}</DateText>
-          </AmountContainer>
-        </InfoRow>
-        <DetailItem>
-          <Label>User</Label>
-          <Value>{userName}</Value>
-        </DetailItem>
-        <DetailItem>
-          <Label>Vehicle Type</Label>
-          <Value>{haulerTypeName}</Value>
-        </DetailItem>
-        <DetailItem>
-          <Label1>Number Plate </Label1>
-          <Value>{numberPlate}</Value>
-        </DetailItem>
-        <DetailItem>
-          <Label>Mineral</Label>
-          <Value>{mineralName}</Value>
-        </DetailItem>
-        <DetailItem>
-          <Label>Date</Label>
-          <Value>{date}</Value>
-        </DetailItem>
-        <DetailItem>
-          <Label>Time</Label>
-          <Value>{time}</Value>
-        </DetailItem>
-        <DetailItem>
-          <Label>Ticket ID</Label>
-          <Value>{ticketId}</Value>
-        </DetailItem>
-      </Details>
-      <QRCodeContainer>
-        <QRCode value={`https://queensec.netlify.app/ticket-status?ticket_id=${ticketId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
-        {/* <QRCode value={`${ticketId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" /> */}
-      </QRCodeContainer>
-      <ShareButton onClick={handleShare}>Share</ShareButton>
-      <BackButton onClick={goToDashboard}>Go to Dashboard</BackButton>
+
+      <TopBar>
+        <BackIcon src={LeftIcon} onClick={handleBack} />
+        <Title>Ticket Status By Ticket ID</Title>
+      </TopBar>
+
+
+      {(transactionId === '') && (<p>No Ticket Found</p>)}
+      {(transactionId !== '') && (<>
+
+
+
+        <Icon src={coalpileIcon} alt="Coalpile Icon" />
+        <Amount>NGN {parseInt(amount).toLocaleString() || '0'}</Amount>
+        <Status>
+          {status}
+        </Status>
+        <Details>
+          <InfoRow>
+            <UserInfo>
+              <UserIcon>{mineralSymbol}</UserIcon>
+              <UserDetails>
+                <UserName>{mineralName}</UserName>
+                <UserPayId>{transactionId}</UserPayId>
+              </UserDetails>
+            </UserInfo>
+            <AmountContainer>
+              <AmountToday>NGN {parseInt(amount).toLocaleString()}</AmountToday>
+              <DateText>{date}</DateText>
+            </AmountContainer>
+          </InfoRow>
+          <DetailItem>
+            <Label>User</Label>
+            <Value>{userName}</Value>
+          </DetailItem>
+          <DetailItem>
+            <Label>Vehicle Type</Label>
+            <Value>{haulerTypeName}</Value>
+          </DetailItem>
+          <DetailItem>
+            <Label1>Number Plate </Label1>
+            <Value>{numberPlate}</Value>
+          </DetailItem>
+          <DetailItem>
+            <Label>Mineral</Label>
+            <Value>{mineralName}</Value>
+          </DetailItem>
+          <DetailItem>
+            <Label>Date</Label>
+            <Value>{date}</Value>
+          </DetailItem>
+          <DetailItem>
+            <Label>Time</Label>
+            <Value>{time}</Value>
+          </DetailItem>
+          <DetailItem>
+            <Label>Ticket ID</Label>
+            <Value>{ticketId}</Value>
+          </DetailItem>
+        </Details>
+        <QRCodeContainer>
+          <QRCode value={`https://queensec.netlify.app/validator/ticket-id?ticket_id=${ticketId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
+          {/* <QRCode value={`${ticketId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" /> */}
+        </QRCodeContainer>
+        <ShareButton onClick={handleShare}>Share</ShareButton>
+        <BackButton onClick={goToDashboard}>Go to Dashboard</BackButton>
+      </>)}
+
     </Container>
   );
 };
@@ -185,6 +206,31 @@ const LoadingContainer = styled.div`
   justify-content: center;
   height: 100vh;
   background-color: #f6f6f6;
+`;
+
+
+const TopBar = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+`;
+
+const BackIcon = styled.img`
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  margin-right: 15px;
+`;
+
+const Title = styled.h1`
+  color: #6C3ECF;
+  
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 32px;
+  letter-spacing: 0.38px;
+  text-align: left;
 `;
 
 const Spinner = styled.div`
@@ -379,4 +425,4 @@ const BackButton = styled.button`
   cursor: pointer;
 `;
 
-export default VendorTicketStatus;
+export default VendorTicketStatusByTicketId;

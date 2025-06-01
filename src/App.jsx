@@ -51,8 +51,10 @@ import VFWScreenThreePaymentStatus from './pages/Vendor/FundWallet/VFWScreenThre
 import VITScreenTwoDetails from './pages/Vendor/IssueTicket/VITScreenTwoDetails.jsx';
 import VITScreenThreeDebit from './pages/Vendor/IssueTicket/VITScreenThreeDebit.jsx';
 import VITScreenOneTicketMode from './pages/Vendor/IssueTicket/VITScreenOneTicketMode.jsx';
-import VITScreenFourSuccess from './pages/Vendor/IssueTicket/VITScreenFourSuccess.jsx';
-import VendorTicketStatus from './pages/Vendor/VendorTicketStatus.jsx';
+import VITScreenFourSuccess from './pages/Vendor/IssueTicket/VITScreenFourSuccess.jsx'; 
+import VendorTicketStatusByTicketId from './pages/Vendor/Validator/VendorTicketStatusByTicketId.jsx';
+import VendorTicketStatusByNumberPlate from './pages/Vendor/Validator/VendorTicketStatusByNumberPlate.jsx';
+import VendorValidator from './pages/Vendor/Validator/VendorValidator.jsx';
 
 // Inline ProtectedRoute Component
 
@@ -67,7 +69,11 @@ function App() {
             <Route path="/password-recovery-sent" element={<PasswordRecoveryRequestSentScreen />} />
             <Route path="/password-recovery-create" element={<PasswordRecoveryRequestCreateScreen />} />
             <Route path="/password-recovery-successful" element={<LoginPage />} />
-            <Route path="/ticket-status" element={<VendorTicketStatus />} />
+
+            {/* Public Validator Routes */}
+            <Route path="validator" element={<VendorValidator />} />
+            <Route path="validator/number-plate" element={<VendorTicketStatusByNumberPlate />} />
+            <Route path="validator/ticket-id" element={<VendorTicketStatusByTicketId />} />
 
             {/* Sign Up Screens 1 - 5 */}
             <Route path="/sign-up-user-type" element={<SignUpScreenOneUserType />} />
