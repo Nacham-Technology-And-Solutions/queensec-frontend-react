@@ -1,0 +1,242 @@
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import LeftIcon from '../../../assets/left.png';
+import aquariumIcon from '../../../assets/aquarium.png';
+import { useUser } from '../../../context/UserContext';
+import BottomNavigator from '../../../components/BottomNavigator/BottomNavigator';
+import PageLayout from '../../../components/PageLayout/PageLayout';
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
+const VendorTransactionsScreen = () => {
+  const navigate = useNavigate();
+  const { user } = useUser(); // Assuming useUser provides user details
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  // const statusParam = queryParams.get('status');
+
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/wallet/transaction-history`, {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
+
+        if (response.data?.data?.data) {
+          setTransactions(response.data.data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching transactions:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTransactions();
+  }, [user.token]);
+
+  const handleTransactionClick = (transactionItem) => {
+    if(transactionItem.type === "TOP_UP"){
+      navigate('/vendor-transaction-history-payment', { state: { transactionItem } });
+    }
+    if(transactionItem.type === "FEE_PAYMENT"){
+      navigate('/vendor-transaction-history-ticket?ticket_id='+transactionItem.ticket.id); 
+    }
+  };
+
+  const goToDashboard = () => {
+
+    if (user?.accountType === 'federal_agency') {
+      return '/enterprise-dashboard';
+    } else if (user?.accountType === 'vendor') {
+      return '/vendor-dashboard';
+    } else if (user?.accountType === 'individual') {
+      return '/dashboard';
+    } else {
+      console.warn('Unknown account type');
+      return '/dashboard';
+    }
+  };
+
+  const doTheBoard = () => {
+    console.log(goToDashboard());
+    navigate(goToDashboard());
+  };
+
+
+  // if (statusParam === 'cancelled') {
+  //   setStatus('cancelled');
+  // } else if (statusParam === 'completed') {
+  //   setStatus('completed');
+  // } else {
+  //   setStatus('failed');
+  // }
+  return (
+    <PageLayout>
+      <Header>
+        <BackButton src={LeftIcon} alt="Back" onClick={doTheBoard} />
+        <Title>Transactions</Title>
+      </Header>
+
+      {loading ? (
+        <LoadingMessage>Loading transactions...</LoadingMessage>
+      ) : transactions.length === 0 ? (
+        <NoTransactionsMessage>No transactions available</NoTransactionsMessage>
+      ) : (
+        <Transactions>
+          {transactions.map((transaction, index) => (
+            <TransactionItem
+              key={index}
+              onClick={() => handleTransactionClick(transaction)}
+            >
+              <IconContainer>
+                {transaction.ticket ? transaction.ticket.mineral_symbol : "WA"}
+              </IconContainer>
+              <TransactionDetails>
+                <ItemTitle>{transaction.type}</ItemTitle>
+                <Status style={{ color: transaction.status === 'COMPLETED' ? '#39e600' : '#cc3300' }}>
+                  {transaction.status}
+                </Status>
+              </TransactionDetails>
+              <AmountContainer>
+                <AmountToday>{`₦${parseFloat(transaction.amount).toLocaleString()}`}</AmountToday>
+                <DateText>{new Date(transaction.date).toLocaleDateString()}</DateText>
+              </AmountContainer>
+            </TransactionItem>
+
+          ))}
+        </Transactions>
+      )}
+
+      <BottomNavigator
+        currentPage='transactions'
+        dashboardLink={goToDashboard()}
+        transactionLink='#' ///transactions
+        notificationLink='/notifications'
+        profileLink='/user-profile'
+      />
+
+    </PageLayout>
+  );
+};
+
+
+// Styled Components
+const Status = styled.div`
+  color: ${({ status }) => (status === 'completed' ? 'black' : 'red')};
+  font-size: 11.5px;
+`;
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+`;
+
+const BackButton = styled.img`
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+`;
+
+const Title = styled.h1` 
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 32px;
+  letter-spacing: 0.3799999952316284px;
+  text-align: left;
+  color:  #6C3ECF;
+  margin-left: 28px;
+`;
+const Transactions = styled.div`
+  max-height: 100vh; /* Set maximum height relative to viewport */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 7px; /* Add padding for spacing */
+  box-sizing: border-box;
+  margin-top: 10px;
+`;
+
+const TransactionItem = styled.div`
+  display: flex;
+  justify-content: space-between; /* Distribute space evenly */
+  align-items: center; /* Align vertically */
+  padding: 10px 0;
+  border-bottom: 0px solid #e0e0e0; /* Separator */
+  cursor: pointer;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+
+  // &:last-child {
+  //   border-bottom: none; /* Remove border for the last item */
+  // }
+`;
+
+const IconContainer = styled.div`
+  background-color: transparent;
+  padding: -10px; /* Add padding for proper spacing */
+  border-radius: 50%;
+  width: 48px;
+  height: 48px; /* Consistent size for icons */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px; /* Add spacing from text */
+  margin-left: -10px; /* Add spacing from text */
+
+`;
+
+
+
+const TransactionDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; /* Allow details to take up remaining space */
+  margin-right: 10px; /* Adjust for spacing */
+  overflow: hidden; /* Prevent overflow */
+  text-overflow: ellipsis; /* Ensure long text is truncated */
+`;
+
+const ItemTitle = styled.span`
+  font-weight: bold;
+  color: #414D63;
+  margin-bottom:  6px; 
+`;
+
+const AmountContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: auto; /* Push to the right */
+`;
+
+const AmountToday = styled.p`
+  color: #f07f23;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: -0.15399999916553497px;
+  margin-bottom: 4px;
+`;
+
+const DateText = styled.p`
+  font-size: 14px;
+  color: #67728A;
+  font-weight: 500;
+  margin: 0;
+`;
+const LoadingMessage = styled.div`
+font-size: 16px;
+color: #555;
+text-align: center;
+margin-top: 20px;
+`;
+const NoTransactionsMessage = styled.div`
+  font-size: 16px;
+  color: #999;
+  text-align: center;
+  margin-top: 20px;
+`;
+
+export default VendorTransactionsScreen;

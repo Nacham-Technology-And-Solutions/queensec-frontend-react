@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import folder_C from '../../assets/folder_C.png';
@@ -21,6 +22,7 @@ const VendorDashboard = () => {
   const [userData, setUserData] = useState({
     name: 'Vendor Bako',
     accountType: 'Vendor',
+    wallet_balance: '0',
   });
 
   const [date, setDate] = useState('');
@@ -52,6 +54,7 @@ const VendorDashboard = () => {
           setUserData({
             name: `${user.business_name}`,
             accountType: 'Vendor', // You can customize this logic as needed
+            wallet_balance: "NGN " + parseFloat(user.wallet_balance).toLocaleString(), // You can customize this logic as needed
           });
 
           localStorage.setItem('phone', user.phone);
@@ -118,7 +121,7 @@ const VendorDashboard = () => {
       }
     };
 
-    fetchChartData();
+    // fetchChartData();
   }, []);
 
   // const mineralIcons = {
@@ -138,21 +141,21 @@ const VendorDashboard = () => {
     const fetchTransactions = async () => {
       try {
         const token = localStorage.getItem("token");
-        const url = `${API_BASE_URL}/transactions`;
-        const response = await axios.get(url, {
+        const url = `${API_BASE_URL}/wallet/transaction-history`;
+        const response = await axios.get(url,  {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-
         if (response.data.success) {
           // Access the transactions array
-          const transactions = response.data.data.transactions;
-
+          const transactions = response.data.data.data;
+           
           const transactionList = transactions.map((transaction, index) => ({
             id: transaction.id || index + 1, // Use transaction ID or fallback to index
-            name: transaction.mineral_name || "Unknown Mineral",
-            mineralNumber: transaction.ticket_id ? `Nas/${transaction.ticket_id.id}` : "N/A",
+            name: transaction.type || "Unknown Mineral",
+            mineralNumber: (transaction.type === "FEE_PAYMENT") ? transaction.ticket.mineral_name + " - " + transaction.status : transaction.status,
+            mineralSymbol: (transaction.type === "FEE_PAYMENT") ? transaction.ticket.mineral_symbol  : "W",
             amount: `₦${transaction.amount || 0}`, // Ensure amount is handled properly
             date: transaction.date
               ? new Date(transaction.date).toLocaleDateString()
@@ -197,7 +200,7 @@ const VendorDashboard = () => {
     localStorage.removeItem('offloading_point');
     localStorage.removeItem('fee_category');
     localStorage.removeItem('hauler_type');
-     
+
 
     navigate('/vendor-it-one-ticket-mode'); // Use navigate to change routes
   };
@@ -207,7 +210,7 @@ const VendorDashboard = () => {
   const truncateText = (text, maxLength) =>
     text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 
-  const goToTransactions = () => navigate('/transactions');
+  const goToTransactions = () => navigate('/vendor-transactions');
   return (
     <PageLayout>
 
@@ -224,36 +227,36 @@ const VendorDashboard = () => {
       {/* Dashboard Card */}
       <DashboardCardx
         topLeft={truncateText(userData.name, 17)} topLeftLabel={"Welcome,"}
-        topRight={userData.accountType} topRightLabel={"Account Type:"}
+        topRight={userData.wallet_balance} topRightLabel={"Balance:"}
         bottomLeft={<Button label="Fund Wallet" onClick={handleFundWallet} size='mini' isShort={true} />} bottomLeftLabel={""}
         bottomRight={<Button label="Issue Ticket" onClick={handleTicketIssue} size='mini' isShort={true} />} bottomRightLabel={""}
       />
 
       {/* Transaction Chart */}
-      <ChartSection>
+      {/* <ChartSection>
         <ChartHeader>
           <ChartTitle>Transactions Chart</ChartTitle>
           <ViewFullChartIcon src={Vector} alt="View full chart" />
         </ChartHeader>
         <TransactionChart>
-          <VictoryChart theme={VictoryTheme.material} domainPadding={{ x: 20, y: 20 }}>
+          <VictoryChart theme={VictoryTheme.material} domainPadding={{ x: 20, y: 20 }}> */}
             {/* X-axis */}
-            <VictoryAxis
+            {/* <VictoryAxis
               style={{
                 tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
               }}
-            />
+            /> */}
 
             {/* Y-axis with formatted labels */}
-            <VictoryAxis
+            {/* <VictoryAxis
               dependentAxis
               tickFormat={(t) => `N ${(t / 1000).toFixed(0)}k`}  // Format Y-axis values as "N 10k"
               style={{
                 tickLabels: { fontSize: 12, padding: 5, fill: '#333' },
               }}
-            />
+            /> */}
 
-            <VictoryLine
+            {/* <VictoryLine
               data={chartData}
               x="day"
               y="amount"
@@ -266,7 +269,7 @@ const VendorDashboard = () => {
             />
           </VictoryChart>
         </TransactionChart>
-      </ChartSection>
+      </ChartSection> */}
 
       {/* Transaction List */}
       <Transactions>
@@ -292,7 +295,7 @@ const VendorDashboard = () => {
             </TransactionItem>
           ))}
         </ul>
-      </Transactions> 
+      </Transactions>
 
       {/* Bottom Navigation */}
       <BottomNavigator
@@ -308,7 +311,7 @@ const VendorDashboard = () => {
 
 
 // Styled Components
- 
+
 const Header = styled.div`
   display: flex;
   justify-content: space-between;

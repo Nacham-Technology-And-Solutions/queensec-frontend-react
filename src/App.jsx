@@ -44,17 +44,20 @@ import RouteNotFoundScreen from './pages/RouteNotFoundScreen.jsx';
 import ProtectedRoute from './utils/ProtectedRoute.jsx';
 import PasswordRecoveryRequestScreen from './pages/password/PasswordRecoveryRequestScreen.jsx';
 import PasswordRecoveryRequestSentScreen from './pages/password/PasswordRecoveryRequestSentScreen.jsx';
-import PasswordRecoveryRequestCreateScreen from './pages/password/PasswordRecoveryRequestCreateScreen.jsx'; 
+import PasswordRecoveryRequestCreateScreen from './pages/password/PasswordRecoveryRequestCreateScreen.jsx';
 import VFWScreenOneAmount from './pages/Vendor/FundWallet/VFWScreenOneAmount.jsx';
 import VFWScreenTwoPaymentMethod from './pages/Vendor/FundWallet/VFWScreenTwoPaymentMethod.jsx';
-import VFWScreenThreePaymentStatus from './pages/Vendor/FundWallet/VFWScreenThreePaymentStatus.jsx'; 
+import VFWScreenThreePaymentStatus from './pages/Vendor/FundWallet/VFWScreenThreePaymentStatus.jsx';
 import VITScreenTwoDetails from './pages/Vendor/IssueTicket/VITScreenTwoDetails.jsx';
 import VITScreenThreeDebit from './pages/Vendor/IssueTicket/VITScreenThreeDebit.jsx';
 import VITScreenOneTicketMode from './pages/Vendor/IssueTicket/VITScreenOneTicketMode.jsx';
-import VITScreenFourSuccess from './pages/Vendor/IssueTicket/VITScreenFourSuccess.jsx'; 
+import VITScreenFourSuccess from './pages/Vendor/IssueTicket/VITScreenFourSuccess.jsx';
 import VendorTicketStatusByTicketId from './pages/Vendor/Validator/VendorTicketStatusByTicketId.jsx';
 import VendorTicketStatusByNumberPlate from './pages/Vendor/Validator/VendorTicketStatusByNumberPlate.jsx';
 import VendorValidator from './pages/Vendor/Validator/VendorValidator.jsx';
+import VendorTransactionsScreen from './pages/Vendor/Transactions/VendorTransactionsScreen.jsx';
+import VendorTransactionHistoryTicketScreen from './pages/Vendor/Transactions/VendorTransactionHistoryTicketScreen.jsx';
+import VendorTransactionHistoryPaymentScreen from './pages/Vendor/Transactions/VendorTransactionHistoryPaymentScreen.jsx';
 
 // Inline ProtectedRoute Component
 
@@ -127,7 +130,7 @@ function App() {
             {/* <Route path="/fw-one-amount" element={<ProtectedRoute><FWScreenOneAmount /></ProtectedRoute>} />
             <Route path="/fw-two-payment-method" element={<ProtectedRoute><FWScreenTwoPaymentMethod /></ProtectedRoute>} />
             <Route path="/fw-three-payment-status" element={<ProtectedRoute><FWScreenThreePaymentStatus /></ProtectedRoute>} /> */}
-             
+
             {/* Vendor */}
             {/* Fund Wallet */}
             <Route path="/vendor-fw-one-amount" element={<ProtectedRoute><VFWScreenOneAmount /></ProtectedRoute>} />
@@ -139,6 +142,10 @@ function App() {
             <Route path="/vendor-it-two-details" element={<ProtectedRoute><VITScreenTwoDetails /></ProtectedRoute>} />
             <Route path="/vendor-it-three-debit" element={<ProtectedRoute><VITScreenThreeDebit /></ProtectedRoute>} />
             <Route path="/vendor-it-four-success" element={<ProtectedRoute><VITScreenFourSuccess /></ProtectedRoute>} />
+
+            <Route path="/vendor-transactions" element={<ProtectedRoute><VendorTransactionsScreen /></ProtectedRoute>} />
+            <Route path="/vendor-transaction-history-ticket" element={<ProtectedRoute><VendorTransactionHistoryTicketScreen /></ProtectedRoute>} />
+            <Route path="/vendor-transaction-history-payment" element={<ProtectedRoute><VendorTransactionHistoryPaymentScreen /></ProtectedRoute>} />
 
         </Routes>
 
