@@ -135,14 +135,14 @@ const VITScreenThreeDebit = () => {
             <ValueBold>{numberPlate}</ValueBold>
 
             <Label0>Balance:</Label0>
-            <Value0>₦{balance}</Value0>
+            <Value0>₦{parseInt(balance).toLocaleString()}</Value0>
           </InfoColumnLeft>
         </DashboardText>
       </MiniDashboard>
 
       <TaxIdContainer>
 
-        <p>You want to issue ticket for [ {feeCategory.name} ] in a [ {haulerType.name} ], Which will Cost [ ₦{amount} ]?</p>
+        <p>You want to issue ticket for [ {feeCategory.name} ] in a [ {haulerType.name} ], Which will Cost [ ₦{parseInt(amount).toLocaleString()} ]?</p>
         <InputFieldx
           label="Mineral Cost"
           type="number"
@@ -164,9 +164,9 @@ const VITScreenThreeDebit = () => {
               <p>
                 You will need to fund your wallet to continue to issue this ticket.
 
-                <PositiveFeedBack>Wallet: ₦{balance}</PositiveFeedBack>
-                <NegativeFeedBack>Cost: ₦{amount}</NegativeFeedBack>
-                <OrangeFeedBack>Fund Needed: ₦{difference}</OrangeFeedBack>
+                <PositiveFeedBack>Wallet: ₦{parseInt(balance).toLocaleString()}</PositiveFeedBack>
+                <NegativeFeedBack>Cost: ₦{parseInt(amount).toLocaleString()}</NegativeFeedBack>
+                <OrangeFeedBack>Fund Needed: ₦{parseInt(difference).toLocaleString()}</OrangeFeedBack>
               </p>
             </>
           )

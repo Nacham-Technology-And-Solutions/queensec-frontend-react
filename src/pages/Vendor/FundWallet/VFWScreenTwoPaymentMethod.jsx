@@ -95,10 +95,10 @@ const VFWScreenTwoPaymentMethod = () => {
           </InfoColumn>
           <InfoColumnLeft>
             <Label>Balance</Label>
-            <ValueBold>{balance}</ValueBold>
+            <ValueBold>₦{parseFloat(balance).toLocaleString()}</ValueBold>
 
-            <Label0>Fund Amount:</Label0>
-            <Value0>{amount}</Value0>
+            <Label0>New Balance:</Label0>
+            <Value0>₦{parseFloat(newBalance).toLocaleString()}</Value0>
           </InfoColumnLeft>
         </DashboardText>
       </MiniDashboard>
@@ -107,7 +107,7 @@ const VFWScreenTwoPaymentMethod = () => {
         <AmountLabel>Amount</AmountLabel>
         <AmountInput
           type="text"
-          value={amount}
+          value={`₦${parseFloat(amount).toLocaleString()}`}
           readOnly
           placeholder="Amount not available"
         />
@@ -250,7 +250,7 @@ const InfoColumnLeft = styled.div`
   flex-direction: column;
   align-items: flex-end;
   margin-top: 25px;
-  margin-right: 20px;
+  // margin-right: 20px;
 `;
 const InfoColumn = styled.div`
   display: flex;
@@ -259,7 +259,7 @@ const InfoColumn = styled.div`
 
 const Label1 = styled.p`
   font-size: 12px;
-  color: #67728A;
+  color: #ccc;
   margin: 0;
   margin-top: 47px;
   margin-right: 150px;
@@ -308,15 +308,15 @@ const Value1 = styled.p`
 
 const Label = styled.p`
   
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 600;
   line-height: 20px;
   letter-spacing: -0.15399999916553497px;
   text-align: left;
-  color: #67728A;
+  color: #ccc;
   margin: 0;
     @media (max-width: 768px) {
-     font-size: 11px;
+     font-size: 12px;
    margin-right: 5px;
   }
 
@@ -356,12 +356,12 @@ const ValueBold = styled.p`
 
 const Label0 = styled.p`
   
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 600;
   line-height: 20px;
   letter-spacing: -0.15399999916553497px;
   text-align: left;
-  color: #67728A;
+  color: #ccc;
   margin: 0;
   margin-top: 13px;
    @media (max-width: 768px) {
@@ -379,8 +379,8 @@ const Label0 = styled.p`
 
 const Value0 = styled.p`
   
-  font-size: 14px;
-  font-weight: 400;
+  font-size: 16px;
+  font-weight: 600;
   line-height: 20px;
   letter-spacing: -0.15399999916553497px;
   text-align: right;

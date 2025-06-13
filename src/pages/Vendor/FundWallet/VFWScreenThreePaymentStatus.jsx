@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate, useLocation } from 'react-router-dom'; 
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useUser } from '../../../context/UserContext';
 import QueensecLogo from '../../../assets/Queensec_1.png'; // Import the logo
@@ -13,7 +13,7 @@ const VFWScreenThreePaymentStatus = () => {
   const [loading, setLoading] = useState(true);
   const [newWalletBalance, setNewWalletBalance] = useState('');
   const [amount, setAmount] = useState('');
-  const [taxId, setTaxId] = useState(''); 
+  const [taxId, setTaxId] = useState('');
   const [status, setStatus] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('');
   const [transactionId, setTransactionId] = useState('');
@@ -86,12 +86,12 @@ const VFWScreenThreePaymentStatus = () => {
         }
 
         debugger;
-        setTaxId(responseData.wallet_id || '0'); 
-        setNewWalletBalance(responseData.new_wallet_balance || '0'); 
-        setAmount(responseData.amount || '0'); 
+        setTaxId(responseData.wallet_id || '0');
+        setNewWalletBalance(responseData.new_wallet_balance || '0');
+        setAmount(responseData.amount || '0');
         setTransactionId(responseData.transaction_id || txRefParam || '');
-        setTransactionType(responseData.transaction_type || '');  
-        setPaymentMethod(responseData.payment_method || '');   
+        setTransactionType(responseData.transaction_type || '');
+        setPaymentMethod(responseData.payment_method || '');
         setDate(new Date(responseData.date).toLocaleDateString()); // Replace with actual data.date
         setTime(new Date(responseData.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })); // Replace with actual data.date
       } catch (error) {
@@ -145,8 +145,10 @@ const VFWScreenThreePaymentStatus = () => {
 
   return (
     <Container>
-      
-      <Logo src={QueensecLogo} />
+
+      <Centered>
+        <Logo src={QueensecLogo} />
+      </Centered>
       <Amount>NGN {parseInt(amount).toLocaleString() || '0'}</Amount>
       <Status>
         {status === 'completed'
@@ -157,11 +159,11 @@ const VFWScreenThreePaymentStatus = () => {
       </Status>
       <Details>
         <InfoRow>
-           
-        <DetailItem>
-          <Label>New Balance</Label>
-          <Value>{newWalletBalance}</Value>
-        </DetailItem>
+
+          <DetailItem>
+            <Label>New Balance</Label>             
+          </DetailItem>
+
           <AmountContainer>
             <AmountToday>NGN {parseInt(amount).toLocaleString()}</AmountToday>
             <DateText>{date}</DateText>
@@ -190,13 +192,17 @@ const VFWScreenThreePaymentStatus = () => {
         <DetailItem>
           <Label>Time</Label>
           <Value>{time}</Value>
-        </DetailItem> 
-      </Details> 
+        </DetailItem>
+      </Details>
       {/* <ShareButton onClick={handleShare}>Share</ShareButton> */}
       <BackButton onClick={goToDashboard}>Return to Dashboard</BackButton>
     </Container>
   );
 };
+
+const Centered = styled.div`
+  text-align:center;
+`;
 
 const Logo = styled.img`
 
@@ -239,6 +245,7 @@ const LoadingText = styled.p`
   color: #6c3ecf;
   margin-top: 10px;
 `;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -264,7 +271,6 @@ const Amount = styled.h1`
   font-weight: bold;
 `;
 
-
 const Label = styled.p`
   color: #67728A;
   font-size: 12px;
@@ -289,7 +295,6 @@ const Value = styled.p`
   margin: 0;
   word-wrap: break-word; /* Ensure long text wraps if necessary */
 `;
-
 
 const AmountContainer = styled.div`
   display: flex;
@@ -372,7 +377,7 @@ const UserPayId = styled.p`
   color: #666;
   font-size: 12px;
 `;
- 
+
 
 const DetailItem = styled.div`
   display: flex;
@@ -380,7 +385,7 @@ const DetailItem = styled.div`
   align-items: center;
   width: 100%;
   margin-bottom: 10px; /* Add spacing between items */
-`; 
+`;
 
 const ShareButton = styled.button`
   background-color: #fde5c0;

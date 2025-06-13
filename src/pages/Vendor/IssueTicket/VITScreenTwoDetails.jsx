@@ -152,7 +152,7 @@ const VITScreenTwoDetails = () => {
           </InfoColumn>
           <InfoColumn>
             <Label2>Balance:</Label2>
-            <Value2>₦{balance}</Value2>
+            <Value2>₦ {parseInt(balance).toLocaleString()}</Value2>
           </InfoColumn>
         </DashboardText>
       </MiniDashboard>

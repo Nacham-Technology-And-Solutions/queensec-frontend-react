@@ -3,15 +3,15 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import LeftIcon from '../../../assets/left.png';
-import MiniDashboardIcon from '../../../assets/MINI_DB.png'; 
-import InputFieldx from "../../../components/InputField/InputField"; 
+import MiniDashboardIcon from '../../../assets/MINI_DB.png';
+import InputFieldx from "../../../components/InputField/InputField";
 
 const VFWScreenOneAmount = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState(localStorage.getItem('amount') || 1);
   const [balance, setBalance] = useState(localStorage.getItem('wallet_balance') || 1);
   const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || '');
-  const [newBalance, setNewBalance] = useState(Number(balance) + Number(amount) || 0); 
+  const [newBalance, setNewBalance] = useState(Number(balance) + Number(amount) || 0);
 
   const handleAmountChange = async (e) => {
     const inputTaxId = e.target.value;
@@ -59,7 +59,7 @@ const VFWScreenOneAmount = () => {
           </InfoColumn>
           <InfoColumn>
             <Label2>Balance:</Label2>
-            <Value2>₦{balance}</Value2>
+            <Value2>₦{parseFloat(balance).toLocaleString()}</Value2>
           </InfoColumn>
         </DashboardText>
       </MiniDashboard>
@@ -75,7 +75,7 @@ const VFWScreenOneAmount = () => {
         />
 
         <Green>
-          <VerifiedText>New Balance: ₦{newBalance}</VerifiedText>
+          <VerifiedText>New Balance: ₦{parseFloat(newBalance).toLocaleString()}</VerifiedText>
         </Green>
       </TaxIdContainer>
 
@@ -140,7 +140,7 @@ const Tab = styled.div`
   text-align: center;
   width: 100px; /* Set fixed width for tabs */
   border-radius: 0px; /* Adds rounded corners */
-`; 
+`;
 
 const MiniDashboard = styled.div`
   background-color: #ffffff;
@@ -238,21 +238,21 @@ const TaxIdContainer = styled.div`
 
 const Green = styled.div`
     display: flex;
-    flexd-direction: column;
-      align-items: center;
-      width:  100%;
-        margin-left: 500px;
-        margin-top: -8px;
-          @media (max-width: 768px) {
-    gap: 3px; /* Adjust gap for smaller screens */
-    margin-left: 350px;
+    flex-direction: row;
+    justify-content: right;
+    width:  100%;
+    // margin-left: 500px;
+    margin-top: -8px;
+    @media (max-width: 768px) {
+      gap: 3px; /* Adjust gap for smaller screens */
+      margin-left: 350px;
   }
 `;
 const VerifiedText = styled.p`
   color: #FF9500; /* Green color */
   font-size: 18px;
   font-weight: 600;
-  margin-left: 8px;
+  margin-right: 8px;
     @media (max-width: 768px) {
      
     font-size: 16px; /* Reduce font size for smaller devices */

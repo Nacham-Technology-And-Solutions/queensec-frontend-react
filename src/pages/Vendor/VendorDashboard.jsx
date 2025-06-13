@@ -156,7 +156,7 @@ const VendorDashboard = () => {
             name: transaction.type || "Unknown Mineral",
             mineralNumber: (transaction.type === "FEE_PAYMENT") ? transaction.ticket.mineral_name + " - " + transaction.status : transaction.status,
             mineralSymbol: (transaction.type === "FEE_PAYMENT") ? transaction.ticket.mineral_symbol  : "W",
-            amount: `₦${transaction.amount || 0}`, // Ensure amount is handled properly
+            amount: `₦${parseFloat(transaction.amount).toLocaleString() || 0}`, // Ensure amount is handled properly
             date: transaction.date
               ? new Date(transaction.date).toLocaleDateString()
               : "Today", // Format or fallback to 'Today'
@@ -301,7 +301,7 @@ const VendorDashboard = () => {
       <BottomNavigator
         currentPage='dashboard'
         dashboardLink='#' // /dashboard
-        transactionLink='/transactions'
+        transactionLink='/vendor-transactions'
         notificationLink='/notifications'
         profileLink='/user-profile'
       />
