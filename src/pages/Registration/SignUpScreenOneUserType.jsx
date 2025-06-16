@@ -13,7 +13,7 @@ import RegNav from '../../components/RegNav/RegNav';
 
 const SignUpScreenOneUserType = () => {
   const navigate = useNavigate(); // Create a navigation handler
-  const [selectedAccount, setSelectedAccount] = useState(null);
+  const [selectedAccount, setSelectedAccount] = useState('vendor');
 
   const handleSelectAccount = (accountType) => {
     setSelectedAccount(accountType);
@@ -60,14 +60,14 @@ const SignUpScreenOneUserType = () => {
           label="Individual"
           icon={<IndividualIcon width="35" height="35" />}
           selected={selectedAccount === 'individual'}
-          onClick={() => handleSelectAccount('individual')}
+          onClick={() => handleSelectAccount('')}
         />
 
         <AccountTypeSwitch
           label="Corporate"
           icon={<CorperateIcon width="35" height="35" />}
           selected={selectedAccount === 'federal_agency'}
-          onClick={() => handleSelectAccount('federal_agency')}
+          onClick={() => handleSelectAccount('')}
         />
 
         <AccountTypeSwitch
