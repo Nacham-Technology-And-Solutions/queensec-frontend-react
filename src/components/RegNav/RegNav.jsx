@@ -8,7 +8,7 @@ const RegNav = ({ label, onClick }) => {
 
     return (
         <div className="reg-nav">
-            <img src={Logo} alt='Kadamines Logo' />
+            <img src={Logo} alt='Queensec Logo' />
             <div className="nav-bar" >
                 <BackButton width="35" height="35" className='nav-back' onClick={onClick} />
                 <span>{label}</span>

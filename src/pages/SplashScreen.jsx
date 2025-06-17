@@ -45,7 +45,7 @@ const SplashScreen = () => {
       </ButtonWrapper>
       <br />
       <ButtonWrapper>
-        New to Kadamines? &nbsp;
+        New to Queensec? &nbsp;
         <TextButton onClick={handleClickSignUp} label="Sign Up" span='span' size='large' />
       </ButtonWrapper>
 

@@ -162,7 +162,7 @@ const LoginPage = () => {
       <Bottom>
         <Button label="Login" onClick={handleSubmit} size='large' isSpanWidth={true} isLoading={loading} />
         <br />
-        <span>New to Kadamines? &nbsp; <TextButton onClick={handleSigUp} label="Sign-Up" /></span>
+        <span>New to Queensec? &nbsp; <TextButton onClick={handleSigUp} label="Sign-Up" /></span>
       </Bottom>
 
     </Container>
