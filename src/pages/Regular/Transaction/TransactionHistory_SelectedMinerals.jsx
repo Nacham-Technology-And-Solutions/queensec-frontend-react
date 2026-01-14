@@ -6,6 +6,8 @@ import coalpileIcon from '../../../assets/coalpile.png';
 import LeftIcon from '../../../assets/left.png';
 import axios from 'axios';
 
+import { getToken } from '../../../utils/tokenStorage';
+
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const TransactionHistory_MineralScreen = () => {
@@ -22,7 +24,7 @@ const TransactionHistory_MineralScreen = () => {
           params: {
             order_id: transactionId, // Pass transactionId as a query parameter
           }, headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`, // Retrieve the token from local storage
+            Authorization: `Bearer ${getToken()}`, // Retrieve the token from secure storage
           },
         });
         setTransaction(response.data.data);

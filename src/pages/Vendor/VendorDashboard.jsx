@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Button from '../../components/Button/Button';
 import BottomNavigator from '../../components/BottomNavigator/BottomNavigator';
+import { getToken } from '../../utils/tokenStorage';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
@@ -34,7 +35,7 @@ const VendorDashboard = React.memo(() => {
 
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = getToken();
 
         if (!token) {
           console.error('No token found in localStorage.');
@@ -90,7 +91,7 @@ const VendorDashboard = React.memo(() => {
   useEffect(() => {
     const fetchChartData = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = getToken();
         const url = `${API_BASE_URL}/transactions/chart`;
         const response = await axios.get(url, {
           headers: {
@@ -127,7 +128,7 @@ const VendorDashboard = React.memo(() => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = getToken();
         const url = `${API_BASE_URL}/wallet/transaction-history`;
         const response = await axios.get(url,  {
           headers: {

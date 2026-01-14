@@ -8,6 +8,8 @@ import QueensecLogo from '../../../assets/Queensec_1.png'; // Import the logo
 import LeftIcon from '../../../assets/left.png';
 
 
+import { getToken } from '../../../utils/tokenStorage';
+
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 
@@ -32,7 +34,7 @@ const VendorTransactionHistoryPaymentScreen = () => {
   useEffect(() => {
     const fetchPaymentDetails = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = getToken();
         var responseData = {};
 
         const orderResponse = await axios.post(`${API_BASE_URL}/wallet/transaction-pay-history`, { 'transaction_id': transactionItem.payment.payment_ref }, {

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import LeftIcon from '../../../assets/left.png';
 import MiniDashboardIcon from '../../../assets/MINI_DB.png';
 import axios from 'axios';
+import { getToken } from '../../../utils/tokenStorage';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 
@@ -55,7 +56,7 @@ const VMPScreenThreeCategory = () => {
     // Fetch fee categories
     const fetchCategories = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = getToken();
         if (!token) {
           console.error("No token found, please log in.");
           return;

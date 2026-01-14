@@ -7,6 +7,8 @@ import starNIcon from '../../assets/star_N.png';
 import u1Icon from '../../assets/u1.png';
 import LeftIcon from '../../assets/left.png';
 import { useNavigate } from 'react-router-dom';
+import { getToken } from '../../utils/tokenStorage';
+
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const BeneficiariesListScreen = () => {
     const [beneficiaries, setBeneficiaries] = useState([]);
@@ -16,7 +18,7 @@ const BeneficiariesListScreen = () => {
     useEffect(() => {
         const fetchBeneficiaries = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = getToken();
                 const response = await axios.get(`${API_BASE_URL}/user/get-getBeneficiaries`, {
                     headers: {
                         Authorization: `Bearer ${token}`,

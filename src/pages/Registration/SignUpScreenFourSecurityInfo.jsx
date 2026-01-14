@@ -7,6 +7,7 @@ import RegNav from '../../components/RegNav/RegNav';
 import InputFieldx from "../../components/InputField/InputField";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { validatePassword, INPUT_LIMITS } from '../../utils/inputValidation';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 
@@ -59,9 +60,12 @@ const SignUpScreenFourSecurityInfo = () => {
       return;
     }
 
-    // Save password and confirmPassword to localStorage
-    localStorage.setItem('password', securityInfo.password);
-    localStorage.setItem('password_confirmation', securityInfo.confirmPassword);
+    // Validate password strength
+    const passwordValidation = validatePassword(securityInfo.password);
+    if (!passwordValidation.isValid) {
+      alert(`Password does not meet requirements:\n${passwordValidation.errors.join('\n')}`);
+      return;
+    }
 
     const basicInfo = JSON.parse(localStorage.getItem('basicInfo') || '{}'); // Defaults to an empty object if not found
     const contactInfo = JSON.parse(localStorage.getItem('contactInfo') || '{}'); // Same for contactInfo
@@ -79,8 +83,8 @@ const SignUpScreenFourSecurityInfo = () => {
       last_name: basicInfo.last_name,
       email: contactInfo.email,
       phone: contactInfo.phone,
-      password: localStorage.getItem('password'),
-      password_confirmation: localStorage.getItem('password_confirmation'),
+      password: securityInfo.password,
+      password_confirmation: securityInfo.confirmPassword,
       account_type: accountType, // Pass the string value directly
       middle_name: basicInfo.middle_name,
       state: contactInfo.state,
@@ -107,7 +111,9 @@ const SignUpScreenFourSecurityInfo = () => {
       const response = await axios.post(url, finalData);
 
       if (response.status >= 200 && response.status < 300) {
-
+        // Clear password from state after successful registration
+        setSecurityInfo({ password: '', confirmPassword: '' });
+        
         alert('Registration completed successfully!');
         navigate('/success');
       } else {
@@ -151,6 +157,7 @@ const SignUpScreenFourSecurityInfo = () => {
           value={securityInfo.password}
           onChange={handleChange}
           placeholder="Enter your password"
+          maxLength={INPUT_LIMITS.password}
           hasButton={true}
           onButtonClick={toggleShowPassword}
           buttonLabel={<FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} fontSize='15px' />}
@@ -163,6 +170,7 @@ const SignUpScreenFourSecurityInfo = () => {
           value={securityInfo.confirmPassword}
           onChange={handleChange}
           placeholder="Confirm your password"
+          maxLength={INPUT_LIMITS.password}
         />
 
         {/* Button or checkbox to toggle password visibility */}

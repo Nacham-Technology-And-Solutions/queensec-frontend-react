@@ -7,6 +7,7 @@ import MiniDashboardIcon from '../../../assets/MINI_DB.png';
 import GreenTick from '../../../assets/greentick.png'; 
 // import { useUser } from '../../../context/UserContext';
 import axios from 'axios';
+import { getToken } from '../../../utils/tokenStorage';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 const VMPScreenOnePayee = () => {
@@ -21,7 +22,7 @@ const VMPScreenOnePayee = () => {
   const [isVerified, setIsVerified] = useState(false);
   // const [paymentOption, setPaymentOption] = useState('savedHauler'); // 'savedHauler' or 'oneTimeTrip'
   // const [oneTimeDetails, setOneTimeDetails] = useState({ vehicleName: '', numberPlate: '' });
-  const token = localStorage.getItem('token');
+  const token = getToken();
   const [vehicleTypes, setVehicleTypes] = useState([]);
   const [selectedVehicle, setSelectedVehicle] = useState('');
   const [vehiclePlate, setVehiclePlate] = useState('');

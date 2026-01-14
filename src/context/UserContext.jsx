@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
+import { clearToken } from '../utils/tokenStorage';
 
 // Create the User Context
 export const UserContext = createContext();
@@ -25,6 +26,7 @@ export const UserProvider = ({ children }) => {
   
   const signOut = () => {
     setUser(null);
+    clearToken(); // Clear token from all storage
     localStorage.removeItem('user');
   };
 

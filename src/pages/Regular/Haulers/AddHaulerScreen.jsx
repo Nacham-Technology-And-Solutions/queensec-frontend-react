@@ -6,6 +6,8 @@ import LeftIcon from '../../../assets/left.png';
 import axios from 'axios';
 
 
+import { getToken } from '../../../utils/tokenStorage';
+
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL; // Replace with actual base URL
 
 const AddHaulerScreen = () => {
@@ -49,7 +51,7 @@ const AddHaulerScreen = () => {
 
     setLoading(true); // Start loading
     try {
-      const token = localStorage.getItem('token'); // Retrieve token from local storage
+      const token = getToken(); // Retrieve token from secure storage
       const response = await axios.post(`${API_BASE_URL}/haulers`, payload, {
         headers: {
           Authorization: `Bearer ${token}`, // Add the Authorization header

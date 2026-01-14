@@ -12,6 +12,8 @@ import Vector from '../../assets/Vector.png'; // Icon for viewing full chart
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PageLayout from '../../components/PageLayout/PageLayout';
+import { getToken } from '../../utils/tokenStorage';
+
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 const EnterpriseDashboard = React.memo(() => {
   const [userData, setUserData] = useState({
@@ -29,7 +31,7 @@ const EnterpriseDashboard = React.memo(() => {
 
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = getToken();
 
 
 
@@ -90,7 +92,7 @@ const EnterpriseDashboard = React.memo(() => {
   useEffect(() => {
     const fetchChartData = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = getToken();
         const url = `${API_BASE_URL}/transactions/chart`
         const response = await axios.get(url, {
           headers: {
@@ -140,7 +142,7 @@ const EnterpriseDashboard = React.memo(() => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = getToken();
         const url = `${API_BASE_URL}/transactions`
         const response = await axios.get(url, {
           headers: {

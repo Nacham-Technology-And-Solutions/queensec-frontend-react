@@ -9,6 +9,8 @@ import { useUser } from '../../../context/UserContext';
 import LeftIcon from '../../../assets/left.png';
 
 
+import { getToken } from '../../../utils/tokenStorage';
+
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 
@@ -27,7 +29,7 @@ const VendorTicketStatusByTicketId = () => {
   const navigate = useNavigate();
   const { user } = useUser();
 
-  const token = localStorage.getItem('token');
+  const token = getToken();
 
   const [scanned, setScanned] = useState('0');
   const [status, setStatus] = useState('');

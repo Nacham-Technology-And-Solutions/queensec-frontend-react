@@ -7,6 +7,7 @@ import VisaIcon from '../../../assets/Visa.png';
 import MasterCardIcon from '../../../assets/mastercard.png';
 import PayUIcon from '../../../assets/payu.png';
 import axios from 'axios';
+import { getToken } from '../../../utils/tokenStorage';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 const VFWScreenTwoPaymentMethod = () => {
@@ -15,7 +16,7 @@ const VFWScreenTwoPaymentMethod = () => {
   const [balance, setBalance] = useState(localStorage.getItem('wallet_balance') || 1);
   const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || '');
   const [newBalance, setNewBalance] = useState(Number(balance) + Number(amount) || 0);
-  const token = localStorage.getItem('token');
+  const token = getToken();
   const [paymentOption, setPaymentOption] = useState('');
 
 

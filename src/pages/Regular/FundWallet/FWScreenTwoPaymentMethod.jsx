@@ -10,6 +10,7 @@ import PayUIcon from '../../../assets/payu.png';
 
 import axios from 'axios';
 import Button from '../../../components/Button/Button';
+import { getToken } from '../../../utils/tokenStorage';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 const FWScreenTwoPaymentMethod = () => {
@@ -40,7 +41,7 @@ const FWScreenTwoPaymentMethod = () => {
       const mineralId = localStorage.getItem('mineral_id');
       const mineralSubId = localStorage.getItem('fee_category_id');
       const parsedAmount = parseFloat(localStorage.getItem('selectedCategoryPrice').replace('NGN', '').replace(',', '').trim());
-      const token = localStorage.getItem('token');
+      const token = getToken();
       const haulerTypeMode = localStorage.getItem('haulerTypeMode');
 
       const driverName = localStorage.getItem('driverName');

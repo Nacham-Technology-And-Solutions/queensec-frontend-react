@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -7,9 +7,11 @@ import { useUser } from '../context/UserContext';
 import TextButton from "../components/TextButton/TextButton";
 import InputFieldx from "../components/InputField/InputField";
 import Button from "../components/Button/Button";
-import { login } from '../utils/authApiRequests';
+// import { login } from '../utils/authApiRequests'; // Currently using direct axios call
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { validateEmail, sanitizeString, INPUT_LIMITS } from '../utils/inputValidation';
+import { setToken } from '../utils/tokenStorage';
 
 // import { postData } from '../utils/apiServce';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
@@ -45,20 +47,31 @@ const LoginPage = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    const payload = {
-      email: loginInfo.email,
-      password: loginInfo.password,
-      'login-type': 'normal', // Uncomment or modify this ebubes on backend requirements
-    };
+    
+    // Sanitize inputs
+    const sanitizedEmail = sanitizeString(loginInfo.email, INPUT_LIMITS.email);
+    const sanitizedPassword = sanitizeString(loginInfo.password, INPUT_LIMITS.password);
 
-    // Validate fields
-    if (!loginInfo.email || !loginInfo.password) {
-
-      alert('Please fill in all fields.');
+    // Validate email
+    const emailValidation = validateEmail(sanitizedEmail);
+    if (!emailValidation.isValid) {
+      alert(emailValidation.error);
       setLoading(false);
       return;
-
     }
+
+    // Validate password is not empty
+    if (!sanitizedPassword || sanitizedPassword.length < 1) {
+      alert('Password is required.');
+      setLoading(false);
+      return;
+    }
+
+    const payload = {
+      email: sanitizedEmail,
+      password: sanitizedPassword,
+      'login-type': 'normal', // Uncomment or modify this ebubes on backend requirements
+    };
 
     // const loginResponse = login(payload);
 
@@ -72,17 +85,17 @@ const LoginPage = () => {
       const response = await axios.post(url, payload);
 
       if (response.status >= 200 && response.status < 300) {
-
-
-        localStorage.setItem("token", response.data.data.access_token);
+        // Store token using secure token storage
+        setToken(response.data.data.access_token);
+        
         localStorage.setItem("image_url", response.data.data.image_url);
         localStorage.setItem("business_name", response.data.data.business_name);
-        localStorage.setItem("email", payload.email);
+        localStorage.setItem("email", sanitizedEmail);
         // SECURITY: Password should NEVER be stored in localStorage
 
         const userData = {
           token: response.data.data.access_token,
-          email: loginInfo.email,
+          email: sanitizedEmail,
           accountType: response.data.data.user?.account_type,
           userName: response.data.data.user?.name || 'Haulage Solutions',
           taxId: response.data.data.user?.tax_id || 'Nas/Nas/00013',
@@ -142,6 +155,7 @@ const LoginPage = () => {
           value={loginInfo.email}
           onChange={handleChange}
           placeholder="Enter your email"
+          maxLength={INPUT_LIMITS.email}
         />
 
         <InputFieldx
@@ -151,6 +165,7 @@ const LoginPage = () => {
           value={loginInfo.password}
           onChange={handleChange}
           placeholder="Enter your password"
+          maxLength={INPUT_LIMITS.password}
           hasButton={true}
           onButtonClick={toggleShowPassword}
           buttonLabel={<FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} fontSize='15px' />}

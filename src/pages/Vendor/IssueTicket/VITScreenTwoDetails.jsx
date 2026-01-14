@@ -6,6 +6,7 @@ import LeftIcon from '../../../assets/left.png';
 import MiniDashboardIcon from '../../../assets/MINI_DB.png';
 import InputFieldx from "../../../components/InputField/InputField";
 import axios from 'axios';
+import { getToken } from '../../../utils/tokenStorage';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 const VITScreenTwoDetails = () => {
@@ -18,7 +19,7 @@ const VITScreenTwoDetails = () => {
 
   const [balance, setBalance] = useState(localStorage.getItem('wallet_balance') || 1);
   const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || '');
-  const token = localStorage.getItem('token');
+  const token = getToken();
 
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(localStorage.getItem('fee_category_id') || '');

@@ -7,6 +7,8 @@ import axios from 'axios';
 import { useUser } from '../../../context/UserContext';
 
 
+import { getToken } from '../../../utils/tokenStorage';
+
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 
@@ -32,7 +34,7 @@ const FWScreenThreePaymentStatus = () => {
         const statusParam = queryParams.get('status');
         const txRefParam = queryParams.get('tx_ref');
         const transactionIdParam = queryParams.get('transaction_id');
-        const token = localStorage.getItem('token');
+        const token = getToken();
         var responseData = {};
 
 

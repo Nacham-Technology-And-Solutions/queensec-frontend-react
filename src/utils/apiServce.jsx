@@ -1,10 +1,20 @@
 // src/api/apiService.jsx
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { getToken } from './tokenStorage';
 
 // Set base URL for API
 // const BASE_URL = 'https://admin.queensecglobal.com/api';
 const BASE_URL = process.env.REACT_APP_API_URL || process.env.REACT_APP_API_BASE_URL;
+
+// Validate required environment variables
+if (!process.env.REACT_APP_API_TOKEN) {
+    console.error('REACT_APP_API_TOKEN is not set. API requests may fail.');
+    // In production, consider showing user-friendly error or throwing error
+    if (process.env.NODE_ENV === 'production') {
+        console.error('REACT_APP_API_TOKEN is required in production environment.');
+    }
+}
 
 // Create an axios instance (if you want to add default headers, interceptors, etc.)
 const apiClient = axios.create({
@@ -12,7 +22,7 @@ const apiClient = axios.create({
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'API-Token': process.env.REACT_APP_API_TOKEN || 'queensec.v2',
+        'API-Token': process.env.REACT_APP_API_TOKEN,
     },
     timeout: 30000, // 30 seconds timeout
 });
@@ -20,7 +30,7 @@ const apiClient = axios.create({
 // Adding a token to headers before each request
 apiClient.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem('token');
+        const token = getToken();
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }

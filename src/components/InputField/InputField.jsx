@@ -21,7 +21,7 @@ import './InputField.scss'; // Import the SCSS file
  * @param {function} onButtonClick - Button click handler
  * @param {string|ReactNode} buttonLabel - Button label or icon
  */
-const InputField = ({ label, type = "text", placeholder, name, value = "", onChange, error, hasError = false, isRequired = true, isDisabled = false, hasButton = false, onButtonClick, buttonLabel = "" }) => {
+const InputField = ({ label, type = "text", placeholder, name, value = "", onChange, error, hasError = false, isRequired = true, isDisabled = false, hasButton = false, onButtonClick, buttonLabel = "", maxLength }) => {
     const inputClass = `input-field ${hasError ? 'error' : ''}`;
     const labelID = `input-field-${label}`;
     const errorID = `${labelID}-error`;
@@ -49,6 +49,7 @@ const InputField = ({ label, type = "text", placeholder, name, value = "", onCha
                     id={labelID}
                     required={isRequired}
                     disabled={isDisabled}
+                    maxLength={maxLength}
                     aria-label={label}
                     aria-required={isRequired}
                     aria-invalid={hasError}
@@ -89,6 +90,7 @@ InputField.propTypes = {
     hasButton: PropTypes.bool,
     onButtonClick: PropTypes.func,
     buttonLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    maxLength: PropTypes.number,
 };
 
 export default InputField;

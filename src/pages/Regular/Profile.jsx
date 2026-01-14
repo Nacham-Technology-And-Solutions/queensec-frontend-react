@@ -8,6 +8,8 @@ import QRCode from 'react-qr-code';
 import BottomNavigator from '../../components/BottomNavigator/BottomNavigator';
 import PageLayout from '../../components/PageLayout/PageLayout';
 
+import { getToken } from '../../utils/tokenStorage';
+
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 
@@ -32,7 +34,7 @@ const ProfileScreen = () => {
     if (accountType === 'vendor') return 'Vendor';
     return 'Unknown';
   };
-  const token = localStorage.getItem('token');
+  const token = getToken();
 
 
   const handleSignOut = async () => {

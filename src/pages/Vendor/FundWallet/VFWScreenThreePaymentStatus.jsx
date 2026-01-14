@@ -6,6 +6,8 @@ import { useUser } from '../../../context/UserContext';
 import QueensecLogo from '../../../assets/Queensec_1.png'; // Import the logo
 
 
+import { getToken } from '../../../utils/tokenStorage';
+
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 
@@ -31,7 +33,7 @@ const VFWScreenThreePaymentStatus = () => {
         const statusParam = queryParams.get('status');
         const txRefParam = queryParams.get('tx_ref');
         const transactionIdParam = queryParams.get('transaction_id');
-        const token = localStorage.getItem('token');
+        const token = getToken();
         var responseData = {};
 
 

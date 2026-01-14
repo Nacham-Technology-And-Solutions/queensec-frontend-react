@@ -8,6 +8,8 @@ import MiniDashboardIcon from '../../../assets/MINI_DB.png';
 import HaulerIcon from '../../../assets/haulericon.png';
 import { useUser } from '../../../context/UserContext';
 import QRCode from 'react-qr-code'; 
+import { getToken } from '../../../utils/tokenStorage';
+
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const HaulersListScreen = () => {
   const navigate = useNavigate();
@@ -18,7 +20,7 @@ const HaulersListScreen = () => {
   const [selectedHauler, setSelectedHauler] = useState(null);
   const [tooltipVisible, setTooltipVisible] = useState(null);
 const user  = useUser();
-const token = localStorage.getItem("token");
+const token = getToken();
 
 
   const fetchHaulers = async () => {

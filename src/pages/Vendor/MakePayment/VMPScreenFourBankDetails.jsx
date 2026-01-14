@@ -7,6 +7,8 @@ import VisaIcon from '../../../assets/Visa.png';
 import MasterCardIcon from '../../../assets/mastercard.png';
 import PayUIcon from '../../../assets/payu.png';
 import axios from 'axios';
+import { getToken } from '../../../utils/tokenStorage';
+
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 const VMPScreenFourBankDetails = () => {
@@ -68,7 +70,7 @@ const VMPScreenFourBankDetails = () => {
     try {
       const savedUser = JSON.parse(localStorage.getItem('savedUser'));
         // Retrieve required data from localStorage
-        const token = localStorage.getItem('token');
+        const token = getToken();
         const payerId = localStorage.getItem('payer_id');
         // const haulerId = savedUser?.haulerId;
         const haulerType = localStorage.getItem('haulerType'); 

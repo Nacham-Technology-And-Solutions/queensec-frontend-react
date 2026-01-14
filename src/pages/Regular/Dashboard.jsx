@@ -10,6 +10,8 @@ import BottomNavigator from '../../components/BottomNavigator/BottomNavigator';
 import PageLayout from '../../components/PageLayout/PageLayout';
 import DashboardCardx from '../../components/DashboardCard/DashboardCard';
 import Button from '../../components/Button/Button';
+import { getToken } from '../../utils/tokenStorage';
+
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const Dashboard = React.memo(() => {
   const [userData, setUserData] = useState({
@@ -30,7 +32,7 @@ const Dashboard = React.memo(() => {
 
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = getToken();
 
 
 
@@ -110,7 +112,7 @@ const Dashboard = React.memo(() => {
   useEffect(() => {
     const fetchChartData = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = getToken();
         const uri = `${API_BASE_URL}/transactions/chart`
         const response = await axios.get(uri, {
           headers: {
@@ -151,7 +153,7 @@ const Dashboard = React.memo(() => {
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = getToken();
         const url = `${API_BASE_URL}/transactions`;
         const response = await axios.get(url, {
           headers: {
