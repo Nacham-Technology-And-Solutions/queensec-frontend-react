@@ -35,7 +35,7 @@ const VMPScreenFivePaymentStatus = () => {
                     url: window.location.href,
                 })
 
-                .catch((error) => console.log('Error sharing:', error));
+                .catch((error) => console.error('Error sharing:', error));
         } else {
             alert('Sharing is not supported in your browser.');
         }
@@ -92,7 +92,7 @@ const VMPScreenFivePaymentStatus = () => {
                 )}
             </Details>
             <ShareButton onClick={handleShare}>Share</ShareButton>
-            <BackButton onClick={() => navigate('./Dashbaord')}>Return to Dashboard</BackButton>
+            <BackButton onClick={() => navigate('/vendor-dashboard')}>Return to Dashboard</BackButton>
         </Container>
     );
 };

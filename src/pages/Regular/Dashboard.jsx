@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import styled from 'styled-components'; 
 import { VictoryChart, VictoryLine, VictoryTheme, VictoryTooltip, VictoryAxis } from 'victory';
 import mineral_icon from '../../assets/mineral_icon.png';
@@ -11,7 +11,7 @@ import PageLayout from '../../components/PageLayout/PageLayout';
 import DashboardCardx from '../../components/DashboardCard/DashboardCard';
 import Button from '../../components/Button/Button';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
-const Dashboard = () => {
+const Dashboard = React.memo(() => {
   const [userData, setUserData] = useState({
     name: 'Musa Bako',
     taxID: 'Nas/Nas/0013',
@@ -194,9 +194,9 @@ const Dashboard = () => {
 
 
 
+  const navigate = useNavigate();
 
-  const handleMakePayment = () => {
-
+  const handleMakePayment = useCallback(() => {
     // Delete All old Payment Data if set 
     localStorage.removeItem('mineral_id');
     localStorage.removeItem('fee_category_id');
@@ -215,15 +215,14 @@ const Dashboard = () => {
     localStorage.removeItem('haulerTypes');
 
     navigate('/mp-one-vehicle'); // Use navigate to change routes
-  };
-  const navigate = useNavigate();
+  }, [navigate]);
 
-  const goToTransactions = () => navigate('/transactions');
+  const goToTransactions = useCallback(() => navigate('/transactions'), [navigate]);
 
-  const truncateText = (text, maxLength) =>
-    text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+  const truncateText = useCallback((text, maxLength) =>
+    text.length > maxLength ? `${text.slice(0, maxLength)}...` : text, []);
 
-  const haulerScreen = () => navigate('/my-haulers-list')
+  const haulerScreen = useCallback(() => navigate('/my-haulers-list'), [navigate]);
   return (
     <PageLayout>
       {/* Header */}
@@ -237,7 +236,7 @@ const Dashboard = () => {
 
       {/* Dashboard Card */}
       <DashboardCardx
-        topLeft={truncateText(userData.name, 17)} topLeftLabel={"Welcome,"}
+        topLeft={useMemo(() => truncateText(userData.name, 17), [userData.name])} topLeftLabel={"Welcome,"}
         topRight={userData.accountType} topRightLabel={"Account Type:"}
         bottomLeft={userData.taxID} bottomLeftLabel={"Tax ID Number:"}
         bottomRight={<Button label="Make Payment" onClick={handleMakePayment} size='mini' isShort={true} />} bottomRightLabel={""}
@@ -320,7 +319,9 @@ const Dashboard = () => {
 
     </PageLayout>
   );
-};
+});
+
+Dashboard.displayName = 'Dashboard';
 
 // Styled Components
 
@@ -496,3 +497,5 @@ const TransactionRight = styled.div`
 `;
 
 export default Dashboard;
+
+

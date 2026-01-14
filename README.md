@@ -1,70 +1,266 @@
-# Getting Started with Create React App
+# Queensec Frontend - Tax Gateway Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based frontend application for Queensec Global's tax gateway platform, supporting multiple account types (Individual, Corporate, Vendor) for managing mining tax payments and transactions.
 
-## Available Scripts
+## 📋 Table of Contents
 
-In the project directory, you can run:
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Environment Variables](#environment-variables)
+- [Available Scripts](#available-scripts)
+- [Project Structure](#project-structure)
+- [Development](#development)
+- [Build & Deployment](#build--deployment)
+- [Troubleshooting](#troubleshooting)
+
+## 🎯 Project Overview
+
+Queensec Frontend is a comprehensive tax gateway application that enables users to:
+- Make payments for mining operations
+- Manage haulers and vehicles
+- Track transaction history
+- Issue tickets (Vendor accounts)
+- Fund wallets (Vendor accounts)
+- View analytics and reports
+
+### Account Types
+
+The application supports three account types:
+- **Individual**: Regular users making payments
+- **Corporate/Federal Agency**: Enterprise-level accounts
+- **Vendor**: Accounts that can issue tickets and manage beneficiaries
+
+## ✨ Features
+
+- 🔐 Secure authentication and authorization
+- 💳 Payment processing for mining operations
+- 📊 Transaction history and analytics
+- 🚛 Hauler and vehicle management
+- 🎫 Ticket issuance (Vendor)
+- 💰 Wallet management (Vendor)
+- 📱 Responsive design
+- ⚡ Code splitting for optimal performance
+- 🛡️ Error boundaries for graceful error handling
+
+## 📦 Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** (v14.0.0 or higher)
+- **npm** (v6.0.0 or higher) or **yarn**
+- **Git**
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone <repository-url>
+cd queensec-frontend-react
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+**Note:** If you encounter issues, you may need to install `prop-types` separately:
+```bash
+npm install prop-types
+```
+
+### 3. Set Up Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+REACT_APP_API_BASE_URL=http://admin.queensecglobal.com/api
+REACT_APP_API_TOKEN=queensec.v2
+NODE_ENV=development
+```
+
+See [Environment Variables](#environment-variables) for more details.
+
+### 4. Start the Development Server
+
+```bash
+npm start
+```
+
+The application will open at [http://localhost:3000](http://localhost:3000)
+
+## 🔧 Environment Variables
+
+The following environment variables are required:
+
+| Variable | Description | Required | Default |
+|----------|-------------|----------|---------|
+| `REACT_APP_API_BASE_URL` | Base URL for the API | Yes | - |
+| `REACT_APP_API_TOKEN` | API authentication token | Yes | `queensec.v2` |
+| `NODE_ENV` | Environment mode | No | `development` |
+
+**Important:** All React environment variables must be prefixed with `REACT_APP_`
+
+Create a `.env.example` file for reference (see `.env.example` if available).
+
+## 📜 Available Scripts
 
 ### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Runs the app in development mode at [http://localhost:3000](http://localhost:3000)
 
 ### `npm run build`
+Builds the app for production to the `build` folder. The build is optimized and minified.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `npm test`
+Launches the test runner in interactive watch mode.
 
 ### `npm run eject`
+**⚠️ Warning:** This is a one-way operation. Ejects from Create React App and gives you full control over the build configuration.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 📁 Project Structure
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+queensec-frontend-react/
+├── public/                 # Static files
+│   ├── index.html
+│   └── ...
+├── src/
+│   ├── assets/            # Images, icons, etc.
+│   ├── components/        # Reusable components
+│   │   ├── Button/
+│   │   ├── InputField/
+│   │   ├── LoadingSpinner/
+│   │   └── ...
+│   ├── context/           # React Context providers
+│   │   └── UserContext.jsx
+│   ├── pages/             # Page components
+│   │   ├── Regular/       # Regular user pages
+│   │   ├── Vendor/        # Vendor pages
+│   │   ├── Enterprise/    # Enterprise pages
+│   │   └── Registration/ # Registration flow
+│   ├── utils/             # Utility functions
+│   │   ├── apiServce.jsx  # API service
+│   │   ├── apiEndpoints.jsx
+│   │   └── ProtectedRoute.jsx
+│   ├── App.jsx            # Main app component with routes
+│   ├── index.jsx          # Entry point
+│   └── error.jsx           # Error boundary
+├── package.json
+└── README.md
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 💻 Development
 
 ### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The application uses React.lazy() for code splitting, which means:
+- Routes are loaded on-demand
+- Smaller initial bundle size
+- Faster page load times
 
-### Analyzing the Bundle Size
+### Component Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Components follow this structure:
+- Component file: `ComponentName.jsx`
+- Styles: `ComponentName.scss`
+- Tests: `ComponentName.test.jsx` (when available)
 
-### Making a Progressive Web App
+### Adding New Routes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. Create the component in the appropriate `pages/` directory
+2. Add lazy import in `App.jsx`:
+   ```javascript
+   const NewComponent = lazy(() => import('./pages/NewComponent.jsx'));
+   ```
+3. Add route in the Routes component
 
-### Advanced Configuration
+### API Integration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+All API calls should use the centralized API service:
+- `src/utils/apiServce.jsx` - Main API service
+- `src/utils/apiEndpoints.jsx` - API endpoint definitions
 
-### Deployment
+**Example:**
+```javascript
+import { postData } from '../utils/apiServce';
+import { AUTH_ENDPOINTS } from '../utils/apiEndpoints';
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+const response = await postData(AUTH_ENDPOINTS.login.url, data);
+```
 
-### `npm run build` fails to minify
+## 🏗️ Build & Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Production Build
+
+```bash
+npm run build
+```
+
+This creates an optimized production build in the `build/` folder.
+
+### Deployment Checklist
+
+- [ ] Set production environment variables
+- [ ] Run `npm run build`
+- [ ] Test the production build locally
+- [ ] Deploy `build/` folder to hosting service
+- [ ] Configure server for client-side routing (see `public/_redirects`)
+
+### Server Configuration
+
+For client-side routing to work, configure your server to:
+- Serve `index.html` for all routes
+- Support the routes defined in `public/_redirects` (if using Netlify)
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+#### 1. Module Not Found: prop-types
+```bash
+npm install prop-types
+```
+
+#### 2. Environment Variables Not Loading
+- Ensure variables are prefixed with `REACT_APP_`
+- Restart the development server after adding variables
+- Check that `.env` file is in the root directory
+
+#### 3. Build Fails
+- Clear `node_modules` and reinstall: `rm -rf node_modules && npm install`
+- Clear build cache: `rm -rf build`
+- Check for TypeScript errors if using TypeScript
+
+#### 4. Routes Not Working After Deployment
+- Ensure server is configured for client-side routing
+- Check `public/_redirects` file (for Netlify)
+- Verify all routes are properly defined in `App.jsx`
+
+## 📚 Additional Resources
+
+- [React Documentation](https://reactjs.org/)
+- [React Router Documentation](https://reactrouter.com/)
+- [Create React App Documentation](https://create-react-app.dev/)
+
+## 🤝 Contributing
+
+1. Create a feature branch
+2. Make your changes
+3. Test thoroughly
+4. Submit a pull request
+
+## 📝 License
+
+[Add your license information here]
+
+## 👥 Team
+
+Queensec Global Development Team
+
+---
+
+**Last Updated:** 2024  
+**Version:** 0.1.0

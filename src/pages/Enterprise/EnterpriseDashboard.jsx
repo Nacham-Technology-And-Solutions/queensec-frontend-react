@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import styled from 'styled-components';
 import DASHBOARD from '../../assets/DASHBOARD.png';
 import folder_C from '../../assets/folder_C.png';
@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PageLayout from '../../components/PageLayout/PageLayout';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
-const EnterpriseDashboard = () => {
+const EnterpriseDashboard = React.memo(() => {
   const [userData, setUserData] = useState({
     name: 'Musa Bako',
     taxID: 'Nas/Nas/0013',
@@ -180,20 +180,21 @@ const EnterpriseDashboard = () => {
 
 
 
-  const handleMakePayment = () => {
-    navigate('/mp-one-vehicle'); // Use navigate to change routes
-  };
   const navigate = useNavigate();
 
+  const handleMakePayment = useCallback(() => {
+    navigate('/mp-one-vehicle'); // Use navigate to change routes
+  }, [navigate]);
 
-  const goToDashboard = () => navigate('/enterprise-dashboard');
-  const goToTransactions = () => navigate('/transactions');
-  const goToNotifications = () => navigate('/notifications');
-  const goToProfile = () => navigate('/user-profile');
-  const truncateText = (text, maxLength) =>
-    text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+  const goToDashboard = useCallback(() => navigate('/enterprise-dashboard'), [navigate]);
+  const goToTransactions = useCallback(() => navigate('/transactions'), [navigate]);
+  const goToNotifications = useCallback(() => navigate('/notifications'), [navigate]);
+  const goToProfile = useCallback(() => navigate('/user-profile'), [navigate]);
+  
+  const truncateText = useCallback((text, maxLength) =>
+    text.length > maxLength ? `${text.slice(0, maxLength)}...` : text, []);
 
-  const haulerScreen = () => navigate('/my-haulers-list')
+  const haulerScreen = useCallback(() => navigate('/my-haulers-list'), [navigate]);
   return (
     <PageLayout>
       {/* Header */}
@@ -209,7 +210,7 @@ const EnterpriseDashboard = () => {
       <DashboardCard background={DASHBOARD}>
         <UserDetails>
           <WelcomeMessage>Welcome,</WelcomeMessage>
-          <UserName>{truncateText(userData.name, 15)}</UserName>
+          <UserName>{useMemo(() => truncateText(userData.name, 15), [userData.name])}</UserName>
           <LabelTextA>Tax ID Number:</LabelTextA>
           <UserInfoDataA>{userData.taxID}</UserInfoDataA>
           <LabelTextB>Account type</LabelTextB>
@@ -299,7 +300,9 @@ const EnterpriseDashboard = () => {
       </BottomNav>
     </PageLayout>
   );
-};
+});
+
+EnterpriseDashboard.displayName = 'EnterpriseDashboard';
 
 // Styled Components
 
@@ -617,5 +620,6 @@ font-weight: bold;
 margin-left: 8px; /* Space between icon and text */
 `;
 
+EnterpriseDashboard.displayName = 'EnterpriseDashboard';
 
 export default EnterpriseDashboard;

@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import styled from 'styled-components';
 import folder_C from '../../assets/folder_C.png';
 import transactions_N from '../../assets/transactions_N.png';
@@ -18,7 +18,7 @@ import BottomNavigator from '../../components/BottomNavigator/BottomNavigator';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
-const VendorDashboard = () => {
+const VendorDashboard = React.memo(() => {
   const [userData, setUserData] = useState({
     name: 'Vendor Bako',
     accountType: 'Vendor',
@@ -124,19 +124,6 @@ const VendorDashboard = () => {
     // fetchChartData();
   }, []);
 
-  // const mineralIcons = {
-  //   clay: "Assets/clay.png",
-  //   aquarium: "Assets/aquarium.png",
-  //   gypsum: "Assets/gypsum.png",
-  //   ironore: "Assets/ironore.png",
-  //   marble: "Assets/marble.png",
-  // };
-
-  // Function to get the correct mineral icon or default
-  // const getMineralIcon = (mineralName) => {
-  //   return mineralIcons[mineralName.toLowerCase()] || "Assets/default.png";
-  // };
-
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
@@ -178,19 +165,17 @@ const VendorDashboard = () => {
 
   ]);
 
-  const handleFundWallet = () => {
+  const navigate = useNavigate();
 
+  const handleFundWallet = useCallback(() => {
     // Delete All old Payment Data if set 
     localStorage.removeItem('amount');
-
     navigate('/vendor-fw-one-amount'); // Use navigate to change routes
-  };
+  }, [navigate]);
 
-  const handleTicketIssue = () => {
-
+  const handleTicketIssue = useCallback(() => {
     // Delete All old Payment Data if set
     localStorage.removeItem('issue_method');
-
     localStorage.removeItem('fee_category_id');
     localStorage.removeItem('number_plate');
     localStorage.removeItem('hauler_type_id');
@@ -200,17 +185,13 @@ const VendorDashboard = () => {
     localStorage.removeItem('offloading_point');
     localStorage.removeItem('fee_category');
     localStorage.removeItem('hauler_type');
-
-
     navigate('/vendor-it-one-ticket-mode'); // Use navigate to change routes
-  };
+  }, [navigate]);
+  
+  const truncateText = useCallback((text, maxLength) =>
+    text.length > maxLength ? `${text.slice(0, maxLength)}...` : text, []);
 
-
-  const navigate = useNavigate();
-  const truncateText = (text, maxLength) =>
-    text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
-
-  const goToTransactions = () => navigate('/vendor-transactions');
+  const goToTransactions = useCallback(() => navigate('/vendor-transactions'), [navigate]);
   return (
     <PageLayout>
 
@@ -307,8 +288,9 @@ const VendorDashboard = () => {
       />
     </PageLayout>
   );
-};
+});
 
+VendorDashboard.displayName = 'VendorDashboard';
 
 // Styled Components
 
@@ -467,5 +449,6 @@ const TransactionRight = styled.div`
   }
 `;
 
+VendorDashboard.displayName = 'VendorDashboard';
 
 export default VendorDashboard;

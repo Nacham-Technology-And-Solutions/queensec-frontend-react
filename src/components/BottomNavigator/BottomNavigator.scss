@@ -37,9 +37,32 @@
         width: 100%;
     }
 
-    div {
+    button {
+        background: none;
+        border: none;
+        padding: 0;
         cursor: pointer;
         width: fit-content;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        &:focus {
+            outline: 2px solid #6C3ECF;
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        &:focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        &:focus-visible {
+            outline: 2px solid #6C3ECF;
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
 
         svg {
             color: #555;
@@ -61,7 +84,6 @@
             }
 
             div {
-                
                 visibility: visible;
                 color: $secondary-color;
                 font-size: 14px;

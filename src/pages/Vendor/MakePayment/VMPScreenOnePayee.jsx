@@ -170,7 +170,7 @@ const VMPScreenOnePayee = () => {
       </TopBar>
 
       <TabContainer>
-        <Tab active>User</Tab>
+        <Tab $active>User</Tab>
         <Tab>Trip Data</Tab>
         <Tab>Category</Tab>
         <Tab>Bank details</Tab>
@@ -395,8 +395,8 @@ const RadioInput = styled.input`
 const Tab = styled.div`
   padding: 10px;
   font-size: 16px;
-  color: ${(props) => (props.active ? '#F28500' : '#aaa')};
-  border-bottom: ${(props) => (props.active ? '2px solid #F28500' : '1px solid #aaa')};
+  color: ${(props) => (props.$active ? '#F28500' : '#aaa')};
+  border-bottom: ${(props) => (props.$active ? '2px solid #F28500' : '1px solid #aaa')};
   cursor: pointer;
   text-align: center;
   width: 100px; /* Set fixed width for tabs */

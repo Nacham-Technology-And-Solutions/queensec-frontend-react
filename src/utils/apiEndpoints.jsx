@@ -1,5 +1,6 @@
 // src/utils/apiEndpoints.js 
-export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+// Standardize on REACT_APP_API_BASE_URL, with fallback to REACT_APP_API_URL for backward compatibility
+export const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || process.env.REACT_APP_API_URL;
 
 // Auth endpoints
 export const AUTH_ENDPOINTS = {

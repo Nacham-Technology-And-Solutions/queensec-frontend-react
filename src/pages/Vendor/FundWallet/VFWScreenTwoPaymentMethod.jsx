@@ -80,8 +80,8 @@ const VFWScreenTwoPaymentMethod = () => {
       </TopBar>
 
       <TabContainer>
-        <Tab active>Amount</Tab>
-        <Tab active>Payment Method</Tab>
+        <Tab $active>Amount</Tab>
+        <Tab $active>Payment Method</Tab>
         <Tab>Make Payment</Tab>
         <Tab>Success</Tab>
       </TabContainer>
@@ -187,8 +187,8 @@ const TabContainer = styled.div`
 const Tab = styled.div`
   padding: 10px;
   font-size: 16px;
-  color: ${(props) => (props.active ? '#F28500' : '#aaa')};
-  border-bottom: ${(props) => (props.active ? '2px solid #F28500' : 'none')};
+  color: ${(props) => (props.$active ? '#F28500' : '#aaa')};
+  border-bottom: ${(props) => (props.$active ? '2px solid #F28500' : 'none')};
   cursor: pointer;
   flex: 1;
   text-align: center;

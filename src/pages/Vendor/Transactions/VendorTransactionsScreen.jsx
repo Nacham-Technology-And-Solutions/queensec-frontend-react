@@ -63,7 +63,6 @@ const VendorTransactionsScreen = () => {
   };
 
   const doTheBoard = () => {
-    console.log(goToDashboard());
     navigate(goToDashboard());
   };
 

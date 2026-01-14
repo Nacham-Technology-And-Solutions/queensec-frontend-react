@@ -85,7 +85,6 @@ const VFWScreenThreePaymentStatus = () => {
           setStatus('failed');
         }
 
-        debugger;
         setTaxId(responseData.wallet_id || '0');
         setNewWalletBalance(responseData.new_wallet_balance || '0');
         setAmount(responseData.amount || '0');

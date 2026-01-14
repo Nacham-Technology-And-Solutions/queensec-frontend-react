@@ -78,7 +78,7 @@ const LoginPage = () => {
         localStorage.setItem("image_url", response.data.data.image_url);
         localStorage.setItem("business_name", response.data.data.business_name);
         localStorage.setItem("email", payload.email);
-        localStorage.setItem("password", payload.password);
+        // SECURITY: Password should NEVER be stored in localStorage
 
         const userData = {
           token: response.data.data.access_token,
@@ -113,7 +113,8 @@ const LoginPage = () => {
     } catch (error) {
       console.error('Error during login:', error);
 
-      let errorMessage = error.response.data.message;
+      // Add null check to prevent crashes
+      const errorMessage = error?.response?.data?.message || error?.message || 'An error occurred during login';
       alert(errorMessage + ', Please try again.');
       setLoading(false);
     }

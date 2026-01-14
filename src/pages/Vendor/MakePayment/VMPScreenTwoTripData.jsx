@@ -80,8 +80,8 @@ const VMPScreenTwoTripData = () => {
             <Title>Trip Data</Title>
           </TopBar>
         <TabContainer>
-          <Tab active>Vehicle</Tab>
-          <Tab active>Trip Data</Tab>
+          <Tab $active>Vehicle</Tab>
+          <Tab $active>Trip Data</Tab>
           <Tab>Category</Tab>
           <Tab>Bank details</Tab>
         </TabContainer>
@@ -219,8 +219,8 @@ const TabContainer = styled.div`
 const Tab = styled.div`
   padding: 10px;
   font-size: 16px;
-  color: ${(props) => (props.active ? '#F28500' : '#aaa')};
-  border-bottom: ${(props) => (props.active ? '2px solid #F28500' : '1px solid #aaa')};
+  color: ${(props) => (props.$active ? '#F28500' : '#aaa')};
+  border-bottom: ${(props) => (props.$active ? '2px solid #F28500' : '1px solid #aaa')};
   cursor: pointer;
   text-align: center;
   width: 100px;

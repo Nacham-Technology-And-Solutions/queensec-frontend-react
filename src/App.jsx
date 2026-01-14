@@ -1,69 +1,88 @@
 
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
-
-// Correct imports for other components and context 
-import SplashScreen from './pages/SplashScreen.jsx';
-import Dashboard from './pages/Regular/Dashbaord.jsx';
-//Make Payment
-import MPScreenOneVehicle from "./pages/Regular/MakePayment/MPScreenOneVehicle.jsx";
-import MPScreenTwoTripData from "./pages/Regular/MakePayment/MPScreenTwoTripData.jsx";
-import MPScreenThreeCategory from "./pages/Regular/MakePayment/MPScreenThreeCategory.jsx";
-import MPScreenFourBankDetails from "./pages/Regular/MakePayment/MPScreenFourBankDetails.jsx";
-import MPScreenFivePaymentStatus from "./pages/Regular/MakePayment/MPScreenFivePaymentStatus.jsx";
-
-import AddHaulerScreen from "./pages/Regular/Haulers/AddHaulerScreen.jsx";
-import HaulersListScreen from "./pages/Regular/Haulers/HaulersListScreen.jsx";
-import ProfileScreen from "./pages/Regular/Profile.jsx";
-import TransactionHistory from "./pages/Regular/Transaction/TransactionHistory.jsx";
-import TransactionHistory_MineralScreen from './pages/Regular/Transaction/TransactionHistory_SelectedMinerals.jsx';
-import TransactionsPage from './pages/Regular/Transaction/TransactionsPage.jsx';
-import NotificationPage from './pages/Regular/Notifications/NotificationsPage.jsx';
-import NotificationDetailsPage from './pages/Regular/Notifications/NotificationDetailsPage.jsx';
-import VendorDashboard from './pages/Vendor/VendorDashboard.jsx';
-
-import VMPScreenOnePayee from './pages/Vendor/MakePayment/VMPScreenOnePayee.jsx';
-import VMPScreenTwoTripData from './pages/Vendor/MakePayment/VMPScreenTwoTripData.jsx';
-import VMPScreenThreeCategory from './pages/Vendor/MakePayment/VMPScreenThreeCategory.jsx';
-import VMPScreenFourBankDetails from './pages/Vendor/MakePayment/VMPScreenFourBankDetails.jsx';
-import VMPScreenFivePaymentStatus from "./pages/Vendor/MakePayment/VMPScreenFivePaymentStatus.jsx";
-
-import BeneficiariesListScreen from './pages/Vendor/BeneficiariesScreen.jsx';
-import SelectedBeneficiaryScreen from './pages/Vendor/SelectedBeneficiaryListScreen.jsx';
-import LoginPage from './pages/LoginPage.jsx';
-
-import EnterpriseDashboard from './pages/Enterprise/EnterpriseDashboard.jsx';
-import SignUpScreenOneUserType from './pages/Registration/SignUpScreenOneUserType.jsx';
-import SignUpScreenTwoBasicInfo from './pages/Registration/SignUpScreenTwoBasicInfo.jsx';
-import SignUpScreenThreeContactInfo from './pages/Registration/SignUpScreenThreeContactInfo.jsx';
-import SignUpScreenFourSecurityInfo from './pages/Registration/SignUpScreenFourSecurityInfo.jsx';
-import SignUpScreenFiveSuccess from './pages/Registration/SignUpScreenFiveSuccess.jsx';
-import MPScreenPaymentStatus from './pages/Regular/MPScreenPaymentStatus.jsx';
-
-import RouteNotFoundScreen from './pages/RouteNotFoundScreen.jsx';
+import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner.jsx';
 import ProtectedRoute from './utils/ProtectedRoute.jsx';
-import PasswordRecoveryRequestScreen from './pages/password/PasswordRecoveryRequestScreen.jsx';
-import PasswordRecoveryRequestSentScreen from './pages/password/PasswordRecoveryRequestSentScreen.jsx';
-import PasswordRecoveryRequestCreateScreen from './pages/password/PasswordRecoveryRequestCreateScreen.jsx';
-import VFWScreenOneAmount from './pages/Vendor/FundWallet/VFWScreenOneAmount.jsx';
-import VFWScreenTwoPaymentMethod from './pages/Vendor/FundWallet/VFWScreenTwoPaymentMethod.jsx';
-import VFWScreenThreePaymentStatus from './pages/Vendor/FundWallet/VFWScreenThreePaymentStatus.jsx';
-import VITScreenTwoDetails from './pages/Vendor/IssueTicket/VITScreenTwoDetails.jsx';
-import VITScreenThreeDebit from './pages/Vendor/IssueTicket/VITScreenThreeDebit.jsx';
-import VITScreenOneTicketMode from './pages/Vendor/IssueTicket/VITScreenOneTicketMode.jsx';
-import VITScreenFourSuccess from './pages/Vendor/IssueTicket/VITScreenFourSuccess.jsx';
-import VendorTicketStatusByTicketId from './pages/Vendor/Validator/VendorTicketStatusByTicketId.jsx';
-import VendorTicketStatusByNumberPlate from './pages/Vendor/Validator/VendorTicketStatusByNumberPlate.jsx';
-import VendorValidator from './pages/Vendor/Validator/VendorValidator.jsx';
-import VendorTransactionsScreen from './pages/Vendor/Transactions/VendorTransactionsScreen.jsx';
-import VendorTransactionHistoryTicketScreen from './pages/Vendor/Transactions/VendorTransactionHistoryTicketScreen.jsx';
-import VendorTransactionHistoryPaymentScreen from './pages/Vendor/Transactions/VendorTransactionHistoryPaymentScreen.jsx';
 
-// Inline ProtectedRoute Component
+// Lazy load all route components for code splitting and performance optimization
+// Public Routes - Load immediately (small, frequently used)
+const SplashScreen = lazy(() => import('./pages/SplashScreen.jsx'));
+const LoginPage = lazy(() => import('./pages/LoginPage.jsx'));
+
+// Password Recovery Routes
+const PasswordRecoveryRequestScreen = lazy(() => import('./pages/password/PasswordRecoveryRequestScreen.jsx'));
+const PasswordRecoveryRequestSentScreen = lazy(() => import('./pages/password/PasswordRecoveryRequestSentScreen.jsx'));
+const PasswordRecoveryRequestCreateScreen = lazy(() => import('./pages/password/PasswordRecoveryRequestCreateScreen.jsx'));
+
+// Public Validator Routes
+const VendorValidator = lazy(() => import('./pages/Vendor/Validator/VendorValidator.jsx'));
+const VendorTicketStatusByNumberPlate = lazy(() => import('./pages/Vendor/Validator/VendorTicketStatusByNumberPlate.jsx'));
+const VendorTicketStatusByTicketId = lazy(() => import('./pages/Vendor/Validator/VendorTicketStatusByTicketId.jsx'));
+
+// Registration Routes
+const SignUpScreenOneUserType = lazy(() => import('./pages/Registration/SignUpScreenOneUserType.jsx'));
+const SignUpScreenTwoBasicInfo = lazy(() => import('./pages/Registration/SignUpScreenTwoBasicInfo.jsx'));
+const SignUpScreenThreeContactInfo = lazy(() => import('./pages/Registration/SignUpScreenThreeContactInfo.jsx'));
+const SignUpScreenFourSecurityInfo = lazy(() => import('./pages/Registration/SignUpScreenFourSecurityInfo.jsx'));
+const SignUpScreenFiveSuccess = lazy(() => import('./pages/Registration/SignUpScreenFiveSuccess.jsx'));
+
+// Regular User Routes
+const Dashboard = lazy(() => import('./pages/Regular/Dashboard.jsx'));
+const AddHaulerScreen = lazy(() => import('./pages/Regular/Haulers/AddHaulerScreen.jsx'));
+const HaulersListScreen = lazy(() => import('./pages/Regular/Haulers/HaulersListScreen.jsx'));
+const ProfileScreen = lazy(() => import('./pages/Regular/Profile.jsx'));
+const TransactionHistory = lazy(() => import('./pages/Regular/Transaction/TransactionHistory.jsx'));
+const TransactionHistory_MineralScreen = lazy(() => import('./pages/Regular/Transaction/TransactionHistory_SelectedMinerals.jsx'));
+const TransactionsPage = lazy(() => import('./pages/Regular/Transaction/TransactionsPage.jsx'));
+const NotificationPage = lazy(() => import('./pages/Regular/Notifications/NotificationsPage.jsx'));
+const NotificationDetailsPage = lazy(() => import('./pages/Regular/Notifications/NotificationDetailsPage.jsx'));
+
+// Regular User Payment Routes
+const MPScreenOneVehicle = lazy(() => import('./pages/Regular/MakePayment/MPScreenOneVehicle.jsx'));
+const MPScreenTwoTripData = lazy(() => import('./pages/Regular/MakePayment/MPScreenTwoTripData.jsx'));
+const MPScreenThreeCategory = lazy(() => import('./pages/Regular/MakePayment/MPScreenThreeCategory.jsx'));
+const MPScreenFourBankDetails = lazy(() => import('./pages/Regular/MakePayment/MPScreenFourBankDetails.jsx'));
+const MPScreenFivePaymentStatus = lazy(() => import('./pages/Regular/MakePayment/MPScreenFivePaymentStatus.jsx'));
+const MPScreenPaymentStatus = lazy(() => import('./pages/Regular/MPScreenPaymentStatus.jsx'));
+
+// Vendor Routes
+const VendorDashboard = lazy(() => import('./pages/Vendor/VendorDashboard.jsx'));
+const BeneficiariesListScreen = lazy(() => import('./pages/Vendor/BeneficiariesScreen.jsx'));
+const SelectedBeneficiaryScreen = lazy(() => import('./pages/Vendor/SelectedBeneficiaryListScreen.jsx'));
+
+// Vendor Payment Routes
+const VMPScreenOnePayee = lazy(() => import('./pages/Vendor/MakePayment/VMPScreenOnePayee.jsx'));
+const VMPScreenTwoTripData = lazy(() => import('./pages/Vendor/MakePayment/VMPScreenTwoTripData.jsx'));
+const VMPScreenThreeCategory = lazy(() => import('./pages/Vendor/MakePayment/VMPScreenThreeCategory.jsx'));
+const VMPScreenFourBankDetails = lazy(() => import('./pages/Vendor/MakePayment/VMPScreenFourBankDetails.jsx'));
+const VMPScreenFivePaymentStatus = lazy(() => import('./pages/Vendor/MakePayment/VMPScreenFivePaymentStatus.jsx'));
+
+// Vendor Wallet Routes
+const VFWScreenOneAmount = lazy(() => import('./pages/Vendor/FundWallet/VFWScreenOneAmount.jsx'));
+const VFWScreenTwoPaymentMethod = lazy(() => import('./pages/Vendor/FundWallet/VFWScreenTwoPaymentMethod.jsx'));
+const VFWScreenThreePaymentStatus = lazy(() => import('./pages/Vendor/FundWallet/VFWScreenThreePaymentStatus.jsx'));
+
+// Vendor Issue Ticket Routes
+const VITScreenOneTicketMode = lazy(() => import('./pages/Vendor/IssueTicket/VITScreenOneTicketMode.jsx'));
+const VITScreenTwoDetails = lazy(() => import('./pages/Vendor/IssueTicket/VITScreenTwoDetails.jsx'));
+const VITScreenThreeDebit = lazy(() => import('./pages/Vendor/IssueTicket/VITScreenThreeDebit.jsx'));
+const VITScreenFourSuccess = lazy(() => import('./pages/Vendor/IssueTicket/VITScreenFourSuccess.jsx'));
+
+// Vendor Transaction Routes
+const VendorTransactionsScreen = lazy(() => import('./pages/Vendor/Transactions/VendorTransactionsScreen.jsx'));
+const VendorTransactionHistoryTicketScreen = lazy(() => import('./pages/Vendor/Transactions/VendorTransactionHistoryTicketScreen.jsx'));
+const VendorTransactionHistoryPaymentScreen = lazy(() => import('./pages/Vendor/Transactions/VendorTransactionHistoryPaymentScreen.jsx'));
+
+// Enterprise Routes
+const EnterpriseDashboard = lazy(() => import('./pages/Enterprise/EnterpriseDashboard.jsx'));
+
+// Error Routes
+const RouteNotFoundScreen = lazy(() => import('./pages/RouteNotFoundScreen.jsx'));
 
 function App() {
     return (
-        <Routes>
+        <Suspense fallback={<LoadingSpinner />}>
+            <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Navigate to="/splash" />} />
             <Route path="/splash" element={<SplashScreen />} />
@@ -147,8 +166,8 @@ function App() {
             <Route path="/vendor-transaction-history-ticket" element={<ProtectedRoute><VendorTransactionHistoryTicketScreen /></ProtectedRoute>} />
             <Route path="/vendor-transaction-history-payment" element={<ProtectedRoute><VendorTransactionHistoryPaymentScreen /></ProtectedRoute>} />
 
-        </Routes>
-
+            </Routes>
+        </Suspense>
     );
 }
 

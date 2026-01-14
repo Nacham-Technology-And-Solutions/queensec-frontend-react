@@ -86,7 +86,6 @@ const MPScreenFivePaymentStatus = () => {
           setStatus('failed');
         }
 
-        debugger;
         setAmount(responseData.amount || '0'); // Replace with actual data.amount from backend if available
         setPayId(responseData.payment_id || txRefParam || '');
         setUserName(responseData.user_name || ''); // Replace with actual data.user_name
@@ -118,8 +117,7 @@ const MPScreenFivePaymentStatus = () => {
             : `Payment was cancelled. Pay ID: ${payId}`,
           url: window.location.href,
         })
-        .then(() => console.log('Successful share'))
-        .catch((error) => console.log('Error sharing:', error));
+        .catch((error) => console.error('Error sharing:', error));
     } else {
       alert('Sharing is not supported in your browser.');
     }

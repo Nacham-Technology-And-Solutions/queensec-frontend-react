@@ -54,18 +54,13 @@ const FWScreenTwoPaymentMethod = () => {
 
 
       const payload = {
-        // payer_id: payerId,
         payee_id: payerId,
-        // mineral_id: mineralId,
         fee_category_id: mineralSubId,
-        // total_amount: parsedAmount.toFixed(2),
-
         driver_name: driverName,
         phone_number: phoneNumber,
         loading_point: loadingPoint,
         offloading_point: offloadingPoint,
       };
-      // debugger;
       if (haulerTypeMode === 'saved') {
         const haulerId = localStorage.getItem('payee_hauler_id');
         if (!haulerId) {

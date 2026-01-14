@@ -125,9 +125,9 @@ const VMPScreenThreeCategory = () => {
       </TopBar>
 
       <TabContainer>
-        <Tab active>User</Tab>
-        <Tab active>Trip Data</Tab>
-        <Tab active>Category</Tab>
+        <Tab $active>User</Tab>
+        <Tab $active>Trip Data</Tab>
+        <Tab $active>Category</Tab>
         <Tab>Bank details</Tab>
       </TabContainer>
 
@@ -221,8 +221,8 @@ const TabContainer = styled.div`
 const Tab = styled.div`
   padding: 10px;
   font-size: 16px;
-  color: ${(props) => (props.active ? '#F28500' : '#aaa')};
-  border-bottom: ${(props) => (props.active ? '2px solid #F28500' : '1px solid #aaa')};
+  color: ${(props) => (props.$active ? '#F28500' : '#aaa')};
+  border-bottom: ${(props) => (props.$active ? '2px solid #F28500' : '1px solid #aaa')};
   cursor: pointer;
   flex: 1;
   text-align: center;

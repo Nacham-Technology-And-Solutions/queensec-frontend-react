@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 // Set base URL for API
 // const BASE_URL = 'https://admin.queensecglobal.com/api';
-const BASE_URL = process.env.REACT_APP_API_URL;
+const BASE_URL = process.env.REACT_APP_API_URL || process.env.REACT_APP_API_BASE_URL;
 
 // Create an axios instance (if you want to add default headers, interceptors, etc.)
 const apiClient = axios.create({
@@ -12,8 +12,9 @@ const apiClient = axios.create({
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'API-Token': 'queensec.v2',
+        'API-Token': process.env.REACT_APP_API_TOKEN || 'queensec.v2',
     },
+    timeout: 30000, // 30 seconds timeout
 });
 
 // Adding a token to headers before each request
@@ -35,18 +36,12 @@ export const getData = async (endpoint, data, defaultErrorMessage) => {
         return response.data;
     } catch (error) {
         console.error(defaultErrorMessage ?? 'Error fetching data: ', error);
-        // throw error;
-        // toast.error('Error: ' + error, {
-        //     position: "top-right",
-        //     autoClose: 5000,
-        //     hideProgressBar: true,
-        //     closeOnClick: true,
-        //     pauseOnHover: true,
-        //     draggable: true,
-        //     progress: undefined,
-        // });
-        alert(error.response.data.message);
-        throw error.response ? error.response.data : defaultErrorMessage;
+        // Add null checks to prevent crashes
+        const errorMessage = error?.response?.data?.message || error?.message || defaultErrorMessage || 'An error occurred';
+        if (errorMessage) {
+            alert(errorMessage);
+        }
+        throw error?.response?.data || { message: errorMessage };
     }
 };
 
@@ -57,17 +52,12 @@ export const postData = async (endpoint, data, defaultErrorMessage) => {
         return response.data;
     } catch (error) {
         console.error(defaultErrorMessage ?? 'Error posting data: ', error);
-        // toast.error('Error: ' + error, {
-        //     position: "top-right",
-        //     autoClose: 5000,
-        //     hideProgressBar: true,
-        //     closeOnClick: true,
-        //     pauseOnHover: true,
-        //     draggable: true,
-        //     progress: undefined,
-        // });
-        alert(error.response.data.message);
-        throw error.response ? error.response.data : defaultErrorMessage;
+        // Add null checks to prevent crashes
+        const errorMessage = error?.response?.data?.message || error?.message || defaultErrorMessage || 'An error occurred';
+        if (errorMessage) {
+            alert(errorMessage);
+        }
+        throw error?.response?.data || { message: errorMessage };
     }
 };
 
@@ -78,17 +68,12 @@ export const putData = async (endpoint, data, defaultErrorMessage) => {
         return response.data;
     } catch (error) {
         console.error(defaultErrorMessage ?? 'Error updating data: ', error);
-        // toast.error('Error: ' + error, {
-        //     position: "top-right",
-        //     autoClose: 5000,
-        //     hideProgressBar: true,
-        //     closeOnClick: true,
-        //     pauseOnHover: true,
-        //     draggable: true,
-        //     progress: undefined,
-        // });
-        alert(error.response.data.message);
-        throw error.response ? error.response.data : defaultErrorMessage;
+        // Add null checks to prevent crashes
+        const errorMessage = error?.response?.data?.message || error?.message || defaultErrorMessage || 'An error occurred';
+        if (errorMessage) {
+            alert(errorMessage);
+        }
+        throw error?.response?.data || { message: errorMessage };
     }
 };
 
@@ -99,7 +84,11 @@ export const deleteData = async (endpoint, defaultErrorMessage) => {
         return response.data;
     } catch (error) {
         console.error(defaultErrorMessage ?? 'Error deleting data: ', error);
-        alert(error.response.data.message);
-        throw error.response ? error.response.data : defaultErrorMessage;
+        // Add null checks to prevent crashes
+        const errorMessage = error?.response?.data?.message || error?.message || defaultErrorMessage || 'An error occurred';
+        if (errorMessage) {
+            alert(errorMessage);
+        }
+        throw error?.response?.data || { message: errorMessage };
     }
 };

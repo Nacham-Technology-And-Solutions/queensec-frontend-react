@@ -40,7 +40,6 @@ const VITScreenThreeDebit = () => {
   useEffect(() => {
     // Extract Data for Placing Order  
     setDifference(balance - amount); // Check if the cost can be subtracted from the wallet balance without negatives
-    console.log(haulerType);
     // If sufficient funds are in the wallet,
     // change the proceed button to lead to ticket generation area. 
     // lock and debit the wallet.
@@ -116,9 +115,9 @@ const VITScreenThreeDebit = () => {
       </TopBar>
 
       <TabContainer>
-        <Tab active>Issue Method</Tab>
-        <Tab active>Details</Tab>
-        <Tab active>Debit</Tab>
+        <Tab $active>Issue Method</Tab>
+        <Tab $active>Details</Tab>
+        <Tab $active>Debit</Tab>
         <Tab>Ticket</Tab>
       </TabContainer>
 
@@ -237,8 +236,8 @@ const TabContainer = styled.div`
 const Tab = styled.div`
   padding: 10px;
   font-size: 16px;
-  color: ${(props) => (props.active ? '#F28500' : '#aaa')};
-  border-bottom: ${(props) => (props.active ? '2px solid #F28500' : '1px solid #aaa')};
+  color: ${(props) => (props.$active ? '#F28500' : '#aaa')};
+  border-bottom: ${(props) => (props.$active ? '2px solid #F28500' : '1px solid #aaa')};
   cursor: pointer;
   text-align: center;
   width: 100px; /* Set fixed width for tabs */
