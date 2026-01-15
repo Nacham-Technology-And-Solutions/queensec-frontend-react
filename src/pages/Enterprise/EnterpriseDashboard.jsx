@@ -36,7 +36,7 @@ const EnterpriseDashboard = React.memo(() => {
 
 
         if (!token) {
-          console.error('No token found in localStorage.');
+          // Token will be handled by API interceptor, but we can return early
           return;
         }
 
@@ -134,10 +134,6 @@ const EnterpriseDashboard = React.memo(() => {
     marble: "assets/marble.png",
   };
 
-  // Function to get the correct mineral icon or default
-  const getMineralIcon = (mineralName) => {
-    return mineralIcons[mineralName.toLowerCase()] || "assets/default.png";
-  };
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -188,7 +184,6 @@ const EnterpriseDashboard = React.memo(() => {
     navigate('/mp-one-vehicle'); // Use navigate to change routes
   }, [navigate]);
 
-  const goToDashboard = useCallback(() => navigate('/enterprise-dashboard'), [navigate]);
   const goToTransactions = useCallback(() => navigate('/transactions'), [navigate]);
   const goToNotifications = useCallback(() => navigate('/notifications'), [navigate]);
   const goToProfile = useCallback(() => navigate('/user-profile'), [navigate]);
@@ -212,7 +207,7 @@ const EnterpriseDashboard = React.memo(() => {
       <DashboardCard background={DASHBOARD}>
         <UserDetails>
           <WelcomeMessage>Welcome,</WelcomeMessage>
-          <UserName>{useMemo(() => truncateText(userData.name, 15), [userData.name])}</UserName>
+          <UserName>{useMemo(() => truncateText(userData.name, 15), [userData.name, truncateText])}</UserName>
           <LabelTextA>Tax ID Number:</LabelTextA>
           <UserInfoDataA>{userData.taxID}</UserInfoDataA>
           <LabelTextB>Account type</LabelTextB>

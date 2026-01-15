@@ -14,6 +14,7 @@ import { getToken } from '../../utils/tokenStorage';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const Dashboard = React.memo(() => {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     name: 'Musa Bako',
     taxID: 'Nas/Nas/0013',
@@ -37,7 +38,7 @@ const Dashboard = React.memo(() => {
 
 
         if (!token) {
-          console.error('No token found in localStorage.');
+          // Token will be handled by API interceptor, but we can return early
           return;
         }
 
@@ -97,7 +98,7 @@ const Dashboard = React.memo(() => {
     };
 
     fetchUserData();
-  }, []);
+  }, [navigate]);
 
   const [chartData, setChartData] = useState([
     { day: 'Mon', amount: 10000 },
@@ -193,11 +194,6 @@ const Dashboard = React.memo(() => {
 
   ]);
 
-
-
-
-  const navigate = useNavigate();
-
   const handleMakePayment = useCallback(() => {
     // Delete All old Payment Data if set 
     localStorage.removeItem('mineral_id');
@@ -238,7 +234,7 @@ const Dashboard = React.memo(() => {
 
       {/* Dashboard Card */}
       <DashboardCardx
-        topLeft={useMemo(() => truncateText(userData.name, 17), [userData.name])} topLeftLabel={"Welcome,"}
+        topLeft={useMemo(() => truncateText(userData.name, 17), [userData.name, truncateText])} topLeftLabel={"Welcome,"}
         topRight={userData.accountType} topRightLabel={"Account Type:"}
         bottomLeft={userData.taxID} bottomLeftLabel={"Tax ID Number:"}
         bottomRight={<Button label="Make Payment" onClick={handleMakePayment} size='mini' isShort={true} />} bottomRightLabel={""}

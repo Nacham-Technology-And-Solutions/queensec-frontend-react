@@ -14,11 +14,6 @@ const VITScreenTwoDetails = () => {
   const [vehicleTypes, setVehicleTypes] = useState([]);
   const [selectedVehicle, setSelectedVehicle] = useState(localStorage.getItem('hauler_type_id') || '');
 
-  const [feeCategory, setFeeCategory] = useState(JSON.parse(localStorage.getItem('fee_category')) || null);
-  const [haulerType, setHaulerType] = useState(JSON.parse(localStorage.getItem('hauler_type')) || null);
-
-  const [balance, setBalance] = useState(localStorage.getItem('wallet_balance') || 1);
-  const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || '');
   const token = getToken();
 
   const [categories, setCategories] = useState([]);
@@ -39,7 +34,7 @@ const VITScreenTwoDetails = () => {
 
     try {
       if (!token) {
-        console.error("No token found, please log in.");
+        // Token will be handled by API interceptor, redirect will occur automatically
         return;
       }
 
@@ -61,7 +56,7 @@ const VITScreenTwoDetails = () => {
     }
 
     setLoadingCategories(false);
-  });
+  }, [token]);
 
   useEffect(() => {
     fetchVehicleTypes();
@@ -359,22 +354,23 @@ const Value2 = styled.p`
   letter-spacing: -0.15px;
 `;
 
-const InputField1 = styled.input`
- width: 95%;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid ${({ isError, isVerified }) =>
-    isError ? 'red' : isVerified ? 'black' : 'black'};
-  border-radius: 5px;
-  margin-top: 10px;
-  outline: none;
+// Unused styled component - commented out
+// const InputField1 = styled.input`
+//  width: 95%;
+//   padding: 10px;
+//   font-size: 14px;
+//   border: 1px solid ${({ isError, isVerified }) =>
+//     isError ? 'red' : isVerified ? 'black' : 'black'};
+//   border-radius: 5px;
+//   margin-top: 10px;
+//   outline: none;
 
-  &:focus {
-    border-color: ${({ isError }) => (isError ? 'red' : 'black')};
-    box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
-  }
-    margin-bottom: 80px;
-`;
+//   &:focus {
+//     border-color: ${({ isError }) => (isError ? 'red' : 'black')};
+//     box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
+//   }
+//     margin-bottom: 80px;
+// `;
 
 const SelectDropdown = styled.select`
   width: 100%;

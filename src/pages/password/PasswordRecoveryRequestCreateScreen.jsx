@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import PageLayout from '../../components/PageLayout/PageLayout'
 import Button from "../../components/Button/Button";
-import TextButton from "../../components/TextButton/TextButton";
 import InputFieldx from "../../components/InputField/InputField";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';

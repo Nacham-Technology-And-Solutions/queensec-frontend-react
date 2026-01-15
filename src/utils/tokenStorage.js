@@ -61,3 +61,24 @@ export const clearToken = () => {
   sessionStorage.removeItem('token');
   localStorage.removeItem('token'); // Clean up old localStorage tokens
 };
+
+/**
+ * Check if token exists and is valid
+ * @returns {boolean} True if token exists, false otherwise
+ */
+export const hasToken = () => {
+  return getToken() !== null;
+};
+
+/**
+ * Validate token format (basic check)
+ * @param {string} token - Token to validate
+ * @returns {boolean} True if token appears valid, false otherwise
+ */
+export const isValidTokenFormat = (token) => {
+  if (!token || typeof token !== 'string') {
+    return false;
+  }
+  // Basic validation: token should not be empty and should have some length
+  return token.trim().length > 0;
+};

@@ -17,7 +17,6 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const VendorTicketStatusByNumberPlate = () => {
 
   const [searchParams] = useSearchParams();
-  const queryString = searchParams.toString();
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -25,7 +24,6 @@ const VendorTicketStatusByNumberPlate = () => {
 
 
   const [loading, setLoading] = useState(true);
-  const [userName, setUserName] = useState('');
   const navigate = useNavigate();
   const { user } = useUser();
 
@@ -34,7 +32,6 @@ const VendorTicketStatusByNumberPlate = () => {
   const [tickets, setTickets] = useState([]);
   const [activeTicket, setActiveTicket] = useState(-1);
 
-  const [scanned, setScanned] = useState('0');
   const [status, setStatus] = useState('');
   const [statusMessage, setStatusMessage] = useState('');
   const [amount, setAmount] = useState('');
@@ -75,7 +72,7 @@ const VendorTicketStatusByNumberPlate = () => {
     }
 
     fetchPaymentDetails();
-  }, []);
+  }, [numberPlateParam, token]);
 
   const setCurrentTicket = (index) => {
 

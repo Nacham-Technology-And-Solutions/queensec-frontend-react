@@ -58,7 +58,7 @@ const VMPScreenThreeCategory = () => {
       try {
         const token = getToken();
         if (!token) {
-          console.error("No token found, please log in.");
+          // Token will be handled by API interceptor, redirect will occur automatically
           return;
         }
         const vehicleTypeId = localStorage.getItem("VehiclTypeId");

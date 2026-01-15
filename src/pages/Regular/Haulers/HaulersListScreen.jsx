@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import styled , { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import LeftIcon from '../../../assets/left.png';
-import AddIcon from '../../../assets/add.png';
 import MiniDashboardIcon from '../../../assets/MINI_DB.png';
 import HaulerIcon from '../../../assets/haulericon.png';
 import { useUser } from '../../../context/UserContext';
@@ -13,17 +12,15 @@ import { getToken } from '../../../utils/tokenStorage';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const HaulersListScreen = () => {
   const navigate = useNavigate();
-  // const { user } = useUser();
   const [haulers, setHaulers] = useState([]);
   const [haulerTypes, setHaulerTypes] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedHauler, setSelectedHauler] = useState(null);
   const [tooltipVisible, setTooltipVisible] = useState(null);
-const user  = useUser();
-const token = getToken();
+  const token = getToken();
 
 
-  const fetchHaulers = async () => {
+  const fetchHaulers = useCallback(async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/haulers`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -32,7 +29,7 @@ const token = getToken();
     } catch (error) {
       console.error("Error fetching haulers:", error);
     }
-  };
+  }, [token]);
 
   const fetchHaulerTypes = async () => {
     try {
@@ -51,7 +48,7 @@ const token = getToken();
   useEffect(() => {
     fetchHaulers();
     fetchHaulerTypes();
-  }, [token]);
+  }, [token, fetchHaulers]);
 
   const handleHaulerClick = (hauler) => {
     setSelectedHauler(hauler);

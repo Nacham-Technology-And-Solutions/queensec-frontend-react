@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import LeftIcon from '../../../assets/left.png';
@@ -13,7 +13,7 @@ const MPScreenTwoTripData = () => {
     loadingPoint: localStorage.getItem('loadingPoint') || '',
     offloadingPoint: localStorage.getItem('offloadingPoint') || '',
   });
-  const [haulersCount, setHaulersCount] = useState(localStorage.getItem('haulers_count') || 0);
+  const [haulersCount] = useState(localStorage.getItem('haulers_count') || 0);
 
 
 

@@ -3,17 +3,12 @@ import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import QRCode from 'react-qr-code';
 import coalpileIcon from '../../../assets/coalpile.png';
-import axios from 'axios';
 import { useUser } from '../../../context/UserContext';
-
-
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 
 const VITScreenFourSuccess = () => {
   const [loading, setLoading] = useState(true);
-  const [userName, setUserName] = useState('');
-  const [status, setStatus] = useState('');
+  const [userName] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useUser();

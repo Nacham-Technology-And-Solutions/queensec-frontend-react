@@ -1,6 +1,6 @@
 
-@import '../../styles/variables';  // Importing global variables if needed
-@import '../../styles/mixins';      // Importing global mixins if any
+@use '../../styles/variables' as *;  // Importing global variables if needed
+@use '../../styles/mixins' as *;      // Importing global mixins if any
 
 .payment-nav-indicator {
     

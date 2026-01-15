@@ -1,7 +1,29 @@
 // src/api/apiService.jsx
 import axios from 'axios';
-import { toast } from 'react-toastify';
-import { getToken } from './tokenStorage';
+import { getToken, clearToken } from './tokenStorage';
+
+// Flag to prevent multiple redirects
+let isRedirecting = false;
+
+// Function to handle authentication failures
+const handleAuthFailure = () => {
+    if (isRedirecting) return; // Prevent multiple redirects
+    isRedirecting = true;
+    
+    // Clear token from all storage
+    clearToken();
+    
+    // Clear user data from localStorage
+    localStorage.removeItem('user');
+    
+    // Redirect to login page
+    // Use window.location for a hard redirect (clears all state)
+    if (window.location.pathname !== '/login-page') {
+        window.location.href = '/login-page';
+    } else {
+        isRedirecting = false; // Reset if already on login page
+    }
+};
 
 // Set base URL for API
 // const BASE_URL = 'https://admin.queensecglobal.com/api';
@@ -34,9 +56,48 @@ apiClient.interceptors.request.use(
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }
+        // Reset redirect flag on new request
+        isRedirecting = false;
         return config;
     },
     (error) => Promise.reject(error)
+);
+
+// Response interceptor to handle authentication errors globally
+apiClient.interceptors.response.use(
+    (response) => {
+        // Reset redirect flag on successful response
+        isRedirecting = false;
+        return response;
+    },
+    (error) => {
+        // Handle authentication errors (401 Unauthorized, 403 Forbidden)
+        if (error.response) {
+            const status = error.response.status;
+            
+            // Don't redirect for login/register endpoints (they handle their own errors)
+            const isAuthEndpoint = error.config?.url?.includes('/auth/user/login') || 
+                                   error.config?.url?.includes('/auth/user/register') ||
+                                   error.config?.url?.includes('/auth/user/forgot-password') ||
+                                   error.config?.url?.includes('/auth/user/reset-password');
+            
+            if ((status === 401 || status === 403) && !isAuthEndpoint) {
+                // Clear token and redirect to login
+                handleAuthFailure();
+                
+                // Return a rejected promise with a user-friendly message
+                return Promise.reject({
+                    ...error,
+                    message: 'Your session has expired. Please log in again.',
+                    isAuthError: true
+                });
+            }
+        }
+        
+        // Reset redirect flag for non-auth errors
+        isRedirecting = false;
+        return Promise.reject(error);
+    }
 );
 
 // Function to get data

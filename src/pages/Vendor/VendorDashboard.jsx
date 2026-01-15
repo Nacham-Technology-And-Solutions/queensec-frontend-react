@@ -1,14 +1,8 @@
 
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
-import folder_C from '../../assets/folder_C.png';
-import transactions_N from '../../assets/transactions_N.png';
-import notification_N from '../../assets/notification_N.png';
-import profile_N from '../../assets/profile_N.png';
-import { VictoryChart, VictoryLine, VictoryTheme, VictoryTooltip, VictoryAxis } from 'victory';
 import mineral_icon from '../../assets/mineral_icon.png';
 import logo from '../../assets/Queensec_1.png';
-import Vector from '../../assets/Vector.png'; // Icon for viewing full chart
 import PageLayout from '../../components/PageLayout/PageLayout';
 import DashboardCardx from '../../components/DashboardCard/DashboardCard';
 import { useNavigate } from 'react-router-dom';
@@ -38,7 +32,7 @@ const VendorDashboard = React.memo(() => {
         const token = getToken();
 
         if (!token) {
-          console.error('No token found in localStorage.');
+          // Token will be handled by API interceptor, but we can return early
           return;
         }
         const url = `${API_BASE_URL}/user`;
@@ -78,52 +72,52 @@ const VendorDashboard = React.memo(() => {
     fetchUserData();
   }, []);
 
-  const [chartData, setChartData] = useState([
-    { day: 'Mon', amount: 10000 },
-    { day: 'Tue', amount: 15000 },
-    { day: 'Wed', amount: 12000 },
-    { day: 'Thu', amount: 8000 },
-    { day: 'Fri', amount: 18000 },
-    { day: 'Sat', amount: 25000 },
-    { day: 'Sun', amount: 10000 },
-  ]);
+  // Chart functionality commented out - not currently used
+  // const [chartData, setChartData] = useState([
+  //   { day: 'Mon', amount: 10000 },
+  //   { day: 'Tue', amount: 15000 },
+  //   { day: 'Wed', amount: 12000 },
+  //   { day: 'Thu', amount: 8000 },
+  //   { day: 'Fri', amount: 18000 },
+  //   { day: 'Sat', amount: 25000 },
+  //   { day: 'Sun', amount: 10000 },
+  // ]);
 
-  useEffect(() => {
-    const fetchChartData = async () => {
-      try {
-        const token = getToken();
-        const url = `${API_BASE_URL}/transactions/chart`;
-        const response = await axios.get(url, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+  // Chart functionality commented out - not currently used
+  // useEffect(() => {
+  //   const fetchChartData = async () => {
+  //     try {
+  //       const token = getToken();
+  //       const url = `${API_BASE_URL}/transactions/chart`;
+  //       const response = await axios.get(url, {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
 
-        if (response.data.success) {
-          const rawData = response.data.data;
-          // Transform the data to the desired format
-          const transformedData = [
-            { day: 'Mon', amount: rawData.monday },
-            { day: 'Tue', amount: rawData.tuesday },
-            { day: 'Wed', amount: rawData.wednesday },
-            { day: 'Thu', amount: rawData.thursday },
-            { day: 'Fri', amount: rawData.friday },
-            { day: 'Sat', amount: rawData.saturday },
-            { day: 'Sun', amount: rawData.sunday },
-          ];
-          setChartData(transformedData);
+  //       if (response.data.success) {
+  //         const rawData = response.data.data;
+  //         // Transform the data to the desired format
+  //         const transformedData = [
+  //           { day: 'Mon', amount: rawData.monday },
+  //           { day: 'Tue', amount: rawData.tuesday },
+  //           { day: 'Wed', amount: rawData.wednesday },
+  //           { day: 'Thu', amount: rawData.thursday },
+  //           { day: 'Fri', amount: rawData.friday },
+  //           { day: 'Sat', amount: rawData.saturday },
+  //           { day: 'Sun', amount: rawData.sunday },
+  //         ];
+  //         setChartData(transformedData);
+  //       } else {
+  //         console.error('Failed to load chart data:', response.data.message);
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching chart data:', error.response?.data || error.message);
+  //     }
+  //   };
 
-
-        } else {
-          console.error('Failed to load chart data:', response.data.message);
-        }
-      } catch (error) {
-        console.error('Error fetching chart data:', error.response?.data || error.message);
-      }
-    };
-
-    // fetchChartData();
-  }, []);
+  //   fetchChartData();
+  // }, []);
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -331,35 +325,36 @@ const Logo = styled.img`
   }
 `;
 
-const ChartSection = styled.div`
-  margin: 20px 0;
-  width: 100%;
-`;
+// Chart-related styled components commented out - not currently used
+// const ChartSection = styled.div`
+//   margin: 20px 0;
+//   width: 100%;
+// `;
 
-const ChartHeader = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-`;
+// const ChartHeader = styled.div`
+//   display: flex;
+//   align-items: center;
+//   margin-bottom: 10px;
+// `;
 
-const ChartTitle = styled.p`
-  color: #414D63;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-  letter-spacing: -0.154px;
-  margin-right: 8px;
-`;
+// const ChartTitle = styled.p`
+//   color: #414D63;
+//   font-family: 'Ubuntu', sans-serif;
+//   font-size: 14px;
+//   font-weight: 400;
+//   line-height: 20px;
+//   letter-spacing: -0.154px;
+//   margin-right: 8px;
+// `;
 
-const ViewFullChartIcon = styled.img`
-  width: 20px;
-  height: 20px;
-  margin-left: 250px;
-`;
-const TransactionChart = styled.div`
-  width: 100%;
-`;
+// const ViewFullChartIcon = styled.img`
+//   width: 20px;
+//   height: 20px;
+//   margin-left: 250px;
+// `;
+// const TransactionChart = styled.div`
+//   width: 100%;
+// `;
 
 const Transactions = styled.div`
   margin-top: 20px;

@@ -35,7 +35,6 @@ const VendorTransactionHistoryPaymentScreen = () => {
     const fetchPaymentDetails = async () => {
       try {
         const token = getToken();
-        var responseData = {};
 
         const orderResponse = await axios.post(`${API_BASE_URL}/wallet/transaction-pay-history`, { 'transaction_id': transactionItem.payment.payment_ref }, {
           headers: {
@@ -79,7 +78,7 @@ const VendorTransactionHistoryPaymentScreen = () => {
     };
 
     fetchPaymentDetails();
-  }, [location]);
+  }, [location, transactionItem.payment.payment_ref, transactionItem.status]);
  
   
   const handleBack = () => {

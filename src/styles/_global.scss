@@ -1,4 +1,4 @@
-@import 'variables';  // Importing global variables if needed
+@use 'variables' as *;  // Importing global variables if needed
 
 body {
     font-family: $font-family;

@@ -1,6 +1,6 @@
 /* src/components/Button/Button.scss */
-@import '../../styles/variables';  // Importing global variables if needed
-@import '../../styles/mixins';      // Importing global mixins if any
+@use '../../styles/variables' as *;  // Importing global variables if needed
+@use '../../styles/mixins' as *;      // Importing global mixins if any
 
 .btn {
   padding: 10px 20px;

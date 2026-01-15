@@ -17,7 +17,6 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 const VendorTicketStatusByTicketId = () => {
 
   const [searchParams] = useSearchParams();
-  const queryString = searchParams.toString();
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -25,13 +24,11 @@ const VendorTicketStatusByTicketId = () => {
 
 
   const [loading, setLoading] = useState(true);
-  const [userName, setUserName] = useState('');
   const navigate = useNavigate();
   const { user } = useUser();
 
   const token = getToken();
 
-  const [scanned, setScanned] = useState('0');
   const [status, setStatus] = useState('');
   const [statusMessage, setStatusMessage] = useState('');
   const [amount, setAmount] = useState('');
@@ -82,7 +79,7 @@ const VendorTicketStatusByTicketId = () => {
     }
 
     fetchPaymentDetails();
-  }, []);
+  }, [ticketIdParam, token]);
 
   const handleShare = () => {
     if (navigator.share) {
