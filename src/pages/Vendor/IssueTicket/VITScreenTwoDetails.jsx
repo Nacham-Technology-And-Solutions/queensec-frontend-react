@@ -14,6 +14,8 @@ const VITScreenTwoDetails = () => {
   const [vehicleTypes, setVehicleTypes] = useState([]);
   const [selectedVehicle, setSelectedVehicle] = useState(localStorage.getItem('hauler_type_id') || '');
 
+  const [balance] = useState(localStorage.getItem('wallet_balance') || 1);
+  const [taxId] = useState(localStorage.getItem('tax_id') || '');
   const token = getToken();
 
   const [categories, setCategories] = useState([]);

@@ -24,6 +24,8 @@ const VendorTicketStatusByNumberPlate = () => {
 
 
   const [loading, setLoading] = useState(true);
+  const [userName, setUserName] = useState('');
+  const [scanned, setScanned] = useState('0');
   const navigate = useNavigate();
   const { user } = useUser();
 
