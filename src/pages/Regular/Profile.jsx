@@ -9,6 +9,7 @@ import BottomNavigator from '../../components/BottomNavigator/BottomNavigator';
 import PageLayout from '../../components/PageLayout/PageLayout';
 
 import { getToken } from '../../utils/tokenStorage';
+import { getDefaultImageUrl } from '../../utils/urlUtils';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
@@ -73,8 +74,7 @@ const ProfileScreen = () => {
     }
   };
 
-  const img = localStorage.getItem("image_url") !== "undefined" ? localStorage.getItem("image_url") : "https://via.placeholder.com/150";
-  console.log(img)
+  const img = localStorage.getItem("image_url") !== "undefined" ? localStorage.getItem("image_url") : getDefaultImageUrl();
   return (
     <PageLayout
 

@@ -1,6 +1,8 @@
 // Error handling utility for safe error message display
 // Prevents information disclosure in production
 
+import { logger } from './logger';
+
 // Map of safe user-friendly error messages
 const ERROR_MESSAGES = {
     NETWORK_ERROR: 'Unable to connect to the server. Please check your internet connection.',
@@ -68,29 +70,7 @@ export const getSafeErrorMessage = (error, defaultMessage = ERROR_MESSAGES.DEFAU
  * @param {string} context - Context where error occurred (e.g., 'Login', 'API Request')
  */
 export const logError = (error, context = '') => {
-    const errorDetails = {
-        context,
-        timestamp: new Date().toISOString(),
-        status: error?.response?.status,
-        url: error?.config?.url,
-        method: error?.config?.method,
-        // Don't log sensitive data like passwords, tokens, etc.
-    };
-
-    if (process.env.NODE_ENV === 'production') {
-        // In production, send to error tracking service (e.g., Sentry, LogRocket)
-        // TODO: Replace console.error with actual logging service
-        console.error('Error logged:', errorDetails);
-        
-        // Example: Send to error tracking service
-        // if (window.Sentry) {
-        //     window.Sentry.captureException(error, { extra: errorDetails });
-        // }
-    } else {
-        // In development, log full error for debugging
-        console.error('Error:', context, error);
-        console.error('Error details:', errorDetails);
-    }
+    logger.error(error?.message || 'Unknown error', error, context);
 };
 
 /**

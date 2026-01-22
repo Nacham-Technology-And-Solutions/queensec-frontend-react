@@ -4,6 +4,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import QRCode from 'react-qr-code';
 import coalpileIcon from '../../../assets/coalpile.png';
 import { useUser } from '../../../context/UserContext';
+import { getTicketStatusUrl, getValidatorUrl } from '../../../utils/urlUtils';
+import { logger } from '../../../utils/logger';
 
 
 const VITScreenFourSuccess = () => {
@@ -48,11 +50,11 @@ const VITScreenFourSuccess = () => {
         .share({
           title: "Ticket Issued",
           text:
-            `Payment of NGN ${amount} for ${mineralName} was successful! Pay ID: ${transactionId} \n\n https://queensec.netlify.app/ticket-status?ticket_id=${ticketId}`,
+            `Payment of NGN ${amount} for ${mineralName} was successful! Pay ID: ${transactionId} \n\n ${getTicketStatusUrl(ticketId)}`,
           url: window.location.href,
         })
-        .then(() => console.log('Successful share'))
-        .catch((error) => console.log('Error sharing:', error));
+        .then(() => logger.log('Successful share'))
+        .catch((error) => logger.error('Error sharing', error, 'VITScreenFourSuccess'));
     } else {
       alert('Sharing is not supported in your browser.');
     }
@@ -66,7 +68,7 @@ const VITScreenFourSuccess = () => {
     } else if (user?.accountType === 'individual') {
       navigate('/dashboard');
     } else {
-      console.warn('Unknown account type');
+      logger.warn('Unknown account type');
     }
   };
 
@@ -130,7 +132,7 @@ const VITScreenFourSuccess = () => {
         </DetailItem>
       </Details>
       <QRCodeContainer>
-        <QRCode value={`https://queensec.netlify.app/validator/ticket-id?ticket_id=${ticketId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
+        <QRCode value={getValidatorUrl(ticketId)} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
         {/* <QRCode value={`${ticketId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" /> */}
       </QRCodeContainer>
       <ShareButton onClick={handleShare}>Share</ShareButton>

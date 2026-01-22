@@ -10,6 +10,8 @@ import LeftIcon from '../../../assets/left.png';
 
 
 import { getToken } from '../../../utils/tokenStorage';
+import { getValidatorUrl } from '../../../utils/urlUtils';
+import { logger } from '../../../utils/logger';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -74,7 +76,7 @@ const VendorTransactionHistoryTicketScreen = () => {
 
 
       } catch (error) {
-        console.error('Error Issuing Ticket:', error);
+        logger.error('Error fetching ticket details', error, 'VendorTransactionHistoryTicketScreen');
       } finally {
         setLoading(false);
       }
@@ -91,8 +93,8 @@ const VendorTransactionHistoryTicketScreen = () => {
           text: statusMessage,
           url: window.location.href,
         })
-        .then(() => console.log('Successful share'))
-        .catch((error) => console.log('Error sharing:', error));
+        .then(() => logger.log('Successful share'))
+        .catch((error) => logger.error('Error sharing', error, 'VendorTransactionHistoryTicketScreen'));
     } else {
       alert('Sharing is not supported in your browser.');
     }
@@ -186,7 +188,7 @@ const VendorTransactionHistoryTicketScreen = () => {
           </DetailItem>
         </Details>
         <QRCodeContainer>
-          <QRCode value={`https://queensec.netlify.app/validator/ticket-id?ticket_id=${ticketId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
+          <QRCode value={getValidatorUrl(ticketId)} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
           {/* <QRCode value={`${ticketId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" /> */}
         </QRCodeContainer>
         <ShareButton onClick={handleShare}>Share</ShareButton>

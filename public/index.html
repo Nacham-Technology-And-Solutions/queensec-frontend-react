@@ -9,6 +9,27 @@
       name="description"
       content="Web site created using create-react-app"
     />
+    <!-- Security Headers -->
+    <!-- Note: X-Frame-Options must be set via HTTP headers, not meta tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
+    <!-- Content Security Policy -->
+    <!-- Development: Permissive to allow localhost and local network connections -->
+    <!-- Production: Backend should set stricter CSP via HTTP headers -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.flutterwave.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com;
+      img-src 'self' data: https: http:;
+      connect-src 'self' http: https: ws: wss:;
+      frame-src 'self' https://checkout.flutterwave.com;
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+    ">
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a

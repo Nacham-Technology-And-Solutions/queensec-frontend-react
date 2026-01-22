@@ -14,6 +14,9 @@ import { validateEmail, sanitizeString, INPUT_LIMITS } from '../utils/inputValid
 import { setToken } from '../utils/tokenStorage';
 import { loginRateLimiter, getRateLimitMessage } from '../utils/rateLimiter';
 import { getSafeErrorMessage, logError } from '../utils/errorHandler';
+import { auditLogger } from '../utils/auditLogger';
+import { logger } from '../utils/logger';
+import { getDefaultImageUrl } from '../utils/urlUtils';
 
 // import { postData } from '../utils/apiServce';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
@@ -114,7 +117,7 @@ const LoginPage = () => {
           haulers: response.data.data.user?.haulers || '2 Vehicles',
           state: response.data.data.user?.state || 'Nasarawa',
           business_name: response.data.data.business_name,
-          image_url: response.data.data.image_url || 'https://example.com/default-image.jpg',
+          image_url: response.data.data.image_url || getDefaultImageUrl(),
         };
 
 
@@ -123,6 +126,9 @@ const LoginPage = () => {
         const accountType = response.data.data.user?.account_type;
 
 
+        // Log successful login
+        auditLogger.loginSuccess(sanitizedEmail);
+        
         if (accountType === 'federal_agency') {
           navigate('/enterprise-dashboard');
         } else if (accountType === 'vendor') {
@@ -144,6 +150,10 @@ const LoginPage = () => {
     } catch (error) {
       logError(error, 'Login');
       const errorMessage = getSafeErrorMessage(error, 'An error occurred during login');
+      
+      // Log failed login attempt
+      auditLogger.loginFailure(sanitizedEmail, errorMessage);
+      
       alert(errorMessage);
       setLoading(false);
     }

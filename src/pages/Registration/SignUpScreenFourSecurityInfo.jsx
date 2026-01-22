@@ -89,31 +89,56 @@ const SignUpScreenFourSecurityInfo = () => {
       return;
     }
 
-    // Map parsed data to the finalData object
-    const finalData = {
+    // Validate required fields from previous screens
+    const requiredFields = {
       first_name: basicInfo.first_name,
       last_name: basicInfo.last_name,
       email: contactInfo.email,
       phone: contactInfo.phone,
-      password: securityInfo.password,
-      password_confirmation: securityInfo.confirmPassword,
-      account_type: accountType, // Pass the string value directly
-      middle_name: basicInfo.middle_name,
       state: contactInfo.state,
       locality: contactInfo.locality,
-      business_name:
-        accountType === 'federal_agency' || accountType === 'vendor'
-          ? basicInfo.business_name || ''
-          : 'None',// Always include
     };
 
+    // Check if business_name is required based on account type
+    if (accountType === 'federal_agency' || accountType === 'vendor') {
+      if (!basicInfo.business_name || basicInfo.business_name.trim() === '') {
+        alert('Business name is required for this account type.');
+        return;
+      }
+    }
 
+    // Validate all required fields
+    const missingFields = Object.entries(requiredFields)
+      .filter(([key, value]) => !value || (typeof value === 'string' && value.trim() === ''))
+      .map(([key]) => key);
 
-    // Validate all fields
-    const isValidData = Object.values(finalData).every((value) => value !== null && value !== '');
-    if (!isValidData) {
-      alert('Please ensure all fields are filled correctly.');
+    if (missingFields.length > 0) {
+      alert(`Please fill in all required fields: ${missingFields.join(', ')}`);
       return;
+    }
+
+    // Map parsed data to the finalData object
+    // Ensure all string fields are properly formatted (not null/undefined)
+    const finalData = {
+      first_name: String(basicInfo.first_name || '').trim(),
+      last_name: String(basicInfo.last_name || '').trim(),
+      email: String(contactInfo.email || '').trim(),
+      phone: String(contactInfo.phone || '').trim(),
+      password: String(securityInfo.password || ''),
+      password_confirmation: String(securityInfo.confirmPassword || ''),
+      account_type: String(accountType || ''),
+      state: String(contactInfo.state || '').trim(),
+      locality: String(contactInfo.locality || '').trim(),
+      business_name:
+        accountType === 'federal_agency' || accountType === 'vendor'
+          ? String(basicInfo.business_name || '').trim()
+          : 'None', // Always include as string
+    };
+
+    // Only include middle_name if it has a value
+    const middleName = String(basicInfo.middle_name || '').trim();
+    if (middleName) {
+      finalData.middle_name = middleName;
     }
 
     setIsLoading(true); // Show loading screen

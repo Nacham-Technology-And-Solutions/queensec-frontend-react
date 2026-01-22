@@ -10,6 +10,8 @@ import LeftIcon from '../../../assets/left.png';
 
 
 import { getToken } from '../../../utils/tokenStorage';
+import { getValidatorUrl } from '../../../utils/urlUtils';
+import { logger } from '../../../utils/logger';
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -67,7 +69,7 @@ const VendorTicketStatusByNumberPlate = () => {
         }
 
       } catch (error) {
-        console.error('Error Issuing Ticket:', error);
+        logger.error('Error fetching ticket details', error, 'VendorTicketStatusByNumberPlate');
       } finally {
         setLoading(false);
       }
@@ -105,8 +107,8 @@ const VendorTicketStatusByNumberPlate = () => {
           text: statusMessage,
           url: window.location.href,
         })
-        .then(() => console.log('Successful share'))
-        .catch((error) => console.log('Error sharing:', error));
+        .then(() => logger.log('Successful share'))
+        .catch((error) => logger.error('Error sharing', error, 'VendorTicketStatusByNumberPlate'));
     } else {
       alert('Sharing is not supported in your browser.');
     }
@@ -127,7 +129,7 @@ const VendorTicketStatusByNumberPlate = () => {
     } else if (user?.accountType === 'individual') {
       navigate('/dashboard');
     } else {
-      console.warn('Unknown account type');
+      logger.warn('Unknown account type');
     }
   };
 
@@ -221,7 +223,7 @@ const VendorTicketStatusByNumberPlate = () => {
           </DetailItem>
         </Details>
         <QRCodeContainer>
-          <QRCode value={`https://queensec.netlify.app/validator/ticket-id?ticket_id=${ticketId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
+          <QRCode value={getValidatorUrl(ticketId)} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" />
           {/* <QRCode value={`${ticketId}`} size={150} bgColor="#f6f6f6" fgColor="#6C3ECF" /> */}
         </QRCodeContainer>
         <ShareButton onClick={handleShare}>Share</ShareButton>
