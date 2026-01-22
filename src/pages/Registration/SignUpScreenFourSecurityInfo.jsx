@@ -8,6 +8,8 @@ import InputFieldx from "../../components/InputField/InputField";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { validatePassword, INPUT_LIMITS } from '../../utils/inputValidation';
+import { registrationRateLimiter, getRateLimitMessage } from '../../utils/rateLimiter';
+import { getSafeErrorMessage, logError } from '../../utils/errorHandler';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 
@@ -67,9 +69,19 @@ const SignUpScreenFourSecurityInfo = () => {
       return;
     }
 
+    // Get data from localStorage
     const basicInfo = JSON.parse(localStorage.getItem('basicInfo') || '{}'); // Defaults to an empty object if not found
     const contactInfo = JSON.parse(localStorage.getItem('contactInfo') || '{}'); // Same for contactInfo
     const accountType = localStorage.getItem('account_type'); // Retrieve account_type directly
+
+    // Check rate limit (use email from contactInfo)
+    const rateLimitKey = (contactInfo.email || 'registration').toLowerCase();
+    const rateLimitCheck = registrationRateLimiter.isAllowed(rateLimitKey);
+    if (!rateLimitCheck.allowed) {
+      const message = getRateLimitMessage(rateLimitCheck.resetTime);
+      alert(`Too many registration attempts. ${message}`);
+      return;
+    }
 
     // Validate account_type against allowed values
     if (!allowedAccountTypes.includes(accountType)) {
@@ -114,24 +126,23 @@ const SignUpScreenFourSecurityInfo = () => {
         // Clear password from state after successful registration
         setSecurityInfo({ password: '', confirmPassword: '' });
         
+        // Reset rate limiter on successful registration
+        registrationRateLimiter.reset(rateLimitKey);
+        
         alert('Registration completed successfully!');
         navigate('/success');
       } else {
-        alert(`Registration failed: ${response.data.message || 'Please try again.'}`);
+        const errorMessage = getSafeErrorMessage(
+          { response: { status: response.status, data: response.data } },
+          'Registration failed. Please try again.'
+        );
+        alert(errorMessage);
       }
 
     } catch (error) {
-      console.error('Error during registration:', error);
-      if (error.response && error.response.data && error.response.data.errors) {
-        // Display the backend error messages
-        let errorMessage = error.response.data.message;
-        alert(errorMessage + ', Please try again.');
-        // alert(`Error: ${error.response.data.errors.account_type || 'Unknown error occurred.'}`);
-      } else {
-        let errorMessage = error.response.data.message;
-        alert(errorMessage + ', Please try again.');
-        // alert('An error occurred during registration. Please try again.');
-      }
+      logError(error, 'Registration');
+      const errorMessage = getSafeErrorMessage(error, 'An error occurred during registration');
+      alert(errorMessage);
     } finally {
       setIsLoading(false); // Hide loading screen
     }

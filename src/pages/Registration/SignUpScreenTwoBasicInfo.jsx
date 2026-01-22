@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Button from '../../components/Button/Button';
 import RegNav from '../../components/RegNav/RegNav';
 import InputFieldx from "../../components/InputField/InputField";
+import { sanitizeString, validateRequired, INPUT_LIMITS } from '../../utils/inputValidation';
 
 const SignUpScreenTwoBasicInfo = () => {
   const navigate = useNavigate();
@@ -55,19 +56,51 @@ const SignUpScreenTwoBasicInfo = () => {
       requiredFields.push('business_name');
     }
 
-    const isFormValid = requiredFields.every((field) => basicInfo[field]?.trim());
+    // Validate required fields
+    const isFormValid = requiredFields.every((field) => {
+      const value = basicInfo[field];
+      return validateRequired(value);
+    });
 
     if (!isFormValid) {
       alert('Please fill in all required fields.');
       return;
     }
 
-    // Save data to localStorage
-    try {
-      localStorage.setItem('basicInfo', JSON.stringify(basicInfo));
+    // Sanitize and validate input lengths
+    const sanitizedBasicInfo = {
+      first_name: sanitizeString(basicInfo.first_name, INPUT_LIMITS.name),
+      last_name: sanitizeString(basicInfo.last_name, INPUT_LIMITS.name),
+      middle_name: sanitizeString(basicInfo.middle_name || '', INPUT_LIMITS.name),
+      username: sanitizeString(basicInfo.username || '', INPUT_LIMITS.username),
+      business_name: showBusinessName 
+        ? sanitizeString(basicInfo.business_name, INPUT_LIMITS.businessName)
+        : '',
+    };
 
+    // Validate name lengths
+    if (sanitizedBasicInfo.first_name.length < 2) {
+      alert('First name must be at least 2 characters long.');
+      return;
+    }
+
+    if (sanitizedBasicInfo.last_name.length < 2) {
+      alert('Last name must be at least 2 characters long.');
+      return;
+    }
+
+    if (showBusinessName && sanitizedBasicInfo.business_name.length < 2) {
+      alert('Business name must be at least 2 characters long.');
+      return;
+    }
+
+    // Save sanitized data to localStorage
+    try {
+      localStorage.setItem('basicInfo', JSON.stringify(sanitizedBasicInfo));
     } catch (error) {
       console.error('Error saving data to localStorage:', error);
+      alert('Error saving information. Please try again.');
+      return;
     }
 
     navigate('/contact-info'); // Adjust path to the ContactInfoScreen

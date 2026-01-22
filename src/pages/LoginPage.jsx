@@ -12,6 +12,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { validateEmail, sanitizeString, INPUT_LIMITS } from '../utils/inputValidation';
 import { setToken } from '../utils/tokenStorage';
+import { loginRateLimiter, getRateLimitMessage } from '../utils/rateLimiter';
+import { getSafeErrorMessage, logError } from '../utils/errorHandler';
 
 // import { postData } from '../utils/apiServce';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
@@ -67,6 +69,16 @@ const LoginPage = () => {
       return;
     }
 
+    // Check rate limit
+    const rateLimitKey = sanitizedEmail.toLowerCase();
+    const rateLimitCheck = loginRateLimiter.isAllowed(rateLimitKey);
+    if (!rateLimitCheck.allowed) {
+      const message = getRateLimitMessage(rateLimitCheck.resetTime);
+      alert(`Too many login attempts. ${message}`);
+      setLoading(false);
+      return;
+    }
+
     const payload = {
       email: sanitizedEmail,
       password: sanitizedPassword,
@@ -117,18 +129,22 @@ const LoginPage = () => {
           navigate('/vendor-dashboard');
         } else if (accountType === 'individual') {
           navigate('/dashboard');
-
         }
+        
+        // Reset rate limiter on successful login
+        loginRateLimiter.reset(rateLimitKey);
       } else {
-        alert(`Login failed: ${response.data.message || 'Please try again.'}`);
+        const errorMessage = getSafeErrorMessage(
+          { response: { status: response.status, data: response.data } },
+          'Login failed. Please try again.'
+        );
+        alert(errorMessage);
       }
       setLoading(false);
     } catch (error) {
-      console.error('Error during login:', error);
-
-      // Add null check to prevent crashes
-      const errorMessage = error?.response?.data?.message || error?.message || 'An error occurred during login';
-      alert(errorMessage + ', Please try again.');
+      logError(error, 'Login');
+      const errorMessage = getSafeErrorMessage(error, 'An error occurred during login');
+      alert(errorMessage);
       setLoading(false);
     }
   }

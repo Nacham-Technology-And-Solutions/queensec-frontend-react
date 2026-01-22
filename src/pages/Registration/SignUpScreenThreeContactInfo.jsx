@@ -6,6 +6,7 @@ import Button from '../../components/Button/Button';
 import RegNav from '../../components/RegNav/RegNav';
 import InputFieldx from "../../components/InputField/InputField";
 import DropDown from "../../components/DropDown/DropDown";
+import { validateEmail, validatePhone, sanitizeString, INPUT_LIMITS } from '../../utils/inputValidation';
 
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
@@ -76,17 +77,45 @@ const SignUpScreenThreeContactInfo = () => {
   };
 
   const handleNext = () => {
-    if (!contactInfo.email || !contactInfo.phone || !contactInfo.state || !contactInfo.locality) {
+    // Sanitize inputs
+    const sanitizedEmail = sanitizeString(contactInfo.email, INPUT_LIMITS.email);
+    const sanitizedPhone = sanitizeString(contactInfo.phone, INPUT_LIMITS.phone);
+    const sanitizedState = sanitizeString(contactInfo.state, INPUT_LIMITS.state);
+    const sanitizedLocality = sanitizeString(contactInfo.locality, INPUT_LIMITS.locality);
+
+    // Validate required fields
+    if (!sanitizedEmail || !sanitizedPhone || !sanitizedState || !sanitizedLocality) {
       alert('Please fill in all fields.');
       return;
     }
 
-    // Save contact info to localStorage
-    try {
-      localStorage.setItem('contactInfo', JSON.stringify(contactInfo));
+    // Validate email
+    const emailValidation = validateEmail(sanitizedEmail);
+    if (!emailValidation.isValid) {
+      alert(emailValidation.error);
+      return;
+    }
 
+    // Validate phone number
+    if (!validatePhone(sanitizedPhone)) {
+      alert('Please enter a valid Nigerian phone number (e.g., 08012345678 or +2348012345678)');
+      return;
+    }
+
+    // Save sanitized contact info to localStorage
+    const sanitizedContactInfo = {
+      email: sanitizedEmail,
+      phone: sanitizedPhone,
+      state: sanitizedState,
+      locality: sanitizedLocality,
+    };
+
+    try {
+      localStorage.setItem('contactInfo', JSON.stringify(sanitizedContactInfo));
     } catch (error) {
       console.error('Error saving contactInfo to localStorage:', error);
+      alert('Error saving contact information. Please try again.');
+      return;
     }
 
     navigate('/security-info'); // Adjust path to the next screen

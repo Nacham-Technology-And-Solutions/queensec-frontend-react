@@ -1,6 +1,7 @@
 // src/api/apiService.jsx
 import axios from 'axios';
 import { getToken, clearToken } from './tokenStorage';
+import { getSafeErrorMessage, logError } from './errorHandler';
 
 // Flag to prevent multiple redirects
 let isRedirecting = false;
@@ -38,6 +39,27 @@ if (!process.env.REACT_APP_API_TOKEN) {
     }
 }
 
+/**
+ * Get CSRF token from meta tag or cookie (if backend provides)
+ * @returns {string|null} CSRF token or null
+ */
+const getCsrfToken = () => {
+    // Option 1: From meta tag (if backend injects it)
+    const metaTag = document.querySelector('meta[name="csrf-token"]');
+    if (metaTag) {
+        return metaTag.getAttribute('content');
+    }
+    
+    // Option 2: From cookie (if backend sets non-httpOnly cookie)
+    const cookies = document.cookie.split(';');
+    const csrfCookie = cookies.find(c => c.trim().startsWith('XSRF-TOKEN='));
+    if (csrfCookie) {
+        return decodeURIComponent(csrfCookie.split('=')[1]);
+    }
+    
+    return null;
+};
+
 // Create an axios instance (if you want to add default headers, interceptors, etc.)
 const apiClient = axios.create({
     baseURL: BASE_URL,
@@ -52,10 +74,21 @@ const apiClient = axios.create({
 // Adding a token to headers before each request
 apiClient.interceptors.request.use(
     (config) => {
+        // Add CSRF token if available
+        const csrfToken = getCsrfToken();
+        if (csrfToken) {
+            config.headers['X-CSRF-TOKEN'] = csrfToken;
+        }
+        
+        // Add custom header for CSRF protection (Double Submit Cookie pattern)
+        config.headers['X-Requested-With'] = 'XMLHttpRequest';
+        
+        // Add authentication token
         const token = getToken();
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }
+        
         // Reset redirect flag on new request
         isRedirecting = false;
         return config;
@@ -106,9 +139,8 @@ export const getData = async (endpoint, data, defaultErrorMessage) => {
         const response = await apiClient.get(endpoint, data);
         return response.data;
     } catch (error) {
-        console.error(defaultErrorMessage ?? 'Error fetching data: ', error);
-        // Add null checks to prevent crashes
-        const errorMessage = error?.response?.data?.message || error?.message || defaultErrorMessage || 'An error occurred';
+        logError(error, `GET ${endpoint}`);
+        const errorMessage = getSafeErrorMessage(error, defaultErrorMessage || 'An error occurred while fetching data');
         if (errorMessage) {
             alert(errorMessage);
         }
@@ -122,9 +154,8 @@ export const postData = async (endpoint, data, defaultErrorMessage) => {
         const response = await apiClient.post(endpoint, data);
         return response.data;
     } catch (error) {
-        console.error(defaultErrorMessage ?? 'Error posting data: ', error);
-        // Add null checks to prevent crashes
-        const errorMessage = error?.response?.data?.message || error?.message || defaultErrorMessage || 'An error occurred';
+        logError(error, `POST ${endpoint}`);
+        const errorMessage = getSafeErrorMessage(error, defaultErrorMessage || 'An error occurred while submitting data');
         if (errorMessage) {
             alert(errorMessage);
         }
@@ -138,9 +169,8 @@ export const putData = async (endpoint, data, defaultErrorMessage) => {
         const response = await apiClient.put(endpoint, data);
         return response.data;
     } catch (error) {
-        console.error(defaultErrorMessage ?? 'Error updating data: ', error);
-        // Add null checks to prevent crashes
-        const errorMessage = error?.response?.data?.message || error?.message || defaultErrorMessage || 'An error occurred';
+        logError(error, `PUT ${endpoint}`);
+        const errorMessage = getSafeErrorMessage(error, defaultErrorMessage || 'An error occurred while updating data');
         if (errorMessage) {
             alert(errorMessage);
         }
@@ -154,9 +184,8 @@ export const deleteData = async (endpoint, defaultErrorMessage) => {
         const response = await apiClient.delete(endpoint);
         return response.data;
     } catch (error) {
-        console.error(defaultErrorMessage ?? 'Error deleting data: ', error);
-        // Add null checks to prevent crashes
-        const errorMessage = error?.response?.data?.message || error?.message || defaultErrorMessage || 'An error occurred';
+        logError(error, `DELETE ${endpoint}`);
+        const errorMessage = getSafeErrorMessage(error, defaultErrorMessage || 'An error occurred while deleting data');
         if (errorMessage) {
             alert(errorMessage);
         }
