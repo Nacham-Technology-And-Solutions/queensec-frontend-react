@@ -18,8 +18,9 @@ import './BottomNavigator.scss'; // Import the SCSS file
  * @param {string} [props.transactionLink='#'] - The route for the transactions navigation.
  * @param {string} [props.notificationLink='#'] - The route for the notifications navigation.
  * @param {string} [props.profileLink='#'] - The route for the profile navigation.
+ * @param {number} [props.unreadCount=0] - Number of unread notifications to display as badge.
  */
-const BottomNavigator = ({ currentPage = "dashboard", dashboardLink = "#", transactionLink = "#", notificationLink = "#", profileLink = "#", }) => {
+const BottomNavigator = ({ currentPage = "dashboard", dashboardLink = "#", transactionLink = "#", notificationLink = "#", profileLink = "#", unreadCount = 0 }) => {
     const iconSize = 25;
     const navigate = useNavigate();
 
@@ -64,11 +65,43 @@ const BottomNavigator = ({ currentPage = "dashboard", dashboardLink = "#", trans
                 className={currentPage === "notifications" ? "selected-page" : ""}
                 onClick={() => handleNavigation(notificationLink, 'notifications')}
                 onKeyDown={(e) => handleKeyDown(e, notificationLink, 'notifications')}
-                aria-label="Navigate to Notifications"
+                aria-label={`Navigate to Notifications${unreadCount > 0 ? `, ${unreadCount} unread` : ''}`}
                 aria-current={currentPage === "notifications" ? "page" : undefined}
                 type="button"
+                style={{ position: 'relative' }}
             >
-                <NotificationIcon width={iconSize} height={iconSize} className='icon' aria-hidden="true" />
+                {currentPage === "notifications" ? (<div style={{ position: 'relative', display: 'inline-block' }}>
+                    <NotificationIcon width={iconSize} height={iconSize} className='icon' aria-hidden="true" />
+                    {unreadCount > 0 && (
+                        <span
+                            className="notification-badge"
+                            aria-label={`${unreadCount} unread notifications`}
+                            style={{
+                                position: 'absolute',
+                                top: '-4px',
+                                right: '-4px',
+                                backgroundColor: '#dc3545',
+                                color: 'white',
+                                borderRadius: '50%',
+                                minWidth: '18px',
+                                height: '18px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                fontSize: '10px',
+                                fontWeight: 'bold',
+                                border: '2px solid white',
+                                padding: unreadCount > 9 ? '0 4px' : '0',
+                                boxSizing: 'border-box',
+                            }}
+                        >
+                            {unreadCount > 99 ? '99+' : unreadCount}
+                        </span>
+                    )}
+                </div>) : (<NotificationIcon width={iconSize} height={iconSize} className='icon' aria-hidden="true" />)}
+                    
+
+                
                 <div>Notifications</div>
             </button>
             <button
@@ -92,6 +125,7 @@ BottomNavigator.propTypes = {
     transactionLink: PropTypes.string,
     notificationLink: PropTypes.string,
     profileLink: PropTypes.string,
+    unreadCount: PropTypes.number,
 };
 
 export default BottomNavigator;

@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import LeftIcon from '../../../assets/left.png';
 import MiniDashboardIcon from '../../../assets/MINI_DB.png';
-import VisaIcon from '../../../assets/Visa.png';
-import MasterCardIcon from '../../../assets/mastercard.png';
-import PayUIcon from '../../../assets/payu.png';
 import axios from 'axios';
 import { getToken } from '../../../utils/tokenStorage';
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
@@ -17,15 +14,6 @@ const VFWScreenTwoPaymentMethod = () => {
   const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || '');
   const [newBalance, setNewBalance] = useState(Number(balance) + Number(amount) || 0);
   const token = getToken();
-  const [paymentOption, setPaymentOption] = useState('');
-
-
-
-
-  useEffect(() => {
-
-
-  }, []);
 
 
   const [loading, setLoading] = useState(false);
@@ -58,6 +46,9 @@ const VFWScreenTwoPaymentMethod = () => {
         throw new Error('Payment link not provided by the backend.');
       }
 
+      // Store payment type before redirect
+      localStorage.setItem('paymentType', 'wallet_funding');
+
       // Redirect to the payment link
       window.location.href = paymentLink;
     } catch (error) {
@@ -82,7 +73,7 @@ const VFWScreenTwoPaymentMethod = () => {
 
       <TabContainer>
         <Tab $active>Amount</Tab>
-        <Tab $active>Payment Method</Tab>
+        <Tab $active>Confirm Amount</Tab>
         <Tab>Make Payment</Tab>
         <Tab>Success</Tab>
       </TabContainer>
@@ -114,25 +105,8 @@ const VFWScreenTwoPaymentMethod = () => {
         />
       </AmountContainer>
 
-      <PaymentMethodTitle>Add Payment Method</PaymentMethodTitle>
-      <PaymentMethods>
-        <PaymentMethod>
-          <PaymentMethodText>Debit or credit card</PaymentMethodText>
-          <PaymentIcons>
-            <PaymentIcon src={MasterCardIcon} alt="MasterCard" />
-            <PaymentIcon src={VisaIcon} alt="Visa" />
-          </PaymentIcons>
-        </PaymentMethod>
-        <PaymentMethod>
-          <PaymentMethodText>Naira Payment with MasterCard/Visa</PaymentMethodText>
-          <PaymentIcons>
-            <PaymentIcon1 src={PayUIcon} alt="PayU" />
-          </PaymentIcons>
-        </PaymentMethod>
-      </PaymentMethods>
-
       <PayNowButton onClick={initiatePayment} disabled={loading}>
-        {loading ? 'Processing...' : 'Pay Now'}
+        {loading ? 'Processing...' : 'Proceed to Payment'}
       </PayNowButton>
     </Container>
   );
@@ -426,50 +400,6 @@ const AmountInput = styled.input`
   border-radius: 8px;
   width: 90%;
   text-align: left;
-`;
-const PaymentMethodTitle = styled.p`
-  font-size: 18px;
-  color: #414D63;
-  font-weight: bold;
-  width: 100%;
-  text-align: left;
-  margin-top: 20px;
-`;
-
-const PaymentMethods = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-top: 10px;
-`;
-
-const PaymentMethod = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 0px solid #ddd;
-`;
-
-const PaymentMethodText = styled.p`
-  font-size: 14px;
-  color: #414D63;
-`;
-
-const PaymentIcons = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const PaymentIcon = styled.img`
-  width: 50px;
-  height: auto;
-  margin-left: 10px;
-`;
-const PaymentIcon1 = styled.img`
-  width: 100px;
-  height: 30px;
-  margin-left: 10px;
 `;
 
 const PayNowButton = styled.button`

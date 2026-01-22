@@ -30,74 +30,63 @@ const VFWScreenThreePaymentStatus = () => {
     const fetchPaymentDetails = async () => {
       try {
         const queryParams = new URLSearchParams(location.search);
-        const statusParam = queryParams.get('status');
-        const txRefParam = queryParams.get('tx_ref');
-        const transactionIdParam = queryParams.get('transaction_id');
+        const paymentReference = queryParams.get('paymentReference');
         const token = getToken();
-        var responseData = {};
 
-
-        if (statusParam && txRefParam) {
-          const response = await axios.post(
-            `${API_BASE_URL}/wallet/payment`,
-            {
-              status: statusParam,
-              tx_ref: txRefParam,
-              transaction_id: transactionIdParam || '',
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          if (response.status === 200) {
-            responseData = response.data.data;
-          }
-          // const kindResponse = {
-          //   "success": true,
-          //   "message": "Payment Updated",
-          //   "data": {
-          //     "id": 7,
-          //     "user_name": "Precious Chikezie",
-          //     "payment_id": "KAD/RXM2334",
-          //     "order_id": 8,
-          //     "mineral_image": null,
-          //     "mineral_name": "ANTIMONY ORE",
-          //     "amount": "24000.00",
-          //     "hauler": "N/A",
-          //     "number_plate": "fortzi truck",
-          //     "unit": "Ton",
-          //     "status": "completed",
-          //     "date": "2025-01-12T05:51:29.000000Z",
-          //     "validated": false
-          //   }
-          // }
-
-          // responseData = kindResponse.data;
+        if (!paymentReference) {
+          alert('Payment reference not found in URL.');
+          setLoading(false);
+          return;
         }
 
+        const response = await axios.post(
+          `${API_BASE_URL}/wallet/payment/verify`,
+          {
+            paymentReference: paymentReference,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-        if (statusParam === 'cancelled') {
-          setStatus('cancelled');
-        } else if (statusParam === 'successful') {
-          setStatus('completed');
+        if (response.status === 200 && response.data.success) {
+          const responseData = response.data.data;
+          
+          // Set status from API response
+          const apiStatus = responseData.status || 'failed';
+          setStatus(apiStatus === 'successful' ? 'completed' : apiStatus);
+
+          // Extract wallet transaction data
+          const walletTransaction = responseData.walletTransaction || {};
+          
+          setTaxId(walletTransaction.wallet_id || responseData.paymentReference || '0');
+          setNewWalletBalance(walletTransaction.new_wallet_balance || '0');
+          setAmount(responseData.amount || walletTransaction.amount || '0');
+          setTransactionId(responseData.transactionReference || responseData.paymentReference || '');
+          setTransactionType(walletTransaction.transaction_type || '');
+          setPaymentMethod(responseData.paymentMethod || walletTransaction.payment_method || '');
+          
+          // Parse date from paidOn or date field
+          const dateValue = responseData.paidOn || walletTransaction.date || new Date().toISOString();
+          setDate(new Date(dateValue).toLocaleDateString());
+          setTime(new Date(dateValue).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }));
         } else {
           setStatus('failed');
+          alert('Payment verification failed. Please try again.');
         }
-
-        setTaxId(responseData.wallet_id || '0');
-        setNewWalletBalance(responseData.new_wallet_balance || '0');
-        setAmount(responseData.amount || '0');
-        setTransactionId(responseData.transaction_id || txRefParam || '');
-        setTransactionType(responseData.transaction_type || '');
-        setPaymentMethod(responseData.payment_method || '');
-        setDate(new Date(responseData.date).toLocaleDateString()); // Replace with actual data.date
-        setTime(new Date(responseData.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })); // Replace with actual data.date
       } catch (error) {
         console.error('Error fetching payment details:', error.response?.data || error.message);
-        alert('Failed to retrieve payment details. Please try again.');
+        
+        if (error.response?.status === 404) {
+          alert('Payment not found. Please contact support.');
+        } else if (error.response?.status === 400) {
+          alert('Unable to verify payment. Please try again or contact support.');
+        } else {
+          alert('Failed to retrieve payment details. Please try again.');
+        }
+        setStatus('failed');
       } finally {
         setLoading(false);
       }
@@ -166,7 +155,7 @@ const VFWScreenThreePaymentStatus = () => {
           </DetailItem>
 
           <AmountContainer>
-            <AmountToday>NGN {parseInt(amount).toLocaleString()}</AmountToday>
+            <AmountToday>NGN {parseInt(newWalletBalance).toLocaleString()}</AmountToday>
             <DateText>{date}</DateText>
           </AmountContainer>
         </InfoRow>

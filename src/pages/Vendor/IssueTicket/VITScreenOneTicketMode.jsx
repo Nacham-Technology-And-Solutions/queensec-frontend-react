@@ -47,12 +47,13 @@ const VITScreenOneTicketMode = () => {
       </TabContainer>
 
       <UserTypeContainer>
-        <AccountTypeSwitch
+        {/* Temporarily hidden - Registered User button */}
+        {/* <AccountTypeSwitch
           label="Registered User"
           icon={<VendorIcon width="35" height="35" />}
           selected={selectedIssueMethod === 'registered_user'}
           onClick={() => handleSelectAccount('registered_user')}
-        />
+        /> */}
 
         <AccountTypeSwitch
           label="Quick Sales"

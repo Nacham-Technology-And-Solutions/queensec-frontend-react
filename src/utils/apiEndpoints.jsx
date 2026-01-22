@@ -55,3 +55,11 @@ export const PAYMENT_ENDPOINTS = {
     updatePayment: { url: '/payments', method: 'post', payload: '' },
     getPaymentStatus: { url: '/payments/status', method: 'post', payload: '' },
 };
+
+// Notification endpoints
+export const NOTIFICATION_ENDPOINTS = {
+    getUnread: { url: '/notifications/unread', method: 'get', payload: '' },
+    getAll: { url: '/notifications', method: 'get', payload: 'page (optional)' },
+    markAsRead: { url: '/notifications/{id}/mark-read', method: 'post', payload: 'id (in URL)' },
+    markAllAsRead: { url: '/notifications/mark-all-read', method: 'post', payload: '' },
+};

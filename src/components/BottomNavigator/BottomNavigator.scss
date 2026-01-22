@@ -2,27 +2,25 @@
 @use '../../styles/mixins' as *; // Importing global mixins if any
 
 .bottom-navigator {
-    padding: 15px;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding: 8px 0 12px 0;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
+    align-items: center;
     flex-direction: row;
     text-align: center;
     border: none;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
     transition: all 0.5s ease;
-    height: 30px;
+    min-height: 70px;
     background: white;
 
     position: fixed;
     /* Fix it to the viewport */
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     bottom: 0;
     /* Always stay at the bottom of the screen */
-    // margin-left: -19px;
-    /* Align to the left edge of the screen */
     z-index: 100;
     /* Ensure it stays on top of other content */
     box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
@@ -30,28 +28,47 @@
 
     background-color: white;
     border-radius: 0px;
-    max-height: 70px;
-    width: 100vw;
+    width: 400px;
+    max-width: 400px;
+    box-sizing: border-box;
 
     @media (max-width: 450px) {
         width: 100%;
+        max-width: 100%;
+        left: 0;
+        transform: none;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
     }
 
     button {
         background: none;
         border: none;
-        padding: 0;
+        padding: 8px 12px;
         cursor: pointer;
-        width: fit-content;
+        min-width: 60px;
+        min-height: 44px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        gap: 4px;
+        flex: 1;
+        transition: background-color 0.2s ease;
+        border-radius: 8px;
+
+        &:hover {
+            background-color: rgba(108, 62, 207, 0.05);
+        }
+
+        &:active {
+            background-color: rgba(108, 62, 207, 0.1);
+        }
 
         &:focus {
             outline: 2px solid #6C3ECF;
             outline-offset: 2px;
-            border-radius: 4px;
+            border-radius: 8px;
         }
 
         &:focus:not(:focus-visible) {
@@ -61,23 +78,27 @@
         &:focus-visible {
             outline: 2px solid #6C3ECF;
             outline-offset: 2px;
-            border-radius: 4px;
+            border-radius: 8px;
         }
 
         svg {
             color: #555;
+            transition: color 0.2s ease;
+            display: block;
         }
 
         div {
             visibility: hidden;
+            font-size: 11px;
+            margin-top: 2px;
         }
 
         &.selected-page {
             display: flex;
             justify-content: center;
-            flex-direction: row;
+            flex-direction: column;
             text-align: center;
-            width: 100px;
+            background-color: rgba(108, 62, 207, 0.08);
 
             svg {
                 color: $secondary-color;
@@ -86,9 +107,9 @@
             div {
                 visibility: visible;
                 color: $secondary-color;
-                font-size: 14px;
-                font-weight: bold;
-                margin: auto;
+                font-size: 11px;
+                font-weight: 600;
+                margin-top: 2px;
             }
         }
     }
