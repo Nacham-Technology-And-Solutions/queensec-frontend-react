@@ -32,7 +32,6 @@ const AccountTypeSwitch = ({ label, onClick, selected, icon }) => {
             aria-checked={selected}
             type="button"
             role="radio"
-            aria-checked={selected}
         >
             {icon && <span aria-hidden="true">{icon}</span>}
             <span>{label}</span>

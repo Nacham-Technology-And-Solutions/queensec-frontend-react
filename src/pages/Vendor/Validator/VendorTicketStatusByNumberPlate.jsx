@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import QRCode from 'react-qr-code';
 import coalpileIcon from '../../../assets/coalpile.png';
 import axios from 'axios';
@@ -27,7 +27,6 @@ const VendorTicketStatusByNumberPlate = () => {
 
   const [loading, setLoading] = useState(true);
   const [userName] = useState('');
-  const [scanned, setScanned] = useState('0');
   const navigate = useNavigate();
   const { user } = useUser();
 
@@ -93,7 +92,6 @@ const VendorTicketStatusByNumberPlate = () => {
     setTicketId(selectedTicket.ticket_id || '');
     setStatus(selectedTicket.status || '');
     setStatusMessage(selectedTicket.status_message || '');
-    setScanned(selectedTicket.scanned || '');
 
     setActiveTicket(index);
   }

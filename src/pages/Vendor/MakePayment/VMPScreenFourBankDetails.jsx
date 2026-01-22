@@ -21,7 +21,6 @@ const VMPScreenFourBankDetails = () => {
       const savedAmount = localStorage.getItem('selectedCategoryPrice');
       return savedAmount || '0';
     });
-  const [paymentOption, setPaymentOption] = useState('');
 
 
   
@@ -29,7 +28,6 @@ const VMPScreenFourBankDetails = () => {
   useEffect(() => {
 
     const savedPaymentOption = localStorage.getItem('haulerType');
-    setPaymentOption(savedPaymentOption);
 
     if (savedPaymentOption === 'savedHauler') {
       const savedDataString = localStorage.getItem('savedUser');

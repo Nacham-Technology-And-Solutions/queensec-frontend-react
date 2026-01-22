@@ -14,12 +14,10 @@ const VMPScreenTwoTripData = () => {
     });
     const [haulers, setHaulers] = useState(0);
     const [username, setUsername] = useState('');
-    const [paymentOption, setPaymentOption] = useState('');
   
     useEffect(() => {
       
       const savedPaymentOption = localStorage.getItem('haulerType');
-      setPaymentOption(savedPaymentOption);
   
       if (savedPaymentOption === 'savedHauler') {
         const savedDataString = localStorage.getItem('savedUser');
