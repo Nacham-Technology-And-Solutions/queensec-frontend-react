@@ -15,7 +15,6 @@ import { setToken } from '../utils/tokenStorage';
 import { loginRateLimiter, getRateLimitMessage } from '../utils/rateLimiter';
 import { getSafeErrorMessage, logError } from '../utils/errorHandler';
 import { auditLogger } from '../utils/auditLogger';
-import { logger } from '../utils/logger';
 import { getDefaultImageUrl } from '../utils/urlUtils';
 
 // import { postData } from '../utils/apiServce';

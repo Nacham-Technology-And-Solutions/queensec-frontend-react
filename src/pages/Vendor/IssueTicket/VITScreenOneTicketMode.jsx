@@ -6,7 +6,7 @@ import LeftIcon from '../../../assets/left.png';
 import AccountTypeSwitch from '../../../components/AccountTypeSwitch/AccountTypeSwitch';
 
 import { ReactComponent as CorperateIcon } from '../../../assets/icons/ph_building-office.svg';
-import { ReactComponent as VendorIcon } from '../../../assets/icons/fluent_payment-32-regular.svg';
+// import { ReactComponent as VendorIcon } from '../../../assets/icons/fluent_payment-32-regular.svg';
 
 const VITScreenOneTicketMode = () => {
   const navigate = useNavigate();
@@ -108,6 +108,7 @@ const Title = styled.h1`
   letter-spacing: 0.38px;
   text-align: left;
 `;
+
 const TabContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -127,12 +128,12 @@ const Tab = styled.div`
   border-radius: 0px; /* Adds rounded corners */
 `;
 
-const SelectionText = styled.p`
-  font-size: 22.5px;
-  color: #666;
-  text-align: center;
-  margin-top: 10px;
-`;
+// const SelectionText = styled.p`
+//   font-size: 22.5px;
+//   color: #666;
+//   text-align: center;
+//   margin-top: 10px;
+// `;
 
 // Container for account types
 const UserTypeContainer = styled.div`
@@ -156,7 +157,7 @@ const ProceedButton = styled.button`
     background-color: #e5b46a;
     color: #fff;
   }
-  width: 114px;]
+  width: 114px;
   max-width: 300px;
   text-align: center;
 `;

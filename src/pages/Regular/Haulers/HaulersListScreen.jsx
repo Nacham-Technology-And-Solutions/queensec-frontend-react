@@ -5,7 +5,7 @@ import axios from 'axios';
 import LeftIcon from '../../../assets/left.png';
 import MiniDashboardIcon from '../../../assets/MINI_DB.png';
 import HaulerIcon from '../../../assets/haulericon.png';
-import { useUser } from '../../../context/UserContext';
+// import { useUser } from '../../../context/UserContext';
 import QRCode from 'react-qr-code'; 
 import { getToken } from '../../../utils/tokenStorage';
 

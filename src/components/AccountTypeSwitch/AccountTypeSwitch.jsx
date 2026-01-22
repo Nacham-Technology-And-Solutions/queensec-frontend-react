@@ -29,7 +29,7 @@ const AccountTypeSwitch = ({ label, onClick, selected, icon }) => {
             onClick={onClick}
             onKeyDown={handleKeyDown}
             aria-label={`Select ${label} account type`}
-            aria-pressed={selected}
+            aria-checked={selected}
             type="button"
             role="radio"
             aria-checked={selected}

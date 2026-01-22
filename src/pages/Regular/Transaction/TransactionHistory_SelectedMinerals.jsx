@@ -297,9 +297,9 @@ const Label = styled.p`
   margin: 0;
 `;
 
-const Label1 = styled(Label)`
-  margin-right: 0; /* Use the same style, but remove any additional margin */
-`;
+// const Label1 = styled(Label)`
+//   margin-right: 0; /* Use the same style, but remove any additional margin */
+// `;
 
 const Value = styled.p`
   color: #67728A;

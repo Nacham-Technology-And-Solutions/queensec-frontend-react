@@ -18,7 +18,7 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 const VendorTicketStatusByNumberPlate = () => {
 
-  const [searchParams] = useSearchParams();
+  // const [searchParams] = useSearchParams();
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -26,7 +26,7 @@ const VendorTicketStatusByNumberPlate = () => {
 
 
   const [loading, setLoading] = useState(true);
-  const [userName, setUserName] = useState('');
+  const [userName] = useState('');
   const [scanned, setScanned] = useState('0');
   const navigate = useNavigate();
   const { user } = useUser();

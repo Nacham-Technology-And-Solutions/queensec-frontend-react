@@ -55,30 +55,30 @@ const SplashScreen = () => {
 };
 
 // Styled Components
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f5f5f5;
-`;
+// const Wrapper = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   height: 100vh;
+//   background-color: #f5f5f5;
+// `;
 
 
-const ContentWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  text-align: left;
-  width: 100%;
-  max-width: 375px;
-  padding: 20px;
-  background-color: white;
-  border-radius: 12px;
-  margin-top: -50px; /* Move the entire content up */
-  height: 100vh; /* Full screen height */
-  padding: 40px; /* Add more padding for space */
-`;
+// const ContentWrapper = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: flex-start;
+//   align-items: flex-start;
+//   text-align: left;
+//   width: 100%;
+//   max-width: 375px;
+//   padding: 20px;
+//   background-color: white;
+//   border-radius: 12px;
+//   margin-top: -50px; /* Move the entire content up */
+//   height: 100vh; /* Full screen height */
+//   padding: 40px; /* Add more padding for space */
+// `;
 
 const HeaderText = styled.h1`
   font-size: 40px;

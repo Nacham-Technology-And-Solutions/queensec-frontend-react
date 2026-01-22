@@ -18,19 +18,19 @@ const VITScreenThreeDebit = () => {
   const [btnLabel, setBtnLabel] = useState("Proceed");
   const [difference, setDifference] = useState(0);
   const [amount, setAmount] = useState(localStorage.getItem('amount') || 1);
-  const [balance, setBalance] = useState(localStorage.getItem('wallet_balance') || 1);
-  const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || '');
+  const [balance] = useState(localStorage.getItem('wallet_balance') || 1);
+  const [taxId] = useState(localStorage.getItem('tax_id') || '');
   const token = getToken();
-  const [feeCategory, setFeeCategory] = useState(JSON.parse(localStorage.getItem('fee_category')) || null);
-  const [haulerType, setHaulerType] = useState(JSON.parse(localStorage.getItem('hauler_type')) || null);
+  const [feeCategory] = useState(JSON.parse(localStorage.getItem('fee_category')) || null);
+  const [haulerType] = useState(JSON.parse(localStorage.getItem('hauler_type')) || null);
 
-  const [feeCategoryId, setFeeCategoryId] = useState(localStorage.getItem('fee_category_id') || 1);
-  const [haulerTypeId, setHaulerTypeId] = useState(localStorage.getItem('hauler_type_id') || 1);
-  const [numberPlate, setNumberPlate] = useState(localStorage.getItem('number_plate') || '');
-  const [driverName, setDriverName] = useState(localStorage.getItem('driver_name') || 'null');
-  const [phoneNumber, setPhoneNumber] = useState(localStorage.getItem('phone_number') || 'null');
-  const [loadingPoint, setLoadingPoint] = useState(localStorage.getItem('loading_point') || 'null');
-  const [offloadingPoint, setOffloadingPoint] = useState(localStorage.getItem('offloading_point') || 'null');
+  const [feeCategoryId] = useState(localStorage.getItem('fee_category_id') || 1);
+  const [haulerTypeId] = useState(localStorage.getItem('hauler_type_id') || 1);
+  const [numberPlate] = useState(localStorage.getItem('number_plate') || '');
+  const [driverName] = useState(localStorage.getItem('driver_name') || 'null');
+  const [phoneNumber] = useState(localStorage.getItem('phone_number') || 'null');
+  const [loadingPoint] = useState(localStorage.getItem('loading_point') || 'null');
+  const [offloadingPoint] = useState(localStorage.getItem('offloading_point') || 'null');
 
   const handleAmountChange = async (e) => {
     const inputTaxId = e.target.value;
@@ -180,15 +180,15 @@ const VITScreenThreeDebit = () => {
 };
 
 // Styled Components
-const SelectLabelText = styled.p`
-  font-size: 16px;
-  color: #414D63;
-  margin-top: 10px;
-  text-align: left;
-  width: 100%;
-  margin-bottom: 17px;
-  // paddin-bottom: 30px;
-`;
+// const SelectLabelText = styled.p`
+//   font-size: 16px;
+//   color: #414D63;
+//   margin-top: 10px;
+//   text-align: left;
+//   width: 100%;
+//   margin-bottom: 17px;
+//   // paddin-bottom: 30px;
+// `;
 
 const Container = styled.div`
   display: flex;
@@ -316,19 +316,19 @@ const Value1 = styled.p`
   letter-spacing: -0.15px;
    margin-left: 30px;
 `;
-const Label2 = styled.p`
-  font-size: 12px;
-  color: #67728A;
-  margin-right: 40px;
-`;
+// const Label2 = styled.p`
+//   font-size: 12px;
+//   color: #67728A;
+//   margin-right: 40px;
+// `;
 
-const Value2 = styled.p`
-  font-size: 14px;
-  font-weight: bold;
-  color: #CEECFF;
-  margin: 0;
-  letter-spacing: -0.15px;
-`;
+// const Value2 = styled.p`
+//   font-size: 14px;
+//   font-weight: bold;
+//   color: #CEECFF;
+//   margin: 0;
+//   letter-spacing: -0.15px;
+// `;
 
 const TaxIdContainer = styled.div`
   display: flex;
@@ -511,15 +511,15 @@ const Value0 = styled.p`
   }
 `;
 
-const SelectDropdown = styled.select`
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #fff;
-  font-size: 16px;
-`;
+// const SelectDropdown = styled.select`
+//   width: 100%;
+//   padding: 10px;
+//   margin: 10px 0;
+//   border: 1px solid #ddd;
+//   border-radius: 8px;
+//   background-color: #fff;
+//   font-size: 16px;
+// `;
 
 
 const ProceedButton = styled.button`

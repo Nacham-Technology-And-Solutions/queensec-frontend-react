@@ -9,8 +9,8 @@ import InputFieldx from "../../../components/InputField/InputField";
 const VFWScreenOneAmount = () => {
   const navigate = useNavigate();
   const [amount, setAmount] = useState(localStorage.getItem('amount') || 1);
-  const [balance, setBalance] = useState(localStorage.getItem('wallet_balance') || 1);
-  const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || '');
+  const [balance] = useState(localStorage.getItem('wallet_balance') || 1);
+  const [taxId] = useState(localStorage.getItem('tax_id') || '');
   const [newBalance, setNewBalance] = useState(Number(balance) + Number(amount) || 0);
 
   const handleAmountChange = async (e) => {

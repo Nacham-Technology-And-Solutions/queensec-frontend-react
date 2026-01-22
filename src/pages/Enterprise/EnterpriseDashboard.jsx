@@ -126,13 +126,13 @@ const EnterpriseDashboard = React.memo(() => {
     fetchChartData();
   }, []);
 
-  const mineralIcons = {
-    clay: "assets/clay.png",
-    aquarium: "assets/aquarium.png",
-    gypsum: "assets/gypsum.png",
-    ironore: "assets/ironore.png",
-    marble: "assets/marble.png",
-  };
+  // const mineralIcons = {
+  //   clay: "assets/clay.png",
+  //   aquarium: "assets/aquarium.png",
+  //   gypsum: "assets/gypsum.png",
+  //   ironore: "assets/ironore.png",
+  //   marble: "assets/marble.png",
+  // };
 
 
   useEffect(() => {

@@ -38,9 +38,9 @@ const MPScreenFourBankDetails = () => {
 
     try {
       const payerId = localStorage.getItem('payer_id');
-      const mineralId = localStorage.getItem('mineral_id');
+      // const mineralId = localStorage.getItem('mineral_id');
       const mineralSubId = localStorage.getItem('fee_category_id');
-      const parsedAmount = parseFloat(localStorage.getItem('selectedCategoryPrice').replace('NGN', '').replace(',', '').trim());
+      // const parsedAmount = parseFloat(localStorage.getItem('selectedCategoryPrice').replace('NGN', '').replace(',', '').trim());
       const token = getToken();
       const haulerTypeMode = localStorage.getItem('haulerTypeMode');
 

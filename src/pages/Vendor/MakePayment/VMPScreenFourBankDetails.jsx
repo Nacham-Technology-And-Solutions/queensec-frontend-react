@@ -16,7 +16,7 @@ const VMPScreenFourBankDetails = () => {
     const [username, setUsername] = useState('Username');
     const [truckInfo, setTruckInfo] = useState('Truck, Yamaha 201'); // Example truck info
     const [plateNumber, setPlateNumber] = useState('1234TID'); // Example plate number
-    const [categories, setCategories] = useState([]);
+    // const [categories, setCategories] = useState([]);
     const [amount] = useState(() => {
       const savedAmount = localStorage.getItem('selectedCategoryPrice');
       return savedAmount || '0';
@@ -68,7 +68,7 @@ const VMPScreenFourBankDetails = () => {
     setLoading(true); // Set loading to true when the process starts
 
     try {
-      const savedUser = JSON.parse(localStorage.getItem('savedUser'));
+      // const savedUser = JSON.parse(localStorage.getItem('savedUser'));
         // Retrieve required data from localStorage
         const token = getToken();
         const payerId = localStorage.getItem('payer_id');

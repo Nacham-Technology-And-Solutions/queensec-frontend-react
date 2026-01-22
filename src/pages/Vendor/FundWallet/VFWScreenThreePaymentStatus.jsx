@@ -248,12 +248,12 @@ const Container = styled.div`
   border-radius: 30px;
 `;
 
-const Icon = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-`;
+// const Icon = styled.img`
+//   width: 50px;
+//   height: 50px;
+//   border-radius: 8px;
+//   margin-bottom: 20px;
+// `;
 
 const Amount = styled.h1`
   font-size: 24px;
@@ -331,42 +331,42 @@ const InfoRow = styled.div`
   margin-bottom: 20px;
 `;
 
-const UserInfo = styled.div`
-  display: flex;
-  align-items: center;
+// const UserInfo = styled.div`
+//   display: flex;
+//   align-items: center;
 
-`;
+// `;
 
-const UserIcon = styled.div`
-  background-color: #fde5c0;
-  color: #f28500;
-  font-weight: bold;
-  border-radius: 35%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 10px;
-    margin-top: 4px;
-`;
+// const UserIcon = styled.div`
+//   background-color: #fde5c0;
+//   color: #f28500;
+//   font-weight: bold;
+//   border-radius: 35%;
+//   width: 40px;
+//   height: 40px;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   margin-right: 10px;
+//     margin-top: 4px;
+// `;
 
-const UserDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+// const UserDetails = styled.div`
+//   display: flex;
+//   flex-direction: column;
+// `;
 
-const UserName = styled.p`
-  color: #333;
-  font-weight: bold;
-  font-size: 14px;
-  margin-bottom: -5px;
-`;
+// const UserName = styled.p`
+//   color: #333;
+//   font-weight: bold;
+//   font-size: 14px;
+//   margin-bottom: -5px;
+// `;
 
-const UserPayId = styled.p`
-  color: #666;
-  font-size: 12px;
-`;
+// const UserPayId = styled.p`
+//   color: #666;
+//   font-size: 12px;
+// `;
 
 
 const DetailItem = styled.div`
@@ -377,16 +377,16 @@ const DetailItem = styled.div`
   margin-bottom: 10px; /* Add spacing between items */
 `;
 
-const ShareButton = styled.button`
-  background-color: #fde5c0;
-  color: #f28500;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: bold;
-  margin-bottom: 50px;
-`;
+// const ShareButton = styled.button`
+//   background-color: #fde5c0;
+//   color: #f28500;
+//   padding: 12px 24px;
+//   border: none;
+//   border-radius: 20px;
+//   cursor: pointer;
+//   font-weight: bold;
+//   margin-bottom: 50px;
+// `;
 
 const BackButton = styled.button`
   color: #414D63; 

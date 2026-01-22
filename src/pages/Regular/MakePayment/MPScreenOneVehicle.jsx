@@ -17,7 +17,7 @@ import Button from '../../../components/Button/Button'
 
 const MPScreenOneVehicle = () => {
   const navigate = useNavigate();
-  const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || '');
+  const [taxId] = useState(localStorage.getItem('tax_id') || '');
   // const [haulerTypeMode, setHaulerTypeMode] = useState(localStorage.getItem('haulerTypeMode') || 'saved'); // hauler type mode saved/oneTime
 
   const [haulerTypeMode, setHaulerTypeMode] = useState(() => {

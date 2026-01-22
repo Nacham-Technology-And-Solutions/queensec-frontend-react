@@ -11,8 +11,8 @@ const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 
 const MPScreenThreeCategory = () => {
   const navigate = useNavigate();
-  const [taxId, setTaxId] = useState(localStorage.getItem('tax_id') || 'Nas/Nas/0013'); // Example tax ID
-  const [plateNumber, setPlateNumber] = useState(localStorage.getItem('number_plate') || 'null'); // Example plate number
+  const [taxId] = useState(localStorage.getItem('tax_id') || 'Nas/Nas/0013'); // Example tax ID
+  const [plateNumber] = useState(localStorage.getItem('number_plate') || 'null'); // Example plate number
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
 

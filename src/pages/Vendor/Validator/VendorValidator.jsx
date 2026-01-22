@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import LeftIcon from '../../../assets/left.png';
+// import LeftIcon from '../../../assets/left.png';
 import AccountTypeSwitch from '../../../components/AccountTypeSwitch/AccountTypeSwitch';
 import { ReactComponent as CorperateIcon } from '../../../assets/icons/ph_building-office.svg';
 import { ReactComponent as VendorIcon } from '../../../assets/icons/fluent_payment-32-regular.svg';
@@ -88,19 +88,19 @@ const Container = styled.div`
 `;
 
 
-const TopBar = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 20px;
-`;
+// const TopBar = styled.div`
+//   display: flex;
+//   align-items: center;
+//   width: 100%;
+//   margin-bottom: 20px;
+// `;
 
-const BackIcon = styled.img`
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-  margin-right: 15px;
-`;
+// const BackIcon = styled.img`
+//   width: 24px;
+//   height: 24px;
+//   cursor: pointer;
+//   margin-right: 15px;
+// `;
 
 const Title = styled.h1`
   color: #6C3ECF;
@@ -111,31 +111,31 @@ const Title = styled.h1`
   letter-spacing: 0.38px;
   text-align: left;
 `;
-const TabContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 10px; /* Adds space between tabs */
-  width: 100%;
-  margin-top: 10px;
-`;
+// const TabContainer = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   gap: 10px; /* Adds space between tabs */
+//   width: 100%;
+//   margin-top: 10px;
+// `;
 
-const Tab = styled.div`
-  padding: 10px;
-  font-size: 16px;
-  color: ${(props) => (props.$active ? '#F28500' : '#aaa')};
-  border-bottom: ${(props) => (props.$active ? '2px solid #F28500' : '1px solid #aaa')};
-  cursor: pointer;
-  text-align: center;
-  width: 100px; /* Set fixed width for tabs */
-  border-radius: 0px; /* Adds rounded corners */
-`;
+// const Tab = styled.div`
+//   padding: 10px;
+//   font-size: 16px;
+//   color: ${(props) => (props.$active ? '#F28500' : '#aaa')};
+//   border-bottom: ${(props) => (props.$active ? '2px solid #F28500' : '1px solid #aaa')};
+//   cursor: pointer;
+//   text-align: center;
+//   width: 100px; /* Set fixed width for tabs */
+//   border-radius: 0px; /* Adds rounded corners */
+// `;
 
-const SelectionText = styled.p`
-  font-size: 22.5px;
-  color: #666;
-  text-align: center;
-  margin-top: 10px;
-`;
+// const SelectionText = styled.p`
+//   font-size: 22.5px;
+//   color: #666;
+//   text-align: center;
+//   margin-top: 10px;
+// `;
 
 // Container for account types
 const UserTypeContainer = styled.div`

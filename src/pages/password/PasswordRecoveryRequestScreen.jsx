@@ -13,7 +13,7 @@ const PasswordRecoveryRequestScreen = () => {
 
   const handleEmailChange = (e) => {
     //Get the form input changes via event object
-    const { name, value } = e.target;
+    const { value } = e.target;
 
     setEmail(value);
   };

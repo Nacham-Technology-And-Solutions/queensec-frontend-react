@@ -32,7 +32,7 @@ const AddHaulerScreen = lazy(() => import('./pages/Regular/Haulers/AddHaulerScre
 const HaulersListScreen = lazy(() => import('./pages/Regular/Haulers/HaulersListScreen.jsx'));
 const ProfileScreen = lazy(() => import('./pages/Regular/Profile.jsx'));
 const TransactionHistory = lazy(() => import('./pages/Regular/Transaction/TransactionHistory.jsx'));
-const TransactionHistory_MineralScreen = lazy(() => import('./pages/Regular/Transaction/TransactionHistory_SelectedMinerals.jsx'));
+const TransactionHistoryMineralScreen = lazy(() => import('./pages/Regular/Transaction/TransactionHistory_SelectedMinerals.jsx'));
 const TransactionsPage = lazy(() => import('./pages/Regular/Transaction/TransactionsPage.jsx'));
 const NotificationPage = lazy(() => import('./pages/Regular/Notifications/NotificationsPage.jsx'));
 const NotificationDetailsPage = lazy(() => import('./pages/Regular/Notifications/NotificationDetailsPage.jsx'));
@@ -110,7 +110,7 @@ function App() {
             <Route path="/my-haulers-list" element={<ProtectedRoute><HaulersListScreen /></ProtectedRoute>} />
             <Route path="/user-profile" element={<ProtectedRoute><ProfileScreen /></ProtectedRoute>} />
             <Route path="/transaction-history" element={<ProtectedRoute><TransactionHistory /></ProtectedRoute>} />
-            <Route path="/transaction-history-mineral" element={<ProtectedRoute><TransactionHistory_MineralScreen /></ProtectedRoute>} />
+            <Route path="/transaction-history-mineral" element={<ProtectedRoute><TransactionHistoryMineralScreen /></ProtectedRoute>} />
             <Route path="/transactions" element={<ProtectedRoute><TransactionsPage /></ProtectedRoute>} />
 
             {/* Ejiro Finish */}

@@ -369,19 +369,19 @@ const ValueBold = styled.p`
   border-radius: 4px;
 `;
 
-const Value = styled.p`
-  
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-  letter-spacing: -0.15399999916553497px;
-  text-align: right;
-  color: #CEECFF;
-  margin: 0;
-  
-  padding: 2px 4px;
-  border-radius: 4px;
-`;
+// const Value = styled.p`
+//   
+//   font-size: 14px;
+//   font-weight: 400;
+//   line-height: 20px;
+//   letter-spacing: -0.15399999916553497px;
+//   text-align: right;
+//   color: #CEECFF;
+//   margin: 0;
+//   
+//   padding: 2px 4px;
+//   border-radius: 4px;
+// `;
 const Label0 = styled.p`
   
   font-size: 11px;
@@ -394,19 +394,19 @@ const Label0 = styled.p`
   margin-top: 13px;
 `;
 
-const ValueBold0 = styled.p`
-  
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 20px;
-  letter-spacing: -0.15399999916553497px;
-  text-align: right;
-  color: #CEECFF;
-  margin: 0;
-
-  padding: 2px 4px;
-  border-radius: 4px;
-`;
+// const ValueBold0 = styled.p`
+//   
+//   font-size: 14px;
+//   font-weight: 700;
+//   line-height: 20px;
+//   letter-spacing: -0.15399999916553497px;
+//   text-align: right;
+//   color: #CEECFF;
+//   margin: 0;
+// 
+//   padding: 2px 4px;
+//   border-radius: 4px;
+// `;
 
 const Value0 = styled.p`
   

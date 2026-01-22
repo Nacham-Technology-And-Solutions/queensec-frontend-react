@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useNavigate, useLocation } from 'react-router-dom';
 import QRCode from 'react-qr-code';
 import coalpileIcon from '../../../assets/coalpile.png';
-import mineralIcon from '../../../assets/mineral_icon.png';
+// import mineralIcon from '../../../assets/mineral_icon.png';
 
 const VMPScreenFivePaymentStatus = () => {
     const navigate = useNavigate();
@@ -12,7 +12,7 @@ const VMPScreenFivePaymentStatus = () => {
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
     const [payId, setPayId] = useState('');
-    const [showQrCode, setShowQrCode] = useState(true);
+    const [showQrCode] = useState(true);
 
     useEffect(() => {
         // Set current date and time
